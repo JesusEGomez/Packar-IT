@@ -81,7 +81,7 @@ export default function Register() {
         </button>
       </form>
         <p className='flex w-full justify-center text-white'>o</p>
-        <button className='bg-white p-3 w-fit rounded-full mx-auto'>
+        <button className='bg-white p-3 m-3 w-fit rounded-full mx-auto'>
           <FcGoogle size={30}/>
         </button>
     </div>
