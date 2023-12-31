@@ -2,6 +2,7 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FaExclamationCircle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 interface FormInputs {
   fullname: string;
@@ -32,8 +33,8 @@ export default function Register() {
   };
 
   return (
-    <div>
-      <form className='flex bg-pink flex-col p-4 gap-y-2' onSubmit={handleSubmit(onSubmit)}>
+    <div className='flex flex-col bg-pink'>
+      <form className='flex flex-col p-4 gap-y-2' onSubmit={handleSubmit(onSubmit)}>
         <h1 className='text-3xl font-bold text-white mb-3'>Registro</h1>
         <label htmlFor='fullname' className='text-white'>Nombre:</label>
 
@@ -79,6 +80,10 @@ export default function Register() {
           Registrar
         </button>
       </form>
+        <p className='flex w-full justify-center text-white'>o</p>
+        <button className='bg-white p-3 w-fit rounded-full mx-auto'>
+          <FcGoogle size={30}/>
+        </button>
     </div>
   );
 }
