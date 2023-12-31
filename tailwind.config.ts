@@ -19,7 +19,7 @@ const config = {
     },
     extend: {
       colors: {
-        pink: '#CD2C70',
+        pink: '#fe1252',
       },
       keyframes: {
         "accordion-down": {
