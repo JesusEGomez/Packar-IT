@@ -1,5 +1,7 @@
 'use client'
 
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FaExclamationCircle } from "react-icons/fa";
@@ -11,10 +13,30 @@ interface FormInputs {
 }
 
 export default function LoginPage() {
+  const navigate = useRouter();
   const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-  const onSubmit: SubmitHandler<FormInputs> = data => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    try {
+      const res = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+      if(res?.error) alert(res.error);
+      navigate.push('/');
+      console.log(res, data);
+    } catch (error) {
+        console.log(error);
+
+    }
   }
+  const googleBtn = async () =>{
+    const res = await signIn('google',{
+      redirect: false,
+    });
+    navigate.push('/');
+  }
+
   return (
     <div className='flex flex-col bg-pink'>
       <form className='flex flex-col p-4 gap-y-2' onSubmit={handleSubmit(onSubmit)}>
@@ -45,7 +67,7 @@ export default function LoginPage() {
         </button>
       </form>
         <p className='flex w-full justify-center text-white'>o</p>
-        <button className='bg-white p-3 m-3 w-fit rounded-full mx-auto'>
+        <button onClick={() => googleBtn()} className='bg-white p-3 m-3 w-fit rounded-full mx-auto'>
           <FcGoogle size={30}/>
         </button>
     </div>
