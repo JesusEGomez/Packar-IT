@@ -20,6 +20,9 @@ const config = {
     extend: {
       colors: {
         pink: '#fe1252',
+        backgroundColor: "#172361",
+        titleH2: "#CD2C70",
+
       },
       keyframes: {
         "accordion-down": {
