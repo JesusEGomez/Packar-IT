@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       // to: email,
       to: "ciappinamaurooj@gmail.com",
       subject: "Recuperar contraseña",
-      html: "<h1!> Title </h1!",
+      html: `<a href="${forgetUrl}">Recuperar contraseña</a>`,
     });
 
     return NextResponse.json({ message: "Email enviado" }, { status: 200 });
