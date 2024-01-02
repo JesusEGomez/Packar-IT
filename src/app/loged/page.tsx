@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import BottmBar from '../components/bottmBar';
 import logo from '../../img/undraw_Deliveries_2r4y.png';
 import Image from 'next/image';
@@ -6,8 +7,34 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
+import MapComponent from '../components/MapComponent';
+import { getFormattedAddress } from '../api/components/components';
+
 
 export default () => {
+  const [fromModalOpen, setFromModalOpen] = useState(false);
+  const [toModalOpen, setToModalOpen] = useState(false);
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+
+  
+  const fromHandler = () => {
+    setFromModalOpen(true);
+  }
+  
+  const closeModal = (fromSelected: any) => {
+    setFromModalOpen(false);
+    setFrom(fromSelected);
+  }
+
+  const toHandler = () => {
+    setToModalOpen(true);
+  }
+
+  const toModelClose = (toSelected:any) => {
+    setToModalOpen(false);
+    setTo(toSelected)
+  }
   return (
     <div className='flex flex-col items-center bg-pink'>
     <Image className='my-16 rounded-full' src={logo} alt='logo' width={150} height={150} />
@@ -17,8 +44,8 @@ export default () => {
     <div className='z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl'>
       <div className='flex flex-col items-center gap-y-4'>
         <h1 className='font-bold mt-2'>¿Que deseas enviar?</h1>
-        <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4'><RiMapPinAddLine size={30} />Desde</button>
-        <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4'><RiMapPin2Fill size={30} />Hasta</button>
+        <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4' onClick={fromHandler}>{<RiMapPinAddLine size={30} />}{ from === null ? 'Desde' : 'hola'}</button>
+        <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4' onClick={toHandler}><RiMapPin2Fill size={30} />Hasta</button>
         <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4'><FaRegCalendarAlt size={30} />Cuando</button>
         <button className='flex text-slate-400 gap-x-4 border-b p-2 mx-4'><BsBoxSeam size={30} />Producto</button>
         <button className='bg-pink w-full text-white font-bold rounded-b-xl p-3'>Buscar</button>
@@ -27,6 +54,20 @@ export default () => {
     <div className='absolute bottom-0'>
         <BottmBar />
     </div>
+    {fromModalOpen && (
+        <div className='fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center'>
+          <div className='bg-white p-4 rounded-xl'>
+            <MapComponent closeModal={closeModal} />
+          </div>
+        </div>
+      )}
+      {toModalOpen && (
+        <div className='fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center'>
+          <div className='bg-white p-4 rounded-xl'>
+            <MapComponent closeModal={toModelClose} />
+          </div>
+        </div>
+      )}
 </div>
 
   )
