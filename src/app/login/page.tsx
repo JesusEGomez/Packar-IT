@@ -51,7 +51,7 @@ export default function LoginPage() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Link href={"/preLogin"}>
-          <ArrowLeft />
+          <ArrowLeft className="w-7" />
         </Link>
         <h1 className="text-2xl font-bold text-defaultButton mb-3">
           Iniciar sesión
@@ -95,14 +95,14 @@ export default function LoginPage() {
             {errors.password.message}
           </span>
         )}
+        <button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
+          Iniciar sesión
+        </button>
       </form>
       <button onClick={() => navigate.push("/recoverypass")}>
         <p className="text-blue-700 text-sm underline mx-auto">
           ¿Has olvidado tu contraseña?
         </p>
-      </button>
-      <button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
-        Iniciar sesión
       </button>
       <Separator orientation="horizontal" className="m-5 w-2/3 " />
 

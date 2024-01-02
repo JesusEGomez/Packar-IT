@@ -1,11 +1,10 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import router from "next/router";
 
 function PreLogin() {
   return (
-    <div className="page-pink flex-col p-5  ">
+    <div className="page-pink flex-col md:items-center p-5  ">
       <h2 className="onboarding-font  text-3xl font-semibold">
         Aprovecha el viaje de otra persona para enviar lo que necesites.
       </h2>

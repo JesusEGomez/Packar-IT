@@ -114,7 +114,10 @@ export default function Register() {
           errors.confirmPassword && <span className='text-white flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
         } */}
 
-        <Button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
+        <Button
+          type="submit"
+          className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3"
+        >
           Crear cuenta
         </Button>
       </form>
