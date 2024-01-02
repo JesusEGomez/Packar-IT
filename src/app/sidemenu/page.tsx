@@ -1,10 +1,10 @@
 import React from 'react';
-import { SideMenu } from '../components/SideMenu';
+import  MapComponent  from '../components/MapComponent'
 
 export default () => {
   return (
     <div>
-        <SideMenu />
+        <MapComponent />
     </div>
   )
 }
