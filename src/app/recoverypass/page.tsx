@@ -7,9 +7,9 @@ interface FormInputs {
 }
 function page() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log(data); 
-  }
+    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+      console.log(data); 
+    }
   return (
     <div className='m-3'>
 

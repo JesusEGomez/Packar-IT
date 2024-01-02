@@ -23,7 +23,7 @@ export default function LoginPage() {
         redirect: false,
       });
       if(res?.error) alert(res.error);
-      navigate.push('/');
+      navigate.push('/loged');
       console.log(res, data);
     } catch (error) {
         console.log(error);
