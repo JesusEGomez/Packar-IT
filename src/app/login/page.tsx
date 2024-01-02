@@ -95,9 +95,11 @@ export default function LoginPage() {
             {errors.password.message}
           </span>
         )}
-        <button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
-          Iniciar sesión
-        </button>
+        <div className="flex w-full justify-center">
+          <button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
+            Iniciar sesión
+          </button>
+        </div>
       </form>
       <button onClick={() => navigate.push("/recoverypass")}>
         <p className="text-blue-700 text-sm underline mx-auto">

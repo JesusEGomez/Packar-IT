@@ -8,7 +8,7 @@ function PreLogin() {
       <h2 className="onboarding-font  text-3xl font-semibold">
         Aprovecha el viaje de otra persona para enviar lo que necesites.
       </h2>
-      <div className="flex flex-col">
+      <div className="flex md:w-1/4 flex-col">
         <Link className={buttonVariants()} href={"/register"}>
           Crear una cuenta
         </Link>

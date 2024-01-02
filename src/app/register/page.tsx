@@ -68,7 +68,7 @@ export default function Register() {
         />
 
         {errors.fullname && (
-          <span className="text-white flex gap-x-3">
+          <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle /> {errors.fullname.message}
           </span>
         )}
@@ -84,7 +84,7 @@ export default function Register() {
         />
 
         {errors.email && (
-          <span className="text-white flex gap-x-3">
+          <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle />
             {errors.email.message}
           </span>
@@ -103,23 +103,24 @@ export default function Register() {
         />
 
         {errors.password && (
-          <span className="text-white flex gap-x-3">
+          <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle />
             {errors.password.message}
           </span>
         )}
-        {/* <label htmlFor='confirmPassword' className='text-white'>Confirma tu contraseña:</label>
+        {/* <label htmlFor='confirmPassword' className='text-defaultButton'>Confirma tu contraseña:</label>
         <input className='p-3 rounded block mb-2 bg-slate-100 text-black' type="password" {...register('confirmPassword', { required: {value: true, message: 'Campo requerido'} })} />
         {
-          errors.confirmPassword && <span className='text-white flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
+          errors.confirmPassword && <span className='text-defaultButton flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
         } */}
-
-        <Button
-          type="submit"
-          className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3"
-        >
-          Crear cuenta
-        </Button>
+        <div className="flex w-full justify-center">
+          <Button
+            type="submit"
+            className="w-[370px] h-[48px]  mt-5 bg-pink text-white rounded-lg p-3"
+          >
+            Crear cuenta
+          </Button>
+        </div>
       </form>
       <Separator orientation="horizontal" className="m-2 w-2/3  " />
 
