@@ -1,12 +1,15 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowBigLeft, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FaExclamationCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import Swal from "sweetalert2";
 
 interface FormInputs {
   fullname: string;
@@ -16,15 +19,16 @@ interface FormInputs {
 }
 
 export default function Register() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
 
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const fetchData = async () => {
-      const response = await fetch("/api/auth/signup", {
+      return await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,10 +36,27 @@ export default function Register() {
         body: JSON.stringify(data),
       });
     };
-    try {
-      fetchData();
-    } catch (error) {
-      console.log(error);
+    const response = await fetchData();
+
+    if (response.ok) {
+      Swal.fire({
+        icon: "success",
+        title: "Cuenta Creada con exito",
+        confirmButtonColor: "#fe1252",
+        confirmButtonText: "Iniciar sesión",
+        showConfirmButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/login");
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        confirmButtonColor: "#fe1252",
+        confirmButtonText: "reintentar",
+      });
     }
   };
 
@@ -114,10 +135,7 @@ export default function Register() {
           errors.confirmPassword && <span className='text-defaultButton flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
         } */}
         <div className="flex w-full justify-center">
-          <Button
-            type="submit"
-            className="w-[370px] h-[48px]  mt-5 bg-pink text-white rounded-lg p-3"
-          >
+          <Button className="w-[370px] h-[48px]  mt-5 bg-pink text-white rounded-lg p-3">
             Crear cuenta
           </Button>
         </div>
