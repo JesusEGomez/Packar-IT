@@ -34,7 +34,7 @@ export default function LoginPage() {
     const res = await signIn('google',{
       redirect: false,
     });
-    navigate.push('/');
+    navigate.push('/loged');
   }
 
   return (
