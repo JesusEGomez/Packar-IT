@@ -3,12 +3,15 @@
 @tailwind utilities;
 :root {
   .page-pink {
-    @apply h-screen w-full flex justify-center items-center bg-pink;
+    @apply h-screen w-full flex justify-evenly  bg-pink;
   }
   .onboarding-font {
-    @apply font-poppins text-xl  mt-28 font-bold text-white;
+    @apply font-poppins text-white;
   }
   .onboarding-font-text {
     @apply font-poppins text-sm font-medium text-center text-white;
+  }
+  .user-managment-styles {
+    @apply h-screen w-full flex bg-white;
   }
 }

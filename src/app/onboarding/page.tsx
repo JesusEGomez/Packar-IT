@@ -4,16 +4,16 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import Step1 from "../components/Step-1";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Step2 from "../components/Step-2";
 import Step3 from "../components/Step-3";
+import Link from "next/link";
 
 function onboarding() {
   return (
-    <div className="page-pink">
+    <div className="page-pink items-center">
       <Carousel>
         <CarouselContent>
           <CarouselItem>
@@ -27,10 +27,16 @@ function onboarding() {
           </CarouselItem>
         </CarouselContent>
 
-        <div className=" flex h-full align-bottom justify-between m-2  ">
-          <Button variant={"ghost"} className="text-white">
+        <div className=" flex h-full align-bottom mt-28 justify-between m-2  ">
+          <Link
+            href={"/preLogin"}
+            className={buttonVariants({
+              class: "text-white",
+              variant: "ghost",
+            })}
+          >
             Saltar
-          </Button>
+          </Link>
 
           <CarouselNext />
         </div>
