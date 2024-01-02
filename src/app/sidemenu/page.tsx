@@ -1,10 +1,11 @@
-import React from 'react';
-import  MapComponent  from '../components/MapComponent'
+import React from "react";
+import MapComponent from "../components/MapComponent";
 
-export default () => {
+const SideMenu = () => {
   return (
     <div>
-        <MapComponent />
+      <MapComponent />
     </div>
-  )
-}
+  );
+};
+export default SideMenu;
