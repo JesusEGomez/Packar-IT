@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
+import Profile from "@/models/perfil";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 
@@ -33,10 +34,38 @@ const options: NextAuthOptions = {
 
           if (!matchPassword) return null;
 
+          // Crear o recuperar perfil asociado al usuario
+          let profile = await Profile.findOne({ userId: userFound._id });
+
+          if (!profile) {
+            // Si el perfil no existe, lo creamos
+            profile = new Profile({
+              userId: userFound._id,
+              driverLicense: {
+                frontPhoto: "",
+                backPhoto: "",
+              },
+              idDocument: {
+                type: "",
+                number: "",
+                frontPhoto: "",
+                backPhoto: "",
+              },
+              city: "",
+              phoneNumber: "",
+            });
+            await profile.save();
+          }
+
           return {
             id: userFound._id,
             name: userFound.fullname,
             email: userFound.email,
+            userId: profile.userId,
+            driverLicense: profile.driverLicense,
+            idDocument: profile.idDocument,
+            city: profile.city,
+            phoneNumber: profile.phoneNumber,
           };
         } catch (error) {
           console.log(error);
