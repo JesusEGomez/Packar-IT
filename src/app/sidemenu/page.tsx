@@ -4,7 +4,7 @@ import MapComponent from "../components/MapComponent";
 const SideMenu = () => {
   return (
     <div>
-      <MapComponent />
+      <MapComponent closeModal={""} />
     </div>
   );
 };
