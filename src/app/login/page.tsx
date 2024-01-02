@@ -3,7 +3,7 @@
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaExclamationCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -66,6 +66,9 @@ export default function LoginPage() {
           Ingresar
         </button>
       </form>
+      <button onClick={() => navigate.push('/recoverypass')}>
+        <p className='text-blue-700 underline mx-auto'>¿Has olvidado tu contraseña?</p>
+      </button>
         <p className='flex w-full justify-center text-white'>o</p>
         <button onClick={() => googleBtn()} className='bg-white p-3 m-3 w-fit rounded-full mx-auto'>
           <FcGoogle size={30}/>

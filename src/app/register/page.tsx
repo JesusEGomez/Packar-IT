@@ -84,6 +84,7 @@ export default function Register() {
         <button className='bg-white p-3 m-3 w-fit rounded-full mx-auto'>
           <FcGoogle size={30}/>
         </button>
+        <p className='mx-auto mb-10'>¿Ya tienes una cuenta? <a className='text-blue-700' href="/login">Inicia sesion</a></p>
     </div>
   );
 }
