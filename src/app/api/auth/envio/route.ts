@@ -28,10 +28,10 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const envios = await Envio.find();  // Cambiando el nombre de la variable
-        return NextResponse.json(envios);  // Cambiando el nombre de la variable
+        const envios = await Envio.find();  
+        return NextResponse.json(envios);  
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Error al obtener los envíos" });  // Cambiando el mensaje
+        return NextResponse.json({ message: "Error al obtener los envíos" });  
     }
 }
