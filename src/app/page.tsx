@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function HomePage() {
   const router = useRouter();
   return (
-    <div className="page-pink">
+    <div className="page-pink items-center">
       <Link href={"/onboarding"}>
         <Image
           src="/logo.webp"
@@ -17,11 +17,6 @@ export default function HomePage() {
           alt="logo"
         />
       </Link>
-
-      {/* <div>
-        <button onClick={() => router.push('/register')} className='bg-pink m-3 p-3 rounded-lg text-white hover:opacity-70'>Resgistrate</button>
-        <button onClick={() => router.push('/login')} className='bg-pink m-3 p-3 rounded-lg text-white hover:opacity-70'>Ingresa</button>
-      </div> */}
     </div>
   );
 }

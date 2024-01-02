@@ -6,7 +6,7 @@ import Providers from "./Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
-  weight: "700",
+  weight: ["400"],
   subsets: ["latin"],
   variable: "--font-poppins",
 });
@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={poppins.className}>
         <Providers>{children}</Providers>
       </body>
     </html>

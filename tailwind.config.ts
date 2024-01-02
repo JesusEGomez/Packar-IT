@@ -25,6 +25,7 @@ const config = {
         pink: "#fe1252",
         backgroundColor: "#172361",
         titleH2: "#CD2C70",
+        defaultButton: "#17181C",
       },
       keyframes: {
         "accordion-down": {

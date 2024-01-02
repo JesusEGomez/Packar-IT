@@ -224,7 +224,6 @@ const CarouselNext = React.forwardRef<
   React.ComponentProps<typeof Button>
 >(({ className, variant = "default", ...props }, ref) => {
   const { scrollNext, canScrollNext } = useCarousel();
-  console.log(canScrollNext);
 
   return (
     <div>
