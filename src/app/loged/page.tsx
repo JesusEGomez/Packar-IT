@@ -9,12 +9,17 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
 import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
+import { Calendar } from "@/components/ui/calendar"
+
+
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -33,6 +38,15 @@ const Loged = () => {
     setToModalOpen(false);
     setTo(toSelected);
   };
+  const calendarHandler = () => {
+    setCalendarOpen(!calendarOpen);
+  };
+  const changeDateFormat = (date:Date) => {
+    if(date){
+      const newDate = date.toString().slice(0,15);
+      return newDate;
+    }
+  }
   return (
     <div className="flex flex-col items-center bg-pink">
       <Image
@@ -62,9 +76,20 @@ const Loged = () => {
             <RiMapPin2Fill size={30} />
             Hasta
           </button>
-          <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
+          <button onClick={() => calendarHandler()} className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
             <FaRegCalendarAlt size={30} />
-            Cuando
+            {
+              date ? `${changeDateFormat(date)}` : 'Cuando'
+            }
+            { calendarOpen &&
+              <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              className="rounded-md border"
+              disabled={(date) => date < new Date() }
+            />
+            }
           </button>
           <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
             <BsBoxSeam size={30} />
