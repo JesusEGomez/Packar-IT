@@ -6,7 +6,7 @@ const ProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     unique: true,
-    required: true,
+    required: false ,
   },
   driverLicense: {
     frontPhoto: {
@@ -22,28 +22,28 @@ const ProfileSchema = new Schema({
     type: {
       type: String,
       enum: ['DNI', 'Pasaporte'],
-      required: true,
+      required: false,
     },
     number: {
       type: String,
-      required: true,
+      required: false,
     },
     frontPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
     backPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   city: {
     type: String,
-    required: true,
+    required: false,
   },
   phoneNumber: {
     type: String,
-    required: true,
+    required: false,
     
   },
   

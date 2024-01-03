@@ -42,19 +42,7 @@ const options: NextAuthOptions = {
             // Si el perfil no existe, lo creamos
             profile = new Profile({
               userId: userFound._id,
-              driverLicense: {
-                frontPhoto: "",
-                backPhoto: "",
-              },
-              idDocument: {
-                type: "",
-                number: "",
-                frontPhoto: "",
-                backPhoto: "",
-              },
-              city: "",
-              phoneNumber: "",
-            });
+          });
             await profile.save();
           }
 
