@@ -91,8 +91,8 @@ const Loged = () => {
             {calendarOpen && (
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={date!}
+                onSelect={() => setDate}
                 className="rounded-md border"
                 disabled={(date: Date) => date < new Date()}
               />
