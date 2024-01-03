@@ -1,12 +1,12 @@
 // models/profile.js
-import { Schema, models, model } from 'mongoose';
+import { Schema, models, model } from "mongoose";
 
 const ProfileSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     unique: true,
-    required: true,
+    required: false,
   },
   driverLicense: {
     frontPhoto: {
@@ -21,33 +21,31 @@ const ProfileSchema = new Schema({
   idDocument: {
     type: {
       type: String,
-      enum: ['DNI', 'Pasaporte'],
-      required: true,
+      enum: ["DNI", "Pasaporte"],
+      required: false,
     },
     number: {
       type: String,
-      required: true,
+      required: false,
     },
     frontPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
     backPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   city: {
     type: String,
-    required: true,
+    required: false,
   },
   phoneNumber: {
     type: String,
-    required: true,
-    
+    required: false,
   },
-  
 });
 
-const Profile = models.Profile || model('Profile', ProfileSchema);
+const Profile = models.Profile || model("Profile", ProfileSchema);
 export default Profile;
