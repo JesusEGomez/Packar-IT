@@ -3,9 +3,10 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
-import Profile from "@/models/perfil";
+
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
+import Profile from "@/models/perfil";
 
 const options: NextAuthOptions = {
   providers: [
@@ -42,7 +43,7 @@ const options: NextAuthOptions = {
             // Si el perfil no existe, lo creamos
             profile = new Profile({
               userId: userFound._id,
-          });
+            });
             await profile.save();
           }
 
