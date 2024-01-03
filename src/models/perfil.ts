@@ -11,11 +11,11 @@ const ProfileSchema = new Schema({
   driverLicense: {
     frontPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
     backPhoto: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   idDocument: {
