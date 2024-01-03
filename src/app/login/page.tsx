@@ -1,15 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaExclamationCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import Swal from "sweetalert2";
 
 interface FormInputs {
   email: string;
@@ -17,6 +19,7 @@ interface FormInputs {
 }
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
   const navigate = useRouter();
   const {
     register,
@@ -25,13 +28,24 @@ export default function LoginPage() {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
+      setLoading(true);
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
       });
-      if (res?.error) alert(res.error);
-      navigate.push("/loged");
+
+      if (res?.ok) {
+        navigate.push("/loged");
+        setLoading(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Usuario y contraseña no coinciden",
+          confirmButtonColor: "#fe1252",
+        });
+        setLoading(false);
+      }
       console.log(res, data);
     } catch (error) {
       console.log(error);
@@ -96,9 +110,18 @@ export default function LoginPage() {
           </span>
         )}
         <div className="flex w-full justify-center">
-          <button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
-            Iniciar sesión
-          </button>
+          {loading ? (
+            <Button
+              disabled
+              className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3"
+            >
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            </Button>
+          ) : (
+            <Button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
+              Iniciar sesión
+            </Button>
+          )}
         </div>
       </form>
       <button onClick={() => navigate.push("/recoverypass")}>

@@ -1,11 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function HomePage() {
-  const router = useRouter();
   return (
     <div className="page-pink items-center">
       <Link href={"/onboarding"}>
