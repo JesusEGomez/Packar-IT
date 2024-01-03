@@ -57,6 +57,7 @@ export const ViajeSchema = new Schema({
         required: false,
     },
     precio: {
+        type: String ,
         enum: ["7€  ", "15€ ", "30€ "],
         required: true,
     }
