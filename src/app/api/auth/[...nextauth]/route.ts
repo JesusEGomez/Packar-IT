@@ -22,6 +22,7 @@ const options: NextAuthOptions = {
       async authorize(credentials) {
         const email = credentials?.email;
         const password = credentials?.password!;
+        console.log(email, password);
         try {
           await connectDB();
           const userFound = await User.findOne({ email }).select("+password");
