@@ -51,12 +51,6 @@ export default function LoginPage() {
       console.log(error);
     }
   };
-  const googleBtn = async () => {
-    console.log("holi");
-    const res = await signIn("google", {});
-
-    navigate.push("/loged");
-  };
 
   return (
     <div className="user-managment-styles items-center justify-center  flex-col">
@@ -133,7 +127,7 @@ export default function LoginPage() {
 
       <Button
         variant={"ghost"}
-        onClick={() => googleBtn()}
+        onClick={() => signIn("google")}
         data-onsuccess="onSignIn"
         className="bg-white g-signin2  p-3 m-3 w-fit rounded-full mx-auto"
       >
