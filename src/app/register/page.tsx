@@ -2,9 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ArrowBigLeft, ArrowLeft } from "lucide-react";
+import { ArrowBigLeft, ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FaExclamationCircle } from "react-icons/fa";
@@ -19,6 +20,7 @@ interface FormInputs {
 }
 
 export default function Register() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -27,6 +29,7 @@ export default function Register() {
   } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    setLoading(true);
     const fetchData = async () => {
       return await fetch("/api/auth/signup", {
         method: "POST",
@@ -48,6 +51,7 @@ export default function Register() {
       }).then((result) => {
         if (result.isConfirmed) {
           router.push("/login");
+          setLoading(false);
         }
       });
     } else {
@@ -57,6 +61,7 @@ export default function Register() {
         confirmButtonColor: "#fe1252",
         confirmButtonText: "reintentar",
       });
+      setLoading(false);
     }
   };
 
@@ -135,9 +140,18 @@ export default function Register() {
           errors.confirmPassword && <span className='text-defaultButton flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
         } */}
         <div className="flex w-full justify-center">
-          <Button className="w-[370px] h-[48px]  mt-5 bg-pink text-white rounded-lg p-3">
-            Crear cuenta
-          </Button>
+          {loading ? (
+            <Button
+              disabled
+              className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3"
+            >
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            </Button>
+          ) : (
+            <Button className="w-[370px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
+              Crear cuenta
+            </Button>
+          )}
         </div>
       </form>
       <Separator orientation="horizontal" className="m-2 w-2/3  " />
