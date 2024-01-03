@@ -52,9 +52,9 @@ export default function LoginPage() {
     }
   };
   const googleBtn = async () => {
-    const res = await signIn("google", {
-      redirect: false,
-    });
+    console.log("holi");
+    const res = await signIn("google", {});
+
     navigate.push("/loged");
   };
 
@@ -134,7 +134,8 @@ export default function LoginPage() {
       <Button
         variant={"ghost"}
         onClick={() => googleBtn()}
-        className="bg-white p-3 m-3 w-fit rounded-full mx-auto"
+        data-onsuccess="onSignIn"
+        className="bg-white g-signin2  p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
       </Button>
