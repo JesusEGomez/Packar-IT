@@ -33,6 +33,7 @@ const Loged = () => {
     setToModalOpen(false);
     setTo(toSelected);
   };
+
   return (
     <div className="flex flex-col items-center bg-pink">
       <Image
@@ -45,36 +46,40 @@ const Loged = () => {
       <div className="bg-white w-full rounded-t-3xl pt-10">
         {/* Contenido del segundo div */}
       </div>
-      <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
-        <div className="flex flex-col items-center gap-y-4">
-          <h1 className="font-bold mt-2">¿Que deseas enviar?</h1>
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-            onClick={fromHandler}
-          >
-            {<RiMapPinAddLine size={30} />}
-            {from === null ? "Desde" : "hola"}
-          </button>
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-            onClick={toHandler}
-          >
-            <RiMapPin2Fill size={30} />
-            Hasta
-          </button>
-          <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
-            <FaRegCalendarAlt size={30} />
-            Cuando
-          </button>
-          <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
-            <BsBoxSeam size={30} />
-            Producto
-          </button>
+      <div className="z-10 fixed top-48 left-1/2 transform -translate-x-1/2 w-full md:w-auto md:max-w-3xl bg-white border rounded-xl high-1-screen">
+        <div className="flex flex-col items-center gap-y-4 p-4 md:p-8">
+          <h1 className="font-bold mt-2">¿Qué deseas enviar?</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <button
+              className="flex text-slate-400 gap-x-4 border-b p-2"
+              onClick={fromHandler}
+            >
+              {<RiMapPinAddLine size={30} />}
+              {from === null ? "Desde" : "hola"}
+            </button>
+            <button
+              className="flex text-slate-400 gap-x-4 border-b p-2"
+              onClick={toHandler}
+            >
+              <RiMapPin2Fill size={30} />
+              Hasta
+            </button>
+            <button className="flex text-slate-400 gap-x-4 border-b p-2">
+              <FaRegCalendarAlt size={30} />
+              Cuando
+            </button>
+            <button className="flex text-slate-400 gap-x-4 border-b p-2">
+              <BsBoxSeam size={30} />
+              Producto
+            </button>
+          </div>
+
           <button className="bg-pink w-full text-white font-bold rounded-b-xl p-3">
             Buscar
           </button>
         </div>
       </div>
+
       <div className="absolute bottom-0">
         <BottmBar />
       </div>

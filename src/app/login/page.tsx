@@ -64,14 +64,17 @@ export default function LoginPage() {
         className="flex flex-col p-4 gap-y-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Link href={"/preLogin"}>
-          <ArrowLeft className="w-7" />
-        </Link>
-        <h1 className="text-2xl font-bold text-defaultButton mb-3">
-          Iniciar sesión
-        </h1>
+        <div className="flex items-center justify-between gap-x-3">
+          <Link href={"/preLogin"}>
+            <ArrowLeft className="w-7 h-7" />
+          </Link>
+          <h1 className="flex-grow text-2xl font-bold text-defaultButton text-center">
+            Iniciar sesión
+          </h1>
+        </div>
+
         <h2 className="text-xl m-4 font-bold text-center text-defaultButton mb-3">
-          Encuentra tu mejor opcion al mejor precio.
+          Encuentra tu mejor opción al mejor precio.
         </h2>
         <label htmlFor="email" className="text-defaultButton">
           Email:
