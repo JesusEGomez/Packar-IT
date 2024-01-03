@@ -9,6 +9,7 @@ const ProductoSchema = new Schema({
     nombre: {
         type: String,
         required: [true, "El nombre del producto es obligatorio"],
+        trim: true,
     },
     tamaño: {
         type: String,

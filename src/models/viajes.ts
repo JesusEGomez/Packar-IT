@@ -19,7 +19,7 @@ export const ViajeSchema = new Schema({
         longitud: {
             type: Number,
             required: true,
-        },
+        }, 
         coordenadasExtras: {
             type: [String],
             default: [],
