@@ -52,8 +52,10 @@ export default function LoginPage() {
     }
   };
   const googleBtn = async () => {
+    console.log('estoy en el pinche btn');
+    
     const res = await signIn("google", {
-      redirect: false,
+     redirect: false,
     });
     navigate.push("/loged");
   };
