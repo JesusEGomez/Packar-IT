@@ -14,3 +14,9 @@
 .user-managment-styles {
   @apply h-screen w-full flex bg-white;
 }
+.sideBarClose {
+  @apply translate-y-0 z-10 w-1/4 h-full bg-white;
+}
+.sideBarOpen {
+  @apply translate-x-full z-10 w-1/4 h-full bg-white;
+}

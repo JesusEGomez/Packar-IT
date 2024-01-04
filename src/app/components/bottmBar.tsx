@@ -18,7 +18,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/send" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoSendOutline size={30} />
@@ -28,7 +28,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/shipments" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CiDeliveryTruck size={30} />
@@ -38,7 +38,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/travel" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoMdAddCircleOutline size={30} />
@@ -48,7 +48,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <MdOutlineMessage size={30} />
@@ -58,7 +58,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/perfir" ? "text-pink" : "text-slate-600"
+              pathName === "/profile" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CgProfile size={30} />
