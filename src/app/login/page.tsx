@@ -72,7 +72,6 @@ export default function LoginPage() {
             Iniciar sesión
           </h1>
         </div>
-
         <h2 className="text-xl m-4 font-bold text-center text-defaultButton mb-3">
           Encuentra tu mejor opción al mejor precio.
         </h2>
