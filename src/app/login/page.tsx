@@ -76,7 +76,7 @@ export default function LoginPage() {
           Encuentra tu mejor opción al mejor precio.
         </h2>
         <label htmlFor="email" className="text-defaultButton">
-          Email:
+          Email: 
         </label>
         <input
           className="p-3 rounded block mb-2 bg-slate-100 text-black"
