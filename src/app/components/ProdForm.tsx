@@ -38,7 +38,9 @@ function ProdForm(props:any) {
             <option value='Equipaje'>Equipaje</option>
           </select>
         </div>
-        <div></div>
+        <div>
+          <input type="text" />
+        </div>
       </form>
       <Button
         onClick={() => siguiente()}
