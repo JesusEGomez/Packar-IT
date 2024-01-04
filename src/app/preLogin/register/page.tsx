@@ -66,6 +66,15 @@ export default function Register() {
     }
   };
 
+  const googleBtn = async () => {
+    console.log('estoy en el pinche btn');
+    
+    const res = await signIn("google", {
+     redirect: false,
+    });
+    router.push("/loged");
+  };
+
   return (
     <div className="user-managment-styles items-center justify-center  flex-col">
       <form
