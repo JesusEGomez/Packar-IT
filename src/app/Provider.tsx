@@ -4,30 +4,31 @@ import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { createContext, useState } from "react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-interface sideBar {
-  isOpen: boolean;
-  sideBarControl: () => void;
-}
-
-export const SidebarContext = createContext<sideBar>({
+export const SidebarContext = createContext({
   isOpen: false,
   sideBarControl: () => {},
 });
 
+interface Props {
+  children: React.ReactNode;
+}
+interface Props {
+  children: React.ReactNode;
+}
+
 function Providers({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  console.log("provider", isOpen);
 
   const sideBarControl = () => {
-    setIsOpen(isOpen!);
+    setIsOpen(!isOpen);
   };
   return (
-    <SidebarContext.Provider value={{ isOpen, sideBarControl }}>
-      <SessionProvider>{children}</SessionProvider>
-    </SidebarContext.Provider>
+    <SessionProvider>
+      <SidebarContext.Provider value={{ isOpen, sideBarControl }}>
+        {children}
+      </SidebarContext.Provider>
+    </SessionProvider>
   );
 }
 

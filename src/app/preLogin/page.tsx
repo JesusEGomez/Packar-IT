@@ -17,7 +17,7 @@ function PreLogin() {
             class: "bg-white mt-2 text-black",
             variant: "ghost",
           })}
-          href={"preLogin/login"}
+          href={"preLogin/register/login"}
         >
           Iniciar sesion
         </Link>

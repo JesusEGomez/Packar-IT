@@ -51,7 +51,7 @@ export default function Register() {
         showConfirmButton: true,
       }).then((result) => {
         if (result.isConfirmed) {
-          router.push("/login");
+          router.push("/register/login");
           setLoading(false);
         }
       });

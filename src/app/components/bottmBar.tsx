@@ -6,15 +6,18 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+
+import { useContext } from "react";
+import { SidebarContext } from "../Provider";
 const BottmBar = () => {
+  const { sideBarControl } = useContext(SidebarContext);
   const pathName = usePathname();
   useEffect(() => {
     console.log(pathName);
   }, []);
 
   return (
-    <div className="w-screen">
+    <div className="w-screen ">
       <ul className="flex justify-between px-5 border-t mb-2 pt-2">
         <li>
           <button
@@ -58,7 +61,7 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            onClick={() => signOut()}
+            onClick={sideBarControl}
             className={`flex ${
               pathName === "/profile" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}

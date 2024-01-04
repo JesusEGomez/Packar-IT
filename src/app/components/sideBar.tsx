@@ -6,13 +6,11 @@ import { SidebarContext } from "../Provider";
 const Sidebar = () => {
   const { isOpen, sideBarControl } = useContext(SidebarContext);
   console.log(isOpen);
+
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
-      <button>
-        <FaWindowClose
-          onClick={() => sideBarControl}
-          className="close-Button"
-        />
+      <button onClick={sideBarControl}>
+        <FaWindowClose />
       </button>
     </div>
   );
