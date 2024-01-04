@@ -2,45 +2,65 @@
 import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
+import User from "@/models/user";
 
 export async function PUT(request: Request) {
   await connectDB();
   const {
     userId,
+    email,
     driverLicense,
     idDocument,
     city,
     phoneNumber,
   } = await request.json();
-  console.log(userId, driverLicense, idDocument, city, phoneNumber);
 
   if (!userId || !driverLicense || !idDocument || !city || !phoneNumber) {
     return NextResponse.json({ message: "Todos los campos son obligatorios" });
   }
 
   try {
-    const profileFound = await Profile.findOne({ userId });
-
-    if (profileFound) {
-      return NextResponse.json(
-        { message: "El perfil ya existe" },
-        { status: 400 }
-      );
+    // Obtén el email del usuario utilizando la referencia al modelo de usuario
+    const user = await User.findById(userId);
+    if (!user) {
+      return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
     }
 
-    const profile = new Profile({
-      userId,
-      driverLicense,
-      idDocument,
-      city,
-      phoneNumber,
-    });
+    const userEmail = user.email || "CorreoNoDefinido";
 
-    const saveProfile = await profile.save();
+    // Actualiza el perfil con la información proporcionada
+    let profile = await Profile.findOne({ userId });
 
-    console.log(saveProfile);
+    if (!profile) {
+      // Si no existe, crea un nuevo perfil
+      profile = new Profile({
+        userId,
+        email: userEmail,
+        driverLicense,
+        idDocument,
+        city,
+        phoneNumber,
+      });
 
-    return NextResponse.json(saveProfile);
+      await profile.save();
+    } else {
+      // Si existe, actualiza los campos individualmente
+      profile.userId = userId;
+      profile.email = userEmail;
+      profile.driverLicense = driverLicense;
+      profile.idDocument = idDocument;
+      profile.city = city;
+      profile.phoneNumber = phoneNumber;
+
+      await profile.save();
+    }
+
+    // Obtén el perfil actualizado con los detalles del usuario
+    profile = await Profile.findById(profile._id).populate("userId", "fullname email");
+
+    console.log(profile);
+
+    return NextResponse.json(profile);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
@@ -52,11 +72,38 @@ export async function PUT(request: Request) {
     );
   }
 }
-
 export async function GET(request: Request) {
   try {
-    const profiles = await Profile.find();
-    return NextResponse.json(profiles);
+    const profiles = await Profile.find().populate({
+      path: "userId",
+      select: "email fullname",
+    }).populate("driverLicense").populate("idDocument");
+
+    const profilesWithUserDetails = profiles.map(profile => {
+      return {
+        _id: profile._id,
+        userId: {
+          _id: profile.userId?._id || null,
+          email: profile.userId?.email || "CorreoNoDefinido",
+          fullname: profile.userId?.fullname || "NombreNoDefinido",
+        },
+        driverLicense: {
+          frontPhoto: profile.driverLicense?.frontPhoto || "",
+          backPhoto: profile.driverLicense?.backPhoto || "",
+        },
+        idDocument: {
+          type: profile.idDocument?.type || "",
+          number: profile.idDocument?.number || "",
+          frontPhoto: profile.idDocument?.frontPhoto || "",
+          backPhoto: profile.idDocument?.backPhoto || "",
+        },
+        city: profile.city || "",
+        phoneNumber: profile.phoneNumber || "",
+        __v: profile.__v || 0,
+      };
+    });
+
+    return NextResponse.json(profilesWithUserDetails);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
