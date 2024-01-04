@@ -74,7 +74,7 @@ export default function LoginPage() {
         </div>
         <h2 className="text-xl m-4 font-bold text-center text-defaultButton mb-3">
           Encuentra tu mejor opción al mejor precio.
-        </h2>
+        </h2> 
         <label htmlFor="email" className="text-defaultButton">
           Email: 
         </label>
