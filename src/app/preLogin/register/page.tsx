@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowBigLeft, ArrowLeft, Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -63,6 +64,15 @@ export default function Register() {
       });
       setLoading(false);
     }
+  };
+
+  const googleBtn = async () => {
+    console.log('estoy en el pinche btn');
+    
+    const res = await signIn("google", {
+     redirect: false,
+    });
+    router.push("/loged");
   };
 
   return (
@@ -157,6 +167,7 @@ export default function Register() {
       <Separator orientation="horizontal" className="m-2 w-2/3  " />
 
       <Button
+        onClick={() => signIn("google")}
         variant={"ghost"}
         className="bg-white p-3 m-3 w-fit rounded-full mx-auto"
       >
@@ -164,7 +175,7 @@ export default function Register() {
       </Button>
       <p className="mx-auto mb-10 text-sm">
         ¿Ya tienes una cuenta?{" "}
-        <a className="text-blue-700" href="/login">
+        <a className="text-blue-700" href="register/login">
           Inicia sesion
         </a>
       </p>

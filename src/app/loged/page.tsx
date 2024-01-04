@@ -9,12 +9,17 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
 import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
+import { Calendar } from "@/components/ui/calendar";
+import { ProdModal } from "../components/ProdModal";
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
+  const [prodModal, setProdModal] = React.useState(false);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -33,7 +38,21 @@ const Loged = () => {
     setToModalOpen(false);
     setTo(toSelected);
   };
-
+  const calendarHandler = () => {
+    setCalendarOpen(!calendarOpen);
+  };
+  const changeDateFormat = (date: Date) => {
+    if (date) {
+      const newDate = date.toString().slice(0, 15);
+      return newDate;
+    }
+  };
+  const productsHandler = () => {
+    setProdModal(true);
+  };
+  const closeProdModal = () => {
+    setProdModal(false);
+  };
   return (
     <div className="flex flex-col items-center bg-pink">
       <Image
@@ -94,6 +113,13 @@ const Loged = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <MapComponent closeModal={toModelClose} />
+          </div>
+        </div>
+      )}
+      {prodModal && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <ProdModal closeModal={closeProdModal} />
           </div>
         </div>
       )}
