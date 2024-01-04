@@ -9,12 +9,17 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
 import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
+import { Calendar } from "@/components/ui/calendar";
+import { ProdModal } from "../components/ProdModal";
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [calendarOpen, setCalendarOpen] = React.useState(false);
+  const [prodModal, setProdModal] = React.useState(false);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -32,6 +37,21 @@ const Loged = () => {
   const toModelClose = (toSelected: any) => {
     setToModalOpen(false);
     setTo(toSelected);
+  };
+  const calendarHandler = () => {
+    setCalendarOpen(!calendarOpen);
+  };
+  const changeDateFormat = (date: Date) => {
+    if (date) {
+      const newDate = date.toString().slice(0, 15);
+      return newDate;
+    }
+  };
+  const productsHandler = () => {
+    setProdModal(true);
+  };
+  const closeProdModal = () => {
+    setProdModal(false);
   };
   return (
     <div className="flex flex-col items-center bg-pink">
@@ -53,20 +73,35 @@ const Loged = () => {
             onClick={fromHandler}
           >
             {<RiMapPinAddLine size={30} />}
-            {from === null ? "Desde" : "hola"}
+            {from === null ? "Desde" : `${from}`}
           </button>
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
             onClick={toHandler}
           >
             <RiMapPin2Fill size={30} />
-            Hasta
+            {to === null ? "Desde" : `${to}`}
           </button>
-          <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
+          <button
+            onClick={() => calendarHandler()}
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+          >
             <FaRegCalendarAlt size={30} />
-            Cuando
+            {date ? `${changeDateFormat(date)}` : "Cuando"}
+            {calendarOpen && (
+              <Calendar
+                mode="single"
+                selected={date!}
+                onSelect={() => setDate}
+                className="rounded-md border"
+                disabled={(date: Date) => date < new Date()}
+              />
+            )}
           </button>
-          <button className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
+          <button
+            onClick={() => productsHandler()}
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+          >
             <BsBoxSeam size={30} />
             Producto
           </button>
@@ -89,6 +124,13 @@ const Loged = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <MapComponent closeModal={toModelClose} />
+          </div>
+        </div>
+      )}
+      {prodModal && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <ProdModal closeModal={closeProdModal} />
           </div>
         </div>
       )}
