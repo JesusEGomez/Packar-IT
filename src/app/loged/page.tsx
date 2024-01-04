@@ -9,10 +9,8 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
 import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
-
-
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
@@ -43,9 +41,9 @@ const Loged = () => {
   const calendarHandler = () => {
     setCalendarOpen(!calendarOpen);
   };
-  const changeDateFormat = (date:Date) => {
-    if(date){
-      const newDate = date.toString().slice(0,15);
+  const changeDateFormat = (date: Date) => {
+    if (date) {
+      const newDate = date.toString().slice(0, 15);
       return newDate;
     }
   };
@@ -84,22 +82,26 @@ const Loged = () => {
             <RiMapPin2Fill size={30} />
             {to === null ? "Desde" : `${to}`}
           </button>
-          <button onClick={() => calendarHandler()} className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
+          <button
+            onClick={() => calendarHandler()}
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+          >
             <FaRegCalendarAlt size={30} />
-            {
-              date ? `${changeDateFormat(date)}` : 'Cuando'
-            }
-            { calendarOpen &&
+            {date ? `${changeDateFormat(date)}` : "Cuando"}
+            {calendarOpen && (
               <Calendar
-              mode="single"
-              selected={date}
-              onSelect={setDate}
-              className="rounded-md border"
-              disabled={(date) => date < new Date() }
-            />
-            }
+                mode="single"
+                selected={date!}
+                onSelect={() => setDate}
+                className="rounded-md border"
+                disabled={(date: Date) => date < new Date()}
+              />
+            )}
           </button>
-          <button onClick={() => productsHandler()} className="flex text-slate-400 gap-x-4 border-b p-2 mx-4">
+          <button
+            onClick={() => productsHandler()}
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+          >
             <BsBoxSeam size={30} />
             Producto
           </button>
@@ -131,9 +133,7 @@ const Loged = () => {
             <ProdModal closeModal={closeProdModal} />
           </div>
         </div>
-      )
-
-      }
+      )}
     </div>
   );
 };
