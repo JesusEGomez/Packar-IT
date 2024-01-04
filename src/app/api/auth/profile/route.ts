@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
 
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   await connectDB();
   const {
     userId,
