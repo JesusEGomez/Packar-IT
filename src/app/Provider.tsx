@@ -1,6 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { createContext, useState } from "react";
 
@@ -18,6 +19,7 @@ interface Props {
 
 function Providers({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathName = usePathname();
   console.log("provider", isOpen);
 
   const sideBarControl = () => {

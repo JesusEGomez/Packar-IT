@@ -12,9 +12,6 @@ import { SidebarContext } from "../Provider";
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
-  useEffect(() => {
-    console.log(pathName);
-  }, []);
 
   return (
     <div className="w-screen ">

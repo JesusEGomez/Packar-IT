@@ -11,6 +11,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
+  CommandInput,
 } from "@/components/ui/command";
 import {
   Phone,
@@ -23,27 +24,38 @@ import {
   Settings,
   LogOut,
   Building,
+  ArrowRightToLine,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const navigation = useRouter();
+
   const { isOpen, sideBarControl } = useContext(SidebarContext);
   console.log(isOpen);
   const logOutSession = () => {
     sideBarControl();
     signOut();
+    if (!session) {
+      navigation.push("/preLogin");
+    }
   };
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
-        <div className="m-2 flex items-center">
+        <div className="m-2 flex justify-evenly items-center">
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
           <h3>{session?.user?.name!}</h3>
+          <ArrowRightToLine
+            className="cursor-pointer"
+            onClick={() => navigation.push("/loged/profile")}
+          />
         </div>
         <CommandSeparator className="my-3" />
         <CommandList className="overflow-visible">
@@ -61,7 +73,6 @@ const Sidebar = () => {
               Documento identificador
             </CommandItem>
             <CommandItem>
-              {" "}
               <FileCheck2 className="sideBarIcon" />
               Vehículo
             </CommandItem>
@@ -92,9 +103,11 @@ const Sidebar = () => {
               <Settings className="sideBarIcon" />
               Ajustes
             </CommandItem>
-            <CommandItem onClick={() => signOut()}>
-              <LogOut className="sideBarIcon" />
-              Cerrar sesion
+            <CommandItem>
+              <button className="flex" onClick={logOutSession}>
+                <LogOut className="sideBarIcon" />
+                Cerrar sesion
+              </button>
             </CommandItem>
           </CommandGroup>
         </CommandList>
