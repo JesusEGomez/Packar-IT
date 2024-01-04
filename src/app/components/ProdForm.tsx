@@ -40,6 +40,7 @@ function ProdForm(props:any) {
         </div>
         <div>
           <input type="text" />
+          hola
         </div>
       </form>
       <Button

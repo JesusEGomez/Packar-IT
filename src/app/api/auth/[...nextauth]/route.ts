@@ -3,9 +3,10 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
-import Profile from "@/models/perfil";
+
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
+import Profile from "@/models/perfil";
 
 const options: NextAuthOptions = {
   providers: [
@@ -22,6 +23,7 @@ const options: NextAuthOptions = {
       async authorize(credentials) {
         const email = credentials?.email;
         const password = credentials?.password!;
+        console.log(email, password);
         try {
           await connectDB();
           const userFound = await User.findOne({ email }).select("+password");
@@ -41,18 +43,6 @@ const options: NextAuthOptions = {
             // Si el perfil no existe, lo creamos
             profile = new Profile({
               userId: userFound._id,
-              driverLicense: {
-                frontPhoto: "",
-                backPhoto: "",
-              },
-              idDocument: {
-                type: "",
-                number: "",
-                frontPhoto: "",
-                backPhoto: "",
-              },
-              city: "",
-              phoneNumber: "",
             });
             await profile.save();
           }

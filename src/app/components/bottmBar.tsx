@@ -6,6 +6,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 const BottmBar = () => {
   const pathName = usePathname();
   useEffect(() => {
@@ -57,6 +58,7 @@ const BottmBar = () => {
         </li>
         <li>
           <button
+            onClick={() => signOut()}
             className={`flex ${
               pathName === "/perfir" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}

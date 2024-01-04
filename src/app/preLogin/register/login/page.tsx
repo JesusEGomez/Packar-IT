@@ -51,14 +51,6 @@ export default function LoginPage() {
       console.log(error);
     }
   };
-  const googleBtn = async () => {
-    console.log('estoy en el pinche btn');
-    
-    const res = await signIn("google", {
-     redirect: false,
-    });
-    navigate.push("/loged");
-  };
 
   return (
     <div className="user-managment-styles items-center justify-center  flex-col">
@@ -135,8 +127,9 @@ export default function LoginPage() {
 
       <Button
         variant={"ghost"}
-        onClick={() => googleBtn()}
-        className="bg-white p-3 m-3 w-fit rounded-full mx-auto"
+        onClick={() => signIn("google")}
+        data-onsuccess="onSignIn"
+        className="bg-white g-signin2  p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
       </Button>
