@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 const BottmBar = () => {
-  const { sideBarControl } = useContext(SidebarContext);
+  const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
   useEffect(() => {
     console.log(pathName);
@@ -18,7 +18,7 @@ const BottmBar = () => {
 
   return (
     <div className="w-screen ">
-      <ul className="flex justify-between px-5 border-t mb-2 pt-2">
+      <ul className="flex z-50 justify-between px-5 border-t mb-2 pt-2">
         <li>
           <button
             className={`flex ${
@@ -63,7 +63,7 @@ const BottmBar = () => {
           <button
             onClick={sideBarControl}
             className={`flex ${
-              pathName === "/profile" ? "text-pink" : "text-slate-600"
+              isOpen ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CgProfile size={30} />
