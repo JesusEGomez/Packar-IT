@@ -1,13 +1,13 @@
 // controllers/user.ts
 import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
-import { ObjectId } from 'mongodb';
 
 
 
-export async function GET(request: NextApiRequest, params: any) {
+
+export async function GET(request: NextRequest, params: any) {
   try {
 
     await connectDB();
