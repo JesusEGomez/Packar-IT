@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { TfiPackage } from "react-icons/tfi";
 import ProdForm from './ProdForm';
+import { any } from 'zod';
 
 const array = [
   {
@@ -27,11 +28,13 @@ export const ProdModal = (props : any) => {
   const openSelectProduct = () => {
     setSelectProduct(true);
   };
-  const closeSelectProduct = () => {
+  const closeSelectProduct = (data:any) => {
+    console.log(data);
+    
     setSelectProduct(false);
   };
-  const close = () => {
-    props.closeModal();
+  const close = (data:any) => {
+    props.closeModal(data);
   };
   return (
     <div className='flex flex-col p-4'>
@@ -49,7 +52,7 @@ export const ProdModal = (props : any) => {
         ))}
       </div>
       <Button
-        onClick={() => close()}
+        onClick={() => close(null)}
         variant={"ghost"}
         className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
       >
