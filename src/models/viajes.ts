@@ -1,6 +1,11 @@
 import { Schema, models, model } from "mongoose";
 
 export const ViajeSchema = new Schema({
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     desde: {
         latitud: {
             type: Number,
