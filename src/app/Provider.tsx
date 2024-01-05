@@ -1,11 +1,17 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { SessionProvider, useSession } from "next-auth/react";
+
 import React from "react";
 import { createContext, useState } from "react";
+import { IUser } from "./interfaces/user.interface";
 
-export const SidebarContext = createContext({
+export interface ISidebarContext {
+  isOpen: boolean;
+  sideBarControl: () => void;
+}
+
+export const SidebarContext = createContext<ISidebarContext>({
   isOpen: false,
   sideBarControl: () => {},
 });
@@ -19,7 +25,7 @@ interface Props {
 
 function Providers({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const pathName = usePathname();
+
   console.log("provider", isOpen);
 
   const sideBarControl = () => {

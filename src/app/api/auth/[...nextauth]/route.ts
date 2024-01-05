@@ -21,9 +21,10 @@ const options: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("credentials", credentials);
         const email = credentials?.email;
         const password = credentials?.password!;
-        console.log(email, password);
+
         try {
           await connectDB();
           const userFound = await User.findOne({ email }).select("+password");
@@ -43,14 +44,24 @@ const options: NextAuthOptions = {
             // Si el perfil no existe, lo creamos
             profile = new Profile({
               userId: userFound._id,
+              city: "no definido",
+              phoneNumber: 0,
+              driverLicense: {
+                frontPhoto: "ruta/de/tu/imagDen/front.jpg",
+                backPhoto: "",
+              },
+              idDocument: {
+                type: "DNI",
+                number: "123456578",
+                frontPhoto: "ruta/de/tu/imagen/front_id.jpg",
+                backPhoto: "jpg",
+              },
             });
             await profile.save();
           }
 
-          const userId = userFound._id;
-
           return {
-            id: userId,
+            id: userFound._id,
             name: userFound.fullname,
             email: userFound.email,
             userId: profile.userId,

@@ -33,12 +33,28 @@ import {
   AccordionTrigger,
 } from "@radix-ui/react-accordion";
 import { AccordionItem } from "@/components/ui/accordion";
+import { IUser } from "../interfaces/user.interface";
 
 const Sidebar = () => {
   const { data: session } = useSession();
-  const [fullUser, setFullUser] = useState();
-  console.log("data de sesion", session);
-  console.log("data de sesion", fullUser);
+  const [fullUser, setFullUser] = useState<IUser>({
+    _id: "",
+    email: "",
+    fullname: "",
+    profile: {
+      _id: "",
+      driverLicense: { backPhoto: "", frontPhoto: "" },
+      idDocument: { backPhoto: "", frontPhoto: "", number: "", type: "" },
+      city: "",
+      phoneNumber: "",
+    },
+  });
+  session &&
+    localStorage.setItem("email", JSON.stringify(session.user?.email!));
+  const datos = localStorage.getItem("email");
+  const localEmail = JSON.parse(datos!);
+  console.log("sesion", session);
+
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -46,28 +62,27 @@ const Sidebar = () => {
   const logOutSession = () => {
     sideBarControl();
     signOut();
+    localStorage.clear();
     if (!session) {
       navigation.push("/preLogin");
     }
   };
 
   const fetchData = async () => {
-    console.log(session?.user?.email);
-    return await fetch(`/api/auth/signup/${session?.user?.email}`, {
+    const email = session?.user?.email || localEmail;
+    return await fetch(`/api/auth/signup/${email}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
   };
+
   useEffect(() => {
-    if (!fullUser) {
-      fetchData().then((data) => {
-        console.log(data);
-        setFullUser(data);
-      });
-    }
-  });
+    fetchData().then((data) => {
+      setFullUser(data);
+    });
+  }, []);
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -94,7 +109,7 @@ const Sidebar = () => {
                     Ciudad
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{}</p>
+                    <p>{fullUser.profile.city}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -107,7 +122,7 @@ const Sidebar = () => {
                     Teléfono
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>012345678</p>
+                    <p>{fullUser.profile.phoneNumber}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -120,7 +135,7 @@ const Sidebar = () => {
                     Documento identificador
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>012345678</p>
+                    <p>{fullUser.profile.idDocument?.number} </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
