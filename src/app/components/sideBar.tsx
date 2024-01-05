@@ -28,6 +28,12 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTrigger,
+} from "@radix-ui/react-accordion";
+import { AccordionItem } from "@/components/ui/accordion";
 
 const Sidebar = () => {
   const { data: session } = useSession();
@@ -61,16 +67,43 @@ const Sidebar = () => {
         <CommandList className="overflow-visible">
           <CommandGroup heading="Datos personales">
             <CommandItem>
-              <Building className="sideBarIcon" />
-              Ciudad
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Building className="sideBarIcon" />
+                    Ciudad
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>Mi casita</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
-              <Phone className="sideBarIcon" />
-              Teléfono
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Phone className="sideBarIcon" />
+                    Teléfono
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>012345678</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
-              <Fingerprint className="sideBarIcon" />
-              Documento identificador
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Fingerprint className="sideBarIcon" />
+                    Documento identificador
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>012345678</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
               <FileCheck2 className="sideBarIcon" />

@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
+import Link from "next/link";
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
@@ -17,14 +18,16 @@ const BottmBar = () => {
     <div className="w-screen ">
       <ul className="flex z-50 justify-between px-5 border-t mb-2 pt-2">
         <li>
-          <button
-            className={`flex ${
-              pathName === "/send" ? "text-pink" : "text-slate-600"
-            } flex-col items-center text-xs`}
-          >
-            <IoSendOutline size={30} />
-            Enviar paquete
-          </button>
+          <Link href={"/loged"}>
+            <button
+              className={`flex ${
+                pathName === "/loged" ? "text-pink" : "text-slate-600"
+              } flex-col items-center text-xs`}
+            >
+              <IoSendOutline size={30} />
+              Enviar paquete
+            </button>
+          </Link>
         </li>
         <li>
           <button
