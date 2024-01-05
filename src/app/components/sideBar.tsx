@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../Provider";
 3;
 import { signOut, useSession } from "next-auth/react";
@@ -36,7 +36,9 @@ import { AccordionItem } from "@/components/ui/accordion";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const [fullUser, setFullUser] = useState();
   console.log("data de sesion", session);
+  console.log("data de sesion", fullUser);
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -49,16 +51,23 @@ const Sidebar = () => {
     }
   };
 
-  // const fetchData = async () => {
-  //   return await fetch("/api/auth/signup", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  // };
-  // const response = await fetchData();
+  const fetchData = async () => {
+    console.log(session?.user?.email);
+    return await fetch(`/api/auth/signup/${session?.user?.email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+  };
+  useEffect(() => {
+    if (!fullUser) {
+      fetchData().then((data) => {
+        console.log(data);
+        setFullUser(data);
+      });
+    }
+  });
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -85,7 +94,7 @@ const Sidebar = () => {
                     Ciudad
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>Mi casita</p>
+                    <p>{}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
