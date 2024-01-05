@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Envio from "@/models/envios";
 import User from "@/models/user";  // Cambiando la importación
 import { connectDB } from "@/libs/mongodb";
+import Producto from "@/models/productos";
 
 export async function POST(request: Request) {
     await connectDB();
@@ -17,6 +18,9 @@ export async function POST(request: Request) {
         if (!user) {
             return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
         }
+
+        const nuevoProducto = new Producto(producto);
+        const savedProducto = await nuevoProducto.save();
 
         const envio = new Envio({ usuario: userId, desde, hasta, cuando, producto });
         const savedEnvio = await envio.save();
