@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
+import Envio from "@/models/envios";
 
 export async function GET(request: NextRequest, params: any) {
   try {
@@ -26,19 +27,20 @@ export async function GET(request: NextRequest, params: any) {
         { status: 404 }
       );
     }
-
-    // Utilizar la referencia userId para obtener el perfil asociado
+    const envios = await Envio.find({ usuario: user._id });
+    
     const profile = await Profile.findOne({ userId: user._id });
 
     // Crear un nuevo objeto con la información del usuario y el perfil
-    const userWithProfile = {
+    const userWithProfileAndEnvios = {
       _id: user._id,
       email: user.email,
       fullname: user.fullname,
       profile: profile ? { ...profile.toObject() } : null,
-    };
+      envios: envios.map(envio => envio.toObject()),
+  };
 
-    return NextResponse.json(userWithProfile);
+    return NextResponse.json(userWithProfileAndEnvios);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
