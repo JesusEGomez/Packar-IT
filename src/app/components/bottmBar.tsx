@@ -6,20 +6,20 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
+
+import { useContext } from "react";
+import { SidebarContext } from "../Provider";
 const BottmBar = () => {
+  const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
-  useEffect(() => {
-    console.log(pathName);
-  }, []);
 
   return (
-    <div className="w-screen">
-      <ul className="flex justify-between px-5 border-t mb-2 pt-2">
+    <div className="w-screen ">
+      <ul className="flex z-50 justify-between px-5 border-t mb-2 pt-2">
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/send" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoSendOutline size={30} />
@@ -29,7 +29,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/shipments" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CiDeliveryTruck size={30} />
@@ -39,7 +39,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/travel" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoMdAddCircleOutline size={30} />
@@ -49,7 +49,7 @@ const BottmBar = () => {
         <li>
           <button
             className={`flex ${
-              pathName === "/loged" ? "text-pink" : "text-slate-600"
+              pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <MdOutlineMessage size={30} />
@@ -58,9 +58,9 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            onClick={() => signOut()}
+            onClick={sideBarControl}
             className={`flex ${
-              pathName === "/perfir" ? "text-pink" : "text-slate-600"
+              isOpen ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CgProfile size={30} />

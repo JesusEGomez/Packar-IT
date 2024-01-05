@@ -110,9 +110,7 @@ const Loged = () => {
           </button>
         </div>
       </div>
-      <div className="absolute bottom-0">
-        <BottmBar />
-      </div>
+
       {fromModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">

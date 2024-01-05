@@ -14,3 +14,12 @@
 .user-managment-styles {
   @apply h-screen w-full flex bg-white;
 }
+.sideBarClose {
+  @apply fixed  right-0  bottom-0  translate-x-0 z-20 w-full  md:w-1/5 transition-transform  h-screen bg-white;
+}
+.sideBarOpen {
+  @apply fixed  right-0 bottom-0  translate-y-full z-20 w-full md:w-1/5 transition-transform  h-screen bg-white;
+}
+.sideBarIcon {
+  @apply h-4 w-4 mr-2;
+}

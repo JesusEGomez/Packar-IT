@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+
 function layout({ children }: React.PropsWithChildren) {
   const navigation = useRouter();
   const { data: session } = useSession();
