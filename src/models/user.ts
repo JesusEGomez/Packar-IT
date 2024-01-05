@@ -18,7 +18,11 @@ export const UserSchema = new Schema({
         required: [true, "El nombre es obligatorio"],
         minLength: [3, "El nombre debe tener al menos 3 caracteres"],
         maxLength: [50, "El nombre debe tener como máximo 50 caracteres"]
-    }
+    },
+    profile: {
+        type: Schema.Types.ObjectId,
+        ref: "Profile"
+      }
 })
 
  const User = models.User || model("User", UserSchema);
