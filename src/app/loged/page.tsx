@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import BottmBar from "../components/bottmBar";
+import React, { useEffect, useState } from "react";
 import logo from "../../img/undraw_Deliveries_2r4y.png";
 import Image from "next/image";
 import { RiMapPinAddLine } from "react-icons/ri";
@@ -11,18 +10,29 @@ import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
 import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
+import { useRouter } from "next/navigation";
+
+type prod = {
+  types: any;
+  name: string;
+  size: any;
+  weight: any;
+}
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
-  const [date, setDate] = React.useState<Date | null>(null);
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [search, setSearch] = useState(false);
 
   const fromHandler = () => {
     setFromModalOpen(true);
+    
   };
 
   const closeModal = (fromSelected: any) => {
@@ -50,9 +60,33 @@ const Loged = () => {
   const productsHandler = () => {
     setProdModal(true);
   };
-  const closeProdModal = () => {
+  const closeProdModal = (selectedProductData : any) => {
     setProdModal(false);
+    setSelectedProductData(selectedProductData);
+    console.log(selectedProductData);
   };
+  const navigate = useRouter();
+  const searchHandler = async () => {
+  console.log(from)
+        const response = await fetch('/api/auth/envio',{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          desde: from,
+          hasta: to,
+          cuando: date,
+          producto: selectedProductData,
+        })
+      });
+      const data = await response.json();
+      navigate.push("/selectdriver");
+  };
+  useEffect(()=>{
+    from && to && date && selectedProductData && setSearch(true);
+  },[from, to, date, selectedProductData]);
+  
   return (
     <div className="flex flex-col items-center bg-pink">
       <Image
@@ -91,8 +125,8 @@ const Loged = () => {
             {calendarOpen && (
               <Calendar
                 mode="single"
-                selected={date!}
-                onSelect={() => setDate}
+                selected={date}
+                onSelect={setDate}
                 className="rounded-md border"
                 disabled={(date: Date) => date < new Date()}
               />
@@ -103,9 +137,12 @@ const Loged = () => {
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
           >
             <BsBoxSeam size={30} />
-            Producto
+            {selectedProductData ? `${selectedProductData.name}`: 'Producto'}
           </button>
-          <button className="bg-pink w-full text-white font-bold rounded-b-xl p-3">
+          <button 
+          onClick={() => searchHandler()}
+          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          disabled={!search}>
             Buscar
           </button>
         </div>

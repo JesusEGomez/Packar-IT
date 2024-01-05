@@ -1,21 +1,21 @@
 import { Schema, models, model } from "mongoose";
 
 const ProductoSchema = new Schema({
-    categoria: {
+    types: {
         type: String,
         enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje"],
         required: true,
     },
-    nombre: {
+    name: {
         type: String,
         required: [true, "El nombre del producto es obligatorio"],
     },
-    tamaño: {
+    size: {
         type: String,
         enum: ["64x30cm", "81x37cm", "67x44cm"],
         required: true,
     },
-    peso: {
+    weight: {
         type: String,
         enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,
