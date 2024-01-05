@@ -1,14 +1,12 @@
 // controllers/user.ts
-import { NextResponse , NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
-
-
-
+import Profile from "@/models/perfil";
+import { use } from "react";
 
 export async function GET(request: NextRequest, params: any) {
   try {
-
     await connectDB();
     console.log(params);
     const userId = params.params.id;
@@ -21,10 +19,7 @@ export async function GET(request: NextRequest, params: any) {
       );
     }
 
-    const user = await User.findById(userId);
-
-
-    console.log(user);
+    const user = await User.findOne({ email: userId });
 
     if (!user) {
       return NextResponse.json(
@@ -33,7 +28,7 @@ export async function GET(request: NextRequest, params: any) {
       );
     }
 
-    return NextResponse.json(user);
+    return NextResponse.json(fullUser);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

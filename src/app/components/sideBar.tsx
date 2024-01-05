@@ -1,5 +1,5 @@
 "use client";
-import { FaWindowClose } from "react-icons/fa";
+
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 3;
@@ -11,7 +11,6 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandInput,
 } from "@/components/ui/command";
 import {
   Phone,
@@ -28,9 +27,16 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionTrigger,
+} from "@radix-ui/react-accordion";
+import { AccordionItem } from "@/components/ui/accordion";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  console.log("data de sesion", session);
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -42,6 +48,17 @@ const Sidebar = () => {
       navigation.push("/preLogin");
     }
   };
+
+  // const fetchData = async () => {
+  //   return await fetch("/api/auth/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  // };
+  // const response = await fetchData();
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -61,16 +78,43 @@ const Sidebar = () => {
         <CommandList className="overflow-visible">
           <CommandGroup heading="Datos personales">
             <CommandItem>
-              <Building className="sideBarIcon" />
-              Ciudad
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Building className="sideBarIcon" />
+                    Ciudad
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>Mi casita</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
-              <Phone className="sideBarIcon" />
-              Teléfono
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Phone className="sideBarIcon" />
+                    Teléfono
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>012345678</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
-              <Fingerprint className="sideBarIcon" />
-              Documento identificador
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex">
+                    <Fingerprint className="sideBarIcon" />
+                    Documento identificador
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>012345678</p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
             <CommandItem>
               <FileCheck2 className="sideBarIcon" />
