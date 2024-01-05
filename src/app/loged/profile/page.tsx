@@ -35,16 +35,6 @@ function Profile() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setLoading(true);
-    const fetchData = async () => {
-      return await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-    };
     console.log(values);
   }
   return (
