@@ -57,10 +57,9 @@ export async function PUT(request: Request) {
 
     // Obtén el perfil actualizado con los detalles del usuario
     profile = await Profile.findById(profile._id).populate("userId", "fullname email");
-
     console.log(profile);
+    return NextResponse.json({ profile, userId });
 
-    return NextResponse.json(profile);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
