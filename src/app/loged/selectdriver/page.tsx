@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-function page() {
+function Page() {
   const [viajes, setViajes] = useState<[] | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -26,4 +26,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
