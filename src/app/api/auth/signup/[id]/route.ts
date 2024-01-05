@@ -1,6 +1,5 @@
 // controllers/user.ts
-import { NextResponse } from "next/server";
-import { NextRequest } from "next";
+import { NextResponse , NextRequest } from "next/server";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
 
