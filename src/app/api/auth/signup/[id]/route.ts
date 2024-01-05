@@ -1,9 +1,7 @@
-// controllers/user.ts
 import { NextResponse, NextRequest } from "next/server";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
-import { use } from "react";
 
 export async function GET(request: NextRequest, params: any) {
   try {
@@ -19,6 +17,7 @@ export async function GET(request: NextRequest, params: any) {
       );
     }
 
+    // Buscar al usuario
     const user = await User.findOne({ email: userId });
 
     if (!user) {
@@ -28,7 +27,18 @@ export async function GET(request: NextRequest, params: any) {
       );
     }
 
-    return NextResponse.json(fullUser);
+    // Utilizar la referencia userId para obtener el perfil asociado
+    const profile = await Profile.findOne({ userId: user._id });
+
+    // Crear un nuevo objeto con la información del usuario y el perfil
+    const userWithProfile = {
+      _id: user._id,
+      email: user.email,
+      fullname: user.fullname,
+      profile: profile ? { ...profile.toObject() } : null,
+    };
+
+    return NextResponse.json(userWithProfile);
   } catch (error) {
     console.error(error);
     return NextResponse.json(

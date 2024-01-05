@@ -47,8 +47,10 @@ const options: NextAuthOptions = {
             await profile.save();
           }
 
+          const userId = userFound._id;
+
           return {
-            id: userFound._id,
+            id: userId,
             name: userFound.fullname,
             email: userFound.email,
             userId: profile.userId,
