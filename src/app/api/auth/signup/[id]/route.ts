@@ -1,14 +1,10 @@
 // controllers/user.ts
-import { NextResponse , NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
 
-
-
-
 export async function GET(request: NextRequest, params: any) {
   try {
-
     await connectDB();
     console.log(params);
     const userId = params.params.id;
@@ -22,7 +18,6 @@ export async function GET(request: NextRequest, params: any) {
     }
 
     const user = await User.findById(userId);
-
 
     console.log(user);
 

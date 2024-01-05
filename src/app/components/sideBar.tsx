@@ -1,5 +1,5 @@
 "use client";
-import { FaWindowClose } from "react-icons/fa";
+
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 3;
@@ -11,7 +11,6 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandInput,
 } from "@/components/ui/command";
 import {
   Phone,
@@ -37,6 +36,7 @@ import { AccordionItem } from "@/components/ui/accordion";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  console.log("data de sesion", session);
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -48,6 +48,17 @@ const Sidebar = () => {
       navigation.push("/preLogin");
     }
   };
+
+  // const fetchData = async () => {
+  //   return await fetch("/api/auth/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  // };
+  // const response = await fetchData();
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
