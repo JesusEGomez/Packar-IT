@@ -1,14 +1,20 @@
-// controllers/user.js
+// controllers/user.ts
 import { NextResponse } from "next/server";
 import { NextApiRequest } from "next";
 import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
+import { ObjectId } from 'mongodb';
 
-export async function GET(request: NextApiRequest) {
+
+
+export async function GET(request: NextApiRequest, params: any) {
   try {
-    await connectDB();
 
-    const userId = request.query?.userId;
+    await connectDB();
+    console.log(params);
+    const userId = params.params.id;
+    console.log(userId);
+
     if (!userId) {
       return NextResponse.json(
         { message: "Se requiere el ID del usuario en la consulta" },
@@ -17,6 +23,10 @@ export async function GET(request: NextApiRequest) {
     }
 
     const user = await User.findById(userId);
+
+
+    console.log(user);
+
     if (!user) {
       return NextResponse.json(
         { message: "Usuario no encontrado" },

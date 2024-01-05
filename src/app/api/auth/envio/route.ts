@@ -65,3 +65,25 @@ export async function PUT(request: Request) {
         return NextResponse.json({ message: "Error en la actualización del envío" }, { status: 500 });
     }
 }
+
+export async function DELETE(request: Request) {
+    try {
+        await connectDB();
+        const { id } = await request.json();
+
+        if (!id) {
+            return NextResponse.json({ message: "Se requiere el ID para la eliminación" }, { status: 400 });
+        }
+
+        const deletedEnvio = await Envio.findByIdAndDelete(id);
+
+        if (!deletedEnvio) {
+            return NextResponse.json({ message: "Envío no encontrado" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Envío eliminado correctamente" });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Error en la eliminación del envío" }, { status: 500 });
+    }
+}
