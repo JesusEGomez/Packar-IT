@@ -1,6 +1,11 @@
 import { Schema, models, model } from "mongoose";
 
 export const EnvioSchema = new Schema({
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     desde: {
         latitud: {
             type: Number,

@@ -1,18 +1,25 @@
+// controllers/envio.js
 import { NextResponse } from "next/server";
-import Envio from "@/models/envios";  // Cambiando la importación
+import Envio from "@/models/envios";
+import User from "@/models/user";  // Cambiando la importación
 import { connectDB } from "@/libs/mongodb";
 
 export async function POST(request: Request) {
     await connectDB();
-    const { desde, hasta, cuando, producto } = await request.json();
+    const { userId, desde, hasta, cuando, producto } = await request.json();
 
-    if (!desde || !hasta || !cuando || !producto) {
+    if (!userId || !desde || !hasta || !cuando || !producto) {
         return NextResponse.json({ message: "Todos los campos son obligatorios" });
     }
 
     try {
-        const envio = new Envio({ desde, hasta, cuando, producto });  
-        const savedEnvio = await envio.save();  
+        const user = await User.findById(userId);
+        if (!user) {
+            return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
+        }
+
+        const envio = new Envio({ usuario: userId, desde, hasta, cuando, producto });
+        const savedEnvio = await envio.save();
 
         console.log(savedEnvio);
 
@@ -29,11 +36,11 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
     try {
         await connectDB();
-        const envios = await Envio.find();  
-        return NextResponse.json(envios);  
+        const envios = await Envio.find().populate("usuario", "email fullname");
+        return NextResponse.json(envios);
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Error al obtener los envíos" });  
+        return NextResponse.json({ message: "Error al obtener los envíos" });
     }
 }
 
@@ -56,5 +63,27 @@ export async function PUT(request: Request) {
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Error en la actualización del envío" }, { status: 500 });
+    }
+}
+
+export async function DELETE(request: Request) {
+    try {
+        await connectDB();
+        const { id } = await request.json();
+
+        if (!id) {
+            return NextResponse.json({ message: "Se requiere el ID para la eliminación" }, { status: 400 });
+        }
+
+        const deletedEnvio = await Envio.findByIdAndDelete(id);
+
+        if (!deletedEnvio) {
+            return NextResponse.json({ message: "Envío no encontrado" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Envío eliminado correctamente" });
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Error en la eliminación del envío" }, { status: 500 });
     }
 }
