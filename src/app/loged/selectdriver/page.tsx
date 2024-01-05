@@ -12,7 +12,8 @@ function page() {
   }, []);
   return (
     <div>
-      
+      <div></div>
+      <h1>Solicita tu envío a un viajero</h1>
       {viajes &&
         viajes.map((viaje: any) => (
           <div key={viaje.id}>
