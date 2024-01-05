@@ -2,21 +2,21 @@ import { Schema, models, model } from "mongoose";
 
 export const EnvioSchema = new Schema({
     desde: {
-        latitud: {
+        lat: {
             type: Number,
             required: true,
         },
-        longitud: {
+        lng: {
             type: Number,
             required: true,
         },
     },
     hasta: {
-        latitud: {
+        lat: {
             type: Number,
             required: true,
         },
-        longitud: {
+        lng: {
             type: Number,
             required: true,
         },
@@ -30,7 +30,7 @@ export const EnvioSchema = new Schema({
         required: [true, "La fecha de envío es obligatoria"],
     },
     producto: {
-        nombre: {
+        name: {
             type: String,
             required: [true, "El nombre del producto es obligatorio"],
         }

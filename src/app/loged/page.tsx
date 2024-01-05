@@ -34,6 +34,7 @@ const Loged = () => {
 
   const fromHandler = () => {
     setFromModalOpen(true);
+    
   };
 
   const closeModal = (fromSelected: any) => {
@@ -68,6 +69,7 @@ const Loged = () => {
   };
   const navigate = useRouter();
   const searchHandler = async () => {
+  console.log(from)
         const response = await fetch('/api/auth/envio',{
         headers: {
           'Content-Type': 'application/json',
@@ -125,8 +127,8 @@ const Loged = () => {
             {calendarOpen && (
               <Calendar
                 mode="single"
-                selected={date!}
-                onSelect={() => setDate(date)}
+                selected={date}
+                onSelect={setDate}
                 className="rounded-md border"
                 disabled={(date: Date) => date < new Date()}
               />
