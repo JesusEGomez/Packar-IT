@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import BottmBar from "../components/bottmBar";
 import logo from "../../img/undraw_Deliveries_2r4y.png";
 import Image from "next/image";
 import { RiMapPinAddLine } from "react-icons/ri";
@@ -11,7 +10,6 @@ import MapComponent from "../components/MapComponent";
 import { getFormattedAddress } from "../api/components/components";
 import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
-import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 type prod = {
@@ -26,7 +24,7 @@ const Loged = () => {
   const [toModalOpen, setToModalOpen] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
-  const [date, setDate] = React.useState<Date | null>(null);
+  const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
   const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
