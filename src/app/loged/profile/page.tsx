@@ -39,11 +39,11 @@ function Profile() {
 
   return (
     <div className="h-screen w-full flex justify-center items-center">
-      <div className="max-w-md">
         <h2 className="mb-5 text-2xl text-center">Modificar Perfil</h2>
-        <div className="flex flex-col">
+      <div className="max-w-md">
+        <div className="flex md:flex-col">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='flex '>
               <FormField
                 control={form.control}
                 name="nombre"
@@ -51,7 +51,7 @@ function Profile() {
                   <FormItem className="text-center">
                     <FormLabel>Nombre</FormLabel>
                     <FormControl className="w-full">
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Joe" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -63,7 +63,7 @@ function Profile() {
                   <FormItem className="text-center">
                     <FormLabel>Email</FormLabel>
                     <FormControl className="w-full">
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="ejemplo@ejemplo.com" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -75,7 +75,7 @@ function Profile() {
                   <FormItem className="text-center">
                     <FormLabel>Teléfono</FormLabel>
                     <FormControl className="w-full">
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="5423313423" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -87,7 +87,7 @@ function Profile() {
                   <FormItem className="text-center">
                     <FormLabel>Ciudad</FormLabel>
                     <FormControl className="w-full">
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Madrid" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
