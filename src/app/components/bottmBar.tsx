@@ -5,7 +5,7 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
@@ -13,6 +13,7 @@ import Link from "next/link";
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
+  const navigate = useRouter();
 
   return (
     <div className="w-screen ">
@@ -31,6 +32,7 @@ const BottmBar = () => {
         </li>
         <li>
           <button
+          onClick={() => navigate.push('/mienvios')}
             className={`flex ${
               pathName === "/shipments" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
