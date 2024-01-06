@@ -21,7 +21,32 @@ type Viaje = {
 };
 
 const viajes: Viaje[] = [
-  // ... (tus datos existentes)
+    {
+        desde: { lat: 40.7128, lng: -74.0060 }, // Coordenadas de Nueva York como ejemplo
+        hasta: { lat: 34.0522, lng: -118.2437 }, // Coordenadas de Los Ángeles como ejemplo
+        cuando: '2024-01-05',
+        horaSalida: '08:00 AM',
+        horaLlegada: '05:00 PM',
+        eresFlexible: true,
+        viajero: {
+          nombre: 'John Doe',
+          foto: 'URL_de_la_imagen', // Reemplaza con la URL de la imagen del viajero
+        },
+        precio: '50',
+      },
+      {
+        desde: { lat: 40.7128, lng: -74.0060 }, // Coordenadas de Nueva York como ejemplo
+        hasta: { lat: 34.0522, lng: -118.2437 }, // Coordenadas de Los Ángeles como ejemplo
+        cuando: '2024-01-05',
+        horaSalida: '08:00 AM',
+        horaLlegada: '05:00 PM',
+        eresFlexible: true,
+        viajero: {
+          nombre: 'John Doe',
+          foto: 'URL_de_la_imagen', // Reemplaza con la URL de la imagen del viajero
+        },
+        precio: '50',
+      },
 ];
 
 const MisEnvios: React.FC = () => {
