@@ -240,7 +240,7 @@ const CarouselNext = React.forwardRef<
         </Button>
       ) : (
         <Link
-          href={"/preLogin"}
+          href={"/prelogin"}
           className={buttonVariants({ class: "h-8 w-16 rounded-md" })}
         >
           Go!
