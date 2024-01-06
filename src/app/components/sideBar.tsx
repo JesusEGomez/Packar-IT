@@ -59,11 +59,11 @@ const Sidebar = () => {
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
   console.log(isOpen);
-  const logOutSession = () => {
-    sideBarControl();
-    signOut();
+  const logOutSession = async () => {
+    await signOut();
     localStorage.clear();
     if (!session) {
+      sideBarControl();
       navigation.push("/prelogin");
     }
   };
