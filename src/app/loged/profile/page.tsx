@@ -22,7 +22,7 @@ function Profile() {
     telefono: z.number(),
     ciudad: z.string(),
   });
-  // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,71 +33,70 @@ function Profile() {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
+
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
-      <h2 className="mb-5">Modificar Perfil</h2>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col  "
-        >
-          <FormField
-            control={form.control}
-            name="nombre"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="telefono"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Teléfono</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="ciudad"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Ciudad</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <Button className="bg-pink mt-3" type="submit">
-            Modificar
-          </Button>
-        </form>
-      </Form>
+    <div className="h-screen w-full flex justify-center items-center">
+      <div className="max-w-md">
+        <h2 className="mb-5 text-2xl">Modificar Perfil</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="nombre"
+              render={({ field }) => (
+                <FormItem className="text-center">
+                  <FormLabel>Nombre</FormLabel>
+                  <FormControl className="w-full">
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="text-center">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl className="w-full">
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="telefono"
+              render={({ field }) => (
+                <FormItem className="text-center">
+                  <FormLabel>Teléfono</FormLabel>
+                  <FormControl className="w-full">
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="ciudad"
+              render={({ field }) => (
+                <FormItem className="text-center">
+                  <FormLabel>Ciudad</FormLabel>
+                  <FormControl className="w-full">
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Button className="col-span-2 bg-pink mt-3" type="submit">
+              Modificar
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }
