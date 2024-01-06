@@ -55,7 +55,7 @@ const MisEnvios: React.FC = () => {
 
   return (
     <div className='flex flex-col'>
-      <div className='m-10'>
+      {/* <div className='m-10'>
         <button onClick={() => navigate.push('/loged')}>
           <FaArrowLeft />
         </button>
@@ -110,7 +110,7 @@ const MisEnvios: React.FC = () => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
