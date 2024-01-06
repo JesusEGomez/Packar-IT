@@ -21,43 +21,42 @@ type Viaje = {
 };
 
 const viajesDisponibles: Viaje[] = [
-    {
-        desde: { lat: 40.7128, lng: -74.0060 }, // Coordenadas de Nueva York como ejemplo
-        hasta: { lat: 34.0522, lng: -118.2437 }, // Coordenadas de Los Ángeles como ejemplo
-        cuando: '2024-01-05',
-        horaSalida: '08:00 AM',
-        horaLlegada: '05:00 PM',
-        eresFlexible: true,
-        viajero: {
-          nombre: 'John Doe',
-          foto: 'URL_de_la_imagen', // Reemplaza con la URL de la imagen del viajero
-        },
-        precio: '50',
-      },
-      {
-        desde: { lat: 40.7128, lng: -74.0060 }, // Coordenadas de Nueva York como ejemplo
-        hasta: { lat: 34.0522, lng: -118.2437 }, // Coordenadas de Los Ángeles como ejemplo
-        cuando: '2024-01-05',
-        horaSalida: '08:00 AM',
-        horaLlegada: '05:00 PM',
-        eresFlexible: true,
-        viajero: {
-          nombre: 'John Doe',
-          foto: 'URL_de_la_imagen', // Reemplaza con la URL de la imagen del viajero
-        },
-        precio: '50',
-      },
+  {
+    desde: { lat: 40.7128, lng: -74.0060 },
+    hasta: { lat: 34.0522, lng: -118.2437 },
+    cuando: '2024-01-05',
+    horaSalida: '08:00 AM',
+    horaLlegada: '05:00 PM',
+    eresFlexible: true,
+    viajero: {
+      nombre: 'John Doe',
+      foto: 'URL_de_la_imagen',
+    },
+    precio: '50',
+  },
+  {
+    desde: { lat: 40.7128, lng: -74.0060 },
+    hasta: { lat: 34.0522, lng: -118.2437 },
+    cuando: '2024-01-05',
+    horaSalida: '08:00 AM',
+    horaLlegada: '05:00 PM',
+    eresFlexible: true,
+    viajero: {
+      nombre: 'John Doe',
+      foto: 'URL_de_la_imagen',
+    },
+    precio: '50',
+  },
 ];
 
 const MisEnvios: React.FC = () => {
-  //const [viajesDisponibles, setViajesDisponibles] = useState<Viaje[]>(viajes);
   const navigate = useRouter();
 
   return (
     <div className='flex flex-col'>
-      {/* <div className='m-10'>
-        <button onClick={() => navigate.push('/loged')}>
-          <FaArrowLeft />
+      <div className='m-10'>
+        <button onClick={() => navigate.push('/loged')} className='flex items-center'>
+          <FaArrowLeft className='mr-2' />
         </button>
       </div>
       <div className='flex flex-col p-4 items-center'>
@@ -94,7 +93,9 @@ const MisEnvios: React.FC = () => {
               </div>
               <div className='flex items-center mt-2'>
                 <GiPathDistance
-                  className={`{${viaje.eresFlexible} `? 'text-pink' : 'text-black'}
+                  className={`${
+                    viaje.eresFlexible ? 'text-pink' : 'text-black'
+                  }`}
                   size={50}
                 />
                 <div className='ml-2'>
@@ -110,7 +111,7 @@ const MisEnvios: React.FC = () => {
             </div>
           ))}
         </div>
-      )} */}
+      )}
     </div>
   );
 };
