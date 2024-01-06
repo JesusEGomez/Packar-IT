@@ -81,7 +81,7 @@ const Loged = () => {
         })
       });
       const data = await response.json();
-      navigate.push("/selectdriver");
+      navigate.push("/loged/selectdriver");
   };
   useEffect(()=>{
     from && to && date && selectedProductData && setSearch(true);
