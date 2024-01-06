@@ -37,6 +37,7 @@ import { IUser } from "../interfaces/user.interface";
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const [localEmail, setLocalEmail] = useState();
   const [fullUser, setFullUser] = useState<IUser>({
     _id: "",
     email: "",
@@ -51,8 +52,7 @@ const Sidebar = () => {
   });
   session &&
     localStorage.setItem("email", JSON.stringify(session.user?.email!));
-  const datos = localStorage.getItem("email");
-  const localEmail = JSON.parse(datos!);
+
   console.log("sesion", session);
 
   const navigation = useRouter();
@@ -82,6 +82,9 @@ const Sidebar = () => {
     fetchData().then((data) => {
       setFullUser(data);
     });
+    const datos = localStorage.getItem("email");
+    const localEmail = JSON.parse(datos!);
+    setLocalEmail(localEmail);
   }, []);
 
   return (
