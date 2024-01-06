@@ -9,7 +9,7 @@ function PreLogin() {
         Aprovecha el viaje de otra persona para enviar lo que necesites.
       </h2>
       <div className="flex md:w-1/4 flex-col">
-        <Link className={buttonVariants()} href={"preLogin/register"}>
+        <Link className={buttonVariants()} href={"prelogin/register"}>
           Crear una cuenta
         </Link>
         <Link
@@ -17,7 +17,7 @@ function PreLogin() {
             class: "bg-white mt-2 text-black",
             variant: "ghost",
           })}
-          href={"preLogin/register/login"}
+          href={"prelogin/register/login"}
         >
           Iniciar sesion
         </Link>
