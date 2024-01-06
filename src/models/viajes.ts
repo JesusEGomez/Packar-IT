@@ -7,6 +7,8 @@ export const ViajeSchema = new Schema({
         required: true,
     },
     desde: {
+        pais: String,
+        ciudad: String,
         latitud: {
             type: Number,
             required: true,
@@ -17,6 +19,8 @@ export const ViajeSchema = new Schema({
         },
     },
     hasta: {
+        pais: String,
+        ciudad: String,
         latitud: {
             type: Number,
             required: true,
@@ -45,6 +49,13 @@ export const ViajeSchema = new Schema({
     eresFlexible: {
         type: Boolean,
         default: false, // Puedes establecer el valor predeterminado según tus necesidades
+    },
+    estado: {
+        type: Boolean
+    },
+    precio: {
+        type: Number,
+        required: true,
     },
 });
 
