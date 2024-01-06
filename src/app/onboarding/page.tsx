@@ -29,7 +29,7 @@ function onboarding() {
 
         <div className=" flex h-full align-bottom mt-28 justify-between m-2  ">
           <Link
-            href={"/preLogin"}
+            href={"/prelogin"}
             className={buttonVariants({
               class: "text-white",
               variant: "ghost",
