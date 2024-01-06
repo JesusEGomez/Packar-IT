@@ -27,7 +27,7 @@ function onboarding() {
           </CarouselItem>
         </CarouselContent>
 
-        <div className=" flex h-full align-bottom mt-28 justify-between m-2  ">
+        <div className="flex h-full align-bottom mt-28 justify-between m-2  ">
           <Link
             href={"/prelogin"}
             className={buttonVariants({
