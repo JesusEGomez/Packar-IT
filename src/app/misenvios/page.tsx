@@ -20,7 +20,7 @@ type Viaje = {
   precio: string;
 };
 
-const viajes: Viaje[] = [
+const viajesDisponibles: Viaje[] = [
     {
         desde: { lat: 40.7128, lng: -74.0060 }, // Coordenadas de Nueva York como ejemplo
         hasta: { lat: 34.0522, lng: -118.2437 }, // Coordenadas de Los Ángeles como ejemplo
@@ -50,7 +50,7 @@ const viajes: Viaje[] = [
 ];
 
 const MisEnvios: React.FC = () => {
-  const [viajesDisponibles, setViajesDisponibles] = useState<Viaje[]>(viajes);
+  //const [viajesDisponibles, setViajesDisponibles] = useState<Viaje[]>(viajes);
   const navigate = useRouter();
 
   return (
