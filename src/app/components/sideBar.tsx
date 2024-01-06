@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../Provider";
 3;
 import { signOut, useSession } from "next-auth/react";
@@ -33,10 +33,28 @@ import {
   AccordionTrigger,
 } from "@radix-ui/react-accordion";
 import { AccordionItem } from "@/components/ui/accordion";
+import { IUser } from "../interfaces/user.interface";
 
 const Sidebar = () => {
   const { data: session } = useSession();
-  console.log("data de sesion", session);
+  const [localEmail, setLocalEmail] = useState();
+  const [fullUser, setFullUser] = useState<IUser>({
+    _id: "",
+    email: "",
+    fullname: "",
+    profile: {
+      _id: "",
+      driverLicense: { backPhoto: "", frontPhoto: "" },
+      idDocument: { backPhoto: "", frontPhoto: "", number: "", type: "" },
+      city: "",
+      phoneNumber: "",
+    },
+  });
+  session &&
+    localStorage.setItem("email", JSON.stringify(session.user?.email!));
+
+  console.log("sesion", session);
+
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -44,21 +62,30 @@ const Sidebar = () => {
   const logOutSession = () => {
     sideBarControl();
     signOut();
+    localStorage.clear();
     if (!session) {
       navigation.push("/preLogin");
     }
   };
 
-  // const fetchData = async () => {
-  //   return await fetch("/api/auth/signup", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   });
-  // };
-  // const response = await fetchData();
+  const fetchData = async () => {
+    const email = session?.user?.email || localEmail;
+    return await fetch(`/api/auth/signup/${email}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+  };
+
+  useEffect(() => {
+    fetchData().then((data) => {
+      setFullUser(data);
+    });
+    const datos = localStorage.getItem("email");
+    const localEmail = JSON.parse(datos!);
+    setLocalEmail(localEmail);
+  }, []);
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -85,7 +112,7 @@ const Sidebar = () => {
                     Ciudad
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>Mi casita</p>
+                    <p>{fullUser.profile.city}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -98,7 +125,7 @@ const Sidebar = () => {
                     Teléfono
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>012345678</p>
+                    <p>{fullUser.profile.phoneNumber}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -111,7 +138,7 @@ const Sidebar = () => {
                     Documento identificador
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>012345678</p>
+                    <p>{fullUser.profile.idDocument?.number} </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

@@ -6,24 +6,21 @@ import User from "@/models/user";
 
 export async function PUT(request: Request) {
   await connectDB();
-  const {
-    userId,
-    email,
-    driverLicense,
-    idDocument,
-    city,
-    phoneNumber,
-  } = await request.json();
+  const { userId, email, driverLicense, idDocument, city, phoneNumber } =
+    await request.json();
 
-  if (!userId || !driverLicense || !idDocument || !city || !phoneNumber) {
-    return NextResponse.json({ message: "Todos los campos son obligatorios" });
+  if (!userId) {
+    return NextResponse.json({ message: "Id requerido" });
   }
 
   try {
     // Obtén el email del usuario utilizando la referencia al modelo de usuario
     const user = await User.findById(userId);
     if (!user) {
-      return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Usuario no encontrado" },
+        { status: 404 }
+      );
     }
 
     const userEmail = user.email || "CorreoNoDefinido";
@@ -56,10 +53,12 @@ export async function PUT(request: Request) {
     }
 
     // Obtén el perfil actualizado con los detalles del usuario
-    profile = await Profile.findById(profile._id).populate("userId", "fullname email");
+    profile = await Profile.findById(profile._id).populate(
+      "userId",
+      "fullname email"
+    );
     console.log(profile);
     return NextResponse.json({ profile, userId });
-
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
@@ -73,12 +72,15 @@ export async function PUT(request: Request) {
 }
 export async function GET(request: Request) {
   try {
-    const profiles = await Profile.find().populate({
-      path: "userId",
-      select: "email fullname",
-    }).populate("driverLicense").populate("idDocument");
+    const profiles = await Profile.find()
+      .populate({
+        path: "userId",
+        select: "email fullname",
+      })
+      .populate("driverLicense")
+      .populate("idDocument");
 
-    const profilesWithUserDetails = profiles.map(profile => {
+    const profilesWithUserDetails = profiles.map((profile) => {
       return {
         _id: profile._id,
         userId: {
