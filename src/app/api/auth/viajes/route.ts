@@ -12,11 +12,11 @@ interface RequestWithJson extends Request {
 export async function POST(request: RequestWithJson) {
     await connectDB();
 
-    const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio } = await request.json();
+    const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio , productos} = await request.json();
 
-    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio)
+    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio, productos)
 
-    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio) {
+    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio || !productos) {
         const missingFields = [];
 
         if (!userId) missingFields.push("userId");
@@ -26,6 +26,7 @@ export async function POST(request: RequestWithJson) {
         if (!horaSalida) missingFields.push("horaSalida");
         if (!horaLlegada) missingFields.push("horaLlegada");
         if (!precio) missingFields.push("precio");
+        if (!productos) missingFields.push("productos");
 
         return NextResponse.json({
             message: `Faltan campos obligatorios: ${missingFields.join(", ")}`,
@@ -63,10 +64,11 @@ export async function POST(request: RequestWithJson) {
             hasta,
             cuando,
             horaSalida, 
-            horaLlegada, // Puedes ajustar esto según tus necesidades
-            eresFlexible, // Puedes ajustar esto según tus necesidades
-            estado: false, // Puedes ajustar esto según tus necesidades
-            precio, // Puedes ajustar esto según tus necesidades
+            horaLlegada, 
+            eresFlexible, 
+            estado: false, 
+            precio, 
+            productos,
         });
         const savedViaje = await nuevoViaje.save();
 
