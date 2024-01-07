@@ -14,6 +14,8 @@ export async function POST(request: RequestWithJson) {
 
     const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio } = await request.json();
 
+    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio)
+
     if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio) {
         const missingFields = [];
 
@@ -31,13 +33,13 @@ export async function POST(request: RequestWithJson) {
     }
 
     // Validación para campos dentro de 'desde'
-    if (!desde.pais || !desde.ciudad || !desde.latitud || !desde.longitud) {
-        return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' no proporcionados" });
-    }
+   // if (!desde.pais || !desde.ciudad || !desde.latitud || !desde.longitud) {
+     //   return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' no proporcionados" });
+   // }
 
-    if (!hasta.pais || !hasta.ciudad || !hasta.latitud || !hasta.longitud) {
-        return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
-    }
+   // if (!hasta.pais || !hasta.ciudad || !hasta.latitud || !hasta.longitud) {
+     //   return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
+    //}
 
     if (!desde.coordenadasExtras && !hasta.coordenadasExtras) {
         const missingFields = [];
@@ -55,19 +57,17 @@ export async function POST(request: RequestWithJson) {
             return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
         }
 
-        const viajeData = {
+        const nuevoViaje = new Viaje({
             usuario: userId,
             desde,
             hasta,
             cuando,
-            horaSalida,
-            horaLlegada,
-            eresFlexible: eresFlexible || false,
-            estado: estado || false,
-            precio,
-        };
-
-        const nuevoViaje = new Viaje(viajeData);
+            horaSalida: new Date(), // Puedes ajustar esto según tus necesidades
+            horaLlegada: new Date(), // Puedes ajustar esto según tus necesidades
+            eresFlexible: false, // Puedes ajustar esto según tus necesidades
+            estado: true, // Puedes ajustar esto según tus necesidades
+            precio: 0, // Puedes ajustar esto según tus necesidades
+        });
         const savedViaje = await nuevoViaje.save();
 
         console.log(savedViaje);

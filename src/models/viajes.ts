@@ -57,6 +57,7 @@ export const ViajeSchema = new Schema({
         type: Number,
         required: true,
     },
+
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);
