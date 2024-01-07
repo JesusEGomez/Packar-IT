@@ -1,5 +1,5 @@
-import React from 'react'
-import loader from '../../public/Spinner-1s-200px.gif'
+import React from 'react';
+import loader from '../../public/Spinner-1s-200px.gif';
 import Image from 'next/image';
 function loading() {
   return (
