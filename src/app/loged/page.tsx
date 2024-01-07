@@ -120,7 +120,7 @@ const Loged = () => {
   },[from, to, date, selectedProductData]);
   
   return (
-    <div className="flex flex-col items-center bg-pink">
+    <div className="flex flex-col items-center bg-pink md:flex-row">
       <Image
         className="my-16 rounded-full"
         src={logo}
