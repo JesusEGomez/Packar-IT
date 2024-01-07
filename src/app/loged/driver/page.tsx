@@ -18,10 +18,18 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 type prod = {
-  types: any;
-  name: string;
-  size: any;
-  weight: any;
+  pequeño: {
+    quantity: number;
+    price: number;
+  };
+  mediano: {
+    quantity: number;
+    price: number;
+  };
+  grande: {
+    quantity: number;
+    price: number;
+  };
 };
 
 type time = {
@@ -40,9 +48,20 @@ const Driver = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
-    null
-  );
+  const [selectedProductData, setSelectedProductData] = useState<prod>({
+    pequeño: {
+      quantity: 0,
+      price: 0,
+    },
+    mediano: {
+      quantity: 0,
+      price: 0,
+    },
+    grande: {
+      quantity: 0,
+      price: 0,
+    },
+  });
   const [search, setSearch] = useState(false);
 
   const fromHandler = () => {
@@ -92,11 +111,16 @@ const Driver = () => {
   const navigate = useRouter();
 
   const searchHandler = () => {
+    console.log(selectedProductData);
     const newTravel = {
       from,
       to,
       date,
-      selectedProductData,
+      precio: [
+        selectedProductData.pequeño,
+        selectedProductData.mediano,
+        selectedProductData.grande,
+      ],
       time,
       flex,
     };

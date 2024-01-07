@@ -18,23 +18,14 @@ import { Input } from "@/components/ui/input";
 export const SendProduct = (props: any) => {
   const formSchema = z.object({
     pequeño: z.object({
-      size: z.string(),
-      area: z.string(),
-      weight: z.string(),
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
     mediano: z.object({
-      size: z.string(),
-      area: z.string(),
-      weight: z.string(),
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
     grande: z.object({
-      size: z.string(),
-      area: z.string(),
-      weight: z.string(),
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
@@ -44,23 +35,14 @@ export const SendProduct = (props: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       pequeño: {
-        size: "Pequeño",
-        area: "64x30cm",
-        weight: "<5Kg",
         quantity: 0,
         price: 0,
       },
       mediano: {
-        size: "Mediano",
-        area: "81x37cm",
-        weight: "5-15Kg",
         quantity: 0,
         price: 0,
       },
       grande: {
-        size: "Grande",
-        area: "67x44cm",
-        weight: "15-30Kg",
         quantity: 0,
         price: 0,
       },
