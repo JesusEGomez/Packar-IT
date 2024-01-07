@@ -32,7 +32,7 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-          onClick={() => navigate.push('/misenvios')}
+          onClick={() => navigate.push('/loged/misenvios')}
             className={`flex ${
               pathName === "/shipments" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}

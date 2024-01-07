@@ -11,6 +11,7 @@ import { getFormattedAddress } from "../api/components/components";
 import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type prod = {
   types: any;
@@ -29,6 +30,7 @@ const Loged = () => {
   const [prodModal, setProdModal] = React.useState(false);
   const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
   const [search, setSearch] = useState(false);
+  const { data: session } = useSession();
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -84,6 +86,9 @@ const Loged = () => {
       navigate.push("/loged/selectdriver");
   };
   useEffect(()=>{
+	  console.log(session, 'q verga');
+    !session && navigate.push("/prelogin/register/login");
+
     from && to && date && selectedProductData && setSearch(true);
   },[from, to, date, selectedProductData]);
   

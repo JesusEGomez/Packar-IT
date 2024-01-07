@@ -1,5 +1,5 @@
 import React from 'react'
-import CardEnvios from '../misenvios/cardenvios/page'
+import CardEnvios from './cardenvios/page'
 export default function page() {
   return (
     <>
