@@ -4,24 +4,6 @@ import Viaje from "@/models/viajes";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    // try {
-    //     await connectDB();
-    //     const { searchParams } = new URL(request.url);
-    //     const cityOrigin = searchParams.get('cityOrigin');
-    //     const cityFinal = searchParams.get('cityFinal');
-
-    //     // Filter trips based on the specified criteria
-    //     const viajes = await Viaje.find({
-    //         estado: false
-    //     });
-    //     const filter1Viajes = viajes.filter((viaje) => viaje.desde.ciudad === cityOrigin);
-    //     const filter2 = filter1Viajes.filter((viaje :any) => viaje.hasta.ciudad === cityFinal);
-        
-    //     return NextResponse.json(filter2);
-    // } catch (error) {
-    //     console.error(error);
-    //     return NextResponse.json({ message: "Error al obtener los viajes" });
-    // }
     try {
         await connectDB();
         const { searchParams } = new URL(request.url);

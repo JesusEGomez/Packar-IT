@@ -28,6 +28,28 @@ interface FormInputs {
   paisDestino: string;
 }
 
+// const response = await fetch('/api/auth/envio',{
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   method: 'POST',
+//   body: JSON.stringify({
+//     desde: {
+//       from,
+//       ciudad: formData?.ciudadOrigen,
+//       pais: formData?.paisOrigen
+//     },
+//     hasta: {
+//       to,
+//       ciudad: formData?.ciudadDestino,
+//       pais: formData?.paisDestino
+//     },
+//     cuando: date,
+//     producto: selectedProductData,
+//   })
+// });
+// const data = await response.json();
+
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
@@ -40,7 +62,10 @@ const Loged = () => {
   const [formData, setFormData] = React.useState<FormInputs | null>(null);
   const [search, setSearch] = useState(false);
   const [selectdriverOpen, setSelectdriverOpen] = useState(false);
+  const [driver, setDriver] = useState(null);
   const { data: session } = useSession();
+  const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
+  const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -75,32 +100,13 @@ const Loged = () => {
   const closeProdModal = (selectedProductData : any) => {
     setProdModal(false);
     setSelectedProductData(selectedProductData);
-    console.log(selectedProductData);
+  };
+  const closeSelectDriver = (data:any) => {
+    setSelectdriverOpen(false);
+    setDriver(data);
   };
   const navigate = useRouter();
-  const searchHandler = async () => {
-  console.log(from)
-        const response = await fetch('/api/auth/envio',{
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          desde: {
-            from,
-            ciudad: formData?.ciudadOrigen,
-            pais: formData?.paisOrigen
-          },
-          hasta: {
-            to,
-            ciudad: formData?.ciudadDestino,
-            pais: formData?.paisDestino
-          },
-          cuando: date,
-          producto: selectedProductData,
-        })
-      });
-      const data = await response.json();
+  const searchHandler = () => {
       setSelectdriverOpen(true);
   };
   const {
@@ -110,10 +116,11 @@ const Loged = () => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
+    setCiudadOrigen(data?.ciudadOrigen);
+    setCiudadDestino(data?.ciudadDestino);
     setFormData(data);
   };
   useEffect(()=>{
-	  console.log(session, 'q verga');
     !session && navigate.push("/prelogin/register/login");
 
     from && to && date && selectedProductData && setSearch(true);
@@ -161,6 +168,9 @@ const Loged = () => {
               className='p-3 border-b text-slate-300'  
               id='paisDestino'
             />
+            <button>
+              Set
+            </button>
           </form>
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
@@ -234,7 +244,7 @@ const Loged = () => {
       {selectdriverOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <SelectDriver />
+            <SelectDriver close={closeSelectDriver} open={selectedProductData} ciudadOrigen={ciudadOrigen} ciudadDestino={ciudadDestino}/>
           </div>
         </div>
       )}
