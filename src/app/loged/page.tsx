@@ -12,12 +12,20 @@ import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import SelectDriver from "../components/SelectDriver";
 
 type prod = {
   types: any;
   name: string;
   size: any;
   weight: any;
+}
+interface FormInputs {
+  ciudadOrigen: string;
+  paisOrigen: string;
+  ciudadDestino: string;
+  paisDestino: string;
 }
 
 const Loged = () => {
@@ -29,7 +37,9 @@ const Loged = () => {
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
   const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [formData, setFormData] = React.useState<FormInputs | null>(null);
   const [search, setSearch] = useState(false);
+  const [selectdriverOpen, setSelectdriverOpen] = useState(false);
   const { data: session } = useSession();
 
   const fromHandler = () => {
@@ -76,14 +86,31 @@ const Loged = () => {
         },
         method: 'POST',
         body: JSON.stringify({
-          desde: from,
-          hasta: to,
+          desde: {
+            from,
+            ciudad: formData?.ciudadOrigen,
+            pais: formData?.paisOrigen
+          },
+          hasta: {
+            to,
+            ciudad: formData?.ciudadDestino,
+            pais: formData?.paisDestino
+          },
           cuando: date,
           producto: selectedProductData,
         })
       });
       const data = await response.json();
-      navigate.push("/loged/selectdriver");
+      setSelectdriverOpen(true);
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    console.log(data);
+    setFormData(data);
   };
   useEffect(()=>{
 	  console.log(session, 'q verga');
@@ -107,19 +134,49 @@ const Loged = () => {
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
         <div className="flex flex-col items-center gap-y-4">
           <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
+          <form 
+          className='flex  flex-col items-center gap-y-2 p-2'
+          onSubmit={handleSubmit(onSubmit)}>
+            <input 
+              type="text"
+              placeholder='Ciudad de origen' 
+              className='p-3 border-b text-slate-300'  
+              id='ciudadOrigen'
+            />
+            <input 
+              type="text"
+              placeholder='País de origen' 
+              className='p-3 border-b text-slate-300'  
+              id='paisOrigen'
+            />
+             <input 
+              type="text"
+              placeholder='Ciudad de Destino' 
+              className='p-3 border-b text-slate-300'  
+              id='ciudadDestino'
+            />
+            <input 
+              type="text"
+              placeholder='País de Destino' 
+              className='p-3 border-b text-slate-300'  
+              id='paisDestino'
+            />
+          </form>
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={fromHandler}
           >
             {<RiMapPinAddLine size={30} />}
-            {from === null ? "Desde" : `${from}`}
+            {from === null ? "Dirección Origen" : `${from}`}
           </button>
+          
+          
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={toHandler}
           >
             <RiMapPin2Fill size={30} />
-            {to === null ? "Desde" : `${to}`}
+            {to === null ? "Dirección Destino" : `${to}`}
           </button>
           <button
             onClick={() => calendarHandler()}
@@ -171,6 +228,13 @@ const Loged = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <ProdModal closeModal={closeProdModal} />
+          </div>
+        </div>
+      )}
+      {selectdriverOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <SelectDriver />
           </div>
         </div>
       )}

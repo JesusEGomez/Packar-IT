@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import img from '../../../img/undraw_Happy_feeling_re_e76r.png';
+import img from '../../img/undraw_Happy_feeling_re_e76r.png';
 import { FaArrowLeft } from "react-icons/fa";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -61,6 +61,9 @@ const viajes = [
 function Page() {
   //const [viajes, setViajes] = useState<[] | null>(null);
   const navigate = useRouter();
+  const clickHandler = () => {
+
+  }
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const response = await fetch('/api/auth/viajes');
@@ -93,7 +96,7 @@ function Page() {
           <div className='flex flex-col fixed top-0 left-0 right-0 bottom-0 z-20 w-full h-full m-2 p-4 bg-white gap-y-3'>
             <h1 className='text-xl'>Viajeros disponibles</h1>
           {viajes.map((viaje, index) => (
-            <div className='flex flex-col border rounded shadow-lg p-4' key={index}>
+            <div onClick={() => clickHandler()} className='flex flex-col border rounded cursor-pointer shadow-lg p-4' key={index}>
               <div className='flex w-full justify-between px-4'>
                 <div className='flex'>
                   <div className='flex w-12 min-h-12'>foto</div>
