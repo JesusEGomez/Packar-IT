@@ -101,16 +101,16 @@ const Loged = () => {
       </div>
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
         <div className="flex flex-col items-center gap-y-4">
-          <h1 className="font-bold mt-2">¿Que deseas enviar?</h1>
+          <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
           <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={fromHandler}
           >
             {<RiMapPinAddLine size={30} />}
             {from === null ? "Desde" : `${from}`}
           </button>
           <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={toHandler}
           >
             <RiMapPin2Fill size={30} />
@@ -118,7 +118,7 @@ const Loged = () => {
           </button>
           <button
             onClick={() => calendarHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
           >
             <FaRegCalendarAlt size={30} />
             {date ? `${changeDateFormat(date)}` : "Cuando"}
@@ -134,7 +134,7 @@ const Loged = () => {
           </button>
           <button
             onClick={() => productsHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
           >
             <BsBoxSeam size={30} />
             {selectedProductData ? `${selectedProductData.name}`: 'Producto'}
