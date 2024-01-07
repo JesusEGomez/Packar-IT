@@ -62,11 +62,11 @@ export async function POST(request: RequestWithJson) {
             desde,
             hasta,
             cuando,
-            horaSalida: new Date(), // Puedes ajustar esto según tus necesidades
-            horaLlegada: new Date(), // Puedes ajustar esto según tus necesidades
-            eresFlexible: false, // Puedes ajustar esto según tus necesidades
-            estado: true, // Puedes ajustar esto según tus necesidades
-            precio: 0, // Puedes ajustar esto según tus necesidades
+            horaSalida, 
+            horaLlegada, // Puedes ajustar esto según tus necesidades
+            eresFlexible, // Puedes ajustar esto según tus necesidades
+            estado: false, // Puedes ajustar esto según tus necesidades
+            precio, // Puedes ajustar esto según tus necesidades
         });
         const savedViaje = await nuevoViaje.save();
 

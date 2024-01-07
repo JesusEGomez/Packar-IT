@@ -27,23 +27,6 @@ export async function POST(request: Request) {
         const savedEnvio = await envio.save();
 
         console.log(savedEnvio);
-
-        // Guardar la información del envío en la base de datos de viajes
-        const nuevoViaje = new Viaje({
-            usuario: userId,
-            desde,
-            hasta,
-            cuando,
-            horaSalida: new Date(), // Puedes ajustar esto según tus necesidades
-            horaLlegada: new Date(), // Puedes ajustar esto según tus necesidades
-            eresFlexible: false, // Puedes ajustar esto según tus necesidades
-            estado: true, // Puedes ajustar esto según tus necesidades
-            precio: 0, // Puedes ajustar esto según tus necesidades
-        });
-
-        const savedViaje = await nuevoViaje.save();
-        console.log(savedViaje);
-
         return NextResponse.json(savedEnvio);
     } catch (error) {
         console.error(error);
