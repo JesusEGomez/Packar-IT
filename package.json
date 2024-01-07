@@ -41,11 +41,13 @@
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
     "react-icons": "^4.12.0",
+    "react-time-picker": "^6.6.0",
     "resend": "^2.1.0",
     "sweetalert2": "^11.10.2",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
