@@ -33,6 +33,8 @@ export const ViajeSchema = new Schema({
       type: [String],
       default: [],
     },
+
+
   },
   cuando: {
     type: Date,
@@ -58,6 +60,7 @@ export const ViajeSchema = new Schema({
     required: true,
   },
   productos: [{}],
+
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);
