@@ -18,60 +18,121 @@ type viajes = {
     foto: string
   }
 }
-const viajes = [
-  {
-    desde: {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    hasta : {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    cuando: '01-01-2021',
-    horaSalida: '10:00:00',
-    horaLlegada: '10:00:00',
-    eresFlexible: true,
-    viajero: {
-      nombre:'cesar',
-      foto: 'rrr'
-    },
-    precio: '30'
-  },
-  {
-    desde: {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    hasta : {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    cuando: '01-01-2021',
-    horaSalida: '10:00:00',
-    horaLlegada: '10:00:00',
-    eresFlexible: false,
-    viajero: {
-      nombre:'cesar',
-      foto: 'rrr'
-    },
-    precio: '30'
-  }
-]
-function Page() {
-  //const [viajes, setViajes] = useState<[] | null>(null);
+// const viajes = [
+//   {
+//     "desde": {
+//       "pais": "Argentina",
+//       "ciudad": "OrigenCiudad",
+//       "lat": 40.7128,
+//       "lng": -74.006
+//     },
+//     "hasta": {
+//       "pais": "Brasil",
+//       "ciudad": "Rio de Janeiro",
+//       "lat": 34.0522,
+//       "lng": -118.2437,
+//       "coordenadasExtras": [
+//         "opcional1",
+//         "opcional2"
+//       ]
+//     },
+//     "_id": "659ad94be9dc55f1096e89ca",
+//     "usuario": "6599ec1ea23e1f8af4310236",
+//     "cuando": "2024-01-05T12:00:00.000Z",
+//     "horaSalida": "2024-01-05T10:00:00.000Z",
+//     "horaLlegada": "2024-01-05T14:00:00.000Z",
+//     "eresFlexible": false,
+//     "estado": false,
+//     "precio": [
+//       50,
+//       23,
+//       45
+//     ],
+//     "__v": 0,
+//     "perfil": {
+//       "driverLicense": {
+//         "frontPhoto": "ruta/de/tu/imagDen/front.jpg",
+//         "backPhoto": ""
+//       },
+//       "idDocument": {
+//         "type": "DNI",
+//         "number": "123456578",
+//         "frontPhoto": "ruta/de/tu/imagen/front_id.jpg",
+//         "backPhoto": "jpg"
+//       },
+//       "_id": "6599ec26a23e1f8af431023a",
+//       "userId": "6599ec1ea23e1f8af4310236",
+//       "city": "no definido",
+//       "phoneNumber": "0",
+//       "__v": 0
+//     }
+//   },
+//   {
+//     "desde": {
+//       "pais": "Argentina",
+//       "ciudad": "OrigenCiudad",
+//       "lat": 40.7128,
+//       "lng": -74.006
+//     },
+//     "hasta": {
+//       "pais": "Brasil",
+//       "ciudad": "Rio de Janeiro",
+//       "lat": 34.0522,
+//       "lng": -118.2437,
+//       "coordenadasExtras": [
+//         "opcional1",
+//         "opcional2"
+//       ]
+//     },
+//     "_id": "659ad94be9dc55f1096e89ca",
+//     "usuario": "6599ec1ea23e1f8af4310236",
+//     "cuando": "2024-01-05T12:00:00.000Z",
+//     "horaSalida": "2024-01-05T10:00:00.000Z",
+//     "horaLlegada": "2024-01-05T14:00:00.000Z",
+//     "eresFlexible": false,
+//     "estado": false,
+//     "precio": [
+//       50,
+//       23,
+//       45
+//     ],
+//     "__v": 0,
+//     "perfil": {
+//       "driverLicense": {
+//         "frontPhoto": "ruta/de/tu/imagDen/front.jpg",
+//         "backPhoto": ""
+//       },
+//       "idDocument": {
+//         "type": "DNI",
+//         "number": "123456578",
+//         "frontPhoto": "ruta/de/tu/imagen/front_id.jpg",
+//         "backPhoto": "jpg"
+//       },
+//       "_id": "6599ec26a23e1f8af431023a",
+//       "userId": "6599ec1ea23e1f8af4310236",
+//       "city": "no definido",
+//       "phoneNumber": "0",
+//       "__v": 0
+//     }
+//   }
+// ]
+function Page(props:any) {
+  const [viajes, setViajes] = useState<[any] | null>(null);
+  const prodSize = props.open.size;
   const navigate = useRouter();
   const clickHandler = () => {
 
   }
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch('/api/auth/viajes');
-  //     const data = await response.json();
-  //     setViajes(data);
-  //   };
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log(props);
+      
+      const response = await fetch(`/api/auth/findatrip/?cityOrigin=${props.from}&cityFinal=${props.to}`);
+      const data = await response.json();
+      setViajes(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className='flex flex-col'>
@@ -92,18 +153,18 @@ function Page() {
         <button onClick={() => navigate.push('/loged')} className='flex w-full mt-20 justify-center bg-pink p-3 rounded text-white'>Volver</button>
       </div>
       {
-        viajes && (
+        viajes && viajes.length > 0 && (
           <div className='flex flex-col fixed top-0 left-0 right-0 bottom-0 z-20 w-full h-full m-2 p-4 bg-white gap-y-3'>
             <h1 className='text-xl'>Viajeros disponibles</h1>
-          {viajes.map((viaje, index) => (
+          {viajes?.map((viaje, index) => (
             <div onClick={() => clickHandler()} className='flex flex-col border rounded cursor-pointer shadow-lg p-4' key={index}>
               <div className='flex w-full justify-between px-4'>
                 <div className='flex'>
                   <div className='flex w-12 min-h-12'>foto</div>
-                  {/* <Image src={viaje.viajero.foto} alt='avatar' width={50} height={50} /> */}
-                  <p>{viaje.viajero.nombre}</p>
+                  {/* <Image src={viaje.perfil.idDocument.frontPhoto} alt='avatar' width={50} height={50} /> */}
+                  <p>{viaje.perfil.idDocument.number}</p>
                 </div>
-                <p>{viaje.precio}€</p>
+                <p>{prodSize === "64x30cm" ? viaje.precio[0] : prodSize === "81x37cm" ? viaje.precio[1] : viaje.precio[2]}€</p>
               </div>
               <div>
                 <div className='flex'>
