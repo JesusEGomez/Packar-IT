@@ -9,11 +9,11 @@ export const ViajeSchema = new Schema({
     desde: {
         pais: String,
         ciudad: String,
-        latitud: {
+        lat: {
             type: Number,
             required: true,
         },
-        longitud: {
+        lng: {
             type: Number,
             required: true,
         },
@@ -21,11 +21,11 @@ export const ViajeSchema = new Schema({
     hasta: {
         pais: String,
         ciudad: String,
-        latitud: {
+        lat: {
             type: Number,
             required: true,
         },
-        longitud: {
+        lng: {
             type: Number,
             required: true,
         },
@@ -48,10 +48,10 @@ export const ViajeSchema = new Schema({
     },
     eresFlexible: {
         type: Boolean,
-        default: false, // Puedes establecer el valor predeterminado según tus necesidades
+        default: false,
     },
     estado: {
-        type: Boolean
+        type: Boolean,
     },
     precio: {
         type: Number,
