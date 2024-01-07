@@ -57,7 +57,13 @@ export const ViajeSchema = new Schema({
         type: [Number,Number,Number ],
         required: true,
     },
-
+    productos: [
+        {
+            nombre: String,
+            descripcion: String,
+            precio: Number,
+        },
+    ],
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);
