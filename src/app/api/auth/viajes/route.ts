@@ -75,7 +75,7 @@ export async function GET(request: Request) {
         const viajes = await Viaje.find();
         return NextResponse.json(viajes);
     } catch (error) {
-        console.error(error);
+        console.error(error); 
         return NextResponse.json({ message: "Error al obtener los viajes" });
     }
 }
