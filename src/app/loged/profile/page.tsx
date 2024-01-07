@@ -18,8 +18,12 @@ function Profile() {
   const formSchema = z.object({
     nombre: z.string(),
     email: z.string(),
-    telefono: z.string(), // Corrección: Cambié de z.number() a z.string()
+    telefono: z.string(),
     ciudad: z.string(),
+    driverLicense: z.object({
+      frontPhoto: z.string().nullable(),
+      backPhoto: z.string().nullable(),
+    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -29,6 +33,10 @@ function Profile() {
       email: "",
       ciudad: "",
       telefono: "",
+      driverLicense: {
+        frontPhoto: null,
+        backPhoto: null,
+      },
     },
   });
 
@@ -63,7 +71,7 @@ function Profile() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="ejemplo@ejemplo.com" {...field} />
+                    <Input placeholder="correo@correo.com" {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -89,6 +97,24 @@ function Profile() {
                   <FormControl>
                     <Input placeholder="Madrid" {...field} />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="driverLicense.frontPhoto"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Licencia de Conducir (Frente)</FormLabel>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="driverLicense.backPhoto"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Licencia de Conducir (Reverso)</FormLabel>
                 </FormItem>
               )}
             />
