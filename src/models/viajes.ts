@@ -59,7 +59,7 @@ export const ViajeSchema = new Schema({
     type: [Number, Number, Number],
     required: true,
   },
-  productos: [{}],
+  envios: [{}],
 
 });
 
