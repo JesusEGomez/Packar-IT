@@ -2,14 +2,13 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FaEdit } from 'react-icons/fa'; // Reemplaza 'react-icons/fa' con la biblioteca y el icono específico que prefieras
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,66 +37,29 @@ function Profile() {
   }
 
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div className="container mx-auto h-screen flex justify-center items-center">
+      <div className="max-w-md p-8 bg-white rounded-md shadow-md">
         <h2 className="mb-5 text-2xl text-center">Modificar Perfil</h2>
-      <div className="max-w-md">
-        <div className="flex md:flex-col">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='flex '>
-              <FormField
-                control={form.control}
-                name="nombre"
-                render={({ field }) => (
-                  <FormItem className="text-center">
-                    <FormLabel>Nombre</FormLabel>
-                    <FormControl className="w-full">
-                      <Input placeholder="Joe" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="text-center">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl className="w-full">
-                      <Input placeholder="ejemplo@ejemplo.com" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="telefono"
-                render={({ field }) => (
-                  <FormItem className="text-center">
-                    <FormLabel>Teléfono</FormLabel>
-                    <FormControl className="w-full">
-                      <Input placeholder="5423313423" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="ciudad"
-                render={({ field }) => (
-                  <FormItem className="text-center">
-                    <FormLabel>Ciudad</FormLabel>
-                    <FormControl className="w-full">
-                      <Input placeholder="Madrid" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <Button className="col-span-4 bg-pink mt-3" type="submit">
-                Modificar
-              </Button>
-            </form>
-          </Form>
-        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-4'>
+            <FormField
+              control={form.control}
+              name="nombre"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Joe" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            {/* Repite el bloque FormField para los otros campos */}
+            <Button className="bg-pink py-2 rounded-md" type="submit">
+              <FaEdit className="mr-2" /> Modificar
+            </Button>
+          </form>
+        </Form>
       </div>
     </div>
   );
