@@ -20,42 +20,35 @@ type viajes = {
 }
 const viajes = [
   {
-    desde: {
-      lat: -34.397,
-      lng: 150.644,
+    "desde": {
+      "pais": "Argentina",
+      "ciudad": "OrigenCiudad",
+      "lat": 40.7128,
+      "lng": -74.006
     },
-    hasta : {
-      lat: -34.397,
-      lng: 150.644,
+    "hasta": {
+      "pais": "Brasil",
+      "ciudad": "Rio de Janeiro",
+      "lat": 34.0522,
+      "lng": -118.2437,
+      "coordenadasExtras": [
+        "opcional1",
+        "opcional2"
+      ]
     },
-    cuando: '01-01-2021',
-    horaSalida: '10:00:00',
-    horaLlegada: '10:00:00',
-    eresFlexible: true,
-    viajero: {
-      nombre:'cesar',
-      foto: 'rrr'
-    },
-    precio: '30'
-  },
-  {
-    desde: {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    hasta : {
-      lat: -34.397,
-      lng: 150.644,
-    },
-    cuando: '01-01-2021',
-    horaSalida: '10:00:00',
-    horaLlegada: '10:00:00',
-    eresFlexible: false,
-    viajero: {
-      nombre:'cesar',
-      foto: 'rrr'
-    },
-    precio: '30'
+    "_id": "659ad94be9dc55f1096e89ca",
+    "usuario": "6599ec1ea23e1f8af4310236",
+    "cuando": "2024-01-05T12:00:00.000Z",
+    "horaSalida": "2024-01-05T10:00:00.000Z",
+    "horaLlegada": "2024-01-05T14:00:00.000Z",
+    "eresFlexible": false,
+    "estado": false,
+    "precio": [
+      50,
+      23,
+      45
+    ],
+    "__v": 0
   }
 ]
 function Page() {
@@ -101,7 +94,7 @@ function Page() {
                 <div className='flex'>
                   <div className='flex w-12 min-h-12'>foto</div>
                   {/* <Image src={viaje.viajero.foto} alt='avatar' width={50} height={50} /> */}
-                  <p>{viaje.viajero.nombre}</p>
+                  <p>{viaje.usuario}</p>
                 </div>
                 <p>{viaje.precio}€</p>
               </div>
