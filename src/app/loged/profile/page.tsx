@@ -71,7 +71,7 @@ function Profile() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="ejemplo@ejemplo.com" {...field} />
+                    <Input placeholder="correo@correo.com" {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -106,9 +106,6 @@ function Profile() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Licencia de Conducir (Frente)</FormLabel>
-                  <FormControl>
-                    <Input type="file" accept="image/*" {...field} />
-                  </FormControl>
                 </FormItem>
               )}
             />
@@ -118,9 +115,6 @@ function Profile() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Licencia de Conducir (Reverso)</FormLabel>
-                  <FormControl>
-                    <Input type="file" accept="image/*" {...field} />
-                  </FormControl>
                 </FormItem>
               )}
             />
