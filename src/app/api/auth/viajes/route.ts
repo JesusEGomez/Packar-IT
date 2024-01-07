@@ -1,9 +1,8 @@
 // Importa el modelo Viaje
 import Viaje from "@/models/viajes";
-import { NextResponse } from "next/server";
 import User from "@/models/user";
+import { NextResponse } from "next/server";
 import { connectDB } from "@/libs/mongodb";
-
 
 interface RequestWithJson extends Request {
     json(): Promise<any>;
@@ -13,41 +12,29 @@ export async function POST(request: RequestWithJson) {
     await connectDB();
 
     const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio } = await request.json();
+    const requiredFields = ['userId', 'desde', 'hasta', 'cuando', 'horaSalida', 'horaLlegada', 'precio'];
 
-    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio) {
-        const missingFields = [];
-
-        if (!userId) missingFields.push("userId");
-        if (!desde) missingFields.push("desde");
-        if (!hasta) missingFields.push("hasta");
-        if (!cuando) missingFields.push("cuando");
-        if (!horaSalida) missingFields.push("horaSalida");
-        if (!horaLlegada) missingFields.push("horaLlegada");
-        if (!precio) missingFields.push("precio");
-
+    const missingFields = requiredFields.filter(field => !eval(field));
+    if (missingFields.length > 0) {
         return NextResponse.json({
             message: `Faltan campos obligatorios: ${missingFields.join(", ")}`,
         });
     }
 
-    // Validación para campos dentro de 'desde'
-    if (!desde.pais || !desde.ciudad || !desde.latitud || !desde.longitud) {
-        return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' no proporcionados" });
-    }
+    const validateLocation = (location) => {
+        const requiredLocationFields = ['pais', 'ciudad', 'latitud', 'longitud'];
+        return requiredLocationFields.every(field => location[field]);
+    };
 
-    if (!hasta.pais || !hasta.ciudad || !hasta.latitud || !hasta.longitud) {
-        return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
+    if (!validateLocation(desde) || !validateLocation(hasta)) {
+        return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' o 'hasta' no proporcionados" });
     }
 
     if (!desde.coordenadasExtras && !hasta.coordenadasExtras) {
-        const missingFields = [];
-        if (!desde.coordenadasExtras) missingFields.push("coordenadasExtras");
-        if (!hasta.coordenadasExtras) missingFields.push("coordenadasExtras");
         return NextResponse.json({
-            message: `Faltan campos opcionales: ${missingFields.join(", ")}`,
+            message: `Faltan campos opcionales: coordenadasExtras`,
         });
     }
-
 
     try {
         const user = await User.findById(userId);
@@ -82,8 +69,6 @@ export async function POST(request: RequestWithJson) {
     }
 }
 
-
-
 export async function GET(request: Request) {
     try {
         await connectDB();
@@ -94,3 +79,5 @@ export async function GET(request: Request) {
         return NextResponse.json({ message: "Error al obtener los viajes" });
     }
 }
+
+
