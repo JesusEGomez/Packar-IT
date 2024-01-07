@@ -52,6 +52,7 @@ const Sidebar = () => {
     signOut();
     localStorage.clear();
     if (!session) {
+      sideBarControl();
       navigation.push("/prelogin");
     }
   };

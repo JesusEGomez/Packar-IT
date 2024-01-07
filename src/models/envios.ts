@@ -7,6 +7,8 @@ export const EnvioSchema = new Schema({
         required: true,
     },
     desde: {
+        pais: String,
+        ciudad: String,
         lat: {
             type: Number,
             required: true,
@@ -17,6 +19,8 @@ export const EnvioSchema = new Schema({
         },
     },
     hasta: {
+        pais: String,
+        ciudad: String,
         lat: {
             type: Number,
             required: true,

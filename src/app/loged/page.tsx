@@ -11,6 +11,7 @@ import { getFormattedAddress } from "../api/components/components";
 import { Calendar } from "@/components/ui/calendar";
 import { ProdModal } from "../components/ProdModal";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type prod = {
   types: any;
@@ -29,6 +30,7 @@ const Loged = () => {
   const [prodModal, setProdModal] = React.useState(false);
   const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
   const [search, setSearch] = useState(false);
+  const { data: session } = useSession();
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -84,6 +86,9 @@ const Loged = () => {
       navigate.push("/loged/selectdriver");
   };
   useEffect(()=>{
+	  console.log(session, 'q verga');
+    !session && navigate.push("/prelogin/register/login");
+
     from && to && date && selectedProductData && setSearch(true);
   },[from, to, date, selectedProductData]);
   
@@ -101,16 +106,16 @@ const Loged = () => {
       </div>
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
         <div className="flex flex-col items-center gap-y-4">
-          <h1 className="font-bold mt-2">¿Que deseas enviar?</h1>
+          <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
           <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={fromHandler}
           >
             {<RiMapPinAddLine size={30} />}
             {from === null ? "Desde" : `${from}`}
           </button>
           <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={toHandler}
           >
             <RiMapPin2Fill size={30} />
@@ -118,7 +123,7 @@ const Loged = () => {
           </button>
           <button
             onClick={() => calendarHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
           >
             <FaRegCalendarAlt size={30} />
             {date ? `${changeDateFormat(date)}` : "Cuando"}
@@ -134,7 +139,7 @@ const Loged = () => {
           </button>
           <button
             onClick={() => productsHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
           >
             <BsBoxSeam size={30} />
             {selectedProductData ? `${selectedProductData.name}`: 'Producto'}
