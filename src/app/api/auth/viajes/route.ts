@@ -70,7 +70,7 @@ export async function POST(request: RequestWithJson) {
 }
 
 export async function GET(request: Request) {
-    try {
+    try { 
         await connectDB();
         const viajes = await Viaje.find();
         return NextResponse.json(viajes);
