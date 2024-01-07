@@ -34,31 +34,19 @@ import {
 } from "@radix-ui/react-accordion";
 import { AccordionItem } from "@/components/ui/accordion";
 import { IUser } from "../interfaces/user.interface";
+import useUserState from "../store/sotre";
 
 const Sidebar = () => {
   const { data: session } = useSession();
-  const [localEmail, setLocalEmail] = useState();
-  const [fullUser, setFullUser] = useState<IUser>({
-    _id: "",
-    email: "",
-    fullname: "",
-    profile: {
-      _id: "",
-      driverLicense: { backPhoto: "", frontPhoto: "" },
-      idDocument: { backPhoto: "", frontPhoto: "", number: "", type: "" },
-      city: "",
-      phoneNumber: "",
-    },
-  });
-  session &&
-    localStorage.setItem("email", JSON.stringify(session.user?.email!));
+  const { fetchUser } = useUserState((state) => state);
+  const { user } = useUserState((state) => state);
 
   console.log("sesion", session);
 
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
-  console.log(isOpen);
+
   const logOutSession = () => {
     sideBarControl();
     signOut();
@@ -68,23 +56,8 @@ const Sidebar = () => {
     }
   };
 
-  const fetchData = async () => {
-    const email = session?.user?.email || localEmail;
-    return await fetch(`/api/auth/signup/${email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => response.json());
-  };
-
   useEffect(() => {
-    fetchData().then((data) => {
-      setFullUser(data);
-    });
-    const datos = localStorage.getItem("email");
-    const localEmail = JSON.parse(datos!);
-    setLocalEmail(localEmail);
+    fetchUser(session?.user?.email!);
   }, []);
 
   return (
@@ -112,7 +85,7 @@ const Sidebar = () => {
                     Ciudad
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{fullUser.profile.city}</p>
+                    <p>{user.profile.city}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -125,7 +98,7 @@ const Sidebar = () => {
                     Teléfono
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{fullUser.profile.phoneNumber}</p>
+                    <p>{user.profile.phoneNumber}</p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -138,7 +111,7 @@ const Sidebar = () => {
                     Documento identificador
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{fullUser.profile.idDocument?.number} </p>
+                    <p>{} </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
