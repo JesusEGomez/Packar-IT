@@ -9,30 +9,12 @@ export const ViajeSchema = new Schema({
   desde: {
     pais: String,
     ciudad: String,
-    lat: {
-      type: Number,
-      required: true,
-    },
-    lng: {
-      type: Number,
-      required: true,
-    },
+    calle: String,
   },
   hasta: {
     pais: String,
     ciudad: String,
-    lat: {
-      type: Number,
-      required: true,
-    },
-    lng: {
-      type: Number,
-      required: true,
-    },
-    coordenadasExtras: {
-      type: [String],
-      default: [],
-    },
+    calle: String,
   },
   cuando: {
     type: Date,
@@ -53,11 +35,20 @@ export const ViajeSchema = new Schema({
   estado: {
     type: Boolean,
   },
-  precio: {
-    type: [Number, Number, Number],
-    required: true,
-  },
-  productos: [{}],
+  precio: [
+    {
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
+  envios: [{}],
+
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);

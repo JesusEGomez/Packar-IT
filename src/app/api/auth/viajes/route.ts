@@ -12,11 +12,11 @@ interface RequestWithJson extends Request {
 export async function POST(request: RequestWithJson) {
     await connectDB();
 
-    const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio , productos} = await request.json();
+    const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio , envios} = await request.json();
 
-    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio, productos)
+    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio, envios)
 
-    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio || !productos) {
+    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio || !envios) {
         const missingFields = [];
 
         if (!userId) missingFields.push("userId");
@@ -26,7 +26,7 @@ export async function POST(request: RequestWithJson) {
         if (!horaSalida) missingFields.push("horaSalida");
         if (!horaLlegada) missingFields.push("horaLlegada");
         if (!precio) missingFields.push("precio");
-        if (!productos) missingFields.push("productos");
+        if (!envios) missingFields.push("envios");
 
         return NextResponse.json({
             message: `Faltan campos obligatorios: ${missingFields.join(", ")}`,
@@ -42,14 +42,7 @@ export async function POST(request: RequestWithJson) {
      //   return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
     //}
 
-    if (!desde.coordenadasExtras && !hasta.coordenadasExtras) {
-        const missingFields = [];
-        if (!desde.coordenadasExtras) missingFields.push("coordenadasExtras");
-        if (!hasta.coordenadasExtras) missingFields.push("coordenadasExtras");
-        return NextResponse.json({
-            message: `Faltan campos opcionales: ${missingFields.join(", ")}`,
-        });
-    }
+    
 
 
     try {
@@ -68,7 +61,7 @@ export async function POST(request: RequestWithJson) {
             eresFlexible, 
             estado: false, 
             precio, 
-            productos,
+            envios,
         });
         const savedViaje = await nuevoViaje.save();
 

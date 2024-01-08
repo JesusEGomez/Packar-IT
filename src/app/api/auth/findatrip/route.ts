@@ -14,7 +14,7 @@ export async function GET(request: Request) {
         const viajes = await Viaje.find({
             estado: false
         });
-
+ 
         // Filtra por ciudad de origen y ciudad final
         const filter1Viajes = viajes.filter((viaje) => viaje.desde.ciudad === cityOrigin);
         const filter2Viajes = filter1Viajes.filter((viaje) => viaje.hasta.ciudad === cityFinal);
