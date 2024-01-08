@@ -6,6 +6,16 @@ import { connectDB } from "@/libs/mongodb";
 import Producto from "@/models/productos";
 import Viaje from "@/models/viajes"
 
+
+/**
+ * Crea un nuevo recurso utilizando el método POST HTTP.
+ *
+ * @param {Request} request - El objeto de solicitud que contiene los datos para crear el recurso.
+ * @return {Promise<NextResponse>} El objeto de respuesta que contiene el recurso creado o un mensaje de error.
+ */
+
+
+
 export async function POST(request: Request) {
     await connectDB();
     const { userId, desde, hasta, cuando, producto } = await request.json();
