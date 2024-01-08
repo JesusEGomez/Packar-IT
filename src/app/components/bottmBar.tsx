@@ -45,7 +45,7 @@ const BottmBar = () => {
           <button
             onClick={() => navigate.push("/loged/driver")}
             className={`flex ${
-              pathName === "/driver" ? "text-pink" : "text-slate-600"
+              pathName === "/loged/driver" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoMdAddCircleOutline size={30} />
