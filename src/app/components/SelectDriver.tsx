@@ -7,8 +7,8 @@ import { useRouter } from 'next/navigation';
 import { GiPathDistance } from "react-icons/gi";
 
 type viajes = {
-  desde: {lat: number, lng: number}
-  hasta: {lat: number, lng: number}
+  desde: {pais: string, ciudad: string, calle:string}
+  hasta: {pais: string, ciudad: string, calle:string}
   cuando: string
   horaSalida: string
   horaLlegada: string
@@ -18,104 +18,6 @@ type viajes = {
     foto: string
   }
 }
-// const viajes = [
-//   {
-//     "desde": {
-//       "pais": "Argentina",
-//       "ciudad": "OrigenCiudad",
-//       "lat": 40.7128,
-//       "lng": -74.006
-//     },
-//     "hasta": {
-//       "pais": "Brasil",
-//       "ciudad": "Rio de Janeiro",
-//       "lat": 34.0522,
-//       "lng": -118.2437,
-//       "coordenadasExtras": [
-//         "opcional1",
-//         "opcional2"
-//       ]
-//     },
-//     "_id": "659ad94be9dc55f1096e89ca",
-//     "usuario": "6599ec1ea23e1f8af4310236",
-//     "cuando": "2024-01-05T12:00:00.000Z",
-//     "horaSalida": "2024-01-05T10:00:00.000Z",
-//     "horaLlegada": "2024-01-05T14:00:00.000Z",
-//     "eresFlexible": false,
-//     "estado": false,
-//     "precio": [
-//       50,
-//       23,
-//       45
-//     ],
-//     "__v": 0,
-//     "perfil": {
-//       "driverLicense": {
-//         "frontPhoto": "ruta/de/tu/imagDen/front.jpg",
-//         "backPhoto": ""
-//       },
-//       "idDocument": {
-//         "type": "DNI",
-//         "number": "123456578",
-//         "frontPhoto": "ruta/de/tu/imagen/front_id.jpg",
-//         "backPhoto": "jpg"
-//       },
-//       "_id": "6599ec26a23e1f8af431023a",
-//       "userId": "6599ec1ea23e1f8af4310236",
-//       "city": "no definido",
-//       "phoneNumber": "0",
-//       "__v": 0
-//     }
-//   },
-//   {
-//     "desde": {
-//       "pais": "Argentina",
-//       "ciudad": "OrigenCiudad",
-//       "lat": 40.7128,
-//       "lng": -74.006
-//     },
-//     "hasta": {
-//       "pais": "Brasil",
-//       "ciudad": "Rio de Janeiro",
-//       "lat": 34.0522,
-//       "lng": -118.2437,
-//       "coordenadasExtras": [
-//         "opcional1",
-//         "opcional2"
-//       ]
-//     },
-//     "_id": "659ad94be9dc55f1096e89ca",
-//     "usuario": "6599ec1ea23e1f8af4310236",
-//     "cuando": "2024-01-05T12:00:00.000Z",
-//     "horaSalida": "2024-01-05T10:00:00.000Z",
-//     "horaLlegada": "2024-01-05T14:00:00.000Z",
-//     "eresFlexible": false,
-//     "estado": false,
-//     "precio": [
-//       50,
-//       23,
-//       45
-//     ],
-//     "__v": 0,
-//     "perfil": {
-//       "driverLicense": {
-//         "frontPhoto": "ruta/de/tu/imagDen/front.jpg",
-//         "backPhoto": ""
-//       },
-//       "idDocument": {
-//         "type": "DNI",
-//         "number": "123456578",
-//         "frontPhoto": "ruta/de/tu/imagen/front_id.jpg",
-//         "backPhoto": "jpg"
-//       },
-//       "_id": "6599ec26a23e1f8af431023a",
-//       "userId": "6599ec1ea23e1f8af4310236",
-//       "city": "no definido",
-//       "phoneNumber": "0",
-//       "__v": 0
-//     }
-//   }
-// ]
 function Page(props:any) {
   const [viajes, setViajes] = useState<[any] | null>(null);
   const prodSize = props.open.size;
@@ -126,8 +28,8 @@ function Page(props:any) {
   useEffect(() => {
     const fetchData = async () => {
       console.log(props);
-      
-      const response = await fetch(`/api/auth/findatrip/?cityOrigin=${props.from}&cityFinal=${props.to}`);
+      //const response = await fetch(`/api/auth/findatrip/?cityOrigin=${props.from}&cityFinal=${props.to}`);
+      const response = await fetch(`/api/auth/viajes`);
       const data = await response.json();
       setViajes(data);
     };
