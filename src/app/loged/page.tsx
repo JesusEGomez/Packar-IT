@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SelectDriver from "../components/SelectDriver";
+import QuienEnvia from "../components/QuienEnvia";
 
 type prod = {
   types: any;
@@ -58,33 +59,36 @@ const Loged = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
-    null
-  );
-  const [formData, setFormData] = React.useState<FormInputs | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
+  const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
   const [selectdriverOpen, setSelectdriverOpen] = useState(false);
   const [driver, setDriver] = useState(null);
   const { data: session } = useSession();
   const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
+  const [receptor, setReceptor] = useState<boolean | null>(false);
+  const [receptorInfo, setReceptorInfo] = useState<any>(null);
 
   const fromHandler = () => {
     setFromModalOpen(true);
   };
 
-  const closeModal = (fromSelected: any) => {
+  const closeModal = async (fromSelected: any) => {
     setFromModalOpen(false);
-    setFrom(fromSelected);
+    const fromLocation = await getFormattedAddress(fromSelected);
+    setFrom(fromLocation);
   };
 
   const toHandler = () => {
     setToModalOpen(true);
   };
 
-  const toModelClose = (toSelected: any) => {
+  const toModelClose = async (toSelected: any) => {
     setToModalOpen(false);
-    setTo(toSelected);
+    const toLocation = await getFormattedAddress(toSelected);
+    setTo(toLocation);
   };
   const calendarHandler = () => {
     setCalendarOpen(!calendarOpen);
@@ -110,6 +114,13 @@ const Loged = () => {
   const searchHandler = () => {
     setSelectdriverOpen(true);
   };
+  const receptorOpen = () => {
+    setReceptor(true);
+  };
+  const receptorClose = (data:any) => {
+    setReceptorInfo(data);
+    setReceptor(false);
+  };
   const {
     register,
     handleSubmit,
@@ -117,9 +128,17 @@ const Loged = () => {
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
-    setCiudadOrigen(data?.ciudadOrigen);
-    setCiudadDestino(data?.ciudadDestino);
-    setFormData(data);
+    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
+    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
+    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
+    setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
+    
+    const newEnvio = {
+      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
+      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
+      cuando: date,
+      producto: selectedProductData,
+    }
   };
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
@@ -146,32 +165,36 @@ const Loged = () => {
             className="flex  flex-col items-center gap-y-2 p-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <input
-              type="text"
-              placeholder="Ciudad de origen"
-              className="p-3 border-b text-slate-300"
-              id="ciudadOrigen"
-            />
-            <input
-              type="text"
-              placeholder="País de origen"
-              className="p-3 border-b text-slate-300"
-              id="paisOrigen"
-            />
-            <input
-              type="text"
-              placeholder="Ciudad de Destino"
-              className="p-3 border-b text-slate-300"
-              id="ciudadDestino"
-            />
-            <input
-              type="text"
-              placeholder="País de Destino"
-              className="p-3 border-b text-slate-300"
-              id="paisDestino"
-            />
-            <button>Set</button>
-          </form>
+            <div className="flex  flex-col items-center gap-y-5 ">
+                <input
+                  type="text"
+                  placeholder="Ciudad de origen"
+                  className="p-3 border-b text-slate-300"
+                  id="ciudadOrigen"
+                  {...register("ciudadOrigen")}
+                />
+                <input
+                  type="text"
+                  placeholder="País de origen"
+                  className="p-3 border-b text-slate-300"
+                  id="paisOrigen"
+                  {...register("paisOrigen")}
+                />
+                <input
+                  type="text"
+                  placeholder="Ciudad de Destino"
+                  className="p-3 border-b text-slate-300"
+                  id="ciudadDestino"
+                  {...register("ciudadDestino")}
+                />
+                <input
+                  type="text"
+                  placeholder="País de Destino"
+                  className="p-3 border-b text-slate-300"
+                  id="paisDestino"
+                  {...register("paisDestino")}
+                />
+              </div>
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={fromHandler}
@@ -210,6 +233,9 @@ const Loged = () => {
             <BsBoxSeam size={30} />
             {selectedProductData ? `${selectedProductData.name}` : "Producto"}
           </button>
+          <button 
+          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          onClick={() => receptorOpen()}>Datos del Receptor</button>
           <button
             onClick={() => searchHandler()}
             className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
@@ -217,6 +243,7 @@ const Loged = () => {
           >
             Buscar
           </button>
+        </form>
         </div>
       </div>
 
@@ -238,6 +265,13 @@ const Loged = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <ProdModal closeModal={closeProdModal} />
+          </div>
+        </div>
+      )}
+      {receptor && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <QuienEnvia closeModal={receptorClose} />
           </div>
         </div>
       )}

@@ -8,10 +8,21 @@ interface RecipientData {
   email: string;
 }
 
-const RecipientForm = (): JSX.Element => {
+const RecipientForm = (props:any): JSX.Element => {
   const [nombreApellidos, setNombreApellidos] = useState<string>("");
   const [telefono, setTelefono] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  
+  const submitHandler = () => {
+    const newRecipient = {
+      nombreApellidos: nombreApellidos,
+      telefono: telefono,
+      email: email,
+    };
+    console.log(newRecipient);
+    
+    props.closeModal(newRecipient);
+  }
 
   const handleNombreApellidosChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -98,7 +109,9 @@ const RecipientForm = (): JSX.Element => {
           </div>
         </div>
         <div className="bg-pink p-2 rounded-md mt-4">
-          <button className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85">
+          <button 
+          onClick={submitHandler}
+          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85">
             <h3 className="text-white">Siguiente</h3>{" "}
           </button>
         </div>
