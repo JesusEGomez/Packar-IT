@@ -42,14 +42,7 @@ export async function POST(request: RequestWithJson) {
      //   return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
     //}
 
-    if (!desde.coordenadasExtras && !hasta.coordenadasExtras) {
-        const missingFields = [];
-        if (!desde.coordenadasExtras) missingFields.push("coordenadasExtras");
-        if (!hasta.coordenadasExtras) missingFields.push("coordenadasExtras");
-        return NextResponse.json({
-            message: `Faltan campos opcionales: ${missingFields.join(", ")}`,
-        });
-    }
+    
 
 
     try {
