@@ -9,32 +9,12 @@ export const ViajeSchema = new Schema({
   desde: {
     pais: String,
     ciudad: String,
-    lat: {
-      type: Number,
-      required: true,
-    },
-    lng: {
-      type: Number,
-      required: true,
-    },
+    calle: String,
   },
   hasta: {
     pais: String,
     ciudad: String,
-    lat: {
-      type: Number,
-      required: true,
-    },
-    lng: {
-      type: Number,
-      required: true,
-    },
-    coordenadasExtras: {
-      type: [String],
-      default: [],
-    },
-
-
+    calle: String,
   },
   cuando: {
     type: Date,
