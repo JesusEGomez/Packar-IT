@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FormInputs } from "../page";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
+import useUserState from "@/app/store/sotre";
 
 type prod = {
   pequeño: {
@@ -39,6 +40,7 @@ type time = {
 };
 
 export interface ITravel {
+  userId: string;
   desde: { calle: string | null; pais: string | null; ciudad: string | null };
   hasta: { calle: string | null; pais: string | null; ciudad: string | null };
   precio: [
@@ -46,18 +48,19 @@ export interface ITravel {
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
   ];
-  horaDeSalida: { salida: string | null };
-  holaDeLlegada: { llegada: string | null };
+  horaSalida: string | null;
+  horaLlegada: string | null;
   cuando: { date: Date | undefined };
   eresFlexible: { flex: boolean };
   estado: boolean;
+  envios: [];
 }
 
 const Driver = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [timeModalOpen, setTimeModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
-  const [finalStep, setFinalStep] = useState(true);
+  const [finalStep, setFinalStep] = useState(false);
   const [flex, setFlex] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
@@ -70,6 +73,7 @@ const Driver = () => {
   const [paisOrigen, setPaisOrigen] = useState<string | null>(null);
   const [paisDestino, setPaisDestino] = useState<string | null>(null);
   const [travel, setTravel] = useState<ITravel>({
+    userId: "",
     desde: {
       calle: "",
       pais: "",
@@ -94,19 +98,18 @@ const Driver = () => {
         price: 0,
       },
     ],
-    horaDeSalida: {
-      salida: "",
-    },
-    holaDeLlegada: {
-      llegada: "",
-    },
+    horaSalida: "",
+
+    horaLlegada: "",
+
     cuando: {
       date: undefined,
     },
     eresFlexible: {
       flex: true,
     },
-    estado: true,
+    estado: false,
+    envios: [],
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -123,6 +126,7 @@ const Driver = () => {
     },
   });
   const [search, setSearch] = useState(false);
+  const { user } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -154,12 +158,7 @@ const Driver = () => {
   const calendarHandler = () => {
     setCalendarOpen(!calendarOpen);
   };
-  const changeDateFormat = (date: Date) => {
-    if (date) {
-      const newDate = date.toString().slice(0, 15);
-      return newDate;
-    }
-  };
+
   const productsHandler = () => {
     setProdModal(true);
   };
@@ -196,6 +195,12 @@ const Driver = () => {
     time,
   ]);
 
+  const felxhandler = () => {
+    setFlex(!flex);
+    const editFlex = { ...travel, eresFlexible: { flex: !flex } };
+    setTravel(editFlex);
+  };
+
   const {
     register,
     handleSubmit,
@@ -211,6 +216,7 @@ const Driver = () => {
 
     console.log(selectedProductData);
     const newTravel: ITravel = {
+      userId: user._id,
       desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
       hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
       precio: [
@@ -218,11 +224,12 @@ const Driver = () => {
         selectedProductData.mediano,
         selectedProductData.grande,
       ],
-      horaDeSalida: { salida: time.salida },
-      holaDeLlegada: { llegada: time.llegada },
+      horaSalida: time.salida,
+      horaLlegada: time.llegada,
       cuando: { date },
       eresFlexible: { flex },
       estado: true,
+      envios: [],
     };
     search && setTravel(newTravel);
     search && setFinalStep(true);
@@ -282,21 +289,27 @@ const Driver = () => {
                   onClick={fromHandler}
                 >
                   {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Desde" : `${from}`}
+                  {from === null ? "Desde:Calle" : `${from}`}
                 </button>
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
                   onClick={toHandler}
                 >
                   <RiMapPin2Fill size={30} />
-                  {to === null ? "Desde" : `${to}`}
+                  {to === null ? "Hasta:Calle" : `${to}`}
                 </button>
                 <button
                   onClick={() => calendarHandler()}
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
                 >
                   <FaRegCalendarAlt size={30} />
-                  {date ? `${changeDateFormat(date)}` : "Cuando"}
+                  {date
+                    ? `${date.toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}`
+                    : "Cuando"}
                   {calendarOpen && (
                     <Calendar
                       mode="single"
@@ -333,7 +346,7 @@ const Driver = () => {
             </button>
 
             <div className="flex items-center text-slate-400 space-x-2">
-              <Checkbox onClick={() => setFlex(!flex)} id="terms" />
+              <Checkbox onClick={felxhandler} id="terms" />
               <label
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -387,7 +400,12 @@ const Driver = () => {
       {finalStep && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <FinalDriverModal travel={travel} closeModal={finalStepClose} />
+            <FinalDriverModal
+              travel={travel}
+              flexHandle={felxhandler}
+              closeModal={finalStepClose}
+              flex={flex}
+            />
           </div>
         </div>
       )}
