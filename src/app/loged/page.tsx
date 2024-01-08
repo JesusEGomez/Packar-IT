@@ -20,8 +20,8 @@ type prod = {
   name: string;
   size: any;
   weight: any;
-}
-interface FormInputs {
+};
+export interface FormInputs {
   ciudadOrigen: string;
   paisOrigen: string;
   ciudadDestino: string;
@@ -58,7 +58,9 @@ const Loged = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
+    null
+  );
   const [formData, setFormData] = React.useState<FormInputs | null>(null);
   const [search, setSearch] = useState(false);
   const [selectdriverOpen, setSelectdriverOpen] = useState(false);
@@ -69,7 +71,6 @@ const Loged = () => {
 
   const fromHandler = () => {
     setFromModalOpen(true);
-    
   };
 
   const closeModal = (fromSelected: any) => {
@@ -97,17 +98,17 @@ const Loged = () => {
   const productsHandler = () => {
     setProdModal(true);
   };
-  const closeProdModal = (selectedProductData : any) => {
+  const closeProdModal = (selectedProductData: any) => {
     setProdModal(false);
     setSelectedProductData(selectedProductData);
   };
-  const closeSelectDriver = (data:any) => {
+  const closeSelectDriver = (data: any) => {
     setSelectdriverOpen(false);
     setDriver(data);
   };
   const navigate = useRouter();
   const searchHandler = () => {
-      setSelectdriverOpen(true);
+    setSelectdriverOpen(true);
   };
   const {
     register,
@@ -120,12 +121,12 @@ const Loged = () => {
     setCiudadDestino(data?.ciudadDestino);
     setFormData(data);
   };
-  useEffect(()=>{
+  useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
     from && to && date && selectedProductData && setSearch(true);
-  },[from, to, date, selectedProductData]);
-  
+  }, [from, to, date, selectedProductData]);
+
   return (
     <div className="flex flex-col items-center bg-pink md:flex-row">
       <Image
@@ -141,36 +142,35 @@ const Loged = () => {
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
         <div className="flex flex-col items-center gap-y-4">
           <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
-          <form 
-          className='flex  flex-col items-center gap-y-2 p-2'
-          onSubmit={handleSubmit(onSubmit)}>
-            <input 
+          <form
+            className="flex  flex-col items-center gap-y-2 p-2"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <input
               type="text"
-              placeholder='Ciudad de origen' 
-              className='p-3 border-b text-slate-300'  
-              id='ciudadOrigen'
+              placeholder="Ciudad de origen"
+              className="p-3 border-b text-slate-300"
+              id="ciudadOrigen"
             />
-            <input 
+            <input
               type="text"
-              placeholder='País de origen' 
-              className='p-3 border-b text-slate-300'  
-              id='paisOrigen'
+              placeholder="País de origen"
+              className="p-3 border-b text-slate-300"
+              id="paisOrigen"
             />
-             <input 
+            <input
               type="text"
-              placeholder='Ciudad de Destino' 
-              className='p-3 border-b text-slate-300'  
-              id='ciudadDestino'
+              placeholder="Ciudad de Destino"
+              className="p-3 border-b text-slate-300"
+              id="ciudadDestino"
             />
-            <input 
+            <input
               type="text"
-              placeholder='País de Destino' 
-              className='p-3 border-b text-slate-300'  
-              id='paisDestino'
+              placeholder="País de Destino"
+              className="p-3 border-b text-slate-300"
+              id="paisDestino"
             />
-            <button>
-              Set
-            </button>
+            <button>Set</button>
           </form>
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
@@ -179,8 +179,7 @@ const Loged = () => {
             {<RiMapPinAddLine size={30} />}
             {from === null ? "Dirección Origen" : `${from}`}
           </button>
-          
-          
+
           <button
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
             onClick={toHandler}
@@ -209,12 +208,13 @@ const Loged = () => {
             className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
           >
             <BsBoxSeam size={30} />
-            {selectedProductData ? `${selectedProductData.name}`: 'Producto'}
+            {selectedProductData ? `${selectedProductData.name}` : "Producto"}
           </button>
-          <button 
-          onClick={() => searchHandler()}
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-          disabled={!search}>
+          <button
+            onClick={() => searchHandler()}
+            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+            disabled={!search}
+          >
             Buscar
           </button>
         </div>
@@ -244,7 +244,12 @@ const Loged = () => {
       {selectdriverOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <SelectDriver close={closeSelectDriver} open={selectedProductData} ciudadOrigen={ciudadOrigen} ciudadDestino={ciudadDestino}/>
+            <SelectDriver
+              close={closeSelectDriver}
+              open={selectedProductData}
+              ciudadOrigen={ciudadOrigen}
+              ciudadDestino={ciudadDestino}
+            />
           </div>
         </div>
       )}
