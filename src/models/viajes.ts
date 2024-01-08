@@ -17,15 +17,15 @@ export const ViajeSchema = new Schema({
     calle: String,
   },
   cuando: {
-    type: Date,
+    type: String,
     required: [true, "La fecha de envío es obligatoria"],
   },
   horaSalida: {
-    type: Date,
+    type: String,
     required: [true, "La hora de salida es obligatoria"],
   },
   horaLlegada: {
-    type: Date,
+    type: String,
     required: [true, "La hora de llegada es obligatoria"],
   },
   eresFlexible: {
@@ -48,7 +48,6 @@ export const ViajeSchema = new Schema({
     },
   ],
   envios: [{}],
-
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);
