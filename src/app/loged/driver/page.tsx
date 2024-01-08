@@ -50,8 +50,8 @@ export interface ITravel {
   ];
   horaSalida: string | null;
   horaLlegada: string | null;
-  cuando: { date: Date | undefined };
-  eresFlexible: { flex: boolean };
+  cuando: string | undefined;
+  eresFlexible: boolean;
   estado: boolean;
   envios: [];
 }
@@ -102,12 +102,10 @@ const Driver = () => {
 
     horaLlegada: "",
 
-    cuando: {
-      date: undefined,
-    },
-    eresFlexible: {
-      flex: true,
-    },
+    cuando: undefined,
+
+    eresFlexible: true,
+
     estado: false,
     envios: [],
   });
@@ -197,7 +195,7 @@ const Driver = () => {
 
   const felxhandler = () => {
     setFlex(!flex);
-    const editFlex = { ...travel, eresFlexible: { flex: !flex } };
+    const editFlex = { ...travel, eresFlexible: !flex };
     setTravel(editFlex);
   };
 
@@ -215,6 +213,11 @@ const Driver = () => {
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
 
     console.log(selectedProductData);
+    const stringDate = date?.toLocaleDateString("es-AR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
     const newTravel: ITravel = {
       userId: user._id,
       desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
@@ -226,8 +229,8 @@ const Driver = () => {
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,
-      cuando: { date },
-      eresFlexible: { flex },
+      cuando: stringDate,
+      eresFlexible: flex,
       estado: true,
       envios: [],
     };

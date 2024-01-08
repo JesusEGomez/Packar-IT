@@ -6,6 +6,9 @@ import { map } from "zod";
 import { ITravel } from "../loged/driver/page";
 import { GiPathDistance } from "react-icons/gi";
 import { CalendarDays, CheckCircle2 } from "lucide-react";
+import useUserState from "../store/sotre";
+import Swal from "sweetalert2";
+
 interface IPropsDriver {
   closeModal: () => void;
   flexHandle: () => void;
@@ -19,9 +22,37 @@ function FinalDriverModal({
   flexHandle,
   flex,
 }: IPropsDriver) {
-  const sendTravel = () => {
-    console.log("Viaje desde el modal", travel);
+  const { postTravel } = useUserState((state) => state);
+
+  const sendTravel = async () => {
+    const response = await postTravel(travel);
+    console.log("viaje enviado", response);
+    if (response) {
+      Swal.fire({
+        title: "¡Se ha publicado tu trayecto!",
+        text: "Los usuarios que necesiten transportar algún paquete ya podrán solicitar tu viaje.",
+        imageUrl: "/FinalStep.svg",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Custom image",
+        background: "#fe1252",
+        confirmButtonText: "Cerrar",
+        color: "#000",
+      }).then((response) => {
+        if (response.isConfirmed) {
+          location.reload();
+        }
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Ocurrió un error",
+        confirmButtonColor: "#fe1252",
+        confirmButtonText: "reintentar",
+      });
+    }
   };
+
   return (
     <div>
       <Button onClick={() => closeModal()} variant={"ghost"}>
@@ -49,11 +80,7 @@ function FinalDriverModal({
           </div>
           <div className="flex ">
             <CalendarDays />
-            {travel.cuando.date?.toLocaleDateString("es-AR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}
+            {travel.cuando}
           </div>
         </div>
         <div>
