@@ -13,9 +13,10 @@ import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
 import { IoTime } from "react-icons/io5";
 import { SendProduct } from "@/app/components/sendProduct";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormInputs } from "../page";
+import { SubmitHandler, useForm } from "react-hook-form";
+import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 
 type prod = {
   pequeño: {
@@ -33,21 +34,80 @@ type prod = {
 };
 
 type time = {
-  salida: string;
-  llegada: string;
+  salida: string | null;
+  llegada: string | null;
 };
+
+export interface ITravel {
+  desde: { calle: string | null; pais: string | null; ciudad: string | null };
+  hasta: { calle: string | null; pais: string | null; ciudad: string | null };
+  precio: [
+    { quantity: number | null; price: number | null },
+    { quantity: number | null; price: number | null },
+    { quantity: number | null; price: number | null }
+  ];
+  horaDeSalida: { salida: string | null };
+  holaDeLlegada: { llegada: string | null };
+  cuando: { date: Date | undefined };
+  eresFlexible: { flex: boolean };
+  estado: boolean;
+}
 
 const Driver = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [timeModalOpen, setTimeModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
+  const [finalStep, setFinalStep] = useState(true);
   const [flex, setFlex] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
-  const [time, setTime] = useState<time>({ salida: "", llegada: "" });
+  const [time, setTime] = useState<time>({ salida: null, llegada: null });
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
+  const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
+  const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
+  const [paisOrigen, setPaisOrigen] = useState<string | null>(null);
+  const [paisDestino, setPaisDestino] = useState<string | null>(null);
+  const [travel, setTravel] = useState<ITravel>({
+    desde: {
+      calle: "",
+      pais: "",
+      ciudad: "",
+    },
+    hasta: {
+      calle: "",
+      pais: "",
+      ciudad: "",
+    },
+    precio: [
+      {
+        quantity: 0,
+        price: 0,
+      },
+      {
+        quantity: 0,
+        price: 0,
+      },
+      {
+        quantity: 0,
+        price: 0,
+      },
+    ],
+    horaDeSalida: {
+      salida: "",
+    },
+    holaDeLlegada: {
+      llegada: "",
+    },
+    cuando: {
+      date: undefined,
+    },
+    eresFlexible: {
+      flex: true,
+    },
+    estado: true,
+  });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
       quantity: 0,
@@ -103,6 +163,9 @@ const Driver = () => {
   const productsHandler = () => {
     setProdModal(true);
   };
+  const finalStepClose = () => {
+    setFinalStep(false);
+  };
   const closeProdModal = (selectedProductData: any) => {
     setProdModal(false);
     setSelectedProductData(selectedProductData);
@@ -110,35 +173,64 @@ const Driver = () => {
   };
   const navigate = useRouter();
 
-  const searchHandler = () => {
-    console.log(selectedProductData);
-    const newTravel = {
-      from,
-      to,
-      date,
-      precio: [
-        selectedProductData.pequeño,
-        selectedProductData.mediano,
-        selectedProductData.grande,
-      ],
-      time,
-      flex,
-    };
-    console.log("nuevoViaje", newTravel);
-  };
   useEffect(() => {
     flex &&
-      time &&
+      time.llegada &&
+      time.salida &&
       from &&
       to &&
       date &&
       selectedProductData &&
       setSearch(true);
     console.log("flex", flex);
-  }, [flex, from, to, date, selectedProductData, time]);
+  }, [
+    ciudadOrigen,
+    ciudadDestino,
+    paisDestino,
+    paisOrigen,
+    flex,
+    from,
+    to,
+    date,
+    selectedProductData,
+    time,
+  ]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    console.log(data);
+    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
+    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
+    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
+    setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
+
+    console.log(selectedProductData);
+    const newTravel: ITravel = {
+      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
+      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
+      precio: [
+        selectedProductData.pequeño,
+        selectedProductData.mediano,
+        selectedProductData.grande,
+      ],
+      horaDeSalida: { salida: time.salida },
+      holaDeLlegada: { llegada: time.llegada },
+      cuando: { date },
+      eresFlexible: { flex },
+      estado: true,
+    };
+    search && setTravel(newTravel);
+    search && setFinalStep(true);
+    console.log("nuevoViaje", newTravel);
+  };
 
   return (
-    <div className="flex flex-col items-center bg-pink">
+    <div className="flex flex-col  items-center bg-pink">
       <Image
         className="my-16 rounded-full"
         src={"/step-3.svg"}
@@ -146,86 +238,122 @@ const Driver = () => {
         width={250}
         height={250}
       />
-      <div className="bg-white w-full rounded-t-3xl pt-10">
+      <div className="bg-white w-full rounded-t-3xl">
         {/* Contenido del segundo div */}
       </div>
-      <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
-        <div className="flex flex-col w-full items-center gap-y-4">
-          <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
-          <button
-            className="flex text-slate-400 justify-center gap-x-4 border-b p-2 mx-4"
-            onClick={fromHandler}
-          >
-            {<RiMapPinAddLine size={30} />}
-            {from === null ? "Desde" : `${from}`}
-          </button>
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-            onClick={toHandler}
-          >
-            <RiMapPin2Fill size={30} />
-            {to === null ? "Desde" : `${to}`}
-          </button>
-          <button
-            onClick={() => calendarHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-          >
-            <FaRegCalendarAlt size={30} />
-            {date ? `${changeDateFormat(date)}` : "Cuando"}
-            {calendarOpen && (
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-                disabled={(date: Date) => date < new Date()}
-              />
-            )}
-          </button>
-
-          <button
-            onClick={() => timeHandler()}
-            className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4"
-          >
-            <IoTime size={30} />
-            {time === null ? (
-              "Hora "
-            ) : (
-              <div className="flex flex-col">
-                <p>{`Salida: ${time.salida}`} </p>
-                <p>{`Llegada: ${time.llegada}`}</p>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="z-10 fixed left-0 w-full top-48  bg-white border rounded-xl">
+          <div className="flex flex-col w-full  items-center gap-y-4">
+            <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
+            <div className="flex items-center">
+              <div className="flex  flex-col items-center gap-y-5 ">
+                <input
+                  type="text"
+                  placeholder="Ciudad de origen"
+                  className="p-3 border-b text-slate-300"
+                  id="ciudadOrigen"
+                  {...register("ciudadOrigen")}
+                />
+                <input
+                  type="text"
+                  placeholder="País de origen"
+                  className="p-3 border-b text-slate-300"
+                  id="paisOrigen"
+                  {...register("paisOrigen")}
+                />
+                <input
+                  type="text"
+                  placeholder="Ciudad de Destino"
+                  className="p-3 border-b text-slate-300"
+                  id="ciudadDestino"
+                  {...register("ciudadDestino")}
+                />
+                <input
+                  type="text"
+                  placeholder="País de Destino"
+                  className="p-3 border-b text-slate-300"
+                  id="paisDestino"
+                  {...register("paisDestino")}
+                />
               </div>
-            )}
-          </button>
-          <button
-            onClick={() => productsHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-          >
-            <BsBoxSeam size={30} />
-            {selectedProductData ? "Elección Cargada" : "Producto"}
-          </button>
+              <div className="flex  flex-col items-center gap-y-2 ">
+                <button
+                  className="flex text-slate-400 justify-center gap-x-4 border-b p-2 mx-4"
+                  onClick={fromHandler}
+                >
+                  {<RiMapPinAddLine size={30} />}
+                  {from === null ? "Desde" : `${from}`}
+                </button>
+                <button
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+                  onClick={toHandler}
+                >
+                  <RiMapPin2Fill size={30} />
+                  {to === null ? "Desde" : `${to}`}
+                </button>
+                <button
+                  onClick={() => calendarHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
+                >
+                  <FaRegCalendarAlt size={30} />
+                  {date ? `${changeDateFormat(date)}` : "Cuando"}
+                  {calendarOpen && (
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      className="rounded-md border"
+                      disabled={(date: Date) => date < new Date()}
+                    />
+                  )}
+                </button>
 
-          <div className="flex items-center text-slate-400 space-x-2">
-            <Checkbox onClick={() => setFlex(!flex)} id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                <button
+                  onClick={() => timeHandler()}
+                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4"
+                >
+                  <IoTime size={30} />
+                  {time === null ? (
+                    "Hora "
+                  ) : (
+                    <div className="flex flex-col">
+                      <p>{`Salida: ${time.salida ? time.salida : ""}`} </p>
+                      <p>{`Llegada: ${time.llegada ? time.llegada : ""}`}</p>
+                    </div>
+                  )}
+                </button>
+              </div>
+            </div>
+            <button
+              onClick={() => productsHandler()}
+              className="flex text-slate-400 gap-x-4 justify-center border-b p-2 mx-4 w-full md:w-auto"
             >
-              ¿Eres flexible?
-            </label>
+              <BsBoxSeam size={30} />
+              {selectedProductData ? "Elección Cargada" : "Producto"}
+            </button>
+
+            <div className="flex items-center text-slate-400 space-x-2">
+              <Checkbox onClick={() => setFlex(!flex)} id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                ¿Eres flexible?
+              </label>
+            </div>
+
+            <div className="flex text-xl w-full justify-center text-black   border-b p-2 mx-4"></div>
+
+            <button
+              onSubmit={handleSubmit(onSubmit)}
+              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+              disabled={!search}
+            >
+              Crear
+            </button>
           </div>
-
-          <div className="flex text-xl w-full justify-center text-black   border-b p-2 mx-4"></div>
-
-          <button
-            onClick={() => searchHandler()}
-            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-            disabled={!search}
-          >
-            Crear
-          </button>
         </div>
-      </div>
+      </form>
 
       {fromModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -253,6 +381,13 @@ const Driver = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <SendProduct closeModal={closeProdModal} />
+          </div>
+        </div>
+      )}
+      {finalStep && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <FinalDriverModal travel={travel} closeModal={finalStepClose} />
           </div>
         </div>
       )}
