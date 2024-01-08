@@ -58,7 +58,7 @@ export default function LoginPage() {
         className="flex flex-col p-4 gap-y-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Link href={"/preLogin"}>
+        <Link href={"/prelogin"}>
           <ArrowLeft className="w-7" />
         </Link>
         <h1 className="text-2xl font-bold text-defaultButton mb-3">

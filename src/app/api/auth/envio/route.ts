@@ -4,6 +4,17 @@ import Envio from "@/models/envios";
 import User from "@/models/user";  // Cambiando la importación
 import { connectDB } from "@/libs/mongodb";
 import Producto from "@/models/productos";
+import Viaje from "@/models/viajes"
+
+
+/**
+ * Crea un nuevo recurso utilizando el método POST HTTP.
+ *
+ * @param {Request} request - El objeto de solicitud que contiene los datos para crear el recurso.
+ * @return {Promise<NextResponse>} El objeto de respuesta que contiene el recurso creado o un mensaje de error.
+ */
+
+
 
 export async function POST(request: Request) {
     await connectDB();
@@ -26,7 +37,6 @@ export async function POST(request: Request) {
         const savedEnvio = await envio.save();
 
         console.log(savedEnvio);
-
         return NextResponse.json(savedEnvio);
     } catch (error) {
         console.error(error);

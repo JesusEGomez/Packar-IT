@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     await connectDB();
-    const productos = await Producto.find();
+    const productos = await Producto.find().lean();
     return NextResponse.json(productos);
   } catch (error) {
     console.error(error);

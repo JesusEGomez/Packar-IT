@@ -1,19 +1,69 @@
 // Importa el modelo Viaje
 import Viaje from "@/models/viajes";
 import { NextResponse } from "next/server";
+import User from "@/models/user";
 import { connectDB } from "@/libs/mongodb";
 
-export async function POST(request: Request) {
-    await connectDB();
-    const { desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, tamañoParaTrasnsportar, pesoParaTrasnsportar, articulosEspeciales, precio } = await request.json();
 
-    if (!desde || !hasta || !cuando || !horaSalida || !horaLlegada || !eresFlexible || !tamañoParaTrasnsportar || !pesoParaTrasnsportar || !precio) {
-        return NextResponse.json({ message: "Todos los campos son obligatorios" });
+interface RequestWithJson extends Request {
+    json(): Promise<any>;
+}
+
+export async function POST(request: RequestWithJson) {
+    await connectDB();
+
+    const { userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio , envios} = await request.json();
+
+    console.log(userId, desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, estado, precio, envios)
+
+    if (!userId || !desde || !hasta || !cuando || !horaSalida || !horaLlegada || !precio || !envios) {
+        const missingFields = [];
+
+        if (!userId) missingFields.push("userId");
+        if (!desde) missingFields.push("desde");
+        if (!hasta) missingFields.push("hasta");
+        if (!cuando) missingFields.push("cuando");
+        if (!horaSalida) missingFields.push("horaSalida");
+        if (!horaLlegada) missingFields.push("horaLlegada");
+        if (!precio) missingFields.push("precio");
+        if (!envios) missingFields.push("envios");
+
+        return NextResponse.json({
+            message: `Faltan campos obligatorios: ${missingFields.join(", ")}`,
+        });
     }
 
+    // Validación para campos dentro de 'desde'
+   // if (!desde.pais || !desde.ciudad || !desde.latitud || !desde.longitud) {
+     //   return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' no proporcionados" });
+   // }
+
+   // if (!hasta.pais || !hasta.ciudad || !hasta.latitud || !hasta.longitud) {
+     //   return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
+    //}
+
+    
+
+
     try {
-        const viaje = new Viaje({ desde, hasta, cuando, horaSalida, horaLlegada, eresFlexible, tamañoParaTrasnsportar, pesoParaTrasnsportar, articulosEspeciales, precio });
-        const savedViaje = await viaje.save();
+        const user = await User.findById(userId);
+        if (!user) {
+            return NextResponse.json({ message: "Usuario no encontrado" }, { status: 404 });
+        }
+
+        const nuevoViaje = new Viaje({
+            usuario: userId,
+            desde,
+            hasta,
+            cuando,
+            horaSalida, 
+            horaLlegada, 
+            eresFlexible, 
+            estado: false, 
+            precio, 
+            envios,
+        });
+        const savedViaje = await nuevoViaje.save();
 
         console.log(savedViaje);
 
@@ -26,6 +76,8 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
+
+
 
 export async function GET(request: Request) {
     try {

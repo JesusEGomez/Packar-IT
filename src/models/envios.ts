@@ -7,28 +7,14 @@ export const EnvioSchema = new Schema({
         required: true,
     },
     desde: {
-        lat: {
-            type: Number,
-            required: true,
-        },
-        lng: {
-            type: Number,
-            required: true,
-        },
+        pais: String,
+        ciudad: String,
+        calle: String,
     },
     hasta: {
-        lat: {
-            type: Number,
-            required: true,
-        },
-        lng: {
-            type: Number,
-            required: true,
-        },
-        coordenadasExtras: {
-            type: [String],
-            default: [],
-        },
+        pais: String,
+        ciudad: String,
+        calle: String,
     },
     cuando: {
         type: Date,
@@ -40,6 +26,20 @@ export const EnvioSchema = new Schema({
             required: [true, "El nombre del producto es obligatorio"],
         }
     },
+    recibe: {
+        nombre: {
+            type: String,
+            required: [true, "El nombre del receptor es obligatorio"],
+        },
+        email: {
+            type: String,
+            required: [true, "El email del receptor es obligatorio"],
+        },
+        telefono: {
+            type: String,
+            required: [true, "El teléfono del receptor es obligatorio"],
+        },
+    }
 });
 
 const Envio = models.Envio || model("Envio", EnvioSchema);
