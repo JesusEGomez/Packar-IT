@@ -11,9 +11,9 @@ function Step1() {
         alt="step-1"
         className=""
       />
-      <h2 className="onboarding-font text-xl mt-28  font-bold">
+      <h1 className="onboarding-font text-xl mt-28  font-bold md:text-4xl md:font-bold md:text-center md:mt-20">
         Bienvenida a Packar
-      </h2>
+      </h1>
       <p className="onboarding-font-text p-3">
         Aprovecha el viaje de otro conductor para enviar tus paquetes de manera
         colaborativa, rapida y sostenible.

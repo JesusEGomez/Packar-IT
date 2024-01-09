@@ -59,7 +59,9 @@ const Loged = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
+    null
+  );
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -117,7 +119,7 @@ const Loged = () => {
   const receptorOpen = () => {
     setReceptor(true);
   };
-  const receptorClose = (data:any) => {
+  const receptorClose = (data: any) => {
     setReceptorInfo(data);
     setReceptor(false);
   };
@@ -132,13 +134,13 @@ const Loged = () => {
     setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
     setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
-    
+
     const newEnvio = {
       desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
       hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
       cuando: date,
       producto: selectedProductData,
-    }
+    };
   };
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
@@ -159,13 +161,14 @@ const Loged = () => {
         {/* Contenido del segundo div */}
       </div>
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
-        <div className="flex flex-col items-center gap-y-4">
-          <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
+        <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
+        <div className="flex flex-col text-center items-center gap-y-4">
           <form
             className="flex  flex-col items-center gap-y-2 p-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex  flex-col items-center gap-y-5 ">
+            <div className="flex  justify-center items-center gap-y-5 ">
+              <div className="flex  flex-col items-center gap-y-5 ">
                 <input
                   type="text"
                   placeholder="Ciudad de origen"
@@ -195,55 +198,65 @@ const Loged = () => {
                   {...register("paisDestino")}
                 />
               </div>
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-            onClick={fromHandler}
-          >
-            {<RiMapPinAddLine size={30} />}
-            {from === null ? "Dirección Origen" : `${from}`}
-          </button>
+              <div className="flex flex-col items-center gap-y-4">
+                <button
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  onClick={fromHandler}
+                >
+                  {<RiMapPinAddLine size={30} />}
+                  {from === null ? "Dirección Origen" : `${from}`}
+                </button>
 
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-            onClick={toHandler}
-          >
-            <RiMapPin2Fill size={30} />
-            {to === null ? "Dirección Destino" : `${to}`}
-          </button>
-          <button
-            onClick={() => calendarHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-          >
-            <FaRegCalendarAlt size={30} />
-            {date ? `${changeDateFormat(date)}` : "Cuando"}
-            {calendarOpen && (
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-                disabled={(date: Date) => date < new Date()}
-              />
-            )}
-          </button>
-          <button
-            onClick={() => productsHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-          >
-            <BsBoxSeam size={30} />
-            {selectedProductData ? `${selectedProductData.name}` : "Producto"}
-          </button>
-          <button 
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-          onClick={() => receptorOpen()}>Datos del Receptor</button>
-          <button
-            onClick={() => searchHandler()}
-            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-            disabled={!search}
-          >
-            Buscar
-          </button>
-        </form>
+                <button
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  onClick={toHandler}
+                >
+                  <RiMapPin2Fill size={30} />
+                  {to === null ? "Dirección Destino" : `${to}`}
+                </button>
+                <button
+                  onClick={() => calendarHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                >
+                  <FaRegCalendarAlt size={30} />
+                  {date ? `${changeDateFormat(date)}` : "Cuando"}
+                  {calendarOpen && (
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      className="rounded-md border"
+                      disabled={(date: Date) => date < new Date()}
+                    />
+                  )}
+                </button>
+                <button
+                  onClick={() => productsHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                >
+                  <BsBoxSeam size={30} />
+                  {selectedProductData
+                    ? `${selectedProductData.name}`
+                    : "Producto"}
+                </button>
+              </div>
+              <div className="flex  items-center gap-y-4">
+                <button
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                  onClick={() => receptorOpen()}
+                >
+                  Datos del Receptor
+                </button>
+                <button
+                  onClick={() => searchHandler()}
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                  disabled={!search}
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
 
