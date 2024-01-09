@@ -11,9 +11,9 @@ function Step2() {
         alt="step-1"
         className=""
       />
-      <h2 className="onboarding-font text-xl mt-28  font-bold">
+      <h1 className="onboarding-font text-xl mt-28  font-bold md:text-4xl md:font-bold md:text-center md:mt-20">
         Envia tu paquete
-      </h2>
+      </h1>
       <p className="onboarding-font-text p-3">
         Elige el viaje que mejor se adapte a tus necesidades, chatea con el
         conductor que te va a llevar tu paquete. queda en el punto de recogida,
