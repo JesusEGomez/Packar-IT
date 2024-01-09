@@ -18,8 +18,9 @@ import Viaje from "@/models/viajes"
 
 export async function POST(request: Request) {
     await connectDB();
-    const { userId, desde, hasta, cuando, producto } = await request.json();
-
+    const { userId, desde, hasta, cuando, producto, recibe } = await request.json();
+    console.log(recibe);
+    
     if (!userId || !desde || !hasta || !cuando || !producto) {
         return NextResponse.json({ message: "Todos los campos son obligatorios" });
     }
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
         const nuevoProducto = new Producto(producto);
         const savedProducto = await nuevoProducto.save();
 
-        const envio = new Envio({ usuario: userId, desde, hasta, cuando, producto });
+        const envio = new Envio({ usuario: userId, desde, hasta, cuando, producto, recibe });
         const savedEnvio = await envio.save();
 
         console.log(savedEnvio);
