@@ -86,7 +86,11 @@ const Sidebar = () => {
                     Ciudad
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{user.profile.city}</p>
+                    <p>
+                      {user.profile.city
+                        ? user.profile.city
+                        : "Debes completar el perfil"}
+                    </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -99,7 +103,11 @@ const Sidebar = () => {
                     Teléfono
                   </AccordionTrigger>
                   <AccordionContent>
-                    <p>{user.profile.phoneNumber}</p>
+                    <p>
+                      {user.profile.phoneNumber
+                        ? user.profile.phoneNumber
+                        : "Debes completar el perfil"}
+                    </p>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
