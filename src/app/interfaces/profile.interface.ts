@@ -17,4 +17,6 @@ export interface IProfile {
   idDocument: IIdDocument;
   city: string;
   phoneNumber: string;
+  
 }
+ 

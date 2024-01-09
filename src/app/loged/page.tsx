@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SelectDriver from "../components/SelectDriver";
 import QuienEnvia from "../components/QuienEnvia";
+import Confirmacion from "../components/Confirmacion";
 
 type prod = {
   types: any;
@@ -29,28 +30,6 @@ export interface FormInputs {
   paisDestino: string;
 }
 
-// const response = await fetch('/api/auth/envio',{
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   method: 'POST',
-//   body: JSON.stringify({
-//     desde: {
-//       from,
-//       ciudad: formData?.ciudadOrigen,
-//       pais: formData?.paisOrigen
-//     },
-//     hasta: {
-//       to,
-//       ciudad: formData?.ciudadDestino,
-//       pais: formData?.paisDestino
-//     },
-//     cuando: date,
-//     producto: selectedProductData,
-//   })
-// });
-// const data = await response.json();
-
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
@@ -59,7 +38,9 @@ const Loged = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
+    null
+  );
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -70,6 +51,8 @@ const Loged = () => {
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [receptor, setReceptor] = useState<boolean | null>(false);
   const [receptorInfo, setReceptorInfo] = useState<any>(null);
+  const [lastModalOpen, setLastModalOpen] = useState(false);
+  const [envio, setEnvio] = useState<any|null>(null)
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -99,6 +82,12 @@ const Loged = () => {
       return newDate;
     }
   };
+  const confrmacionHandler = () => {
+    console.log('hola');
+  };
+  const closeLastModal = () => {
+    setLastModalOpen(false);
+  };
   const productsHandler = () => {
     setProdModal(true);
   };
@@ -109,6 +98,7 @@ const Loged = () => {
   const closeSelectDriver = (data: any) => {
     setSelectdriverOpen(false);
     setDriver(data);
+    setLastModalOpen(true);
   };
   const navigate = useRouter();
   const searchHandler = () => {
@@ -117,7 +107,7 @@ const Loged = () => {
   const receptorOpen = () => {
     setReceptor(true);
   };
-  const receptorClose = (data:any) => {
+  const receptorClose = (data: any) => {
     setReceptorInfo(data);
     setReceptor(false);
   };
@@ -127,24 +117,24 @@ const Loged = () => {
     formState: { errors },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
     setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
     setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
     setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
-    
-    const newEnvio = {
-      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
-      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
-      cuando: date,
-      producto: selectedProductData,
-    }
   };
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
-    from && to && date && selectedProductData && setSearch(true);
-  }, [from, to, date, selectedProductData]);
+
+    from && to && date && selectedProductData && receptorInfo && setSearch(true);
+    setEnvio({
+      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
+      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
+      cuando: date,
+      producto: selectedProductData,
+      recibe: receptorInfo,
+    })
+  }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
     <div className="flex flex-col items-center bg-pink md:flex-row">
@@ -159,13 +149,14 @@ const Loged = () => {
         {/* Contenido del segundo div */}
       </div>
       <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
-        <div className="flex flex-col items-center gap-y-4">
-          <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
+        <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
+        <div className="flex flex-col text-center items-center gap-y-4">
           <form
             className="flex  flex-col items-center gap-y-2 p-2"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex  flex-col items-center gap-y-5 ">
+            <div className="flex  justify-center items-center gap-y-5 ">
+              <div className="flex  flex-col items-center gap-y-5 ">
                 <input
                   type="text"
                   placeholder="Ciudad de origen"
@@ -195,55 +186,65 @@ const Loged = () => {
                   {...register("paisDestino")}
                 />
               </div>
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-            onClick={fromHandler}
-          >
-            {<RiMapPinAddLine size={30} />}
-            {from === null ? "Dirección Origen" : `${from}`}
-          </button>
+              <div className="flex flex-col items-center gap-y-4">
+                <button
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  onClick={fromHandler}
+                >
+                  {<RiMapPinAddLine size={30} />}
+                  {from === null ? "Dirección Origen" : `${from}`}
+                </button>
 
-          <button
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-            onClick={toHandler}
-          >
-            <RiMapPin2Fill size={30} />
-            {to === null ? "Dirección Destino" : `${to}`}
-          </button>
-          <button
-            onClick={() => calendarHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-          >
-            <FaRegCalendarAlt size={30} />
-            {date ? `${changeDateFormat(date)}` : "Cuando"}
-            {calendarOpen && (
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="rounded-md border"
-                disabled={(date: Date) => date < new Date()}
-              />
-            )}
-          </button>
-          <button
-            onClick={() => productsHandler()}
-            className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
-          >
-            <BsBoxSeam size={30} />
-            {selectedProductData ? `${selectedProductData.name}` : "Producto"}
-          </button>
-          <button 
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-          onClick={() => receptorOpen()}>Datos del Receptor</button>
-          <button
-            onClick={() => searchHandler()}
-            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-            disabled={!search}
-          >
-            Buscar
-          </button>
-        </form>
+                <button
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  onClick={toHandler}
+                >
+                  <RiMapPin2Fill size={30} />
+                  {to === null ? "Dirección Destino" : `${to}`}
+                </button>
+                <button
+                  onClick={() => calendarHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                >
+                  <FaRegCalendarAlt size={30} />
+                  {date ? `${changeDateFormat(date)}` : "Cuando"}
+                  {calendarOpen && (
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      className="rounded-md border"
+                      disabled={(date: Date) => date < new Date()}
+                    />
+                  )}
+                </button>
+                <button
+                  onClick={() => productsHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                >
+                  <BsBoxSeam size={30} />
+                  {selectedProductData
+                    ? `${selectedProductData.name}`
+                    : "Producto"}
+                </button>
+              </div>
+              <div className="flex  items-center gap-y-4">
+                <button
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                  onClick={() => receptorOpen()}
+                >
+                  Datos del Receptor
+                </button>
+                <button
+                  onClick={() => searchHandler()}
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                  disabled={!search}
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
 
@@ -284,6 +285,13 @@ const Loged = () => {
               ciudadOrigen={ciudadOrigen}
               ciudadDestino={ciudadDestino}
             />
+          </div>
+        </div>
+      )}
+      {lastModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Confirmacion closeModal={closeLastModal} confirmar={confrmacionHandler} driver={driver} envio={envio} />
           </div>
         </div>
       )}
