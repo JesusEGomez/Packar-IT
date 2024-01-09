@@ -14,32 +14,42 @@ function Confirmacion(props: any) {
   const navigate = useRouter();
   const { data: session } = useSession();
   const solicitarHandler = async () => {
-    try {      
+    try {     
+      const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`,{
+        headers: {
+              'Content-Type': 'application/json',
+            }
+      });
+      const userAns = await user.json();
+       
       const response = await fetch('/api/auth/envio',{
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
+          userId: userAns._id,
           desde: envio.desde,
           hasta:envio.hasta,
           cuando: envio.cuando,
           producto: envio.producto,
+          recibe: envio.recibe
         })
       });
       const data = await response.json();
       console.log(data);
-      // const update = await fetch('/api/auth/envio',{
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   method: 'PUT',
-      //   body: JSON.stringify({
-      //     viajeId: driver._id,
-      //     envio
-      //   })
-      // })
-      // console.log(update,'success');
+      const update = await fetch('/api/auth/envio',{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PUT',
+        body: JSON.stringify({
+          viajeId: driver._id,
+          envio
+        })
+      })
+      const updated = await update.json()
+      console.log(updated,'success');
       
     } catch (error) {
       console.log(error);
@@ -110,8 +120,14 @@ function Confirmacion(props: any) {
           </div>
         </div>
         <div>
-          <button onClick={solicitarHandler}>Solicitar envio</button>
-          <button onClick={() => navigate.refresh()}>Cancelar envio</button>
+          <button
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+ onClick={solicitarHandler}>Solicitar envio</button>
+          <button
+
+                  className="bg-white w-full disabled:opacity-70 text-black font-bold rounded-b-xl p-3"
+
+ onClick={() => navigate.refresh()}>Cancelar envio</button>
         </div>
        </div>
     </div>
