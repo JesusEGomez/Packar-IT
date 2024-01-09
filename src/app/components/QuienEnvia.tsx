@@ -18,9 +18,7 @@ const RecipientForm = (props:any): JSX.Element => {
       nombreApellidos: nombreApellidos,
       telefono: telefono,
       email: email,
-    };
-    console.log(newRecipient);
-    
+    };    
     props.closeModal(newRecipient);
   }
 

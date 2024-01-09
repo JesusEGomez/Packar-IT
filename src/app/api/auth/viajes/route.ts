@@ -89,3 +89,15 @@ export async function GET(request: Request) {
         return NextResponse.json({ message: "Error al obtener los viajes" });
     }
 }
+
+export async function PUT(request: Request) {
+    try {
+        await connectDB();
+        const { viajeId, envio } = await request.json();
+        const viaje = await Viaje.findById(viajeId);
+        viaje.envios.push(envio)
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ message: "Error al actualizar los viajes" });
+    }
+}

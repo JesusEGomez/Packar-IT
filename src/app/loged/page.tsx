@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import SelectDriver from "../components/SelectDriver";
 import QuienEnvia from "../components/QuienEnvia";
+import Confirmacion from "../components/Confirmacion";
 
 type prod = {
   types: any;
@@ -28,28 +29,6 @@ export interface FormInputs {
   ciudadDestino: string;
   paisDestino: string;
 }
-
-// const response = await fetch('/api/auth/envio',{
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   method: 'POST',
-//   body: JSON.stringify({
-//     desde: {
-//       from,
-//       ciudad: formData?.ciudadOrigen,
-//       pais: formData?.paisOrigen
-//     },
-//     hasta: {
-//       to,
-//       ciudad: formData?.ciudadDestino,
-//       pais: formData?.paisDestino
-//     },
-//     cuando: date,
-//     producto: selectedProductData,
-//   })
-// });
-// const data = await response.json();
 
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
@@ -70,6 +49,8 @@ const Loged = () => {
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [receptor, setReceptor] = useState<boolean | null>(false);
   const [receptorInfo, setReceptorInfo] = useState<any>(null);
+  const [lastModalOpen, setLastModalOpen] = useState(false);
+  const [envio, setEnvio] = useState<any|null>(null)
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -99,6 +80,12 @@ const Loged = () => {
       return newDate;
     }
   };
+  const confrmacionHandler = () => {
+    console.log('hola');
+  };
+  const closeLastModal = () => {
+    setLastModalOpen(false);
+  };
   const productsHandler = () => {
     setProdModal(true);
   };
@@ -109,6 +96,7 @@ const Loged = () => {
   const closeSelectDriver = (data: any) => {
     setSelectdriverOpen(false);
     setDriver(data);
+    setLastModalOpen(true);
   };
   const navigate = useRouter();
   const searchHandler = () => {
@@ -127,24 +115,24 @@ const Loged = () => {
     formState: { errors },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
     setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
     setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
     setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
-    
-    const newEnvio = {
-      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
-      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
-      cuando: date,
-      producto: selectedProductData,
-    }
   };
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
-    from && to && date && selectedProductData && setSearch(true);
-  }, [from, to, date, selectedProductData]);
+
+    from && to && date && selectedProductData && receptorInfo && setSearch(true);
+    setEnvio({
+      desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
+      hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
+      cuando: date,
+      producto: selectedProductData,
+      recibe: receptorInfo,
+    })
+  }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
     <div className="flex flex-col items-center bg-pink md:flex-row">
@@ -284,6 +272,13 @@ const Loged = () => {
               ciudadOrigen={ciudadOrigen}
               ciudadDestino={ciudadDestino}
             />
+          </div>
+        </div>
+      )}
+      {lastModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Confirmacion closeModal={closeLastModal} confirmar={confrmacionHandler} driver={driver} envio={envio} />
           </div>
         </div>
       )}
