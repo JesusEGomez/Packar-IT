@@ -3,24 +3,24 @@
 import { useState, ChangeEvent, useCallback } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 interface RecipientData {
-  nombreApellidos: string;
+  nombreApellido: string;
   telefono: string;
   email: string;
 }
 
-const RecipientForm = (props:any): JSX.Element => {
-  const [nombreApellidos, setNombreApellidos] = useState<string>("");
+const RecipientForm = (props: any): JSX.Element => {
+  const [nombreApellido, setNombreApellidos] = useState<string>("");
   const [telefono, setTelefono] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  
+
   const submitHandler = () => {
     const newRecipient = {
-      nombreApellidos: nombreApellidos,
+      nombreApellido: nombreApellido,
       telefono: telefono,
       email: email,
-    };    
+    };
     props.closeModal(newRecipient);
-  }
+  };
 
   const handleNombreApellidosChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -47,8 +47,8 @@ const RecipientForm = (props:any): JSX.Element => {
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
         <div className="mb-8">
-        <FaArrowLeft className="absolute left-4 " />
-        </div>  
+          <FaArrowLeft className="absolute left-4 " />
+        </div>
         <h1 className="text-3xl font-bold text-center mb-8">
           ¿A quién se lo envías?
         </h1>
@@ -67,7 +67,7 @@ const RecipientForm = (props:any): JSX.Element => {
             <input
               type="text"
               id="nombreApellidos"
-              value={nombreApellidos}
+              value={nombreApellido}
               onChange={handleNombreApellidosChange}
               placeholder="Nombre y apellidos"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
@@ -107,9 +107,10 @@ const RecipientForm = (props:any): JSX.Element => {
           </div>
         </div>
         <div className="bg-pink p-2 rounded-md mt-4">
-          <button 
-          onClick={submitHandler}
-          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85">
+          <button
+            onClick={submitHandler}
+            className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85"
+          >
             <h3 className="text-white">Siguiente</h3>{" "}
           </button>
         </div>
