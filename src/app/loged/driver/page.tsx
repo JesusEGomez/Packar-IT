@@ -18,6 +18,7 @@ import { FormInputs } from "../page";
 import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
+import DateModal from "@/app/components/DateModal";
 
 type prod = {
   pequeño: {
@@ -60,13 +61,13 @@ const Driver = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [timeModalOpen, setTimeModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
+  const [dateModalOpen, setDateModalOpen] = useState(false);
   const [finalStep, setFinalStep] = useState(false);
   const [flex, setFlex] = useState(false);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
   const [time, setTime] = useState<time>({ salida: null, llegada: null });
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
   const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
@@ -136,6 +137,15 @@ const Driver = () => {
     setFrom(fromLocation);
   };
 
+  const dateModalHandler = (date: Date) => {
+    setDate(date);
+    setDateModalOpen(!dateModalOpen);
+  };
+
+  const dateModalClose = () => {
+    setDateModalOpen(!dateModalOpen);
+  };
+
   const toHandler = () => {
     setToModalOpen(true);
   };
@@ -152,9 +162,6 @@ const Driver = () => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
     setTo(toLocation);
-  };
-  const calendarHandler = () => {
-    setCalendarOpen(!calendarOpen);
   };
 
   const productsHandler = () => {
@@ -302,7 +309,7 @@ const Driver = () => {
                   {to === null ? "Hasta:Calle" : `${to}`}
                 </button>
                 <button
-                  onClick={() => calendarHandler()}
+                  onClick={() => dateModalClose()}
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
                 >
                   <FaRegCalendarAlt size={30} />
@@ -313,15 +320,6 @@ const Driver = () => {
                         year: "numeric",
                       })}`
                     : "Cuando"}
-                  {calendarOpen && (
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      className="rounded-md border"
-                      disabled={(date: Date) => date < new Date()}
-                    />
-                  )}
                 </button>
 
                 <button
@@ -408,6 +406,17 @@ const Driver = () => {
               flexHandle={felxhandler}
               closeModal={finalStepClose}
               flex={flex}
+            />
+          </div>
+        </div>
+      )}
+      {dateModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <DateModal
+              date={date!}
+              dateModalClose={dateModalClose}
+              dateModalHandler={dateModalHandler}
             />
           </div>
         </div>
