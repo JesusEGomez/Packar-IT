@@ -45,7 +45,7 @@ function Profile() {
   }
 
   return (
-    <div className="container mx-auto h-screen flex justify-center items-center">
+    <div className=" container mx-auto h-screen flex flex-col justify-center items-center">
       <h1 className="text-5xl font-bold mb-4">Mi perfil</h1>
       <div className="max-w-md p-8 bg-white rounded-md shadow-md">
         <Form {...form}>
