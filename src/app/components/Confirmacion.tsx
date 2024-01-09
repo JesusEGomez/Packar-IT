@@ -110,8 +110,14 @@ function Confirmacion(props: any) {
           </div>
         </div>
         <div>
-          <button onClick={solicitarHandler}>Solicitar envio</button>
-          <button onClick={() => navigate.refresh()}>Cancelar envio</button>
+          <button
+                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+ onClick={solicitarHandler}>Solicitar envio</button>
+          <button
+
+                  className="bg-white w-full disabled:opacity-70 text-black font-bold rounded-b-xl p-3"
+
+ onClick={() => navigate.refresh()}>Cancelar envio</button>
         </div>
        </div>
     </div>
