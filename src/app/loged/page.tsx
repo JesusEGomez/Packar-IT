@@ -148,9 +148,9 @@ const Loged = () => {
       <div className="bg-white w-full rounded-t-3xl pt-10">
         {/* Contenido del segundo div */}
       </div>
-      <div className="z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
-        <h1 className="font-bold text-2xl mt-2">¿Que deseas enviar?</h1>
-        <div className="flex flex-col text-center items-center gap-y-4">
+      <div className=" flex flex-col items-center z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
+        <h1 className="font-bold text-3xl m-4">¿Que deseas enviar?</h1>
+        <div className="flex flex-col text-center items-center gap-y-4 sm:flex sm:flex-col">
           <form
             className="flex  flex-col items-center gap-y-2 p-2"
             onSubmit={handleSubmit(onSubmit)}
@@ -194,7 +194,6 @@ const Loged = () => {
                   {<RiMapPinAddLine size={30} />}
                   {from === null ? "Dirección Origen" : `${from}`}
                 </button>
-
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
                   onClick={toHandler}
@@ -228,7 +227,10 @@ const Loged = () => {
                     : "Producto"}
                 </button>
               </div>
+              <div>
               <div className="flex  items-center gap-y-4">
+              </div>
+              <div className="flex flex-col items-center gap-y-4">
                 <button
                   className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
                   onClick={() => receptorOpen()}
@@ -243,20 +245,21 @@ const Loged = () => {
                   Buscar
                 </button>
               </div>
+              </div>
             </div>
           </form>
         </div>
       </div>
 
       {fromModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center sm:flex sm:flex-col">
           <div className="bg-white p-4 rounded-xl">
             <MapComponent closeModal={closeModal} />
           </div>
         </div>
       )}
       {toModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center sm:flex sm:flex-col">
           <div className="bg-white p-4 rounded-xl">
             <MapComponent closeModal={toModelClose} />
           </div>
