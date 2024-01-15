@@ -21,6 +21,10 @@ const ProductoSchema = new Schema({
         //enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,
     },
+    photoProduct: {
+        type: String,
+        required: false,
+    }
 });
 
 const Producto = models.Producto || model("Producto", ProductoSchema);
