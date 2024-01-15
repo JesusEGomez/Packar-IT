@@ -13,7 +13,7 @@ const ProductoSchema = new Schema({
     size: {
         type: String,
         //enum: ["64x30cm" || 'Pequeño', "81x37cm" || 'Mediano', "67x44cm" || 'Grande'],
-        enum:['Pequeño', 'Mediano', 'Grande'],
+        enum: ['Pequeño', 'Mediano', 'Grande'],
         required: true,
     },
     weight: {
@@ -21,6 +21,16 @@ const ProductoSchema = new Schema({
         //enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,
     },
+    photoProduct: {
+        type: String,
+        required: false,
+    },
+    articulosEspeciales: {
+        type: Boolean,
+        enum: ["Bicicleta" , "Tabla de Surf", "Silla", "Cama", "TV", "Kayak" , "Esquis", "Otro"],
+        required: false
+    },
+
 });
 
 const Producto = models.Producto || model("Producto", ProductoSchema);
