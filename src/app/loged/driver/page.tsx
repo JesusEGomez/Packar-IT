@@ -132,7 +132,7 @@ const Driver = () => {
     setFromModalOpen(true);
   };
 
-  const closeModal = async (fromSelected: any) => {
+  const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
     setFrom(fromLocation);
