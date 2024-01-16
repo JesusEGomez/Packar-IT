@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface MapComponentProps {
-  closeModal: any;
+  closeModal: (fromSelected: google.maps.LatLngLiteral) => Promise<void>;
   closeMapModal: () => void;
 }
 
@@ -97,7 +97,7 @@ function MapComponent(props: MapComponentProps) {
       // Llamar a props.closeModal con la última posición seleccionada
       setTimeout(() => {
         const pos = location?.toJSON();
-        props.closeModal(pos);
+        props.closeModal(pos!);
       }, 3000);
     }
   };

@@ -163,7 +163,8 @@ const Driver = () => {
     setTimeModalOpen(false);
     setTime(timeSelected);
   };
-  const toModelClose = async (toSelected: any) => {
+  const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
+    console.log(toSelected);
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
     setTo(toLocation);
