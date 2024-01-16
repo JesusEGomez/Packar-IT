@@ -8,10 +8,10 @@ import { IoIosArrowDown } from "react-icons/io";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 interface FormInputs {
-  types: any;
+  types: string;
   name: string;
-  size: any;
-  weight: any;
+  size: string;
+  weight: string;
 }
 
 function ProdForm(props: any) {

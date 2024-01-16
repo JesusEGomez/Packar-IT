@@ -18,10 +18,10 @@ import QuienEnvia from "../components/QuienEnvia";
 import Confirmacion from "../components/Confirmacion";
 
 type prod = {
-  types: any;
+  types: string;
   name: string;
-  size: any;
-  weight: any;
+  size: string;
+  weight: string;
 };
 export interface FormInputs {
   ciudadOrigen: string;
@@ -29,7 +29,18 @@ export interface FormInputs {
   ciudadDestino: string;
   paisDestino: string;
 }
+type mapAns = {
+  lat: number;
+  lng: number;
+}
+type receptor = {
+  nombreApellido: string;
+  telefono: number;
+  email: string;
+}
+type Envio = {
 
+}
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
@@ -50,7 +61,7 @@ const Loged = () => {
   const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [receptor, setReceptor] = useState<boolean | null>(false);
-  const [receptorInfo, setReceptorInfo] = useState<any>(null);
+  const [receptorInfo, setReceptorInfo] = useState<receptor | null>(null);
   const [lastModalOpen, setLastModalOpen] = useState(false);
   const [envio, setEnvio] = useState<any|null>(null)
 
@@ -58,7 +69,7 @@ const Loged = () => {
     setFromModalOpen(true);
   };
 
-  const closeModal = async (fromSelected: any) => {
+  const closeModal = async (fromSelected: mapAns) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
     setFrom(fromLocation);
@@ -68,7 +79,7 @@ const Loged = () => {
     setToModalOpen(true);
   };
 
-  const toModelClose = async (toSelected: any) => {
+  const toModelClose = async (toSelected: mapAns) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
     setTo(toLocation);
@@ -107,7 +118,7 @@ const Loged = () => {
   const receptorOpen = () => {
     setReceptor(true);
   };
-  const receptorClose = (data: any) => {
+  const receptorClose = (data: receptor) => {
     setReceptorInfo(data);
     setReceptor(false);
   };

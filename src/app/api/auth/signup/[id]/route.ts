@@ -5,7 +5,11 @@ import Profile from "@/models/perfil";
 import Envio from "@/models/envios";
 import Viaje from "@/models/viajes";
 
-export async function GET(request: NextRequest, params: any) {
+type myParams = {
+  params: { id: string; }
+}
+
+export async function GET(request: NextRequest, params: myParams) {
   try {
     await connectDB();
     console.log(params);
