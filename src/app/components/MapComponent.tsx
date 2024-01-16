@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface MapComponentProps {
-  closeModal: any;
+  closeModal: (fromSelected: google.maps.LatLngLiteral) => Promise<void>;
+  closeMapModal: () => void;
 }
 
 function MapComponent(props: MapComponentProps) {
@@ -94,13 +97,16 @@ function MapComponent(props: MapComponentProps) {
       // Llamar a props.closeModal con la última posición seleccionada
       setTimeout(() => {
         const pos = location?.toJSON();
-        props.closeModal(pos);
+        props.closeModal(pos!);
       }, 3000);
     }
   };
 
   return (
     <div className="flex flex-col">
+      <Button onClick={props.closeMapModal} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
       <div style={{ height: "600px" }} ref={mapRef} />
       <div className="p-2 mx-auto">
         <input

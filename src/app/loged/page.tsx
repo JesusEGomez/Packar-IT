@@ -52,13 +52,13 @@ const Loged = () => {
   const [receptor, setReceptor] = useState<boolean | null>(false);
   const [receptorInfo, setReceptorInfo] = useState<any>(null);
   const [lastModalOpen, setLastModalOpen] = useState(false);
-  const [envio, setEnvio] = useState<any|null>(null)
+  const [envio, setEnvio] = useState<any | null>(null);
 
   const fromHandler = () => {
     setFromModalOpen(true);
   };
 
-  const closeModal = async (fromSelected: any) => {
+  const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
     setFrom(fromLocation);
@@ -68,7 +68,12 @@ const Loged = () => {
     setToModalOpen(true);
   };
 
-  const toModelClose = async (toSelected: any) => {
+  const closeMapModal = () => {
+    setFromModalOpen(false);
+    setToModalOpen(false);
+  };
+
+  const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
     setTo(toLocation);
@@ -83,7 +88,7 @@ const Loged = () => {
     }
   };
   const confrmacionHandler = () => {
-    console.log('hola');
+    console.log("hola");
   };
   const closeLastModal = () => {
     setLastModalOpen(false);
@@ -125,15 +130,19 @@ const Loged = () => {
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
-
-    from && to && date && selectedProductData && receptorInfo && setSearch(true);
+    from &&
+      to &&
+      date &&
+      selectedProductData &&
+      receptorInfo &&
+      setSearch(true);
     setEnvio({
       desde: { calle: from, pais: paisOrigen, ciudad: ciudadOrigen },
       hasta: { calle: to, pais: paisDestino, ciudad: ciudadDestino },
       cuando: date,
       producto: selectedProductData,
       recibe: receptorInfo,
-    })
+    });
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
@@ -228,23 +237,22 @@ const Loged = () => {
                 </button>
               </div>
               <div>
-              <div className="flex  items-center gap-y-4">
-              </div>
-              <div className="flex flex-col items-center gap-y-4">
-                <button
-                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-                  onClick={() => receptorOpen()}
-                >
-                  Datos del Receptor
-                </button>
-                <button
-                  onClick={() => searchHandler()}
-                  className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
-                  disabled={!search}
-                >
-                  Buscar
-                </button>
-              </div>
+                <div className="flex  items-center gap-y-4"></div>
+                <div className="flex flex-col items-center gap-y-4">
+                  <button
+                    className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                    onClick={() => receptorOpen()}
+                  >
+                    Datos del Receptor
+                  </button>
+                  <button
+                    onClick={() => searchHandler()}
+                    className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                    disabled={!search}
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -252,16 +260,22 @@ const Loged = () => {
       </div>
 
       {fromModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center sm:flex sm:flex-col">
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <MapComponent closeModal={closeModal} />
+            <MapComponent
+              closeMapModal={closeMapModal}
+              closeModal={closeModal}
+            />
           </div>
         </div>
       )}
       {toModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center sm:flex sm:flex-col">
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <MapComponent closeModal={toModelClose} />
+            <MapComponent
+              closeModal={toModelClose}
+              closeMapModal={closeMapModal}
+            />
           </div>
         </div>
       )}
@@ -294,7 +308,12 @@ const Loged = () => {
       {lastModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <Confirmacion closeModal={closeLastModal} confirmar={confrmacionHandler} driver={driver} envio={envio} />
+            <Confirmacion
+              closeModal={closeLastModal}
+              confirmar={confrmacionHandler}
+              driver={driver}
+              envio={envio}
+            />
           </div>
         </div>
       )}
