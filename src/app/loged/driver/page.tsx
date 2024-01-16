@@ -19,6 +19,7 @@ import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
 
 import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 type prod = {
   pequeño: {
@@ -268,106 +269,117 @@ const Driver = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="z-10 fixed flex top-56    bg-white border rounded-xl">
-          <div className="flex flex-col  items-center gap-y-2">
+          <div className="flex flex-col    items-center gap-y-2">
             <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
-            <div className="flex m-5 sm:m-0 items-center">
-              <div className="flex p-5  flex-col items-center gap-y-1  ">
-                <div className="grid w-full max-w-sm items-center ">
-                  <Label className="text-gray-500" htmlFor="ciudadOrigen">
-                    Ciudad de origen
-                  </Label>
-                  <input
-                    type="text"
-                    className="p-3 border-b text-gray-500"
-                    id="ciudadOrigen"
-                    {...register("ciudadOrigen", {
-                      required: "Este campo es requerido",
-                    })}
-                  />
+            <div className="flex flex-col   items-center">
+              <div className="flex flex-col  items-center gap-y-2 p-2  ">
+                <div className=" justify-between w-screen  sm:w-full items-center mx-2   flex">
+                  <div className="grid w-1/2 h-20  max-w-sm items-center ">
+                    <label className="text-gray-500" htmlFor="ciudadOrigen">
+                      Ciudad de origen
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="ciudadOrigen"
+                      {...register("ciudadOrigen", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                  <Separator className="mx-3" orientation="vertical" />
+                  <div className="grid w-1/2 h-20  max-w-sm items-center ">
+                    <label className="text-gray-500" htmlFor="paisOrigen">
+                      País de origen
+                    </label>
+                    <input
+                      type="text"
+                      className="  p-3 w-full border-b text-gray-500"
+                      id="paisOrigen"
+                      {...register("paisOrigen", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
                 </div>
-                <div className="grid w-full max-w-sm items-center ">
-                  <label className="text-gray-500" htmlFor="paisOrigen">
-                    País de origen
-                  </label>
-                  <input
-                    type="text"
-                    className="p-3 border-b text-gray-500"
-                    id="paisOrigen"
-                    {...register("paisOrigen", {
-                      required: "Este campo es requerido",
-                    })}
-                  />
-                </div>
-                <div className="grid w-full max-w-sm items-center ">
-                  <label className="text-gray-500" htmlFor="ciudadDestino">
-                    Ciudad de Destino
-                  </label>
-                  <input
-                    type="text"
-                    className="p-3 border-b text-gray-500"
-                    id="ciudadDestino"
-                    {...register("ciudadDestino", {
-                      required: "Este campo es requerido",
-                    })}
-                  />
-                </div>
-                <div className="grid w-full max-w-sm items-center ">
-                  <label className="text-gray-500" htmlFor="paisDestino">
-                    País de Destino
-                  </label>
-                  <input
-                    type="text"
-                    className="p-3 border-b text-gray-500"
-                    id="paisDestino"
-                    {...register("paisDestino", {
-                      required: "Este campo es requerido",
-                    })}
-                  />
+                <div className=" justify-between  w-screen sm:w-full items-center mx-2  flex">
+                  <div className="grid w-1/2 h-20  max-w-sm items-center">
+                    <label className="text-gray-500" htmlFor="ciudadDestino">
+                      Ciudad de Destino
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="ciudadDestino"
+                      {...register("ciudadDestino", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                  <Separator className="mx-2" orientation="vertical" />
+                  <div className="grid w-1/2 h-20  max-w-sm items-center">
+                    <label className="text-gray-500" htmlFor="paisDestino">
+                      País de Destino
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="paisDestino"
+                      {...register("paisDestino", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="flex  flex-col items-center gap-y-2 ">
-                <button
-                  className="flex text-slate-400 justify-center gap-x-4 border-b p-2 mx-4"
-                  onClick={fromHandler}
-                >
-                  {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Desde:Calle" : `${from}`}
-                </button>
-                <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-                  onClick={toHandler}
-                >
-                  <RiMapPin2Fill size={30} />
-                  {to === null ? "Hasta:Calle" : `${to}`}
-                </button>
-                <button
-                  onClick={() => dateModalClose()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-                >
-                  <FaRegCalendarAlt size={30} />
-                  {date
-                    ? `${date.toLocaleDateString("es-AR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}`
-                    : "Cuando"}
-                </button>
+              <div className="flex w-full  flex-col items-center  ">
+                <div className=" justify-between items-center  mx-2  flex">
+                  <button
+                    className="flex text-slate-400 h-14 w-full justify-center  border-b p-2 mx-4"
+                    onClick={fromHandler}
+                  >
+                    {<RiMapPinAddLine size={30} />}
+                    {from === null ? "Desde:Calle" : `${from}`}
+                  </button>
 
-                <button
-                  onClick={() => timeHandler()}
-                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4"
-                >
-                  <IoTime size={30} />
-                  {time === null ? (
-                    "Hora "
-                  ) : (
-                    <div className="flex flex-col">
-                      <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
-                      <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
-                    </div>
-                  )}
-                </button>
+                  <button
+                    className="flex text-slate-400 w-full h-14   border-b p-2 mx-4"
+                    onClick={toHandler}
+                  >
+                    <RiMapPin2Fill size={30} />
+                    {to === null ? "Hasta:Calle" : `${to}`}
+                  </button>
+                </div>
+                <div className=" justify-between items-center  mx-2  flex">
+                  <button
+                    onClick={() => dateModalClose()}
+                    className="flex text-slate-400 h-14 gap-x-4 border-b p-2 mx-4"
+                  >
+                    <FaRegCalendarAlt size={30} />
+                    {date
+                      ? `${date.toLocaleDateString("es-AR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}`
+                      : "Cuando"}
+                  </button>
+
+                  <button
+                    onClick={() => timeHandler()}
+                    className="flex items-center h-14 text-slate-400 gap-x-4 border-b p-2 mx-4"
+                  >
+                    <IoTime size={30} />
+                    {time === null ? (
+                      "Hora "
+                    ) : (
+                      <div className="flex flex-col">
+                        <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
+                        <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
+                      </div>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
             <button
