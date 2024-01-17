@@ -101,24 +101,7 @@ function Profile() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="driverLicense.frontPhoto"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Licencia de Conducir (Frente)</FormLabel>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="driverLicense.backPhoto"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Licencia de Conducir (Reverso)</FormLabel>
-                </FormItem>
-              )}
-            />
+
             <Button className="bg-pink py-2 rounded-md" type="submit">
               <FaEdit className="mr-2" /> Modificar
             </Button>
