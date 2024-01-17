@@ -32,7 +32,7 @@ export default function DriveLicense() {
           `https://api.cloudinary.com/v1_1/dj8g1egez/image/upload?upload_preset=rc9fwqrr`,
           {
             method: "POST",
-            body: formData,
+            body: formData, 
           }
         );
         if (response.ok) {
