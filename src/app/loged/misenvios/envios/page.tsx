@@ -1,8 +1,7 @@
-"use client"
+"use client";
 
+import ProductCard from "@/app/components/ProductCard";
 import React, { useEffect, useState } from "react";
-import { FaBox } from "react-icons/fa";
-
 
 interface Envio {
   _id: string;
@@ -26,7 +25,7 @@ interface Envio {
   };
 }
 
-const CardEnvios: React.FC = () => {
+const Envios: React.FC = () => {
   const [envios, setEnvios] = useState<Envio[]>([]);
 
   useEffect(() => {
@@ -51,24 +50,11 @@ const CardEnvios: React.FC = () => {
     fetchEnvios();
   }, []); // Se ejecuta solo en el montaje
 
-  
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {envios.map((envio) => (
-        <div key={envio._id} className="envio-container card w-full bg-base-100 shadow-xl p-2">
-          <div className="card-body flex flex-col items-center justify-center text-center">
-            <FaBox className="icon text-5xl mb-2" />
-            <h1 className="title text-3xl font-bold mb-2">{envio.producto.name}</h1>
-            <p className="status text-red-500 font-bold">PENDING</p>
-          </div>
-        </div>
-      ))}
-
-      {/* Botón de Navegación */}
-      
+    <div className="w-full flex justify-center items-center">
+      <ProductCard />
     </div>
   );
 };
 
-export default CardEnvios;
+export default Envios;
