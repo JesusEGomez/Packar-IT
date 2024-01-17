@@ -32,6 +32,7 @@
     "cmdk": "^0.2.0",
     "cookie": "^0.6.0",
     "date-fns": "^3.0.6",
+    "dotenv": "^16.3.1",
     "embla-carousel-react": "^8.0.0-rc17",
     "encoding": "^0.1.13",
     "jsonwebtoken": "^9.0.2",
