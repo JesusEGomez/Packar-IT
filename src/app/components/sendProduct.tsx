@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export const SendProduct = (props: any) => {
   const formSchema = z.object({
@@ -52,10 +53,22 @@ export const SendProduct = (props: any) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     props.closeModal(values);
+    if (
+      values.pequeño.quantity ||
+      values.mediano.quantity ||
+      values.grande.quantity
+    ) {
+      props.setProductSelected(true);
+    } else {
+      props.setProductSelected(false);
+    }
   }
 
   return (
     <div className="flex flex-col  p-4">
+      <Button onClick={props.closePropModalHandler} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className="text-2xl font-bold mb-4">¿Qué puedes enviar?</h1>
