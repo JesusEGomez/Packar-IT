@@ -31,6 +31,7 @@ const ProductoSchema = new Schema({
         //enum: ["Bicicleta" , "Tabla de Surf", "Silla", "Cama", "TV", "Kayak" , "Esquis", "Otro"],
         required: false
     },
+    
 
 });
 
