@@ -1,4 +1,9 @@
-export const getFormattedAddress = async (location: any) => {
+type myLocation = {
+  lat: number;
+  lng: number;
+}
+
+export const getFormattedAddress = async (location: myLocation) => {
   const apiKey = "AIzaSyC-477d4w6F6kcjAGHycclP_lSF31JG4Oo"; // Reemplaza con tu clave de API de Google Maps
   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.lat},${location.lng}&key=${apiKey}`;
 
