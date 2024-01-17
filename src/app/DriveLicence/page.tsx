@@ -1,50 +1,89 @@
 "use client";
 import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 require("dotenv").config();
 
 export default function DriveLicense() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [img, setImg] = useState<string>("");
+  const [img, setImg] = useState<string | null>(null);
+  const [img1, setImg1] = useState<string | null>(null);
+  const [disable, setDisable] = useState(true);
+
+  useEffect(() => {
+    if (img && img1) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [img, img1]);
 
   const handleDivClick = async () => {
     if (fileInputRef.current) {
-      // Abrir el explorador de archivos al hacer clic en el contenedor
       fileInputRef.current.click();
     }
   };
 
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
-
-  console.log(cloudName, cloudPreset);
+  const { data: session } = useSession();
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
+
       try {
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
           {
             method: "POST",
-            body: formData, 
+            body: formData,
           }
         );
         if (response.ok) {
           const ans = await response.json();
           console.log(ans);
 
-          setImg(ans.secure_url);
+          const fileName = ans.secure_url.split("/").pop(); // Extrae el nombre del archivo de la URL
+          if (!img) {
+            setImg(fileName);
+          } else {
+            setImg1(fileName)
+          }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
+  };
+
+  const handleBotonPic = async () => {
+    console.log("Valor de img (front):", img);
+    console.log("Valor de img1 (back):", img1);
+    const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const userAns = await user.json();
+    const updatedProfile = await fetch("/api/auth/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userAns,
+        driverLicense: {
+          frontPhoto: img,
+          backPhoto: img1,
+        },
+      }),
+    });
   };
 
   return (
@@ -100,8 +139,16 @@ export default function DriveLicense() {
               style={{ display: "none" }}
             />
           </div>
-          <button type="submit">Subir Imagen</button>
         </form>
+      </div>
+      <div>
+        <button
+          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          disabled={disable}
+          onClick={handleBotonPic}
+        >
+          Cargar documentación
+        </button>
       </div>
       <div className="flex justify-items-start items-start">
         <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
@@ -112,7 +159,5 @@ export default function DriveLicense() {
     </div>
   );
 }
-
-
 
 // `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
