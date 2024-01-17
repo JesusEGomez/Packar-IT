@@ -26,10 +26,19 @@ const ProductoSchema = new Schema({
         required: false,
     },
     articulosEspeciales: {
-        type: Boolean,
-        enum: ["Bicicleta" , "Tabla de Surf", "Silla", "Cama", "TV", "Kayak" , "Esquis", "Otro"],
+        type: {
+            Bicicleta: Boolean,
+            "Tabla de Surf": Boolean,
+            Silla: Boolean,
+            Cama: Boolean,
+            TV: Boolean,
+            Kayak: Boolean,
+            Esquis: Boolean,
+            Otro: Boolean
+        },
         required: false
     },
+    
 
 });
 

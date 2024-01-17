@@ -47,7 +47,8 @@ export const ViajeSchema = new Schema({
       },
     },
   ],
-  envios: [{}],
+  envios: [{ productos: [{}], }],
+
 });
 
 const Viaje = models.Viaje || model("Viaje", ViajeSchema);
