@@ -1,8 +1,9 @@
-// models/profile.js
+
 import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
+
 
 export async function PUT(request: Request) {
   await connectDB();
@@ -70,6 +71,7 @@ export async function PUT(request: Request) {
     );
   }
 }
+
 export async function GET(request: Request) {
   try {
     const profiles = await Profile.find()
@@ -113,3 +115,6 @@ export async function GET(request: Request) {
     );
   }
 }
+
+
+
