@@ -51,22 +51,22 @@ const SpecialProdModal = (props: any) => {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { isValid },
       } = useForm<FormInputs>();
       const onSubmit: SubmitHandler<FormInputs> = (data) => {
         props.closeFirstModal({
-          type: 'special',
+          type: 'Special',
           name: data.selected,
-          size: 'special',
-          weigth: 'special',
+          size: 'Special',
+          weigth: 'Special',
           photoProduct: img,
           articulosEspeciales: data.selected
         });
         props.closeModal({
-          type: 'special',
+          type: 'Special',
           name: data.selected,
-          size: 'special',
-          weigth: 'special',
+          size: 'Special',
+          weigth: 'Special',
           photoProduct: img,
           articulosEspeciales: data.selected
         });
@@ -117,7 +117,7 @@ const SpecialProdModal = (props: any) => {
           <Button
           variant={"ghost"}
           className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
-          disabled={disabled}
+          disabled={disabled || !isValid}
           >
             Siguiente
           </Button>
