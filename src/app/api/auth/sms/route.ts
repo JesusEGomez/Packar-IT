@@ -1,17 +1,17 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import twilio from 'twilio';
 
 export async function POST(request: Request) {
   try {
     const { phoneNumber } = await request.json();
 
-    const accountSid = "AC6adc9e090d36b2dae42cf797bbfcdc20";
-    const authToken = "57d2758cb452131cfe1d4c5ec7700203";
+    const accountSid = process.env.TWILIO_ACCOUNT_SID;
+    const authToken = process.env.TWILIO_AUTH_TOKEN;
     const client = twilio(accountSid, authToken);
 
     const message = await client.messages.create({
       to: phoneNumber,
-      from: "+12062022183",
+      from: process.env.TWILIO_NUMBER,
       body: "Tu código de verificación es: 123456",
     });
 
