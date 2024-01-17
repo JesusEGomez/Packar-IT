@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { TfiPackage } from "react-icons/tfi";
 import ProdForm from './ProdForm';
 import { any } from 'zod';
+import { GiPerspectiveDiceSixFacesRandom } from 'react-icons/gi';
+import SpecialProdModal from './SpecialProdModal';
 
 const array = [
   {
@@ -24,13 +26,16 @@ const array = [
 
 export const ProdModal = (props : any) => {
   const [selectProduct, setSelectProduct] = useState(false);
-  
+  const [specialProduct, setSpecialProduct] = useState(false);
+
+  const openSpecial = () => {
+    setSpecialProduct(true);
+  }
   const openSelectProduct = () => {
     setSelectProduct(true);
   };
   const closeSelectProduct = (data:any) => {
     console.log(data);
-    
     setSelectProduct(false);
   };
   const close = (data:any) => {
@@ -51,6 +56,14 @@ export const ProdModal = (props : any) => {
           </button>
         ))}
       </div>
+      <div className='flex justify-center border-t m-4'>
+        <div 
+        className='flex flex-col gap-y-3 items-center mt-6 border-2 border-slate-300 p-4 cursor-pointer rounded-xl'
+        onClick={openSpecial}>
+            <GiPerspectiveDiceSixFacesRandom className='text-slate-300' size={70} />
+            <p className='font-bold text-sm'>Producto especial</p>
+        </div>
+      </div>
       <Button
         onClick={() => close(null)}
         variant={"ghost"}
@@ -63,6 +76,15 @@ export const ProdModal = (props : any) => {
           <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-4 rounded-xl">
               <ProdForm closeModal={closeSelectProduct} closeFirstModal={close} />
+            </div>
+          </div>
+        )
+      }
+      {
+        specialProduct && (
+          <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-4 rounded-xl">
+              <SpecialProdModal closeModal={closeSelectProduct} closeFirstModal={close} />
             </div>
           </div>
         )

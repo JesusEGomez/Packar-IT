@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaExclamationCircle } from "react-icons/fa";
 import { map } from "zod";
@@ -23,6 +23,7 @@ function FinalDriverModal({
   flex,
 }: IPropsDriver) {
   const { postTravel } = useUserState((state) => state);
+  const [sendButton, setSendButton] = useState(true);
 
   const sendTravel = async () => {
     const response = await postTravel(travel);
@@ -62,19 +63,16 @@ function FinalDriverModal({
         <h1 className="text-xl font-bold mb-4">Tu trayecto</h1>
         <FaExclamationCircle className="text-slate-400" />
       </div>
-      <div className="w-[450px] h-[155px] flex rounded-xl bg-gray-50  shadow-md justify-around ">
+      <div className="w-[450px] h-[155px] flex items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
         <div>
-          <div className="flex mb-8">
-            <GiPathDistance
-              className={`${travel.eresFlexible ? "text-pink" : "text-black"}`}
-              size={50}
-            />
+          <div className="flex gap-5 mb-2">
+            <GiPathDistance className={"text-pink"} size={50} />
             <div>
               <p>
-                Desde: {travel.desde.calle} / {travel.horaSalida}
+                {`Desde: ${travel.desde.pais}, ${travel.desde.calle} / ${travel.horaSalida}`}
               </p>
               <p>
-                Hasta: {travel.hasta.calle} / {travel.horaLlegada}
+                {`Hasta: ${travel.hasta.pais}, ${travel.hasta.calle} / ${travel.horaLlegada}`}
               </p>
             </div>
           </div>
@@ -83,7 +81,7 @@ function FinalDriverModal({
             {travel.cuando}
           </div>
         </div>
-        <div>
+        <div className="flex gap-2 w-full justify-center">
           <div className="border-2 mb-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Pequeño
