@@ -29,7 +29,7 @@ export default function DriveLicense() {
       formData.append("file", file);
       try {
         const response = await fetch(
-          `https://api.cloudinary.com/v1_1/dj8g1egez/image/upload?upload_preset=rc9fwqrr`,
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
           {
             method: "POST",
             body: formData, 
