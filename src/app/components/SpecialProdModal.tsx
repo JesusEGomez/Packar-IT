@@ -55,18 +55,18 @@ const SpecialProdModal = (props: any) => {
       } = useForm<FormInputs>();
       const onSubmit: SubmitHandler<FormInputs> = (data) => {
         props.closeFirstModal({
-          type: 'special',
+          type: 'Special',
           name: data.selected,
-          size: 'special',
-          weigth: 'special',
+          size: 'Special',
+          weigth: 'Special',
           photoProduct: img,
           articulosEspeciales: data.selected
         });
         props.closeModal({
-          type: 'special',
+          type: 'Special',
           name: data.selected,
-          size: 'special',
-          weigth: 'special',
+          size: 'Special',
+          weigth: 'Special',
           photoProduct: img,
           articulosEspeciales: data.selected
         });
