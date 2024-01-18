@@ -94,10 +94,10 @@ export const useUserState = create<UserState>((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(travel),
       });
+      console.log(response);
       return response.ok;
     } catch (error) {
       console.error(error);
-      return false;
     }
   },
 }));
