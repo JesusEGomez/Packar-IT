@@ -67,12 +67,25 @@ export default function PassportId() {
       }
     }
   };
-  const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleFileChange(e, setImg2);
+const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = () => {
+      const imgDataUrl = reader.result as string;
+      setImg2(imgDataUrl);
+    };
+    
+    reader.readAsDataURL(file);
+  }
 };
 
 const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    handleFileChange(e, setImg3);
+    const value = e.target.value;
+    if (value) {
+        setImg3(value);
+    }
 };
 
   const handleBotonPic = async () => {
