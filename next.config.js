@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['res.cloudinary.com'],
-      },
+  images: {
+    domains: ["res.cloudinary.com"],
+  },
 
-      env: {
-        CLOUD_NAME: process.env.CLOUD_NAME,
-        CLOUD_PRESET :process.env.CLOUD_PRESET
-      }
+  env: {
+    CLOUD_NAME: process.env.CLOUD_NAME,
+    CLOUD_PRESET: process.env.CLOUD_PRESET,
+  },
+};
 
-}
-
-module.exports = nextConfig
+module.exports = nextConfig;
