@@ -5,7 +5,7 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
-
+import { useSession } from "next-auth/react";
 import MapComponent from "@/app/components/MapComponent";
 import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
@@ -76,6 +76,8 @@ const Driver = () => {
   const [paisDestino, setPaisDestino] = useState<string | null>(null);
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
+  const { data: session } = useSession();
+
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
     desde: {
@@ -127,7 +129,7 @@ const Driver = () => {
       price: 0,
     },
   });
-  const { user } = useUserState((state) => state);
+  const { user, fetchUser } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -189,6 +191,9 @@ const Driver = () => {
   };
 
   useEffect(() => {
+    if (session?.user?.email) {
+      fetchUser(session?.user?.email);
+    }
     if (
       productSelected &&
       time?.llegada &&
