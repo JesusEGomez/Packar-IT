@@ -17,8 +17,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
-
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
 type prod = {
@@ -76,7 +74,7 @@ const Driver = () => {
   const [paisDestino, setPaisDestino] = useState<string | null>(null);
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
-  const { data: session } = useSession();
+  const [hoverButton, setHoverButton] = useState(false);
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -129,7 +127,7 @@ const Driver = () => {
       price: 0,
     },
   });
-  const { user, fetchUser } = useUserState((state) => state);
+  const { user } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -191,9 +189,6 @@ const Driver = () => {
   };
 
   useEffect(() => {
-    if (session?.user?.email) {
-      fetchUser(session?.user?.email);
-    }
     if (
       productSelected &&
       time?.llegada &&
@@ -222,7 +217,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-
+  console.log("Boton", hoverButton);
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
     setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
@@ -255,7 +250,7 @@ const Driver = () => {
 
     console.log("nuevoViaje", newTravel);
     search && setTravel(newTravel);
-    search && setFinalStep(true);
+    search && hoverButton && setFinalStep(true);
   };
   return (
     <div className="flex flex-col w-full items-center bg-pink">
@@ -409,8 +404,10 @@ const Driver = () => {
 
             <button
               type="submit"
+              onMouseEnter={() => setHoverButton(true)}
+              onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-3"
               disabled={!search}
             >
               Crear
