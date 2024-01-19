@@ -112,7 +112,7 @@ export default function PassportId(props: any) {
         },
       }),
     });
-    props.closeIdModal()
+    props.closeIdModal();
   };
 
   return (
