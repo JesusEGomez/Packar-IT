@@ -4,14 +4,22 @@ import { connectDB } from "@/libs/mongodb";
 
 export async function POST(request: Request) {
   await connectDB();
-  const { types, name, size, weight, photoProduct, articulosEspeciales } = await request.json();
+  const { types, name, size, weight, photoProduct, articulosEspeciales } =
+    await request.json();
 
   if (!types || !name || !size || !weight) {
     return NextResponse.json({ message: "Todos los campos son obligatorios" });
   }
 
   try {
-    const producto = new Producto({ types, name, size, weight, photoProduct, articulosEspeciales });
+    const producto = new Producto({
+      types,
+      name,
+      size,
+      weight,
+      photoProduct,
+      articulosEspeciales,
+    });
     const savedProducto = await producto.save();
 
     console.log(savedProducto);
@@ -28,7 +36,6 @@ export async function POST(request: Request) {
     );
   }
 }
-
 
 export async function GET(request: Request) {
   try {

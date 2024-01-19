@@ -253,9 +253,9 @@ const Driver = () => {
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col w-full items-center bg-pink">
+    <div className="flex flex-col  w-full    items-center bg-pink">
       <Image
-        className="my-16 rounded-full"
+        className="my-16  rounded-full"
         src={"/step-3.svg"}
         alt="logo"
         width={250}
@@ -268,8 +268,8 @@ const Driver = () => {
         className="flex w-full justify-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="z-10 fixed flex top-56    bg-white border rounded-xl">
-          <div className="flex flex-col    items-center gap-y-2">
+        <div className="z-10 fixed  flex top-56     bg-white border rounded-xl">
+          <div className="flex flex-col  h-1/2 items-center gap-y-2">
             <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col   items-center">
               <div className="flex flex-col  items-center gap-y-2 p-2  ">
