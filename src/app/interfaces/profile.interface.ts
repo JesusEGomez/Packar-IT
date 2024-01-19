@@ -13,10 +13,9 @@ export interface IIdDocument {
 
 export interface IProfile {
   _id: string;
+  userId: IUser;
   driverLicense: IdriverLicense;
   idDocument: IIdDocument;
   city: string;
   phoneNumber: string;
-  
 }
- 

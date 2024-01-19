@@ -1,14 +1,17 @@
 import { connectDB } from "@/libs/mongodb";
-import User from "@/models/user";
+import Profile from "@/models/perfil";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get("email");
-    const user = await User.findOne({
-      email: email,
+    const id = searchParams.get("id");
+    console.log(id);
+    const user = await Profile.findOne({
+      userId: {
+        _id: id,
+      },
     });
     console.log(user);
     return NextResponse.json(user);

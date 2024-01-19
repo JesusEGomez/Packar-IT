@@ -34,12 +34,12 @@ type Viajes = [{
     quantity: number;
     price: number;
   }[];
-  envios: [any];
+  special: boolean;
+  envios: {}[];
   __v: number;
 }];
 function Page(props:any) {
   const [viajes, setViajes] = useState<Viajes | null>(null);
-  const prodSize = props.open.size;
   const navigate = useRouter();
   const clickHandler = (viaje: any) => {
     props.close(viaje);
@@ -48,7 +48,12 @@ function Page(props:any) {
     const fetchData = async () => {      
       const response = await fetch(`/api/auth/findatrip/?cityOrigin=${props.ciudadOrigen}&cityFinal=${props.ciudadDestino}`);
       const data = await response.json();
-      setViajes(data);
+      if(props.open.type === 'Special'){
+        const filteredViajes = data.filter((viaje:any) => viaje.special === true)
+        setViajes(filteredViajes);
+      }
+      
+      
     };
     fetchData();
   }, []);
@@ -75,7 +80,7 @@ function Page(props:any) {
         viajes && viajes.length > 0 && (
           <div className='flex flex-col fixed top-0 left-0 right-0 bottom-0 z-20 w-full h-full m-2 p-4 bg-white gap-y-3'>
             <h1 className='text-xl'>Viajeros disponibles</h1>
-          {viajes?.map((viaje, index) => (
+          {viajes?.map((viaje:any, index:any) => (
             (<div onClick={() => clickHandler(viaje)} className='flex flex-col border rounded cursor-pointer shadow-lg p-4' key={index}>
             <div className='flex w-full justify-between px-4'>
               <div className='flex'>
@@ -83,7 +88,7 @@ function Page(props:any) {
                 <FaUser size={40}/>
                 <p>{viaje.usuario.fullname}</p>
               </div>
-              <p>{prodSize === 'Pequeño' ? viaje.precio[0].price : prodSize === 'Mediano' ? viaje.precio[1].price : viaje.precio[2].price}€</p>
+              <p>{`${viaje.special ? 'Confirma con el conductor': 'f'}`}€</p>
             </div>
             <div>
               <div className='flex'>

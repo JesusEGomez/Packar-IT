@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 require("dotenv").config();
 
-export default function PassportId() {
+export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
   const backFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -112,6 +112,7 @@ export default function PassportId() {
         },
       }),
     });
+    props.closeIdModal();
   };
 
   return (

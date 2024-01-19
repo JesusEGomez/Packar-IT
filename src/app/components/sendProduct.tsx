@@ -15,12 +15,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { CheckCircle2 } from "lucide-react";
 
 export const SendProduct = (props: any) => {
   const [specials, setSpecials] = useState<boolean>(false);
+  const [hoverButton, setHoverButton] = useState(false);
   const specialsHandler = () => {
     setSpecials(!specials);
-  }
+  };
   const formSchema = z.object({
     pequeño: z.object({
       quantity: z.coerce.number(),
@@ -56,8 +58,8 @@ export const SendProduct = (props: any) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    const fixedValues = {...values, special: specials}
-    props.closeModal(fixedValues);
+    const fixedValues = { ...values, special: specials };
+    hoverButton && props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
@@ -68,7 +70,6 @@ export const SendProduct = (props: any) => {
       props.setProductSelected(false);
     }
   }
-
 
   return (
     <div className="flex flex-col  p-4">
@@ -197,13 +198,30 @@ export const SendProduct = (props: any) => {
               ></FormField>
             </div>
           </div>
-          <div className="flex flex-col gap-y-4 my-4">
-            <h1 className="text-xl font-bold">Además, ¿Puedes transportar artículos especiales?</h1>
-            <p>Si las condiciones de tu vehículo y trayecto lo permiten, selecciona aquellos artículos que podrías transportar.</p>
-            <div onClick={specialsHandler} className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto">productos especiales</div>
+          <div className="w-full h-24  flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+            <div className="flex flex-col  justify-center items-center w-full">
+              <h3 className="font-bold">
+                Además, ¿Puedes transportar artículos especiales?
+              </h3>
+              <p className=" mr-2 ">
+                Si las condiciones de tu vehículo y trayecto lo permiten
+                presiona el botón
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={specialsHandler}
+                className="bg-rose-200 text-pink text-sm w-[70px] h-[24px] "
+              >
+                {specials ? "Cancelar" : "Aceptar"}
+              </Button>
+              {specials ? <CheckCircle2 className="text-green-400" /> : null}
+            </div>
           </div>
           <Button
             type="submit"
+            onMouseEnter={() => setHoverButton(true)}
+            onMouseLeave={() => setHoverButton(false)}
             variant={"ghost"}
             className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
           >

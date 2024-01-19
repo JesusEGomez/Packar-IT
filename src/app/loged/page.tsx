@@ -18,10 +18,12 @@ import QuienEnvia from "../components/QuienEnvia";
 import Confirmacion from "../components/Confirmacion";
 
 type prod = {
-  types: string;
+  type: string;
   name: string;
   size: string;
   weight: string;
+  photoProduct: string;
+  articulosEspeciales: string
 };
 export interface FormInputs {
   ciudadOrigen: string;
@@ -29,18 +31,12 @@ export interface FormInputs {
   ciudadDestino: string;
   paisDestino: string;
 }
-type mapAns = {
-  lat: number;
-  lng: number;
-}
 type receptor = {
   nombreApellido: string;
   telefono: number;
   email: string;
 }
-type Envio = {
 
-}
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
@@ -49,9 +45,7 @@ const Loged = () => {
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
-    null
-  );
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -154,6 +148,7 @@ const Loged = () => {
       producto: selectedProductData,
       recibe: receptorInfo,
     });
+    
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (

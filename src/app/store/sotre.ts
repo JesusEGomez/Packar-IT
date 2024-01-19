@@ -2,26 +2,26 @@ import { create } from "zustand";
 
 import { IUser } from "../interfaces/user.interface";
 import { ITravel } from "../loged/driver/page";
+import { ITravelDB } from "../interfaces/TravelDB.interface";
+import { IProductDB } from "../interfaces/productDB.interface";
+import { IProfile } from "../interfaces/profile.interface";
 
 interface UserState {
   user: IUser;
   travel: ITravel;
   fetchUser: (email: string) => Promise<void>;
   postTravel: (travel: ITravel) => Promise<boolean | undefined>;
+  travels: ITravelDB[];
+  products: IProductDB[];
+  profile: IProfile | null;
+  fetchTravels: (id: string) => Promise<void>;
 }
 
-export const useUserState = create<UserState>((set) => ({
+export const useUserState = create<UserState>((set, get) => ({
   user: {
     _id: "",
     email: "",
     fullname: "",
-    profile: {
-      _id: "",
-      driverLicense: { backPhoto: "", frontPhoto: "" },
-      idDocument: { backPhoto: "", frontPhoto: "", number: "", type: "" },
-      city: "",
-      phoneNumber: "",
-    },
   },
   travel: {
     userId: "",
@@ -59,7 +59,11 @@ export const useUserState = create<UserState>((set) => ({
 
     estado: false,
     envios: [],
-  }, // Inicializa el objeto de usuario
+    especial: false,
+  },
+  travels: [],
+  products: [],
+  profile: null, // Inicializa el objeto de usuario
   fetchUser: async (email: string) => {
     console.log("usuario", email);
     const localUser = localStorage.getItem("user");
@@ -68,18 +72,33 @@ export const useUserState = create<UserState>((set) => ({
       set({ user: parsedUser });
     } else {
       try {
-        const response = await fetch(`/api/auth/myid/?email=${email}`, {
+        const responseUser = await fetch(`/api/auth/myid/?email=${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
-        const userData = await response.json();
+
+        const userData = await responseUser.json();
         console.log(userData);
         if (userData) {
           set({ user: userData });
           localStorage.setItem("user", JSON.stringify(userData));
           console.log("usuario encontrado", userData);
+
+          // const responseProfile = await fetch(
+          //   `/api/auth/getProfileById/?id=${userData._id}`,
+          //   {
+          //     method: "GET",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //     },
+          //   }
+          // );
+          // const profile = await responseProfile.json();
+
+          // profile && set({ profile: profile });
+          // console.log(profile);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -96,6 +115,18 @@ export const useUserState = create<UserState>((set) => ({
       });
       console.log(response);
       return response.ok;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchTravels: async (id: string) => {
+    get();
+    try {
+      const response = await fetch(`/api/auth/getAllTravelsById/?id=${id}`);
+      const newTravels = await response.json();
+
+      console.log("viajes", newTravels);
+      set({ travels: newTravels });
     } catch (error) {
       console.error(error);
     }
