@@ -50,7 +50,7 @@ export const ViajeSchema = new Schema({
   ],
   envios: [{ productos: [{}], }],
   special: {
-    type: boolean,
+    type: Boolean,
     default: false,
   }
 
