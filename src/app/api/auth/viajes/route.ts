@@ -48,7 +48,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     estado,
     precio,
     envios,
-    special
+    special,
   } = await request.json();
 
   console.log(
@@ -61,7 +61,8 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     eresFlexible,
     estado,
     precio,
-    envios
+    envios,
+    special
   );
 
   if (
