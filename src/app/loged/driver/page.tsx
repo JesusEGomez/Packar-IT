@@ -32,6 +32,7 @@ type prod = {
     quantity: number;
     price: number;
   };
+  special: boolean;
 };
 
 type time = {
@@ -54,6 +55,7 @@ export interface ITravel {
   eresFlexible: boolean;
   estado: boolean;
   envios: [];
+  especial: boolean;
 }
 
 const Driver = () => {
@@ -112,6 +114,7 @@ const Driver = () => {
 
     estado: false,
     envios: [],
+    especial: false,
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -126,6 +129,7 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
+    special: false,
   });
   const { user } = useUserState((state) => state);
 
@@ -225,7 +229,7 @@ const Driver = () => {
     setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
 
-    console.log(selectedProductData);
+    console.log("Productos", selectedProductData);
     const stringDate = date?.toLocaleDateString("es-AR", {
       day: "2-digit",
       month: "2-digit",
@@ -246,6 +250,7 @@ const Driver = () => {
       eresFlexible: flex,
       estado: true,
       envios: [],
+      especial: selectedProductData.special,
     };
 
     console.log("nuevoViaje", newTravel);
