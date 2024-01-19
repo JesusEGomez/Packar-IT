@@ -28,7 +28,7 @@ function Confirmacion(props: any) {
         },
         method: 'POST',
         body: JSON.stringify({
-          userId: userAns._id,
+          usuario: userAns._id,
           desde: envio.desde,
           hasta:envio.hasta,
           cuando: envio.cuando,
@@ -38,14 +38,14 @@ function Confirmacion(props: any) {
       });
       const data = await response.json();
       console.log(data);
-      const update = await fetch('/api/auth/envio',{
+      const update = await fetch('/api/auth/viajes',{
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'PUT',
         body: JSON.stringify({
           viajeId: driver._id,
-          envio
+          data
         })
       })
       const updated = await update.json()
@@ -58,7 +58,7 @@ function Confirmacion(props: any) {
   }
   useEffect(() => {
     console.log(session);
-    
+    console.log(props);
   },[])
   return (
     <div className='flex flex-col p-4'>

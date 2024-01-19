@@ -145,6 +145,8 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
     const { viajeId, envio } = await request.json();
     const viaje = await Viaje.findById(viajeId);
     viaje.envios.push(envio);
+    console.log(viaje);
+    return NextResponse.json(viaje);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Error al actualizar los viajes" });
