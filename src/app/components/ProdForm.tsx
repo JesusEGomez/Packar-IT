@@ -19,6 +19,8 @@ function ProdForm(props: any) {
   const [img, setImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [disabled, setDisable] = useState<boolean>(true);
+  const cloudName = process.env.CLOUD_NAME;
+    const cloudPreset = process.env.CLOUD_PRESET;
 
   const handleDivClick = () => {
     if (fileInputRef.current) {
@@ -32,7 +34,7 @@ function ProdForm(props: any) {
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/dwj6wtgtb/image/upload?upload_preset=oxxsnr7q`,
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
         {
           method: "POST",
           body: formData,
