@@ -4,13 +4,14 @@ import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../Provider";
 3;
 import { signOut, useSession } from "next-auth/react";
-import  DriveLicense  from "../components/DriveLicence"
+import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
+import City from "../components/City";
 
 import {
   Command,
   CommandGroup,
-  CommandItem, 
+  CommandItem,
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
@@ -44,6 +45,7 @@ const Sidebar = () => {
   const { user } = useUserState((state) => state);
   const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
   const [isIdModalOpen, setIsIdModalOpen] = useState(false);
+  const [isCityModalOpen, setIsCityModalOpen] = useState(false);
 
   const closeLicenceModal = () => {
     setIsLicenseModalOpen(false);
@@ -53,6 +55,9 @@ const Sidebar = () => {
     setIsIdModalOpen(false);
   };
 
+  const closeCityModal = () => {
+    setIsCityModalOpen(false);
+  };
 
   console.log("sesion", session);
 
@@ -74,8 +79,6 @@ const Sidebar = () => {
     fetchUser(session?.user?.email!);
   }, []);
 
-  
-
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
@@ -96,7 +99,12 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex">
+                  <AccordionTrigger className="w-full flex"
+                   onClick={() => {
+                    setIsCityModalOpen(true);
+                    console.log("isLicenseModalOpen", isCityModalOpen);
+                  }}
+                  >
                     <Building className="sideBarIcon" />
                     Ciudad
                   </AccordionTrigger>
@@ -130,11 +138,12 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                  onClick={() => {
-                    setIsIdModalOpen(true);
-                    console.log("isIdModalOpen", isIdModalOpen);
-                  }}
+                  <AccordionTrigger
+                    className="w-full flex"
+                    onClick={() => {
+                      setIsIdModalOpen(true);
+                      console.log("isIdModalOpen", isIdModalOpen);
+                    }}
                   >
                     <Fingerprint className="sideBarIcon" />
                     Documento identificador
@@ -148,11 +157,13 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                 onClick={() => {
-                  setIsLicenseModalOpen(true);
-                  console.log("isLicenseModalOpen", isLicenseModalOpen); 
-                }}>
+                  <AccordionTrigger
+                    className="w-full flex"
+                    onClick={() => {
+                      setIsLicenseModalOpen(true);
+                      console.log("isLicenseModalOpen", isLicenseModalOpen);
+                    }}
+                  >
                     <Fingerprint className="sideBarIcon" />
                     Licencia de Conducir
                   </AccordionTrigger>
@@ -213,6 +224,13 @@ const Sidebar = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <PassportId closeIdModal={closeIdModal} />
+          </div>
+        </div>
+      )}
+       {isCityModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <City closeCityModal={closeCityModal} />
           </div>
         </div>
       )}
