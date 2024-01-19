@@ -59,6 +59,7 @@ export const useUserState = create<UserState>((set, get) => ({
 
     estado: false,
     envios: [],
+    especial: false,
   },
   travels: [],
   products: [],
