@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Producto from "@/models/productos";
 import { connectDB } from "@/libs/mongodb";
 
+
 export async function POST(request: Request) {
   await connectDB();
   const { types, name, size, weight, photoProduct, articulosEspeciales } = await request.json();
@@ -29,8 +30,8 @@ export async function POST(request: Request) {
   }
 }
 
-
 export async function GET(request: Request) {
+
   try {
     await connectDB();
     const productos = await Producto.find().lean();
