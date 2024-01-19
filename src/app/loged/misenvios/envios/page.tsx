@@ -52,7 +52,7 @@ const Envios: React.FC = () => {
 
   return (
     <div className="w-full flex justify-center items-center">
-      <ProductCard />
+      {/* <ProductCard /> */}
     </div>
   );
 };
