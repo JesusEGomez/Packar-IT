@@ -67,26 +67,26 @@ export default function PassportId() {
       }
     }
   };
-const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files.length > 0) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    
-    reader.onload = () => {
-      const imgDataUrl = reader.result as string;
-      setImg2(imgDataUrl);
-    };
-    
-    reader.readAsDataURL(file);
-  }
-};
+  const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
-const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+      reader.onload = () => {
+        const imgDataUrl = reader.result as string;
+        setImg2(imgDataUrl);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value) {
-        setImg3(value);
+      setImg3(value);
     }
-};
+  };
 
   const handleBotonPic = async () => {
     console.log("Valor de img (front):", img2);
@@ -115,8 +115,7 @@ const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
   };
 
   return (
-    <div>
-      <div></div>
+    <div className="m-8">
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
       </div>
@@ -203,9 +202,9 @@ const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
           />
         </div>
       </form>
-      <div>
+      <div className=" flex justify-center m-2 ">
         <button
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          className="bg-pink  disabled:opacity-70 text-white font-bold rounded-b-sm p-3"
           disabled={disable}
           onClick={handleBotonPic}
         >
