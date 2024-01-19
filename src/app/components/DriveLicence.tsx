@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 
-require("dotenv").config();
+//require("dotenv").config();
 
 interface DriveLicenseProps {
   onClose: () => void;

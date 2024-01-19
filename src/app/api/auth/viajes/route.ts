@@ -22,7 +22,7 @@ interface ViajeRequest {
   estado: boolean;
   precio: number;
   envios: {}[];
-  special: boolean;
+  especial: boolean;
 }
 
 interface PutRequest {
@@ -48,7 +48,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     estado,
     precio,
     envios,
-    special
+    especial
   } = await request.json();
 
   console.log(
@@ -120,7 +120,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       estado: false,
       precio,
       envios,
-      special,
+      especial,
     });
     const savedViaje = await nuevoViaje.save();
 
