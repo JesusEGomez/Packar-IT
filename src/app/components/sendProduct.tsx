@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TfiPackage } from "react-icons/tfi";
 import ProdForm from "./ProdForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,10 @@ import { Input } from "@/components/ui/input";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 export const SendProduct = (props: any) => {
+  const [specials, setSpecials] = useState<boolean>(false);
+  const specialsHandler = () => {
+    setSpecials(!specials);
+  }
   const formSchema = z.object({
     pequeño: z.object({
       quantity: z.coerce.number(),
@@ -52,7 +56,8 @@ export const SendProduct = (props: any) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    props.closeModal(values);
+    const fixedValues = {...values, special: specials}
+    props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
@@ -63,6 +68,7 @@ export const SendProduct = (props: any) => {
       props.setProductSelected(false);
     }
   }
+
 
   return (
     <div className="flex flex-col  p-4">
@@ -190,6 +196,11 @@ export const SendProduct = (props: any) => {
                 )}
               ></FormField>
             </div>
+          </div>
+          <div className="flex flex-col gap-y-4 my-4">
+            <h1 className="text-xl font-bold">Además, ¿Puedes transportar artículos especiales?</h1>
+            <p>Si las condiciones de tu vehículo y trayecto lo permiten, selecciona aquellos artículos que podrías transportar.</p>
+            <div onClick={specialsHandler} className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto">productos especiales</div>
           </div>
           <Button
             type="submit"

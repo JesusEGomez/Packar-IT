@@ -87,8 +87,7 @@ export default function DriveLicense() {
   };
 
   return (
-    <div>
-      <div></div>
+    <div className="m-8">
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">Carnet de conducir</h1>
       </div>
@@ -143,7 +142,7 @@ export default function DriveLicense() {
       </div>
       <div>
         <button
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-sm p-3"
           disabled={disable}
           onClick={handleBotonPic}
         >
