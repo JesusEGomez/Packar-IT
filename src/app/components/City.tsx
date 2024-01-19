@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 require("dotenv").config();
 
-export default function PhoneNumber() {
+export default function City(props:any) {
   const [city, setCity] = useState("");
   const [disable, setDisable] = useState(true);
 
@@ -72,6 +72,7 @@ export default function PhoneNumber() {
         city,
       }),
     });
+    props.closeCityModal();
   };
 
   return (
