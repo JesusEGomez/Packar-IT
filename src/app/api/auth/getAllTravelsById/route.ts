@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const id = searchParams.get("id");
     console.log(id);
     const user = await Viaje.find({
-      _id: id,
+      usuario: id,
     });
     console.log(user);
     return NextResponse.json(user);

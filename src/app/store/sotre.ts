@@ -122,7 +122,7 @@ export const useUserState = create<UserState>((set, get) => ({
   fetchTravels: async (id: string) => {
     get();
     try {
-      const response = await fetch(`/api/auth/getTravelById/?id=${id}`);
+      const response = await fetch(`/api/auth/getAllTravelsById/?id=${id}`);
       const newTravels = await response.json();
 
       console.log("viajes", newTravels);

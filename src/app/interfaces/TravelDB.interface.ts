@@ -14,4 +14,5 @@ export interface ITravelDB {
   eresFlexible: boolean;
   estado: boolean;
   envios: [];
+  especial: boolean;
 }
