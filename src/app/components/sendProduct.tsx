@@ -15,18 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { GrBike } from "react-icons/gr";
-import { MdSurfing } from "react-icons/md";
-import { LuSofa, LuBedDouble } from "react-icons/lu";
-import { PiTelevisionBold } from "react-icons/pi";
-import { TbKayak } from "react-icons/tb";
-import { GiSkier } from "react-icons/gi";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 export const SendProduct = (props: any) => {
-  const specials:string[] = [];
-  const specialHandler = (item:string) => {
-    if(!specials.includes(item)) specials.push(item);
+  const [specials, setSpecials] = useState<boolean>(false);
+  const specialsHandler = () => {
+    setSpecials(!specials);
   }
   const formSchema = z.object({
     pequeño: z.object({
@@ -63,7 +56,8 @@ export const SendProduct = (props: any) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    props.closeModal(values);
+    const fixedValues = {...values, special: specials}
+    props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
@@ -206,58 +200,7 @@ export const SendProduct = (props: any) => {
           <div className="flex flex-col gap-y-4 my-4">
             <h1 className="text-xl font-bold">Además, ¿Puedes transportar artículos especiales?</h1>
             <p>Si las condiciones de tu vehículo y trayecto lo permiten, selecciona aquellos artículos que podrías transportar.</p>
-            <div className="flex flex-wrap gap-8 justify-center items-center">
-              <div className="flex flex-col gap-y-2 justify-center items-center">
-                <div 
-                className='p-5 rounded-full text-black bg-slate-300'
-                onClick={() => specialHandler('Bicicleta')}>
-                  <GrBike size={30} />
-                </div>
-                <p className="text-sm">Bicicleta</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Tabla de surf')}>
-                <div className='p-5 rounded-full text-black bg-slate-300' >
-                  <MdSurfing size={30} />
-                </div>
-                <p className="text-sm">Tabla de surf</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Silla')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <LuSofa size={30} />
-                </div>
-                <p className="text-sm">Silla</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Cama')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <LuBedDouble size={30} />
-                </div>
-                <p className="text-sm">Cama</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('TV')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <PiTelevisionBold size={30} />
-                </div>
-                <p className="text-sm">TV</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Kayak')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <TbKayak size={30} />
-                </div>
-                <p className="text-sm">Kayak</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Esquis')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <GiSkier size={30} />
-                </div>
-                <p className="text-sm">Esquíes</p>
-              </div>
-              <div className="flex flex-col gap-y-2 justify-center items-center" onClick={() => specialHandler('Otro')}>
-                <div className='p-5 rounded-full text-black bg-slate-300'>
-                  <AiOutlineQuestionCircle size={30} />
-                </div>
-                <p className="text-sm">Other</p>
-              </div>
-            </div>
+            <div onClick={specialsHandler} className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto">productos especiales</div>
           </div>
           <Button
             type="submit"
