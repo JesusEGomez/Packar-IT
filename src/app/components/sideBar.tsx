@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../Provider";
 3;
 import { signOut, useSession } from "next-auth/react";
+import  DriveLicense  from "../components/DriveLicence"
 
 import {
   Command,
@@ -40,6 +41,11 @@ const Sidebar = () => {
   const { data: session } = useSession();
   const { fetchUser } = useUserState((state) => state);
   const { user } = useUserState((state) => state);
+  const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
+
+  const closeLicenceModal = () => {
+    setIsLicenseModalOpen(false);
+  };
 
   console.log("sesion", session);
 
@@ -60,6 +66,8 @@ const Sidebar = () => {
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
+
+  
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -126,6 +134,23 @@ const Sidebar = () => {
               </Accordion>
             </CommandItem>
             <CommandItem>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex"
+                 onClick={() => {
+                  setIsLicenseModalOpen(true);
+                  console.log("isLicenseModalOpen", isLicenseModalOpen); 
+                }}>
+                    <Fingerprint className="sideBarIcon" />
+                    Licencia de Conducir
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>{} </p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CommandItem>
+            <CommandItem>
               <FileCheck2 className="sideBarIcon" />
               Vehículo
             </CommandItem>
@@ -165,6 +190,13 @@ const Sidebar = () => {
           </CommandGroup>
         </CommandList>
       </Command>
+      {isLicenseModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <DriveLicense closeLicenceModal={closeLicenceModal} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
