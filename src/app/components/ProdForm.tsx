@@ -1,33 +1,88 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaExclamationCircle } from "react-icons/fa";
 import { TbTriangleSquareCircle } from "react-icons/tb";
 import { BsBoxSeam } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { LuFolderInput } from "react-icons/lu";
 
 interface FormInputs {
-  types: any;
+  types: string;
   name: string;
-  size: any;
-  weight: any;
+  size: string;
+  weight: string;
 }
 
 function ProdForm(props: any) {
+  const [img, setImg] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [disabled, setDisable] = useState<boolean>(true);
+  const cloudName = process.env.CLOUD_NAME;
+    const cloudPreset = process.env.CLOUD_PRESET;
+
+  const handleDivClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if(file){
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
+        {
+          method: "POST",
+          body: formData,
+        })
+        if(response.ok){
+          const ans = await response.json();
+          console.log(ans);
+          
+          setImg(ans.secure_url);
+        }
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+  };
+  
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
-    props.closeFirstModal(data);
-    props.closeModal(data);
+    props.closeFirstModal({
+      type: data.types,
+      name: data.name,
+      size: data.size,
+      weigth: data.weight,
+      photoProduct: img,
+      articulosEspeciales: 'noSpecial'
+    });
+    props.closeModal({
+      type: data.types,
+      name: data.name,
+      size: data.size,
+      weigth: data.weight,
+      photoProduct: img,
+      articulosEspeciales: 'noSpecial'
+    });
   };
   const close = () => {
     props.closeModal();
   };
+
+  useEffect(() => {
+    img && setDisable(false);
+  },[img]);
+
   return (
     <div>
       <Button onClick={() => close()} variant={"ghost"}>
@@ -113,8 +168,22 @@ function ProdForm(props: any) {
           </select>
         </div>
 
+        <div className='flex flex-col justify-center items-center p-4 gap-y-5'>
+            <h1 className='text-2xl'>Añade una imagen de tu envío</h1>
+            <div className='p-10 border w-fit rounded-xl cursor-pointer' onClick={handleDivClick}>
+              <LuFolderInput size={70} />
+            </div>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: 'none' }}
+            />
+          </div>
+
         <Button
           variant={"ghost"}
+          disabled={disabled || !isValid}
           className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
         >
           Siguiente

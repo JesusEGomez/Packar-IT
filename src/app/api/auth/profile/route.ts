@@ -1,8 +1,9 @@
-// models/profile.js
+
 import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
+
 
 export async function PUT(request: Request) {
   await connectDB();
@@ -25,7 +26,7 @@ export async function PUT(request: Request) {
 
     const userEmail = user.email || "CorreoNoDefinido";
 
-    // Actualiza el perfil con la información proporcionada
+  
     let profile = await Profile.findOne({ userId });
 
     if (!profile) {
@@ -42,12 +43,10 @@ export async function PUT(request: Request) {
       await profile.save();
     } else {
       // Si existe, actualiza los campos individualmente
-      profile.userId = userId;
-      profile.email = userEmail;
-      profile.driverLicense = driverLicense;
-      profile.idDocument = idDocument;
-      profile.city = city;
-      profile.phoneNumber = phoneNumber;
+      if (driverLicense) profile.driverLicense = driverLicense;
+      if (idDocument) profile.idDocument = idDocument;
+      if (city) profile.city = city;
+      if (phoneNumber) profile.phoneNumber = phoneNumber;
 
       await profile.save();
     }
@@ -70,6 +69,7 @@ export async function PUT(request: Request) {
     );
   }
 }
+
 export async function GET(request: Request) {
   try {
     const profiles = await Profile.find()
@@ -113,3 +113,6 @@ export async function GET(request: Request) {
     );
   }
 }
+
+
+

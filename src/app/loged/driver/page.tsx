@@ -5,10 +5,8 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
-import { Calendar } from "@/components/ui/calendar";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import MapComponent from "@/app/components/MapComponent";
-import { ProdModal } from "@/app/components/ProdModal";
 import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
 import { IoTime } from "react-icons/io5";
@@ -19,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
+import { Separator } from "@/components/ui/separator";
 
 type prod = {
   pequeño: {
@@ -33,6 +32,7 @@ type prod = {
     quantity: number;
     price: number;
   };
+  special: boolean;
 };
 
 type time = {
@@ -55,6 +55,7 @@ export interface ITravel {
   eresFlexible: boolean;
   estado: boolean;
   envios: [];
+  special: boolean;
 }
 
 const Driver = () => {
@@ -73,6 +74,10 @@ const Driver = () => {
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [paisOrigen, setPaisOrigen] = useState<string | null>(null);
   const [paisDestino, setPaisDestino] = useState<string | null>(null);
+  const [search, setSearch] = useState(false);
+  const [productSelected, setProductSelected] = useState(false);
+  const [hoverButton, setHoverButton] = useState(false);
+
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
     desde: {
@@ -109,6 +114,7 @@ const Driver = () => {
 
     estado: false,
     envios: [],
+    special: false,
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -123,18 +129,22 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
+    special: false,
   });
-  const [search, setSearch] = useState(false);
   const { user } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
   };
 
-  const closeModal = async (fromSelected: any) => {
+  const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
     setFrom(fromLocation);
+  };
+  const closeMapModal = () => {
+    setFromModalOpen(false);
+    setToModalOpen(false);
   };
 
   const dateModalHandler = (date: Date) => {
@@ -158,7 +168,8 @@ const Driver = () => {
     setTimeModalOpen(false);
     setTime(timeSelected);
   };
-  const toModelClose = async (toSelected: any) => {
+  const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
+    console.log(toSelected);
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
     setTo(toLocation);
@@ -173,32 +184,31 @@ const Driver = () => {
   const closeProdModal = (selectedProductData: any) => {
     setProdModal(false);
     setSelectedProductData(selectedProductData);
+
     console.log(selectedProductData);
   };
-  const navigate = useRouter();
+
+  const closePropModalHandler = () => {
+    setProdModal(false);
+  };
 
   useEffect(() => {
-    flex &&
-      time.llegada &&
-      time.salida &&
+    if (
+      productSelected &&
+      time?.llegada &&
+      time?.salida &&
       from &&
       to &&
       date &&
-      selectedProductData &&
+      selectedProductData
+    ) {
       setSearch(true);
-    console.log("flex", flex);
-  }, [
-    ciudadOrigen,
-    ciudadDestino,
-    paisDestino,
-    paisOrigen,
-    flex,
-    from,
-    to,
-    date,
-    selectedProductData,
-    time,
-  ]);
+    } else {
+      setSearch(false);
+    }
+
+    console.log("flex", ciudadOrigen);
+  }, [productSelected, flex, from, to, date, selectedProductData, time]);
 
   const felxhandler = () => {
     setFlex(!flex);
@@ -211,7 +221,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-
+  console.log("Boton", hoverButton);
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
     setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
@@ -219,7 +229,7 @@ const Driver = () => {
     setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
     setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
 
-    console.log(selectedProductData);
+    console.log("Productos", selectedProductData);
     const stringDate = date?.toLocaleDateString("es-AR", {
       day: "2-digit",
       month: "2-digit",
@@ -240,102 +250,141 @@ const Driver = () => {
       eresFlexible: flex,
       estado: true,
       envios: [],
+      special: selectedProductData.special,
     };
-    search && setTravel(newTravel);
-    search && setFinalStep(true);
-    console.log("nuevoViaje", newTravel);
-  };
 
+    search && setTravel(newTravel);
+    console.log("nuevoViaje", newTravel);
+    search && hoverButton && setFinalStep(true);
+  };
   return (
-    <div className="flex flex-col  items-center bg-pink">
+    <div className="flex flex-col  w-full    items-center bg-pink">
       <Image
-        className="my-16 rounded-full"
+        className="my-16  rounded-full"
         src={"/step-3.svg"}
         alt="logo"
         width={250}
         height={250}
       />
-      <div className="bg-white w-full rounded-t-3xl">
+      <div className="bg-white  rounded-t-3xl">
         {/* Contenido del segundo div */}
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="z-10 fixed left-0 w-full top-48  bg-white border rounded-xl">
-          <div className="flex flex-col w-full  items-center gap-y-4">
+      <form
+        className="flex w-full justify-center"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="z-10 fixed  flex top-56     bg-white border rounded-xl">
+          <div className="flex flex-col  h-1/2 items-center gap-y-2">
             <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
-            <div className="flex items-center">
-              <div className="flex  flex-col items-center gap-y-5 ">
-                <input
-                  type="text"
-                  placeholder="Ciudad de origen"
-                  className="p-3 border-b text-slate-300"
-                  id="ciudadOrigen"
-                  {...register("ciudadOrigen")}
-                />
-                <input
-                  type="text"
-                  placeholder="País de origen"
-                  className="p-3 border-b text-slate-300"
-                  id="paisOrigen"
-                  {...register("paisOrigen")}
-                />
-                <input
-                  type="text"
-                  placeholder="Ciudad de Destino"
-                  className="p-3 border-b text-slate-300"
-                  id="ciudadDestino"
-                  {...register("ciudadDestino")}
-                />
-                <input
-                  type="text"
-                  placeholder="País de Destino"
-                  className="p-3 border-b text-slate-300"
-                  id="paisDestino"
-                  {...register("paisDestino")}
-                />
+            <div className="flex flex-col   items-center">
+              <div className="flex flex-col  items-center gap-y-2 p-2  ">
+                <div className=" justify-between w-screen  sm:w-full items-center mx-2   flex">
+                  <div className="grid w-1/2 h-20  max-w-sm items-center ">
+                    <label className="text-gray-500" htmlFor="ciudadOrigen">
+                      Ciudad de origen
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="ciudadOrigen"
+                      {...register("ciudadOrigen", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                  <Separator className="mx-3" orientation="vertical" />
+                  <div className="grid w-1/2 h-20  max-w-sm items-center ">
+                    <label className="text-gray-500" htmlFor="paisOrigen">
+                      País de origen
+                    </label>
+                    <input
+                      type="text"
+                      className="  p-3 w-full border-b text-gray-500"
+                      id="paisOrigen"
+                      {...register("paisOrigen", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                </div>
+                <div className=" justify-between  w-screen sm:w-full items-center mx-2  flex">
+                  <div className="grid w-1/2 h-20  max-w-sm items-center">
+                    <label className="text-gray-500" htmlFor="ciudadDestino">
+                      Ciudad de Destino
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="ciudadDestino"
+                      {...register("ciudadDestino", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                  <Separator className="mx-2" orientation="vertical" />
+                  <div className="grid w-1/2 h-20  max-w-sm items-center">
+                    <label className="text-gray-500" htmlFor="paisDestino">
+                      País de Destino
+                    </label>
+                    <input
+                      type="text"
+                      className=" p-3 w-full border-b text-gray-500"
+                      id="paisDestino"
+                      {...register("paisDestino", {
+                        required: "Este campo es requerido",
+                      })}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="flex  flex-col items-center gap-y-2 ">
-                <button
-                  className="flex text-slate-400 justify-center gap-x-4 border-b p-2 mx-4"
-                  onClick={fromHandler}
-                >
-                  {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Desde:Calle" : `${from}`}
-                </button>
-                <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-                  onClick={toHandler}
-                >
-                  <RiMapPin2Fill size={30} />
-                  {to === null ? "Hasta:Calle" : `${to}`}
-                </button>
-                <button
-                  onClick={() => dateModalClose()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4"
-                >
-                  <FaRegCalendarAlt size={30} />
-                  {date
-                    ? `${date.toLocaleDateString("es-AR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}`
-                    : "Cuando"}
-                </button>
+              <div className="flex w-full  flex-col items-center  ">
+                <div className=" justify-between items-center  mx-2  flex">
+                  <button
+                    className="flex text-slate-400 h-14 w-full justify-center  border-b p-2 mx-4"
+                    onClick={fromHandler}
+                  >
+                    {<RiMapPinAddLine size={30} />}
+                    {from === null ? "Desde:Calle" : `${from}`}
+                  </button>
 
-                <button
-                  onClick={() => timeHandler()}
-                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4"
-                >
-                  <IoTime size={30} />
-                  {time === null ? (
-                    "Hora "
-                  ) : (
-                    <div className="flex flex-col">
-                      <p>{`Salida: ${time.salida ? time.salida : ""}`} </p>
-                      <p>{`Llegada: ${time.llegada ? time.llegada : ""}`}</p>
-                    </div>
-                  )}
-                </button>
+                  <button
+                    className="flex text-slate-400 w-full h-14   border-b p-2 mx-4"
+                    onClick={toHandler}
+                  >
+                    <RiMapPin2Fill size={30} />
+                    {to === null ? "Hasta:Calle" : `${to}`}
+                  </button>
+                </div>
+                <div className=" justify-between items-center  mx-2  flex">
+                  <button
+                    onClick={() => dateModalClose()}
+                    className="flex text-slate-400 h-14 gap-x-4 border-b p-2 mx-4"
+                  >
+                    <FaRegCalendarAlt size={30} />
+                    {date
+                      ? `${date.toLocaleDateString("es-AR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}`
+                      : "Cuando"}
+                  </button>
+
+                  <button
+                    onClick={() => timeHandler()}
+                    className="flex items-center h-14 text-slate-400 gap-x-4 border-b p-2 mx-4"
+                  >
+                    <IoTime size={30} />
+                    {time === null ? (
+                      "Hora "
+                    ) : (
+                      <div className="flex flex-col">
+                        <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
+                        <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
+                      </div>
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
             <button
@@ -343,7 +392,7 @@ const Driver = () => {
               className="flex text-slate-400 gap-x-4 justify-center border-b p-2 mx-4 w-full md:w-auto"
             >
               <BsBoxSeam size={30} />
-              {selectedProductData ? "Elección Cargada" : "Producto"}
+              {productSelected ? "Elección Cargada" : "Producto"}
             </button>
 
             <div className="flex items-center text-slate-400 space-x-2">
@@ -359,8 +408,11 @@ const Driver = () => {
             <div className="flex text-xl w-full justify-center text-black   border-b p-2 mx-4"></div>
 
             <button
+              type="submit"
+              onMouseEnter={() => setHoverButton(true)}
+              onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-3"
               disabled={!search}
             >
               Crear
@@ -372,14 +424,20 @@ const Driver = () => {
       {fromModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <MapComponent closeModal={closeModal} />
+            <MapComponent
+              closeMapModal={closeMapModal}
+              closeModal={closeModal}
+            />
           </div>
         </div>
       )}
       {toModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <MapComponent closeModal={toModelClose} />
+            <MapComponent
+              closeMapModal={closeMapModal}
+              closeModal={toModelClose}
+            />
           </div>
         </div>
       )}
@@ -394,7 +452,11 @@ const Driver = () => {
       {prodModal && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <SendProduct closeModal={closeProdModal} />
+            <SendProduct
+              closePropModalHandler={closePropModalHandler}
+              closeModal={closeProdModal}
+              setProductSelected={setProductSelected}
+            />
           </div>
         </div>
       )}

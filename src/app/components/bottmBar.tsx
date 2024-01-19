@@ -16,7 +16,7 @@ const BottmBar = () => {
   const navigate = useRouter();
 
   return (
-    <div className="w-screen ">
+    <div className="w-screen bg-white">
       <ul className="flex z-50 justify-between px-5 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>
@@ -32,9 +32,9 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            onClick={() => navigate.push("/misenvios")}
+            onClick={() => navigate.push("/loged/misenvios")}
             className={`flex ${
-              pathName === "/shipments" ? "text-pink" : "text-slate-600"
+              pathName === "/loged/misenvios" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CiDeliveryTruck size={30} />
