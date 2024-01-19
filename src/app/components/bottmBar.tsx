@@ -34,7 +34,7 @@ const BottmBar = () => {
           <button
             onClick={() => navigate.push("/loged/misenvios")}
             className={`flex ${
-              pathName === "/shipments" ? "text-pink" : "text-slate-600"
+              pathName === "/loged/misenvios" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <CiDeliveryTruck size={30} />

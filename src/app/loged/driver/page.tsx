@@ -5,7 +5,7 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
-
+import { useSession } from "next-auth/react";
 import MapComponent from "@/app/components/MapComponent";
 import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
@@ -17,8 +17,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
-
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
 type prod = {
@@ -76,6 +74,8 @@ const Driver = () => {
   const [paisDestino, setPaisDestino] = useState<string | null>(null);
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
+  const [hoverButton, setHoverButton] = useState(false);
+
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
     desde: {
@@ -217,7 +217,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-
+  console.log("Boton", hoverButton);
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
     setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
@@ -250,7 +250,7 @@ const Driver = () => {
 
     console.log("nuevoViaje", newTravel);
     search && setTravel(newTravel);
-    search && setFinalStep(true);
+    search && hoverButton && setFinalStep(true);
   };
   return (
     <div className="flex flex-col w-full items-center bg-pink">
@@ -404,8 +404,10 @@ const Driver = () => {
 
             <button
               type="submit"
+              onMouseEnter={() => setHoverButton(true)}
+              onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-3"
               disabled={!search}
             >
               Crear

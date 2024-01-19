@@ -61,21 +61,26 @@ export const useUserState = create<UserState>((set) => ({
     envios: [],
   }, // Inicializa el objeto de usuario
   fetchUser: async (email: string) => {
+    console.log("usuario", email);
     const localUser = localStorage.getItem("user");
     const parsedUser = JSON.parse(localUser!);
     if (localUser) {
       set({ user: parsedUser });
     } else {
       try {
-        const response = await fetch(`/api/auth/signup/${email}`, {
+        const response = await fetch(`/api/auth/myid/?email=${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         });
         const userData = await response.json();
-        set({ user: userData });
-        localStorage.setItem("user", JSON.stringify(userData));
+        console.log(userData);
+        if (userData) {
+          set({ user: userData });
+          localStorage.setItem("user", JSON.stringify(userData));
+          console.log("usuario encontrado", userData);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -89,10 +94,10 @@ export const useUserState = create<UserState>((set) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(travel),
       });
+      console.log(response);
       return response.ok;
     } catch (error) {
       console.error(error);
-      return false;
     }
   },
 }));
