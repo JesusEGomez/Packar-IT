@@ -4,11 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { SidebarContext } from "../Provider";
 3;
 import { signOut, useSession } from "next-auth/react";
+import  DriveLicense  from "../components/DriveLicence"
+import PassportId from "../components/DniLicence";
 
 import {
   Command,
   CommandGroup,
-  CommandItem,
+  CommandItem, 
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
@@ -40,6 +42,17 @@ const Sidebar = () => {
   const { data: session } = useSession();
   const { fetchUser } = useUserState((state) => state);
   const { user } = useUserState((state) => state);
+  const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
+  const [isIdModalOpen, setIsIdModalOpen] = useState(false);
+
+  const closeLicenceModal = () => {
+    setIsLicenseModalOpen(false);
+  };
+
+  const closeIdModal = () => {
+    setIsIdModalOpen(false);
+  };
+
 
   console.log("sesion", session);
 
@@ -60,6 +73,8 @@ const Sidebar = () => {
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
+
+  
 
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
@@ -115,9 +130,31 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex">
+                  <AccordionTrigger className="w-full flex"
+                  onClick={() => {
+                    setIsIdModalOpen(true);
+                    console.log("isIdModalOpen", isIdModalOpen);
+                  }}
+                  >
                     <Fingerprint className="sideBarIcon" />
                     Documento identificador
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <p>{} </p>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CommandItem>
+            <CommandItem>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex"
+                 onClick={() => {
+                  setIsLicenseModalOpen(true);
+                  console.log("isLicenseModalOpen", isLicenseModalOpen); 
+                }}>
+                    <Fingerprint className="sideBarIcon" />
+                    Licencia de Conducir
                   </AccordionTrigger>
                   <AccordionContent>
                     <p>{} </p>
@@ -165,6 +202,20 @@ const Sidebar = () => {
           </CommandGroup>
         </CommandList>
       </Command>
+      {isLicenseModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <DriveLicense closeLicenceModal={closeLicenceModal} />
+          </div>
+        </div>
+      )}
+      {isIdModalOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <PassportId closeIdModal={closeIdModal} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

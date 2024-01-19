@@ -1,4 +1,5 @@
 import { Schema, models, model } from "mongoose";
+import { boolean } from "zod";
 
 export const ViajeSchema = new Schema({
   usuario: {
@@ -48,6 +49,10 @@ export const ViajeSchema = new Schema({
     },
   ],
   envios: [{ productos: [{}], }],
+  special: {
+    type: Boolean,
+    default: false,
+  }
 
 });
 

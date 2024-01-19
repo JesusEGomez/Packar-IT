@@ -13,7 +13,7 @@ const ProductoSchema = new Schema({
     size: {
         type: String,
         //enum: ["64x30cm" || 'Pequeño', "81x37cm" || 'Mediano', "67x44cm" || 'Grande'],
-        enum: ['Pequeño', 'Mediano', 'Grande, Special'],
+        enum: ['Pequeño', 'Mediano', 'Grande', 'Special'],
         required: true,
     },
     weight: {

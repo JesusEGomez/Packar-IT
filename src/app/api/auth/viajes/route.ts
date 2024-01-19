@@ -21,7 +21,8 @@ interface ViajeRequest {
   eresFlexible: boolean;
   estado: boolean;
   precio: number;
-  envios: string[];
+  envios: {}[];
+  special: boolean;
 }
 
 interface PutRequest {
@@ -47,6 +48,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     estado,
     precio,
     envios,
+    special
   } = await request.json();
 
   console.log(
@@ -118,6 +120,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       estado: false,
       precio,
       envios,
+      special,
     });
     const savedViaje = await nuevoViaje.save();
 
