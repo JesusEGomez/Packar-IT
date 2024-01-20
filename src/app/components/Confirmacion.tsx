@@ -43,6 +43,7 @@ function Confirmacion(props: any) {
           cuando: envio.cuando,
           producto: envio.producto,
           recibe: envio.recibe,
+          driver: driver._id
         }),
       });
     
