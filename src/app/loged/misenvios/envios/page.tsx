@@ -1,6 +1,7 @@
 "use client";
 
 import ProductCard from "@/app/components/ProductCard";
+import useUserState from "@/app/store/sotre";
 import React, { useEffect, useState } from "react";
 
 interface Envio {
@@ -26,33 +27,32 @@ interface Envio {
 }
 
 const Envios: React.FC = () => {
-  const [envios, setEnvios] = useState<Envio[]>([]);
+  const { products, fetchUserProducts, user } = useUserState((state) => state);
 
   useEffect(() => {
-    // Lógica para obtener los envíos desde el backend
-    const fetchEnvios = async () => {
-      try {
-        const response = await fetch("/api/auth/envio", {
-          method: "GET",
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setEnvios(data);
-        } else {
-          console.error("Error al obtener los envíos desde el backend");
-        }
-      } catch (error) {
-        console.error("Error al realizar la solicitud al backend:", error);
-      }
-    };
-
-    fetchEnvios();
-  }, []); // Se ejecuta solo en el montaje
+    !products.length && fetchUserProducts(user._id);
+  }, []);
+  console.log(products);
 
   return (
-    <div className="w-full flex justify-center items-center">
-      {/* <ProductCard /> */}
+    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
+      {products.length ? (
+        products.map((product) => {
+          return (
+            <ProductCard
+              key={product._id}
+              cuando={product.cuando!}
+              desde={product.desde}
+              // estado={product.estado}
+              hasta={product.hasta}
+              _id={product._id}
+              producto={product.producto}
+            />
+          );
+        })
+      ) : (
+        <div>No Tienes viajes</div>
+      )}
     </div>
   );
 };
