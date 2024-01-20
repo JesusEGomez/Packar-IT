@@ -42,6 +42,11 @@ export const EnvioSchema = new Schema({
     },
     driver: {
         type: String
+    },
+    estado: {
+        type: String,
+        enum: ['Pendiente', 'Recibido', 'Entregado'],
+        default: 'Pendiente'
     }
 });
 
