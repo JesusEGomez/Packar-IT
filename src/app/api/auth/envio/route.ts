@@ -17,7 +17,6 @@ export async function POST(request: Request) {
   await connectDB();
   try {
     const response = await request.json();
-    console.log("aca", response);
     
     const nuevoProducto = new Producto(response.producto);
     await nuevoProducto.save();
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
     });
     const savedEnvio = await envio.save();
 
-    console.log(savedEnvio);
     return NextResponse.json(savedEnvio);
   } catch (error) {
     console.error(error);

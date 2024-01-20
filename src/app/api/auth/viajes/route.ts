@@ -145,10 +145,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
     await connectDB();
     const { viajeId, data } = await request.json();
     const viaje = await Viaje.findById(viajeId);
-    console.log(data, 'soy el envio');
-    
     viaje.envios.push(data);
-    console.log(viaje);
     return NextResponse.json(viaje);
   } catch (error) {
     console.error(error);
