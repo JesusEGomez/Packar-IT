@@ -16,7 +16,7 @@ const ProductoSchema = new Schema({
         enum: ['Pequeño', 'Mediano', 'Grande', 'Special'],
         required: true,
     },
-    weight: {
+    weigth: {
         type: String,
         //enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,

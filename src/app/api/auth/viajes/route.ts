@@ -27,7 +27,7 @@ interface ViajeRequest {
 
 interface PutRequest {
   viajeId: string;
-  envio: string;
+  data: any;
 }
 
 interface RequestWithJson<T> extends Request {
@@ -142,9 +142,11 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
 export async function PUT(request: RequestWithJson<PutRequest>) {
   try {
     await connectDB();
-    const { viajeId, envio } = await request.json();
+    const { viajeId, data } = await request.json();
     const viaje = await Viaje.findById(viajeId);
-    viaje.envios.push(envio);
+    console.log(data, 'soy el envio');
+    
+    viaje.envios.push(data);
     console.log(viaje);
     return NextResponse.json(viaje);
   } catch (error) {

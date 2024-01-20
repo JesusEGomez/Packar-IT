@@ -15,27 +15,15 @@ import Viaje from "@/models/viajes";
 
 export async function POST(request: Request) {
   await connectDB();
-  const response = await request.json();
-  console.log("aca", response);
-
-  //   if (!userId || !desde || !hasta || !cuando || !producto) {
-  //     return NextResponse.json({ message: "Todos los campos son obligatorios" });
-  //   }
-
   try {
-    const user = await User.findById(response.userId);
-    if (!user) {
-      return NextResponse.json(
-        { message: "Usuario no encontrado" },
-        { status: 404 }
-      );
-    }
-
+    const response = await request.json();
+    console.log("aca", response);
+    
     const nuevoProducto = new Producto(response.producto);
-    const savedProducto = await nuevoProducto.save();
+    await nuevoProducto.save();
 
     const envio = new Envio({
-      usuario: response.userId,
+      usuario: response.usuario,
       desde: response.desde,
       hasta: response.hasta,
       cuando: response.cuando,

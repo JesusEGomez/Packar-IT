@@ -21,7 +21,8 @@ function Confirmacion(props: any) {
             }
       });
       const userAns = await user.json();
-       
+      console.log(userAns._id);
+            
       const response = await fetch('/api/auth/envio',{
         headers: {
           'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ function Confirmacion(props: any) {
         })
       });
       const data = await response.json();
-      console.log(data);
+      console.log(data, 'yo soy el envio');
       const update = await fetch('/api/auth/viajes',{
         headers: {
           'Content-Type': 'application/json',
