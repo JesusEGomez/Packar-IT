@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         });
 
         // Filtra por ciudad de origen y ciudad final
-        if(viajes){
+        if(viajes.length){
             const filter1Viajes = viajes.filter((viaje) => viaje.desde.ciudad === cityOrigin);
             const filter2Viajes = filter1Viajes.filter((viaje) => viaje.hasta.ciudad === cityFinal);
         
