@@ -99,10 +99,10 @@ export const useUserState = create<UserState>((set, get) => ({
   fetchUserProducts: async (id: string) => {
     console.log(id);
     try {
-      // const response = await fetch(`/api/auth/getAllProductsById/?id=${id}`);
-      const response = await fetch(
-        `/api/auth/getAllProductsById/?id=65a692f5c1e2747ff0aa6d9a`
-      );
+      const response = await fetch(`/api/auth/getAllProductsById/?id=${id}`);
+      // const response = await fetch(
+      //   `/api/auth/getAllProductsById/?id=65a692f5c1e2747ff0aa6d9a`
+      // );
       const newProducts = await response.json();
 
       console.log("productos", newProducts);
