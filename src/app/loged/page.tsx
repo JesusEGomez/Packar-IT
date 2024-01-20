@@ -16,6 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import SelectDriver from "../components/SelectDriver";
 import QuienEnvia from "../components/QuienEnvia";
 import Confirmacion from "../components/Confirmacion";
+import FormEnvio from '../components/FormEnvio';
 
 type prod = {
   type: string;
@@ -58,6 +59,15 @@ const Loged = () => {
   const [receptorInfo, setReceptorInfo] = useState<receptor | null>(null);
   const [lastModalOpen, setLastModalOpen] = useState(false);
   const [envio, setEnvio] = useState<any | null>(null);
+  const [openForm, setOpenForm] = useState(false);
+
+  const closeFormModal = (data:any) => {
+    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_").toLowerCase());
+    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_").toLowerCase());
+    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_").toLowerCase());
+    setPaisDestino(data?.paisDestino.replaceAll(" ", "_").toLowerCase());
+    setOpenForm(false);
+  }
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -122,15 +132,10 @@ const Loged = () => {
     setReceptor(false);
   };
   const {
-    register,
     handleSubmit,
-    formState: { errors },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
-    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
-    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
-    setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
+    console.log(data);
   };
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
@@ -170,36 +175,11 @@ const Loged = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex  justify-center flex-wrap items-center overflow-y-auto gap-y-5 ">
-              <div className="flex  flex-col items-center gap-y-5 ">
-                <input
-                  type="text"
-                  placeholder="Ciudad de origen"
-                  className="p-3 border-b text-slate-300"
-                  id="ciudadOrigen"
-                  {...register("ciudadOrigen")}
-                />
-                <input
-                  type="text"
-                  placeholder="País de origen"
-                  className="p-3 border-b text-slate-300"
-                  id="paisOrigen"
-                  {...register("paisOrigen")}
-                />
-                <input
-                  type="text"
-                  placeholder="Ciudad de Destino"
-                  className="p-3 border-b text-slate-300"
-                  id="ciudadDestino"
-                  {...register("ciudadDestino")}
-                />
-                <input
-                  type="text"
-                  placeholder="País de Destino"
-                  className="p-3 border-b text-slate-300"
-                  id="paisDestino"
-                  {...register("paisDestino")}
-                />
-              </div>
+              <button 
+                onClick={() => setOpenForm(true)}
+                className="bg-pink m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3">
+                  Agrega ciudad y pais
+                </button>
               <div className="flex flex-col items-center gap-y-4">
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
@@ -245,14 +225,14 @@ const Loged = () => {
               <div>
                 <div className="flex flex-row items- gap-y-4">
                   <button
-                    className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                    className="bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-b-xl p-3"
                     onClick={() => receptorOpen()}
                   >
                     Datos del Receptor
                   </button>
                   <button
                     onClick={() => searchHandler()}
-                    className={`bg-pink ${search ? 'w-full' : 'w-auto'} disabled:opacity-70 text-white font-bold rounded-b-xl p-3`}
+                    className={`bg-pink ${search ? 'w-full' : 'w-auto'} m-2 disabled:opacity-70 text-white font-bold rounded-b-xl p-3`}
                     disabled={!search}
                   >
                     Buscar
@@ -320,6 +300,13 @@ const Loged = () => {
               driver={driver}
               envio={envio}
             />
+          </div>
+        </div>
+      )}
+      {openForm && (
+      <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-4 rounded-xl">
+            <FormEnvio closeFormModal={closeFormModal} />
           </div>
         </div>
       )}
