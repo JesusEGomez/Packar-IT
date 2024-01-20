@@ -3,7 +3,7 @@ import { Schema, models, model } from "mongoose";
 const ProductoSchema = new Schema({
     type: {
         type: String,
-        enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje, Special"],
+        enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje", "Special"],
         required: true,
     },
     name: {
