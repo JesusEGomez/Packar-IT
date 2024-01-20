@@ -55,7 +55,7 @@ export interface ITravel {
   eresFlexible: boolean;
   estado: boolean;
   envios: [];
-  especial: boolean;
+  special: boolean;
 }
 
 const Driver = () => {
@@ -114,7 +114,7 @@ const Driver = () => {
 
     estado: false,
     envios: [],
-    especial: false,
+    special: false,
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -250,11 +250,11 @@ const Driver = () => {
       eresFlexible: flex,
       estado: true,
       envios: [],
-      especial: selectedProductData.special,
+      special: selectedProductData.special,
     };
 
-    console.log("nuevoViaje", newTravel);
     search && setTravel(newTravel);
+    console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (

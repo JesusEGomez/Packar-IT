@@ -5,14 +5,14 @@ import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
 import { CalendarDays } from "lucide-react";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const [travel, setTravel] = useState<ITravelDB | null>();
+  const [travel, setTravel] = useState<ITravelDB | null>(null);
 
   const fetTravelById = async (id: string) => {
     try {
       const response = await fetch(`/api/auth/getTravelById/?id=${id}`);
       const newTravel = await response.json();
       console.log(newTravel);
-      setTravel(newTravel[0]);
+      setTravel(newTravel);
     } catch (error) {
       console.error(error);
     }
@@ -24,7 +24,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   }, [params.id]);
   return (
     <div>
-      <p>{params.id}</p>
+      <p>{travel ? JSON.stringify(travel) : "Cargando..."}</p>
       <h2>Tu viaje</h2>
       <div className="w-[450px] h-[155px] flex items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
         <div>
