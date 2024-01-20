@@ -52,6 +52,7 @@
     "sweetalert2": "^11.10.2",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
+    "twilio": "^4.18.1",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
   },
