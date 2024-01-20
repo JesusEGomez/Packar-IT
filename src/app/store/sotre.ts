@@ -8,7 +8,7 @@ import { IProfile } from "../interfaces/profile.interface";
 
 interface UserState {
   user: IUser;
-  travel: ITravel;
+  travel: ITravel | null;
   fetchUser: (email: string) => Promise<void>;
   postTravel: (travel: ITravel) => Promise<boolean | undefined>;
   travels: ITravelDB[];
@@ -23,44 +23,7 @@ export const useUserState = create<UserState>((set, get) => ({
     email: "",
     fullname: "",
   },
-  travel: {
-    userId: "",
-    desde: {
-      calle: "",
-      pais: "",
-      ciudad: "",
-    },
-    hasta: {
-      calle: "",
-      pais: "",
-      ciudad: "",
-    },
-    precio: [
-      {
-        quantity: 0,
-        price: 0,
-      },
-      {
-        quantity: 0,
-        price: 0,
-      },
-      {
-        quantity: 0,
-        price: 0,
-      },
-    ],
-    horaSalida: "",
-
-    horaLlegada: "",
-
-    cuando: undefined,
-
-    eresFlexible: true,
-
-    estado: false,
-    envios: [],
-    especial: false,
-  },
+  travel: null,
   travels: [],
   products: [],
   profile: null, // Inicializa el objeto de usuario
@@ -106,6 +69,7 @@ export const useUserState = create<UserState>((set, get) => ({
     }
   },
   postTravel: async (travel: ITravel) => {
+    console.log("travel store", travel);
     set({ travel: travel });
     try {
       const response = await fetch("/api/auth/viajes", {
