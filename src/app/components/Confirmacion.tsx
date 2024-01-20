@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowLeft } from "react-icons/fa";
 import { PiBracketsSquareDuotone } from "react-icons/pi";
 import { FaWeightHanging } from "react-icons/fa";
@@ -8,54 +8,71 @@ import { MdAlternateEmail } from "react-icons/md";
 import { CiPhone } from "react-icons/ci";
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Success from './Success';
 
 function Confirmacion(props: any) {
   const {envio, driver} = props;
   const navigate = useRouter();
   const { data: session } = useSession();
+  const [success, setSuccess] = useState(false);
   const solicitarHandler = async () => {
-    try {    
-      //me traigo mi ID 
-      const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`,{
+    try {
+      // Fetch user ID
+      const userResponse = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
         headers: {
-              'Content-Type': 'application/json',
-            }
+          'Content-Type': 'application/json',
+        },
       });
-      const userAns = await user.json();
-      //creo el envio
-      const response = await fetch('/api/auth/envio',{
+    
+      if (!userResponse.ok) {
+        throw new Error('Failed to fetch user ID');
+      }
+    
+      const user = await userResponse.json();
+      
+      // Create shipment
+      const shipmentResponse = await fetch('/api/auth/envio', {
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
-          usuario: userAns._id,
+          usuario: user._id,
           desde: envio.desde,
-          hasta:envio.hasta,
+          hasta: envio.hasta,
           cuando: envio.cuando,
           producto: envio.producto,
-          recibe: envio.recibe
-        })
+          recibe: envio.recibe,
+        }),
       });
-      const data = await response.json();
-      //añadir envio al viaje
-      const update = await fetch('/api/auth/viajes',{
+    
+      if (!shipmentResponse.ok) {
+        throw new Error('Failed to create shipment');
+      }
+    
+      const shipmentData = await shipmentResponse.json();
+      
+      // Add shipment to the trip
+      const updateResponse = await fetch('/api/auth/viajes', {
         headers: {
           'Content-Type': 'application/json',
         },
         method: 'PUT',
         body: JSON.stringify({
           viajeId: driver._id,
-          data
-        })
-      })
-      console.log(update);      
-      const updated = await update.json()
-      console.log(updated,'success');
-      
+          data: shipmentData,
+          prod: envio.producto
+        }),
+      });
+    
+      if (!updateResponse.ok) {
+        throw new Error('Failed to update trip with shipment');
+      }
+    
+      const updated = await updateResponse.json();
+      setSuccess(true);
     } catch (error) {
-      console.log(error);
-      
+      console.error(error);
     }
   }
   useEffect(() => {
@@ -129,6 +146,13 @@ function Confirmacion(props: any) {
           onClick={() => navigate.refresh()}>Cancelar envio</button>
         </div>
        </div>
+       {success && (
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Success />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
