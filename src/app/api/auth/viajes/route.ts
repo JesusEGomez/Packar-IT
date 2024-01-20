@@ -27,7 +27,7 @@ interface ViajeRequest {
 
 interface PutRequest {
   viajeId: string;
-  envio: string;
+  data: any;
 }
 
 interface RequestWithJson<T> extends Request {
@@ -143,9 +143,10 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
 export async function PUT(request: RequestWithJson<PutRequest>) {
   try {
     await connectDB();
-    const { viajeId, envio } = await request.json();
+    const { viajeId, data } = await request.json();
     const viaje = await Viaje.findById(viajeId);
-    viaje.envios.push(envio);
+    viaje.envios.push(data);
+    return NextResponse.json(viaje);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Error al actualizar los viajes" });

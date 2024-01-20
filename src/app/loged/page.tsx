@@ -152,25 +152,24 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center bg-pink md:flex-row">
-      <Image
+  <div className="flex flex-col items-center bg-pink overflow-y-auto overflow-visible md:flex-row sm:flex-col sm:z-5 ">
+    <div>
+    <Image
         className="my-16 rounded-full"
         src={logo}
         alt="logo"
         width={150}
         height={150}
       />
-      <div className="bg-white w-full rounded-t-3xl pt-10">
-        {/* Contenido del segundo div */}
-      </div>
-      <div className=" flex flex-col items-center z-10 fixed top-48 left-20 right-20 bg-white border rounded-xl">
+    </div>
+    <div className="flex flex-col items-center z-10 flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
         <h1 className="font-bold text-3xl m-4">¿Que deseas enviar?</h1>
-        <div className="flex flex-col text-center items-center gap-y-4 sm:flex sm:flex-col">
+        <div className="flex flex-col text-center items-center gap-y-4 sm:flex">
           <form
-            className="flex  flex-col items-center gap-y-2 p-2"
+            className="flex flex-col items-center gap-y-8 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex  justify-center items-center gap-y-5 ">
+            <div className="flex  justify-center flex-wrap items-center overflow-y-auto gap-y-5 ">
               <div className="flex  flex-col items-center gap-y-5 ">
                 <input
                   type="text"
@@ -203,14 +202,14 @@ const Loged = () => {
               </div>
               <div className="flex flex-col items-center gap-y-4">
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
                   onClick={fromHandler}
                 >
                   {<RiMapPinAddLine size={30} />}
                   {from === null ? "Dirección Origen" : `${from}`}
                 </button>
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
                   onClick={toHandler}
                 >
                   <RiMapPin2Fill size={30} />
@@ -218,7 +217,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => calendarHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
                 >
                   <FaRegCalendarAlt size={30} />
                   {date ? `${changeDateFormat(date)}` : "Cuando"}
@@ -234,7 +233,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => productsHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
                 >
                   <BsBoxSeam size={30} />
                   {selectedProductData
@@ -242,9 +241,9 @@ const Loged = () => {
                     : "Producto"}
                 </button>
               </div>
+            </div>
               <div>
-                <div className="flex  items-center gap-y-4"></div>
-                <div className="flex flex-col items-center gap-y-4">
+                <div className="flex flex-row items- gap-y-4">
                   <button
                     className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
                     onClick={() => receptorOpen()}
@@ -253,21 +252,22 @@ const Loged = () => {
                   </button>
                   <button
                     onClick={() => searchHandler()}
-                    className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+                    className={`bg-pink ${search ? 'w-full' : 'w-auto'} disabled:opacity-70 text-white font-bold rounded-b-xl p-3`}
                     disabled={!search}
                   >
                     Buscar
                   </button>
                 </div>
-              </div>
-            </div>
+                </div>
           </form>
         </div>
-      </div>
-
+    </div>
+    <div>
+    </div>
+    <div className="flex flex-col items-center bg-pink sm:w-auto s:z-10">
       {fromModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
+      <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-4 rounded-xl">
             <MapComponent
               closeMapModal={closeMapModal}
               closeModal={closeModal}
@@ -276,7 +276,7 @@ const Loged = () => {
         </div>
       )}
       {toModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <MapComponent
               closeModal={toModelClose}
@@ -286,21 +286,21 @@ const Loged = () => {
         </div>
       )}
       {prodModal && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <ProdModal closeModal={closeProdModal} />
           </div>
         </div>
       )}
       {receptor && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <QuienEnvia closeModal={receptorClose} />
           </div>
         </div>
       )}
       {selectdriverOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <SelectDriver
               close={closeSelectDriver}
@@ -312,7 +312,7 @@ const Loged = () => {
         </div>
       )}
       {lastModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <Confirmacion
               closeModal={closeLastModal}
@@ -324,6 +324,8 @@ const Loged = () => {
         </div>
       )}
     </div>
+  </div>
+
   );
 };
 export default Loged;

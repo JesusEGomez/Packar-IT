@@ -98,7 +98,7 @@ function MapComponent(props: MapComponentProps) {
       setTimeout(() => {
         const pos = location?.toJSON();
         props.closeModal(pos!);
-      }, 3000);
+      }, 1000);
     }
   };
 

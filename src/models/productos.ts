@@ -3,7 +3,7 @@ import { Schema, models, model } from "mongoose";
 const ProductoSchema = new Schema({
     type: {
         type: String,
-        enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje, Special"],
+        enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje", "Special"],
         required: true,
     },
     name: {
@@ -16,7 +16,7 @@ const ProductoSchema = new Schema({
         enum: ['Pequeño', 'Mediano', 'Grande', 'Special'],
         required: true,
     },
-    weight: {
+    weigth: {
         type: String,
         //enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,
