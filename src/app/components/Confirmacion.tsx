@@ -43,14 +43,16 @@ function Confirmacion(props: any) {
           cuando: envio.cuando,
           producto: envio.producto,
           recibe: envio.recibe,
+          driver: driver._id
         }),
       });
-    
+
       if (!shipmentResponse.ok) {
         throw new Error('Failed to create shipment');
       }
     
       const shipmentData = await shipmentResponse.json();
+      console.log(shipmentData);
       
       // Add shipment to the trip
       const updateResponse = await fetch('/api/auth/viajes', {

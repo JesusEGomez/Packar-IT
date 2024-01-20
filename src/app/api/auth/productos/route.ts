@@ -5,7 +5,7 @@ import { connectDB } from "@/libs/mongodb";
 export async function POST(request: Request) {
   await connectDB();
 
-  const { type, name, size, weigth, photoProduct, articulosEspeciales } = await request.json();
+  const { type, name, size, weigth, photoProduct, articulosEspeciales, driver } = await request.json();
 
 
   if (!type || !name || !size || !weigth) {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   try {
 
-    const producto = new Producto({ type, name, size, weigth, photoProduct, articulosEspeciales });
+    const producto = new Producto({ type, name, size, weigth, photoProduct, articulosEspeciales, driver });
 
     const savedProducto = await producto.save();
 

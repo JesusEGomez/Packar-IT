@@ -39,6 +39,14 @@ export const EnvioSchema = new Schema({
             type: String,
             required: [true, "El email del receptor es obligatorio"],
         },
+    },
+    driver: {
+        type: String
+    },
+    estado: {
+        type: String,
+        enum: ['Pendiente', 'Recibido', 'Entregado'],
+        default: 'Pendiente'
     }
 });
 
