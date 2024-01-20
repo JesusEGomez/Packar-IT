@@ -12,7 +12,8 @@ export async function GET(request: Request) {
         const cityFinal = searchParams.get('cityFinal');
 
         // Filtra los viajes basándose en los criterios especificados
-        const viajes = await Viaje.find({
+        let viajes = [];
+        viajes = await Viaje.find({
             estado: false
         });
 
