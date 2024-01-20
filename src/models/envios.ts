@@ -27,7 +27,7 @@ export const EnvioSchema = new Schema({
         }
     },
     recibe: {
-        nombreApellido: {
+        nombreApellidos: {
             type: String,
             required: [true, "El nombre del receptor es obligatorio"],
         },

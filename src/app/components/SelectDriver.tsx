@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { GiPathDistance } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
+import Viaje from '@/models/viajes';
 
 type Viajes = [{
   desde: {
@@ -44,18 +45,19 @@ function Page(props:any) {
   const clickHandler = (viaje: any) => {
     props.close(viaje);
   }
-  useEffect(() => {    
+  useEffect(() => { 
+    console.log(props)
     const fetchData = async () => {      
       const response = await fetch(`/api/auth/findatrip/?cityOrigin=${props.ciudadOrigen}&cityFinal=${props.ciudadDestino}`);
       const data = await response.json();
-      if(props.open.type === 'Special'){
-        const filteredViajes = data.filter((viaje:any) => viaje.special === true)
-        setViajes(filteredViajes);
-      }
-      
-      
+      console.log(props, data);
+      props.open.type === 'Special' ?  
+      setViajes(data.filter((viaje:any) => viaje.especial === true)) :
+      props.open.size === 'Pequeño' ? setViajes(data.filter((viaje:any) => viaje.precio[0].quantity > 0)) :
+      props.open.size === 'Mediano' ? setViajes(data.filter((viaje:any) => viaje.precio[1].quantity > 0)) :
+      setViajes(data.filter((viaje:any) => viaje.precio[2].quantity > 0))
     };
-    fetchData();
+    fetchData(); 
   }, []);
 
   return (
@@ -84,11 +86,16 @@ function Page(props:any) {
             (<div onClick={() => clickHandler(viaje)} className='flex flex-col border rounded cursor-pointer shadow-lg p-4' key={index}>
             <div className='flex w-full justify-between px-4'>
               <div className='flex'>
-                <div className='flex w-12 min-h-12'>foto</div>
                 <FaUser size={40}/>
-                <p>{viaje.usuario.fullname}</p>
+                <p className='text-xl'>{viaje.usuario.fullname}</p>
               </div>
-              <p>{`${viaje.special ? 'Confirma con el conductor': 'f'}`}€</p>
+              <p>{`${props.open.type === 'Special' ?
+               'Confirma con el conductor' :
+               props.open.size === 'Pequeño' ?
+              `${viaje.precio[0].price}€` :
+              props.open.size === 'Mediano' ?
+              `${viaje.precio[1].price}€` :
+              `${viaje.precio[2].price}€` }`}</p>
             </div>
             <div>
               <div className='flex'>

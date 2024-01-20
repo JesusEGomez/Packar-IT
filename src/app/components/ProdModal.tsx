@@ -35,7 +35,6 @@ export const ProdModal = (props : any) => {
     setSelectProduct(true);
   };
   const closeSelectProduct = (data:any) => {
-    console.log(data);
     setSelectProduct(false);
   };
   const close = (data:any) => {
