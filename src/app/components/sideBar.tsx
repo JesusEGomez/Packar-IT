@@ -7,6 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
 import City from "../components/City";
+import PhoneNumber from "../components/PhoneNumber";
 
 import {
   Command,
@@ -46,6 +47,7 @@ const Sidebar = () => {
   const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
   const [isIdModalOpen, setIsIdModalOpen] = useState(false);
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
+  const [isPhoneNumber , setIsPhoneNumber] = useState(false);
 
   const closeLicenceModal = () => {
     setIsLicenseModalOpen(false);
@@ -57,6 +59,10 @@ const Sidebar = () => {
 
   const closeCityModal = () => {
     setIsCityModalOpen(false);
+  };
+
+  const closePhoneNumber = () => {
+    setIsPhoneNumber(false);
   };
 
   console.log("sesion", session);
@@ -121,7 +127,12 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex">
+                  <AccordionTrigger className="w-full flex"
+                   onClick={() => {
+                    setIsPhoneNumber(true);
+                    console.log("isPhoneNumber", isPhoneNumber);
+                  }}
+                  >
                     <Phone className="sideBarIcon" />
                     Teléfono
                   </AccordionTrigger>
@@ -231,6 +242,13 @@ const Sidebar = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <City closeCityModal={closeCityModal} />
+          </div>
+        </div>
+      )}
+         {isPhoneNumber && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <PhoneNumber closePhoneNumber={closePhoneNumber} />
           </div>
         </div>
       )}
