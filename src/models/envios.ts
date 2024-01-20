@@ -39,6 +39,9 @@ export const EnvioSchema = new Schema({
             type: String,
             required: [true, "El email del receptor es obligatorio"],
         },
+    },
+    driver: {
+        type: String
     }
 });
 

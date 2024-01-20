@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   try {
     const response = await request.json();
     
-    const nuevoProducto = new Producto(response.producto);
+    const nuevoProducto = new Producto(response.producto, response.driver);
     await nuevoProducto.save();
 
     const envio = new Envio({
@@ -28,9 +28,11 @@ export async function POST(request: Request) {
       cuando: response.cuando,
       producto: response.producto,
       recibe: response.recibe,
+      driver: response.driver
     });
     const savedEnvio = await envio.save();
-
+    console.log(savedEnvio);
+    
     return NextResponse.json(savedEnvio);
   } catch (error) {
     console.error(error);
