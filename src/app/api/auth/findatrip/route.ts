@@ -29,9 +29,10 @@ export async function GET(request: Request) {
                 usuario: usuario.toObject() // Agrega la información del usuario al objeto del viaje
                 };
              }));
-         
+
             return NextResponse.json(viajesConUsuario);
         }
+        return NextResponse.json('no hay viajes con tus caracteristicas')
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Error al obtener los viajes" });
