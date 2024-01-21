@@ -12,23 +12,25 @@ interface IProductCardProps {
     ciudad: string | null;
     calle: string | null;
   };
-  horaSalida: string;
-  horaLlegada: string;
-  estado: boolean;
+  // horaSalida: string;
+  // horaLlegada: string;
+  // estado: boolean;
   cuando: string;
   producto: {
     name: string | null;
   };
+  _id: string;
 }
 
 const ProductCard = ({
   cuando,
   desde,
-  estado,
+  // estado,
   hasta,
-  horaLlegada,
-  horaSalida,
+  // horaLlegada,
+  // horaSalida,
   producto,
+  _id,
 }: IProductCardProps) => {
   return (
     <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
@@ -36,13 +38,16 @@ const ProductCard = ({
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p>{`${horaSalida} - ${horaLlegada}`}</p>
-        <h3 className="font-bold">{`${desde.ciudad?.replaceAll(
+        {/* <p>{`${horaSalida} - ${horaLlegada}`}</p> */}
+
+        <p>{`${desde.ciudad?.replaceAll("_", " ")} / ${hasta.ciudad?.replaceAll(
           "_",
           " "
-        )} / ${hasta.ciudad?.replaceAll("_", " ")}`}</h3>
+        )}`}</p>
 
-        <p>{`${cuando}, ${estado ? "Aceptado" : "Esperando"}`}</p>
+        <h3 className="font-bold ">{producto.name}</h3>
+
+        <p>{`${cuando}, `}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <MdKeyboardArrowRight />
