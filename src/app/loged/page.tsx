@@ -158,7 +158,7 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center bg-pink overflow-y-auto overflow-visible md:flex-row sm:flex-col sm:z-5 ">
+    <div className="flex flex-col items-center bg-pink overflow-y-auto overflow-visible    ">
       <div>
         <Image
           className="my-16 rounded-full"
@@ -168,14 +168,14 @@ const Loged = () => {
           height={150}
         />
       </div>
-      <div className="flex flex-col items-center z-10 flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
+      <div className="flex flex-col items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
         <h1 className="font-bold text-3xl m-4">¿Que deseas enviar?</h1>
-        <div className="flex flex-col text-center items-center gap-y-4 sm:flex">
+        <div className="flex flex-col text-center items-center gap-y-4 ">
           <form
             className="flex flex-col items-center gap-y-8 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex  justify-center flex-wrap items-center overflow-y-auto gap-y-5 ">
+            <div className="flex  justify-center flex-col items-center overflow-y-auto gap-y-5 ">
               <button
                 onClick={() => setOpenForm(true)}
                 className="bg-pink m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3"

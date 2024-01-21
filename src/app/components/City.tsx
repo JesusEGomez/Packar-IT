@@ -4,10 +4,12 @@ import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 require("dotenv").config();
 
-export default function City(props:any) {
+export default function City(props: any) {
   const [city, setCity] = useState("");
   const [disable, setDisable] = useState(true);
 
@@ -76,8 +78,10 @@ export default function City(props:any) {
   };
 
   return (
-    <div>
-      <div></div>
+    <div className="m-8 h-screen ">
+      <Button onClick={props.closeCityModal} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">¿En que ciudad vives?</h1>
       </div>
