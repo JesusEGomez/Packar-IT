@@ -1,29 +1,49 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MobilePhoneNumberSvg from "../../../public/mobile-phone-number-svg.svg";
 import { useRouter } from "next/navigation"; 
 import CountryCode from "./CountryCode";
 import { Button } from "@/components/ui/button";
+import { useSession } from 'next-auth/react';
 
 const MobilePhoneNumber = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [countryCode, setCountryCode] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [verificationCode, setVerificationCode] = useState<string>(''); 
+
+  useEffect(() => {
+    if (session?.user) {
+      const { name, email } = session.user;
+      console.log('Información del usuario en MobilePhone:', { name, email });
+    } else {
+      console.error('No se encontró información del usuario en la sesión.');
+    }
+  }, [session]); 
+  
   const sendVerificationCode = async () => {
     try {
       if (!countryCode.trim() || !phoneNumber.trim()) {
         console.error('Por favor, ingresa un número de teléfono válido.');
         return;
       }
+      
+      const email = session?.user?.email;
+
+      if (!email) {
+        console.error('No se encontró el email del usuario en la sesión.');
+        return;
+      }
+
       const fullPhoneNumber = `+${countryCode}${phoneNumber}`;
-  
+
       const response = await fetch('/api/auth/verify-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber: fullPhoneNumber, action: "sendCode" }),  
+        body: JSON.stringify({ email, phoneNumber: fullPhoneNumber, action: "sendCode" }),  
       });
   
       const data = await response.json();
