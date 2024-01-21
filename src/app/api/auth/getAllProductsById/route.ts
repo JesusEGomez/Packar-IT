@@ -1,5 +1,8 @@
+export const dynamic = "force-dynamic";
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
+import Viaje from "@/models/viajes";
+import { strict } from "assert";
 
 import { NextResponse } from "next/server";
 
@@ -9,11 +12,21 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     console.log(id);
-    const user = await Envio.find({
+    const envios = await Envio.find({
       usuario: id,
     });
-    console.log(user);
-    return NextResponse.json(user);
+    // const finalEnvios = [];
+
+    envios.forEach((envio) => {
+      console.log(envio?.estado);
+      // const user = await Viaje.findById(envio.driver,);
+      // finalEnvios.push({ ...envio, userDriver: user });
+    });
+
+    // console.log(finalEnvios);
+
+    console.log(envios);
+    return NextResponse.json(envios);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
