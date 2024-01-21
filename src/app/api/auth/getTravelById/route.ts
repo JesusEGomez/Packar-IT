@@ -1,5 +1,5 @@
+export const dynamic = "force-dynamic";
 import { connectDB } from "@/libs/mongodb";
-
 import Viaje from "@/models/viajes";
 import { NextResponse } from "next/server";
 
