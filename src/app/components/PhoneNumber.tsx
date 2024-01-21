@@ -4,10 +4,12 @@ import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 require("dotenv").config();
 
-export default function PhoneNumber(props:any) {
+export default function PhoneNumber(props: any) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [disable, setDisable] = useState(true);
 
@@ -76,7 +78,10 @@ export default function PhoneNumber(props:any) {
   };
 
   return (
-    <div className="m-8">
+    <div className="m-8 h-screen">
+      <Button onClick={props.closePhoneNumber} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">Numero de teléfono</h1>
       </div>
