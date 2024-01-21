@@ -6,17 +6,18 @@ import Viaje from "@/models/viajes";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  try {
-    await connectDB();
-    const { searchParams } = new URL(request.url);
-    const cityOrigin = searchParams.get("cityOrigin");
-    const cityFinal = searchParams.get("cityFinal");
-    console.log("city: " + cityOrigin, "cityFinal:" + cityFinal);
 
-    // Filtra los viajes basándose en los criterios especificados
-    const viajes = await Viaje.find({
-      estado: false,
-    });
+    try {
+        await connectDB();
+        const { searchParams } = new URL(request.url);
+        const cityOrigin = searchParams.get('cityOrigin');
+        const cityFinal = searchParams.get('cityFinal');
+         console.log("city: " + cityOrigin, "cityFinal:" + cityFinal);
+        // Filtra los viajes basándose en los criterios especificados
+        const viajes = await Viaje.find({
+            estado: false
+        });
+
 
     // Filtra por ciudad de origen y ciudad final
 

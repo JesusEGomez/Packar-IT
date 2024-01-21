@@ -55,7 +55,7 @@ function Page(props: any) {
       );
       const data = await response.json();
       console.log(data, "soy la data");
-      console.log(props);
+
       props.open.type === "Special"
         ? setViajes(data.filter((viaje: any) => viaje.special === true))
         : props.open.size === "Pequeño"
@@ -63,6 +63,7 @@ function Page(props: any) {
         : props.open.size === "Mediano"
         ? setViajes(data.filter((viaje: any) => viaje.precio[1].quantity > 0))
         : setViajes(data.filter((viaje: any) => viaje.precio[2].quantity > 0));
+      
     };
     fetchData();
   }, []);
