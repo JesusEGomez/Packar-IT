@@ -30,7 +30,7 @@ const Envios: React.FC = () => {
   const { products, fetchUserProducts, user } = useUserState((state) => state);
 
   useEffect(() => {
-    !products.length && fetchUserProducts(user._id);
+    fetchUserProducts(user._id);
   }, []);
   console.log(products);
 
