@@ -3,7 +3,9 @@ import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 require("dotenv").config();
 
@@ -11,7 +13,7 @@ interface DriveLicenseProps {
   onClose: () => void;
 }
 
-export default function DriveLicense (props:any) {
+export default function DriveLicense(props: any) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [img, setImg] = useState<string | null>(null);
@@ -91,13 +93,14 @@ export default function DriveLicense (props:any) {
         },
       }),
     });
-   props.closeLicenceModal()
+    props.closeLicenceModal();
   };
 
- 
-
   return (
-    <div className="m-8">
+    <div className="m-8 h-screen">
+      <Button onClick={props.closeLicenceModal} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">Carnet de conducir</h1>
       </div>
@@ -165,7 +168,6 @@ export default function DriveLicense (props:any) {
           Los perfiles verificados generan más confianza dentro de la comunidad.
         </p>
       </div>
-      
     </div>
   );
 }
