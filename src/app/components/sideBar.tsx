@@ -8,6 +8,8 @@ import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
 import City from "../components/City";
 import PhoneNumber from "../components/PhoneNumber";
+import { Button } from '@/components/ui/button';
+
 
 import {
   Command,
@@ -28,6 +30,7 @@ import {
   LogOut,
   Building,
   ArrowRightToLine,
+  Check
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
@@ -142,6 +145,19 @@ const Sidebar = () => {
                         ? user.profile.phoneNumber
                         : "Debes completar el perfil"}
                     </p> */}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CommandItem>
+            <CommandItem>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex"
+                    onClick={() => navigation.push("/mobile-phone")}>
+                    <Check className="sideBarIcon" />
+                    Validar telefono
+                  </AccordionTrigger>
+                  <AccordionContent>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

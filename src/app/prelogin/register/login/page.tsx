@@ -118,9 +118,6 @@ export default function LoginPage() {
           )}
         </div>
       </form>
-      <Button onClick={() => navigate.push("/mobile-phone")} className="w-[190px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
-        Validar identidad
-      </Button>
       <button onClick={() => navigate.push("/recoverypass")}>
         <p className="text-blue-700 text-sm underline mx-auto">
           ¿Has olvidado tu contraseña?

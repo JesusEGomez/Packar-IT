@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import MobilePhoneNumberSvg from "../../../public/mobile-phone-number-svg.svg";
 import { useRouter } from "next/navigation"; 
 import CountryCode from "./CountryCode";
+import { Button } from "@/components/ui/button";
 
 const MobilePhoneNumber = () => {
   const router = useRouter();
@@ -40,16 +41,18 @@ const MobilePhoneNumber = () => {
   };
   
   return (
-    <div className="content w-100 d-flex justify-content-center align-items-center">
-      <div className="text-center">
+    <div className="content flex flex-col justify-center items-center py-6 px-6">
+       <div className="text-center">
+       <div className="flex justify-center items-center">
         <Image
-          style={{ width: '50%', height: '50%' }}
+          style={{ width: '40%', height: '40%' }}
           className="my-5"
           src={MobilePhoneNumberSvg}
           alt="Checked"
         />
+        </div>
         <p className="fw-bold fs-5 mt-5 mb-3">Introduce tu número de teléfono</p>
-        <div className="flex flex-col w-full lg:w-full mx-auto lg:flex-row justify-center items-center">
+        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
           <CountryCode onCountryCodeChange={(value: string) => setCountryCode(value)} />
           <input
             placeholder="Número de teléfono"
@@ -66,14 +69,13 @@ const MobilePhoneNumber = () => {
         </p>
         <div className="container mb-4">
           <div className="col-12">
-            <button
+            <Button
               type="button"
-              className="btn w-50 mx-auto p-3 text-light mt-3"
-              style={{ background: 'var(--primary-color)' }}
+              className="btn w-50 mx-auto p-3 text-light mt-3 bg-pink text-white"
               onClick={sendVerificationCode}
             >
               Enviar código
-            </button>
+            </Button>
           </div>
         </div>
       </div>
