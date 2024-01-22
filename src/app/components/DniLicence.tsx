@@ -127,7 +127,7 @@ export default function PassportId(props: any) {
             <select
               value={type || ""}
               onChange={(e) => setType(e.target.value)}
-              className="p-4 border rounded-sm cursor-pointer"
+              className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
               style={{
                 width: "300px",
                 height: "5px",
