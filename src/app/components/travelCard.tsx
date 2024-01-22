@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GoArchive } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -16,6 +17,7 @@ interface ITravelCardProps {
   horaLlegada: string;
   estado: boolean;
   cuando: string;
+  _id: string;
 }
 
 const TravelCard = ({
@@ -25,6 +27,7 @@ const TravelCard = ({
   hasta,
   horaLlegada,
   horaSalida,
+  _id,
 }: ITravelCardProps) => {
   return (
     <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
@@ -41,7 +44,9 @@ const TravelCard = ({
         <p>{`${cuando}, ${estado ? "Aceptado" : "Esperando"}`}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
-        <MdKeyboardArrowRight />
+        <Link href={`misenvios/viajes/${_id}`}>
+          <MdKeyboardArrowRight />
+        </Link>
       </p>
     </div>
   );

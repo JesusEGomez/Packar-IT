@@ -22,7 +22,12 @@ export const UserSchema = new Schema({
     profile: {
         type: Schema.Types.ObjectId,
         ref: "Profile"
-      }
+    },
+    smsCode: {
+        type: String,
+        required: false, 
+        default: "", 
+    }
 })
 
  const User = models.User || model("User", UserSchema);

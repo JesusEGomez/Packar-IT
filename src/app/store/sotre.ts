@@ -3,8 +3,9 @@ import { create } from "zustand";
 import { IUser } from "../interfaces/user.interface";
 import { ITravel } from "../loged/driver/page";
 import { ITravelDB } from "../interfaces/TravelDB.interface";
-import { IProductDB } from "../interfaces/productDB.interface";
+
 import { IProfile } from "../interfaces/profile.interface";
+import { IUserProduct } from "../interfaces/userProduct.interface";
 
 interface UserState {
   user: IUser;
@@ -12,9 +13,10 @@ interface UserState {
   fetchUser: (email: string) => Promise<void>;
   postTravel: (travel: ITravel) => Promise<boolean | undefined>;
   travels: ITravelDB[];
-  products: IProductDB[];
+  products: IUserProduct[];
   profile: IProfile | null;
   fetchTravels: (id: string) => Promise<void>;
+  fetchUserProducts: (id: string) => Promise<void>;
 }
 
 export const useUserState = create<UserState>((set, get) => ({
@@ -84,13 +86,27 @@ export const useUserState = create<UserState>((set, get) => ({
     }
   },
   fetchTravels: async (id: string) => {
-    get();
     try {
       const response = await fetch(`/api/auth/getAllTravelsById/?id=${id}`);
       const newTravels = await response.json();
 
       console.log("viajes", newTravels);
       set({ travels: newTravels });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchUserProducts: async (id: string) => {
+    console.log(id);
+    try {
+      const response = await fetch(`/api/auth/getAllProductsById/?id=${id}`);
+      // const response = await fetch(
+      //   `/api/auth/getAllProductsById/?id=65a692f5c1e2747ff0aa6d9a`
+      // );
+      const newProducts = await response.json();
+
+      console.log("productos", newProducts);
+      set({ products: newProducts });
     } catch (error) {
       console.error(error);
     }

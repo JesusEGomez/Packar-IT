@@ -19,6 +19,26 @@ interface FormInputs {
   password: string;
   //confirmPassword: string;
 }
+const sendEmailConfirmation = async (email: string) => {
+  try {
+    const response = await fetch("/api/auth/nodemailer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al enviar el correo electrónico de confirmación");
+    }
+
+    console.log("Correo electrónico de confirmación enviado con éxito");
+  } catch (error) {
+    console.error((error as Error).message);  
+    throw error;
+  }
+};
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -40,28 +60,37 @@ export default function Register() {
         body: JSON.stringify(data),
       });
     };
-    const response = await fetchData();
+    try {
+      const response = await fetchData();
 
-    if (response.ok) {
-      Swal.fire({
-        icon: "success",
-        title: "Cuenta Creada con exito",
-        confirmButtonColor: "#fe1252",
-        confirmButtonText: "Iniciar sesión",
-        showConfirmButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push("/prelogin/register/login");
-          setLoading(false);
-        }
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Ocurrió un error",
-        confirmButtonColor: "#fe1252",
-        confirmButtonText: "reintentar",
-      });
+      if (response.ok) {
+        const userEmail = data.email;
+
+        Swal.fire({
+          icon: "success",
+          title: "Cuenta Creada con éxito",
+          confirmButtonColor: "#fe1252",
+          confirmButtonText: "Iniciar sesión",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push("/prelogin/register/login");
+            setLoading(false);
+
+            sendEmailConfirmation(userEmail);
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrió un error",
+          confirmButtonColor: "#fe1252",
+          confirmButtonText: "reintentar",
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error al enviar la solicitud de registro:", error);
       setLoading(false);
     }
   };
@@ -70,7 +99,7 @@ export default function Register() {
     console.log('estoy en el pinche btn');
     
     const res = await signIn("google", {
-     redirect: false,
+      redirect: false,
     });
     router.push("/loged");
   };
@@ -166,13 +195,13 @@ export default function Register() {
       </form>
       <Separator orientation="horizontal" className="m-2 w-2/3  " />
 
-      <Button
+      {/* <Button
         onClick={() => signIn("google")}
         variant={"ghost"}
         className="bg-white p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
-      </Button>
+      </Button> */}
       <p className="mx-auto mb-10 text-sm">
         ¿Ya tienes una cuenta?{" "}
         <a className="text-blue-700" href="register/login">

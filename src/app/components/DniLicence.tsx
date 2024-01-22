@@ -4,6 +4,8 @@ import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 require("dotenv").config();
 
@@ -116,18 +118,21 @@ export default function PassportId(props: any) {
   };
 
   return (
-    <div className="m-8">
-      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
+    <div className="m-8 h-screen mb-">
+      <Button onClick={props.closeIdModal} variant={"ghost"}>
+        <IoMdArrowRoundBack />
+      </Button>
+      <div className="flex flex-col justify-center items-center   text-l">
         <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
       </div>
       <form>
-        <div className="flex flex-col justify-center items-center p-4 gap-y-5">
+        <div className="flex flex-col justify-center items-center p-4 gap-y-1">
           <div>
             <p className="text-left">Tipo de Documentación</p>
             <select
               value={type || ""}
               onChange={(e) => setType(e.target.value)}
-              className="p-4 border rounded-sm cursor-pointer"
+              className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
               style={{
                 width: "300px",
                 height: "5px",
@@ -180,7 +185,7 @@ export default function PassportId(props: any) {
             style={{ display: "none" }}
           />
         </div>
-        <div className="flex flex-col justify-center items-center p-4 gap-y-5">
+        <div className="flex flex-col justify-center items-center p-4 ">
           <p>Foto para la parte trasera</p>
           <div
             className="p-10 border rounded-xl cursor-pointer"

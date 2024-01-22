@@ -103,7 +103,7 @@ export default function LoginPage() {
             {errors.password.message}
           </span>
         )}
-        <div className="flex w-full justify-center">
+        <div className="flex flex-col items-center w-full">
           {loading ? (
             <Button
               disabled
@@ -125,14 +125,14 @@ export default function LoginPage() {
       </button>
       <Separator orientation="horizontal" className="m-5 w-2/3 " />
 
-      <Button
+      {/* <Button
         variant={"ghost"}
         onClick={() => signIn("google")}
         data-onsuccess="onSignIn"
         className="bg-white g-signin2  p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
-      </Button>
+      </Button> */}
     </div>
   );
 }
