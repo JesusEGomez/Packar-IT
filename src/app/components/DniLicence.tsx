@@ -84,9 +84,16 @@ export default function PassportId(props: any) {
   };
 
   const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value) {
-      setImg3(value);
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const imgDataUrl = reader.result as string;
+        setImg3(imgDataUrl);
+      };
+
+      reader.readAsDataURL(file);
     }
   };
 
@@ -116,9 +123,13 @@ export default function PassportId(props: any) {
     });
     props.closeIdModal();
   };
-
+  const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedType = e.target.value.toLowerCase();
+    console.log("Selected Type:", selectedType);
+    setType(selectedType);
+  };
   return (
-    <div className="m-8 h-screen mb-">
+    <div className="m-8 min-h-screen overflow-y-auto">
       <Button onClick={props.closeIdModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -130,8 +141,7 @@ export default function PassportId(props: any) {
           <div>
             <p className="text-left">Tipo de Documentación</p>
             <select
-              value={type || ""}
-              onChange={(e) => setType(e.target.value)}
+              onChange={handleTypeChange}
               className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
               style={{
                 width: "300px",
@@ -142,8 +152,12 @@ export default function PassportId(props: any) {
                 justifyContent: "center",
               }}
             >
-              <option value="dni">DNI</option>
-              <option value="pasaporte">Pasaporte</option>
+              <option className="text-black" value="dni">
+                DNI
+              </option>
+              <option className="text-black" value="pasaporte">
+                Pasaporte
+              </option>
             </select>
           </div>
           <div>
@@ -153,7 +167,11 @@ export default function PassportId(props: any) {
               placeholder="123456789"
               className="p-4 border rounded-sm cursor-pointer"
               value={numeroDni}
-              onChange={(e) => setNumeroDni(e.target.value)}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
+                setNumeroDni(onlyNumbers);
+              }}
               style={{
                 width: "300px",
                 height: "5px",
@@ -165,8 +183,8 @@ export default function PassportId(props: any) {
             />
           </div>
           <p className="text-left">Foto para la parte delantera</p>
-          <div
-            className="p-10 border rounded-xl cursor-pointer"
+          <section
+            className="border rounded-xl cursor-pointer"
             style={{
               width: "300px",
               borderColor: "gray",
@@ -176,8 +194,15 @@ export default function PassportId(props: any) {
             }}
             onClick={() => handleDivClick(frontFileInputRef)}
           >
-            <LuFolderInput size={30} style={{ color: "gray" }} />
-          </div>
+            {img2 && (
+              <img
+                src={img2}
+                alt="Front Preview"
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
+              />
+            )}
+            {!img2 && <LuFolderInput size={30} style={{ color: "gray" }} />}
+          </section>
           <input
             type="file"
             ref={frontFileInputRef}
@@ -185,10 +210,10 @@ export default function PassportId(props: any) {
             style={{ display: "none" }}
           />
         </div>
-        <div className="flex flex-col justify-center items-center p-4 ">
+        <div className="flex flex-col justify-center items-center">
           <p>Foto para la parte trasera</p>
-          <div
-            className="p-10 border rounded-xl cursor-pointer"
+          <section
+            className="border rounded-xl cursor-pointer"
             style={{
               width: "300px",
               borderColor: "gray",
@@ -198,8 +223,15 @@ export default function PassportId(props: any) {
             }}
             onClick={() => handleDivClick(backFileInputRef)}
           >
-            <LuFolderInput size={30} style={{ color: "gray" }} />
-          </div>
+            {img3 && (
+              <img
+                src={img3}
+                alt="Back Preview"
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
+              />
+            )}
+            {!img3 && <LuFolderInput size={30} style={{ color: "gray" }} />}
+          </section>
           <input
             type="file"
             ref={backFileInputRef}
