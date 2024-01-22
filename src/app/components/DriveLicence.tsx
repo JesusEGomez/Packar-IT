@@ -183,12 +183,11 @@ export default function DriveLicense(props: any) {
                 <img
                   src={imgBack}
                   alt="Back Preview"
-                  style={{ maxWidth: "100%", maxHeight: "100%" , backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
+                  style={{ maxWidth: "100%", maxHeight: "100%" ,  }}
                 />
               )}
               {!imgBack && <LuFolderInput size={30} style={{ color: "gray" }} />}
             </section>
-          
             <input
               type="file"
               ref={backFileInputRef}
