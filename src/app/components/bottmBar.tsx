@@ -16,7 +16,7 @@ const BottmBar = () => {
   const navigate = useRouter();
 
   return (
-    <div className="w-screen bg-white">
+    <div className="w-screen bg-white fixed bottom-0">
       <ul className="flex z-50 justify-between px-5 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>

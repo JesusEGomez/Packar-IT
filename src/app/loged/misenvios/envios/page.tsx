@@ -51,7 +51,7 @@ const Envios: React.FC = () => {
   }, []); // Se ejecuta solo en el montaje
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full flex justify-center items-center md:w-32 lg:w-48">
       {/* <ProductCard /> */}
     </div>
   );

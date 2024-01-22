@@ -12,7 +12,7 @@ const Viajes = () => {
   }, []);
   console.log(travels);
   return (
-    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
+    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center md:w-32 lg:w-48">
       {travels.length ? (
         travels.map((travel) => {
           return (

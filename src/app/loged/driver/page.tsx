@@ -77,6 +77,7 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
+ 
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -257,6 +258,10 @@ const Driver = () => {
     console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
+
+
+  
+
   return (
     <div className="flex flex-col  w-full    items-center bg-pink">
       <Image
@@ -267,25 +272,25 @@ const Driver = () => {
         height={250}
       />
       <div className="bg-white  rounded-t-3xl">
-        {/* Contenido del segundo div */}
+      
       </div>
       <form
         className="flex w-full justify-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="z-10 fixed  flex top-56     bg-white border rounded-xl">
+       <div className="z-10 fixed flex top-56 sm:w-full md:w-3/4 lg:w-1/2 xl:w-1/3 bg-white border rounded-xl p-4">
           <div className="flex flex-col  h-1/2 items-center gap-y-2">
             <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col   items-center">
               <div className="flex flex-col  items-center gap-y-2 p-2  ">
                 <div className=" justify-between w-screen  sm:w-full items-center mx-2   flex">
                   <div className="grid w-1/2 h-20  max-w-sm items-center ">
-                    <label className="text-gray-500" htmlFor="ciudadOrigen">
+                    <label className="text-sm text-gray-500" htmlFor="ciudadOrigen">
                       Ciudad de origen
                     </label>
                     <input
                       type="text"
-                      className=" p-3 w-full border-b text-gray-500"
+                      className=" p-2 w-full border-b text-sm text-gray-500"
                       id="ciudadOrigen"
                       {...register("ciudadOrigen", {
                         required: "Este campo es requerido",
@@ -294,12 +299,12 @@ const Driver = () => {
                   </div>
                   <Separator className="mx-3" orientation="vertical" />
                   <div className="grid w-1/2 h-20  max-w-sm items-center ">
-                    <label className="text-gray-500" htmlFor="paisOrigen">
+                    <label className="text-sm text-gray-500" htmlFor="paisOrigen">
                       País de origen
                     </label>
                     <input
                       type="text"
-                      className="  p-3 w-full border-b text-gray-500"
+                      className="  p-2 w-full border-b text-sm text-gray-500"
                       id="paisOrigen"
                       {...register("paisOrigen", {
                         required: "Este campo es requerido",
@@ -314,7 +319,7 @@ const Driver = () => {
                     </label>
                     <input
                       type="text"
-                      className=" p-3 w-full border-b text-gray-500"
+                      className=" p-2 w-full border-b text-sm text-gray-500"
                       id="ciudadDestino"
                       {...register("ciudadDestino", {
                         required: "Este campo es requerido",
@@ -323,12 +328,12 @@ const Driver = () => {
                   </div>
                   <Separator className="mx-2" orientation="vertical" />
                   <div className="grid w-1/2 h-20  max-w-sm items-center">
-                    <label className="text-gray-500" htmlFor="paisDestino">
+                    <label className="text-sm text-gray-500" htmlFor="paisDestino">
                       País de Destino
                     </label>
                     <input
                       type="text"
-                      className=" p-3 w-full border-b text-gray-500"
+                      className=" p-2 w-full border-b text-sm text-gray-500"
                       id="paisDestino"
                       {...register("paisDestino", {
                         required: "Este campo es requerido",
@@ -486,4 +491,3 @@ const Driver = () => {
     </div>
   );
 };
-export default Driver;
