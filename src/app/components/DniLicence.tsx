@@ -129,14 +129,14 @@ export default function PassportId(props: any) {
     setType(selectedType);
   };
   return (
-    <div className="m-8 min-h-screen overflow-y-auto">
+    <div className="m-14 p-auto flex flex-col justify-center items-center">
+      <div className="m-4 flex flex-col justify-center items-start   text-l">
       <Button onClick={props.closeIdModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex flex-col justify-center items-center   text-l">
         <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
       </div>
-      <form>
+      <form className="flex flex-col justify-center items-center p-4 gap-y-5">
         <div className="flex flex-col justify-center items-center p-4 gap-y-1">
           <div>
             <p className="text-left">Tipo de Documentación</p>
@@ -187,6 +187,7 @@ export default function PassportId(props: any) {
             className="border rounded-xl cursor-pointer"
             style={{
               width: "300px",
+              height: "200px",
               borderColor: "gray",
               display: "flex",
               alignItems: "center",
@@ -198,7 +199,7 @@ export default function PassportId(props: any) {
               <img
                 src={img2}
                 alt="Front Preview"
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                style={{ maxWidth: "100%", maxHeight: "100%", backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
               />
             )}
             {!img2 && <LuFolderInput size={30} style={{ color: "gray" }} />}
@@ -216,6 +217,7 @@ export default function PassportId(props: any) {
             className="border rounded-xl cursor-pointer"
             style={{
               width: "300px",
+              height: "200px",
               borderColor: "gray",
               display: "flex",
               alignItems: "center",
@@ -227,7 +229,7 @@ export default function PassportId(props: any) {
               <img
                 src={img3}
                 alt="Back Preview"
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                style={{ maxWidth: "100%", maxHeight: "100%", backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
               />
             )}
             {!img3 && <LuFolderInput size={30} style={{ color: "gray" }} />}

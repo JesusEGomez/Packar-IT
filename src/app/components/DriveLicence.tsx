@@ -14,23 +14,26 @@ interface DriveLicenseProps {
 }
 
 export default function DriveLicense(props: any) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const frontFileInputRef = useRef<HTMLInputElement>(null);
+  const backFileInputRef = useRef<HTMLInputElement>(null);
 
-  const [img, setImg] = useState<string | null>(null);
-  const [img1, setImg1] = useState<string | null>(null);
+  const [imgFront, setImgFront] = useState<string | null>(null);
+  const [imgBack, setImgBack] = useState<string | null>(null);
   const [disable, setDisable] = useState(true);
   const navigate = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (img && img1) {
+    if (imgFront && imgBack) {
       setDisable(false);
     } else {
       setDisable(true);
     }
-  }, [img, img1]);
+  }, [imgFront, imgBack]);
 
-  const handleDivClick = async () => {
+  const handleDivClick = async (
+    fileInputRef: React.RefObject<HTMLInputElement>
+  ) => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -40,7 +43,10 @@ export default function DriveLicense(props: any) {
   const cloudPreset = process.env.CLOUD_PRESET;
   const { data: session } = useSession();
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    e: ChangeEvent<HTMLInputElement>,
+    setImage: React.Dispatch<React.SetStateAction<string | null>>
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       const formData = new FormData();
@@ -58,12 +64,8 @@ export default function DriveLicense(props: any) {
           const ans = await response.json();
           console.log(ans);
 
-          const fileName = ans.secure_url.split("/").pop(); // Extrae el nombre del archivo de la URL
-          if (!img) {
-            setImg(fileName);
-          } else {
-            setImg1(fileName);
-          }
+          const fileName = ans.secure_url.split("/").pop();
+          setImage(fileName);
         }
       } catch (error) {
         console.error(error);
@@ -71,9 +73,34 @@ export default function DriveLicense(props: any) {
     }
   };
 
+  const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const imgDataUrl = reader.result as string;
+        setImgFront(imgDataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const imgDataUrl = reader.result as string;
+        setImgBack(imgDataUrl);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleBotonPic = async () => {
-    console.log("Valor de img (front):", img);
-    console.log("Valor de img1 (back):", img1);
+   
     const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
       headers: {
         "Content-Type": "application/json",
@@ -88,8 +115,8 @@ export default function DriveLicense(props: any) {
       body: JSON.stringify({
         userId: userAns,
         driverLicense: {
-          frontPhoto: img,
-          backPhoto: img1,
+          frontPhoto: imgFront,
+          backPhoto: imgBack,
         },
       }),
     });
@@ -108,46 +135,64 @@ export default function DriveLicense(props: any) {
         <form>
           <div className="flex flex-col justify-center items-center p-4 gap-y-5">
             <p className="text-left">Foto para la parte delantera</p>
-            <div
-              className="p-10 border rounded-xl cursor-pointer"
+            <section
+              className="border rounded-xl cursor-pointer"
               style={{
                 width: "300px",
+                height: "200px",
                 borderColor: "gray",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={handleDivClick}
+              onClick={() => handleDivClick(frontFileInputRef)}
             >
-              <LuFolderInput size={30} style={{ color: "gray" }} />
-            </div>
-
+               {imgFront && (
+               <img
+               src={imgFront}
+               alt="Front Preview"
+               style={{ maxWidth: "100%", maxHeight: "100%", backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
+             />
+             
+              )}
+              {!imgFront && <LuFolderInput size={30} style={{ color: "gray" }} />}
+            </section>
             <input
               type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
+              ref={frontFileInputRef}
+              onChange={handleFrontFileChange}
               style={{ display: "none" }}
             />
           </div>
           <div className="flex flex-col justify-center items-center p-4 gap-y-5">
             <p>Foto para la parte trasera</p>
-            <div
-              className="p-10 border rounded-xl cursor-pointer"
+            <section
+              className="border rounded-xl cursor-pointer"
               style={{
                 width: "300px",
+                height: "200px",
                 borderColor: "gray",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
-              onClick={handleDivClick}
+              onClick={() => handleDivClick(backFileInputRef)}
+              
             >
-              <LuFolderInput size={30} style={{ color: "gray" }} />
-            </div>
+                {imgBack && (
+                <img
+                  src={imgBack}
+                  alt="Back Preview"
+                  style={{ maxWidth: "100%", maxHeight: "100%" , backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
+                />
+              )}
+              {!imgBack && <LuFolderInput size={30} style={{ color: "gray" }} />}
+            </section>
+          
             <input
               type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
+              ref={backFileInputRef}
+              onChange={handleBackFileChange}
               style={{ display: "none" }}
             />
           </div>
