@@ -19,7 +19,7 @@ function layout({ children }: React.PropsWithChildren) {
     <div>
       <Sidebar />
       {children}
-      <div className="absolute z-10  bottom-0">
+      <div className="  bottom-0">
         <BottmBar />
       </div>
     </div>

@@ -159,21 +159,21 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center bg-pink space-y-1 mx-auto  ">
+    <div className="flex flex-col items-center bg-pink max-h-42	mx-auto sm:max-h-screen	  ">
       <div className="text-center ">
         <Image
-          className="my-16 rounded-full"
+          className="my-4 rounded-full"
           src={logo}
           alt="logo"
-          width={150}
-          height={150}
+          width={100}
+          height={100}
         />
       </div>
-      <div className="flex flex-col items-center text-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
-        <h1 className="font-bold text-3xl m-4">¿Que deseas enviar?</h1>
-        <div className="flex flex-col ">
+      <div className="flex flex-col items-center text-center flex-wrap align-content-center fixed top-24 left-5 right-5 bg-white border rounded-xl ">
+        <h1 className="font-bold sm:text-3xl m-4">¿Que deseas enviar?</h1>
+        <div className="flex flex-col">
           <form
-            className="flex flex-col sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
+            className="flex flex-col  sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
 {/*             <div className="flex justify-center flex-col overflow-y-auto space-y-2">
@@ -186,14 +186,14 @@ const Loged = () => {
               </div>
  */}              <div className="flex flex-col ">
                 <button
-                  className="flex-1 text-slate-400 border-b p-2 mx-4 max-h-0.5 md:w-auto sm:w-auto"
+                  className="flex-1 text-slate-400 border-b p-2 mx-4 md:w-auto sm:w-auto"
                   onClick={fromHandler}
                 >
                   {<RiMapPinAddLine size={30} />}
                   {from === null ? "Dirección Origen" : `${from}`}
                 </button>
                 <button
-                  className="flex-1 text-slate-400 border-b p-2 mx-4 max-h-0.5 md:w-auto sm:w-auto"
+                  className="flex-1 text-slate-400 border-b p-2 mx-4 md:w-auto sm:w-auto"
                   onClick={toHandler}
                 >
                   <RiMapPin2Fill size={30} />
@@ -201,7 +201,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => dateModalClose()}
-                  className="flex-1 text-slate-400 border-b p-2 mx-4 max-h-0.5 md:w-auto sm:w-auto"
+                  className="flex-1 text-slate-400 border-b p-2 mx-4 md:w-auto sm:w-auto"
                 >
                   <FaRegCalendarAlt size={30} />
                   {date
@@ -214,7 +214,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => productsHandler()}
-                  className="flex-1 text-slate-400 border-b p-2 mx-4 max-h-0.5 md:w-auto sm:w-auto"
+                  className="flex-1 text-slate-400 border-b p-2 mx-4 md:w-auto sm:w-auto"
                 >
                   <BsBoxSeam size={30} />
                   {selectedProductData
