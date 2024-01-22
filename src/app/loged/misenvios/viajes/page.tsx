@@ -24,6 +24,7 @@ const Viajes = () => {
               hasta={travel.hasta}
               horaLlegada={travel.horaLlegada!}
               horaSalida={travel.horaSalida!}
+              _id={travel._id}
             />
           );
         })

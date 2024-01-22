@@ -11,12 +11,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 
 export const SideMenu = () => {
+
   return (
     <div>
         <h1 className='text-xl'>Datos personales</h1>
         <ul className='p-3'>
             <li className='flex gap-x-2 font-bold'><FaCity size={20} />Ciudad</li>
             <li className='flex gap-x-2 font-bold'><MdOutlinePhone size={20} />Telefono</li>
+            <li className='flex gap-x-2 font-bold'><MdOutlinePhone size={20} />Validar telefono</li>
             <li className='flex gap-x-2 font-bold'><FaFingerprint size={20} />Documento identificador</li>
             <li className='flex gap-x-2 font-bold'><BsCardChecklist size={20} />Vehiculo</li>
         </ul>
