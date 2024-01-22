@@ -109,7 +109,7 @@ function ProdForm(props: any) {
         <FaExclamationCircle className="text-slate-400" />
       </div>
       <p className="text-sm text-slate-700">
-        Para poder ofrecerte las mejores opciones, detallanos información sobre
+        Para poder ofrecerte las mejores opciones, detallarnos información sobre
         tu envío.
       </p>
       <form

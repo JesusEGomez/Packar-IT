@@ -102,7 +102,7 @@ const SpecialProdModal = (props: any) => {
         <option value="Cama">Cama</option>
         <option value="TV">TV</option>
         <option value="Kayak">Kayak</option>
-        <option value="Esquis">Esquis</option>
+        <option value="Esquis">Esquís</option>
         <option value="Otro">Otro</option>
       </select>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5">
