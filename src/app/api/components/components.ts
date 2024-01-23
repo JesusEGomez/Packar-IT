@@ -10,12 +10,9 @@ export const getFormattedAddress = async (location: myLocation) => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
-
-    const results = data.results;
-
+    const results = data.results[0].formatted_address;
     if (results && results.length > 0) {
-      const formattedAddress = results[0].formatted_address.split(",")[0];
-      return formattedAddress;
+        return results;
     } else {
       return "No se encontró ninguna dirección para la geoposición proporcionada.";
     }

@@ -140,7 +140,12 @@ const Driver = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    setFrom(fromLocation);
+    const fromArray = fromLocation.split(',');
+    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
+    const city = extractCity(fromArray[1]);
+    setCiudadOrigen(city);
+    setPaisOrigen(fromArray[fromArray.length -1]);
+    setFrom(fromArray[0]);
   };
   const closeMapModal = () => {
     setFromModalOpen(false);
@@ -169,10 +174,14 @@ const Driver = () => {
     setTime(timeSelected);
   };
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
-    console.log(toSelected);
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    setTo(toLocation);
+    const toArray = toLocation.split(',');
+    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
+    const city = extractCity(toArray[1]);    
+    setCiudadDestino(city)
+    setPaisDestino(toArray[toArray.length -1])
+    setTo(toArray[0]);
   };
 
   const productsHandler = () => {
@@ -224,10 +233,6 @@ const Driver = () => {
   console.log("Boton", hoverButton);
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
-    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_"));
-    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_"));
-    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_"));
-    setPaisDestino(data?.paisDestino.replaceAll(" ", "_"));
 
     console.log("Productos", selectedProductData);
     const stringDate = date?.toLocaleDateString("es-AR", {
@@ -277,7 +282,7 @@ const Driver = () => {
           <div className="flex flex-col  h-1/2 items-center gap-y-2">
             <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col   items-center">
-              <div className="flex flex-col  items-center gap-y-2 p-2  ">
+              {/* <div className="flex flex-col  items-center gap-y-2 p-2  ">
                 <div className=" justify-between w-screen  sm:w-full items-center mx-2   flex">
                   <div className="grid w-1/2 h-20  max-w-sm items-center ">
                     <label className="text-gray-500" htmlFor="ciudadOrigen">
@@ -336,7 +341,7 @@ const Driver = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex w-full  flex-col items-center  ">
                 <div className=" justify-between items-center  mx-2  flex">
                   <button
