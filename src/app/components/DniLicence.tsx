@@ -118,7 +118,7 @@ export default function PassportId(props: any) {
   };
 
   return (
-    <div className="m-8 h-screen mb-">
+    <div className="m-8 h-screen ">
       <Button onClick={props.closeIdModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
