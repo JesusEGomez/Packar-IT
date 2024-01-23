@@ -4,14 +4,15 @@ export interface IUserProduct {
   _id: string;
   usuario: string;
   cuando: string | undefined;
-  envios: [];
   especial: boolean;
   recibe: {
-    nombreApellido: string;
+    nombreApellidos: string;
     telefono: string;
     email: string;
   };
   producto: {
     name: string;
   };
+  estado: string;
+  driver: string;
 }

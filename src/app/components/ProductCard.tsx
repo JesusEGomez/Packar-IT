@@ -47,7 +47,7 @@ const ProductCard = ({
 
         <h3 className="font-bold ">{producto.name}</h3>
 
-        <p>{`${cuando}, `}</p>
+        {/* <p>{`${}, `}</p> */}
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <MdKeyboardArrowRight />
