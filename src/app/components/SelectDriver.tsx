@@ -69,8 +69,8 @@ function Page(props: any) {
       } catch (error) {
         console.error(error);
       }
-      
     };
+
     fetchData();
   }, []);
 

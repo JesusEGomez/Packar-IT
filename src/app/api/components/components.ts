@@ -1,7 +1,7 @@
 type myLocation = {
   lat: number;
   lng: number;
-}
+};
 
 export const getFormattedAddress = async (location: myLocation) => {
   const apiKey = "AIzaSyC-477d4w6F6kcjAGHycclP_lSF31JG4Oo"; // Reemplaza con tu clave de API de Google Maps
@@ -12,7 +12,7 @@ export const getFormattedAddress = async (location: myLocation) => {
     const data = await response.json();
     const results = data.results[0].formatted_address;
     if (results && results.length > 0) {
-        return results;
+      return results;
     } else {
       return "No se encontró ninguna dirección para la geoposición proporcionada.";
     }
