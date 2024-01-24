@@ -27,6 +27,13 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("A user disconnected:", socket.id);
   });
+  // socket to send notification 
+  socket.on("send_notification", (data) => {
+    console.log("Notification data:", data);
+    // Puedes enviar la notificación a un usuario específico o a todos los usuarios conectados.
+    io.emit("receive_notification", data);
+  });
+
 });
 
 const PORT = 3001;

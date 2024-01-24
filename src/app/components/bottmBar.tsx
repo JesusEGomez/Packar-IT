@@ -10,10 +10,31 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
+import useNotifications from "../hooks/useNotifications"
+
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
   const navigate = useRouter();
+
+  const { subscribeToNotifications } = useNotifications();
+
+  useEffect(() => {
+    // Suscribirse a las notificaciones
+    const handleNotification = (data: any) => {
+      // Aquí puedes manejar la notificación, por ejemplo, mostrar una alerta
+      alert(`Nueva notificación: ${data.message}`);
+    };
+
+    subscribeToNotifications(handleNotification);
+    return () => {
+      // Desuscribirse de las notificaciones
+      // (asegúrate de manejar esto correctamente en el hook useNotifications)
+    };
+  }, [subscribeToNotifications]);
+
+
+
 
   return (
     <div className="w-screen z-50  fixed bottom-0 bg-white">
