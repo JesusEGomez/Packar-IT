@@ -167,7 +167,7 @@ const Loged = () => {
         />
       </div>
       <div className="flex flex-col items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
-        <h1 className="font-bold text-3xl m-4">¿Que deseas enviar?</h1>
+        <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-4 ">
           <form
             className="flex flex-col items-center gap-y-8 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"

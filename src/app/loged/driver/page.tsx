@@ -278,10 +278,10 @@ const Driver = () => {
         className="flex w-full justify-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" fixed  flex top-56     bg-white border rounded-xl">
+        <div className=" fixed  flex top-56   bg-white border rounded-xl">
           <div className="flex flex-col  h-1/2 items-center gap-y-2">
-            <h1 className="font-bold mt-2">¿A donde vas a viajar ?</h1>
-            <div className="flex flex-col   items-center">
+            <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
+            <div className="flex flex-col items-center">
               <div className="flex w-full gap-y-4 flex-col items-center  ">
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
