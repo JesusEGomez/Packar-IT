@@ -17,7 +17,6 @@ const useNotifications = (): NotificationsHook => {
 
   useEffect(() => {
     return () => {
-      // Desconectar el socket al desmontar el componente o dejar de escuchar eventos
       socket.disconnect();
     };
   }, [socket]);

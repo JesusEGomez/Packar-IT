@@ -28,6 +28,7 @@ const io = new Server(httpServer, {
   },
 });
 
+
 io.on("connection", async (socket) => {
   console.log("A user connected:", socket.email, socket.id);
 
@@ -62,9 +63,10 @@ io.on("connection", async (socket) => {
       console.log("Viaje aceptado por un usuario no autenticado");
       // Puedes manejar la lógica para usuarios no autenticados según sea necesario.
     }
+
   });
 
-  // Otros eventos y lógica de notificación según las acciones del usuario pueden ir aquí.
+ 
 });
 
 const PORT = 3001;
