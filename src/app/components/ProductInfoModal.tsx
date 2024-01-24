@@ -19,7 +19,7 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         body: JSON.stringify({ ...product, estado: state }),
       });
 
-      console.log(response);
+      if (response.ok) location.reload();
     } catch (error) {}
   };
   const stateHanlder = (event: React.ChangeEvent<HTMLSelectElement>) => {
