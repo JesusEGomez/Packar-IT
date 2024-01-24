@@ -3,8 +3,10 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ChatPage from "./components/ChatPage";
 
-export default function HomePage() {
+const HomePage = ({ socket }: any) => {
+  console.log("Socket in HomePage:", socket);
   return (
     <div className="page-pink items-center">
       <Link href={"/onboarding"}>
@@ -16,6 +18,9 @@ export default function HomePage() {
           alt="logo"
         />
       </Link>
+      <ChatPage socket={socket} username="John" roomId="1" />
     </div>
   );
-}
+};
+
+export default HomePage;
