@@ -18,23 +18,17 @@ const BottmBar = () => {
   const navigate = useRouter();
 
   const { subscribeToNotifications } = useNotifications();
+  const { sendNotification } = useNotifications();
 
   useEffect(() => {
-    // Suscribirse a las notificaciones
     const handleNotification = (data: any) => {
-      // Aquí puedes manejar la notificación, por ejemplo, mostrar una alerta
       alert(`Nueva notificación: ${data.message}`);
     };
 
     subscribeToNotifications(handleNotification);
     return () => {
-      // Desuscribirse de las notificaciones
-      // (asegúrate de manejar esto correctamente en el hook useNotifications)
     };
   }, [subscribeToNotifications]);
-
-
-
 
   return (
     <div className="w-screen z-50  fixed bottom-0 bg-white">
@@ -78,6 +72,18 @@ const BottmBar = () => {
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
+            onClick={() => {
+              console.log("Clic en el botón de mensajes");
+
+              // Enviar notificación al servidor
+              const notificationData = {
+                userId: "ID_DEL_USUARIO_DESTINO", 
+                message: "Algo ha sucedido", 
+                timestamp: Date.now(), 
+              };
+
+              sendNotification(notificationData);
+            }}
           >
             <MdOutlineMessage size={30} />
             Mensajes
