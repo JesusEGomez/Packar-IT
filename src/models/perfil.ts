@@ -45,6 +45,18 @@ const ProfileSchema = new Schema({
     type: String,
     required: false,
   },
+  notifications: [
+    {
+      message: {
+        type: String,
+        required: true,
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now,
+      },
+    }
+  ],
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);
