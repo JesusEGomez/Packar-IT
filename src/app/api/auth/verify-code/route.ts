@@ -9,16 +9,16 @@ export async function POST(request: Request) {
   console.log("Verificación inicial:", verificationData);
 
   try {
-    const { phoneNumber, code, action } = await request.json();
-    console.log(phoneNumber, code, action); 
+    const { phoneNumber, code, action, email } = await request.json();
+    console.log(phoneNumber, code, action, email); 
 
     await connectDB();
 
 
     if (action === "sendCode") {
-      return handleSendCode(request, phoneNumber, code);
+      return handleSendCode(request, email, phoneNumber, code);
     } else if (action === "verifyCode") {
-      return handleVerifyCode(request, phoneNumber, code);
+      return handleVerifyCode(request, email, phoneNumber, code); 
     } else {
       console.error("Acción no válida");
       return NextResponse.json({ message: "Invalid action" }, { status: 400 });
@@ -32,15 +32,13 @@ export async function POST(request: Request) {
   }
 }
 
-async function handleSendCode(request: Request, phoneNumber: string, client: any) {
+async function handleSendCode(request: Request, email: string, phoneNumber: string, client: any) {
   try {
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
-    verificationData.set(phoneNumber, { code: verificationCode, verified: false });
+    verificationData.set(email, { code: verificationCode, verified: false });
     console.log("Datos almacenados en verificationData:", verificationData);
     
-    const _id="65a990a530118b3f4f56fb74"
-
-    const user = await User.findOne({ _id });
+    const user = await User.findOne({ email });
     if (user) {
       user.smsCode = verificationCode;
       await user.save();
@@ -66,11 +64,15 @@ async function handleSendCode(request: Request, phoneNumber: string, client: any
     );
   }
 }
-async function handleVerifyCode(request: Request, _id: string, providedCode: string) {
+async function handleVerifyCode(request: Request, email: string, phoneNumber: string, providedCode: any) {
   try {
-    const _id="65a990a530118b3f4f56fb74"
-    const user = await User.findOne({ _id });
-    console.log(user)
+
+    console.log(providedCode);
+    console.log("Buscando usuario con email:", email);
+
+    const user = await User.findOne({ email });
+    console.log(user);
+
     if (providedCode === user.smsCode) {
       return NextResponse.json({ message: "Verification successful" });
     } else {

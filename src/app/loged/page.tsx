@@ -42,14 +42,11 @@ type receptor = {
 const Loged = () => {
   const [fromModalOpen, setFromModalOpen] = useState(false);
   const [toModalOpen, setToModalOpen] = useState(false);
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState<string | null>(null);
+  const [to, setTo] = useState<string | null>(null);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
-    null
-  );
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -62,16 +59,7 @@ const Loged = () => {
   const [receptorInfo, setReceptorInfo] = useState<receptor | null>(null);
   const [lastModalOpen, setLastModalOpen] = useState(false);
   const [envio, setEnvio] = useState<any | null>(null);
-  const [openForm, setOpenForm] = useState(false);
   const [dateModalOpen, setDateModalOpen] = useState(false);
-
-  const closeFormModal = (data: any) => {
-    setCiudadOrigen(data?.ciudadOrigen.replaceAll(" ", "_").toLowerCase());
-    setCiudadDestino(data?.ciudadDestino.replaceAll(" ", "_").toLowerCase());
-    setPaisOrigen(data?.paisOrigen.replaceAll(" ", "_").toLowerCase());
-    setPaisDestino(data?.paisDestino.replaceAll(" ", "_").toLowerCase());
-    setOpenForm(false);
-  };
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -80,7 +68,12 @@ const Loged = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    setFrom(fromLocation);
+    const fromArray = fromLocation.split(',');
+    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
+    const city = extractCity(fromArray[1]);
+    setCiudadOrigen(city);
+    setPaisOrigen(fromArray[fromArray.length -1]);
+    setFrom(fromArray[0]);
   };
 
   const toHandler = () => {
@@ -95,7 +88,12 @@ const Loged = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    setTo(toLocation);
+    const toArray = toLocation.split(',');
+    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
+    const city = extractCity(toArray[1]);    
+    setCiudadDestino(city)
+    setPaisDestino(toArray[toArray.length -1])
+    setTo(toArray[0]);
   };
 
   const confrmacionHandler = () => {
@@ -176,30 +174,27 @@ const Loged = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex  justify-center flex-col items-center overflow-y-auto gap-y-5 ">
-              <button
-                onClick={() => setOpenForm(true)}
-                className="bg-pink m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3"
-              >
-                Agrega ciudad y pais
-              </button>
+              
               <div className="flex flex-col items-center gap-y-4">
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                   onClick={fromHandler}
+                  title={from || undefined}
                 >
                   {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Dirección Origen" : `${from}`}
+                  {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
                 </button>
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                   onClick={toHandler}
+                  title={to || undefined}
                 >
                   <RiMapPin2Fill size={30} />
-                  {to === null ? "Dirección Destino" : `${to}`}
+                  {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
                 </button>
                 <button
                   onClick={() => dateModalClose()}
-                  className="flex text-slate-400 h-14 gap-x-4 border-b p-2 mx-4"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
                   <FaRegCalendarAlt size={30} />
                   {date
@@ -212,7 +207,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => productsHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-full md:w-auto sm:w-auto"
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
                   <BsBoxSeam size={30} />
                   {selectedProductData
@@ -222,22 +217,28 @@ const Loged = () => {
               </div>
             </div>
             <div>
-              <div className="flex flex-row items- gap-y-4">
-                <button
-                  className="bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-b-xl p-3"
-                  onClick={() => receptorOpen()}
-                >
-                  Datos del Receptor
-                </button>
-                <button
-                  onClick={() => searchHandler()}
-                  className={`bg-pink ${
-                    search ? "w-full" : "w-auto"
-                  } m-2 disabled:opacity-70 text-white font-bold rounded-b-xl p-3`}
+              <div className="flex flex-row items-center justify-center">
+                {
+                  receptorInfo ? 
+                  (
+                  <button
+                    onClick={() => searchHandler()}
+                    className={`bg-pink ${search ? "w-full" : "w-auto"} m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
                   disabled={!search}
-                >
-                  Buscar
-                </button>
+                  >
+                    Buscar
+                  </button>
+                  )
+                  :
+                  (
+                  <button
+                    className="bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-xl p-3"
+                    onClick={() => receptorOpen()}
+                  >
+                    Datos del Receptor
+                  </button>
+                  )
+                }                
               </div>
             </div>
           </form>
@@ -311,13 +312,6 @@ const Loged = () => {
                 driver={driver}
                 envio={envio}
               />
-            </div>
-          </div>
-        )}
-        {openForm && (
-          <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-xl">
-              <FormEnvio closeFormModal={closeFormModal} />
             </div>
           </div>
         )}

@@ -118,9 +118,6 @@ export default function LoginPage() {
           )}
         </div>
       </form>
-      <Button onClick={() => navigate.push("/mobile-phone")} className="w-[190px] h-[48px] mt-5 bg-pink text-white rounded-lg p-3">
-        Validar identidad
-      </Button>
       <button onClick={() => navigate.push("/recoverypass")}>
         <p className="text-blue-700 text-sm underline mx-auto">
           ¿Has olvidado tu contraseña?
@@ -128,14 +125,14 @@ export default function LoginPage() {
       </button>
       <Separator orientation="horizontal" className="m-5 w-2/3 " />
 
-      <Button
+      {/* <Button
         variant={"ghost"}
         onClick={() => signIn("google")}
         data-onsuccess="onSignIn"
         className="bg-white g-signin2  p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
-      </Button>
+      </Button> */}
     </div>
   );
 }

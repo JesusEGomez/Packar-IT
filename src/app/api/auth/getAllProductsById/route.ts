@@ -11,22 +11,25 @@ export async function GET(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    console.log(id);
+    const finalProducts = [];
+
+    if (!id)
+      return NextResponse.json({ message: "id no valido" }, { status: 400 });
+
     const envios = await Envio.find({
       usuario: id,
-    });
-    // const finalEnvios = [];
+    }).lean();
 
-    // envios.forEach((envio) => {
-    // console.log(envio?.estado);
-    // const user = await Viaje.findById(envio.driver,);
-    // finalEnvios.push({ ...envio, userDriver: user });
-    // });
+    if (envios) {
+      for (let driver of envios) {
+        const driverFinded = await Viaje.findById(driver.driver).lean();
 
-    // console.log(finalEnvios);
+        finalProducts.push({ ...driver, findedDriver: driverFinded });
+      }
+    }
 
-    console.log(envios);
-    return NextResponse.json(envios);
+    console.log();
+    return NextResponse.json(finalProducts);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {

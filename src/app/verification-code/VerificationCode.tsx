@@ -1,14 +1,25 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LeftArrow from "../../../public/left-arrow.svg";
-import { useRouter } from "next/navigation"; // Corregido el import
+import { useRouter } from "next/navigation"; 
 import InputCode from "./InputCode";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 const VerificationCode = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
+
+  useEffect(() => {
+    if (session?.user) {
+      const { name, email } = session.user;
+      console.log('Información del usuario en VerificationCode:', { name, email });
+    } else {
+      console.error('No se encontró información del usuario en la sesión.');
+    }
+  }, [session]); 
 
   const goBackArrow = () => {
     router.back();
@@ -19,12 +30,20 @@ const VerificationCode = () => {
     console.log('Valor de verificationCode:', verificationCode);
 
     try {
-      const response = await fetch('/api/auth/verify-code', {
+      const email = session?.user?.email;
+      console.log(email)
+
+      if (!email) {
+        console.error('No se encontró el email del usuario en la sesión.');
+        return;
+      }
+    
+        const response = await fetch('/api/auth/verify-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code: verificationCode, action: 'verifyCode' }),
+        body: JSON.stringify({ email, code: verificationCode, action: "verifyCode" }),
       });
 
       const data = await response.json();
@@ -39,6 +58,7 @@ const VerificationCode = () => {
       console.error('Error al verificar el código:', error);
     }
   };
+  
 
   return (
     <>

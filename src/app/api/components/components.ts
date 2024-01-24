@@ -10,25 +10,12 @@ export const getFormattedAddress = async (location: myLocation) => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
-
-    const results = data.results[0];
-    console.log(results);
-    // if (results && results.length > 0) {
-    //   const addressComponents = results[0].address_components;
-    //   const city = addressComponents.find((component) =>
-    //     component.types.includes("locality")
-    //   )?.long_name;
-    //   const street = addressComponents.find((component) =>
-    //     component.types.includes("route")
-    //   )?.long_name;
-    //   const country = addressComponents.find((component) =>
-    //     component.types.includes("country")
-    //   )?.long_name;
-    //   return `${street}, ${city}, ${country}`;
-    // } else {
-    //   return "No se encontró ninguna dirección para la geoposición proporcionada.";
-    // }
-    return results;
+    const results = data.results[0].formatted_address;
+    if (results && results.length > 0) {
+      return results;
+    } else {
+      return "No se encontró ninguna dirección para la geoposición proporcionada.";
+    }
   } catch (error) {
     console.error("Error al obtener la dirección:", error);
     return "Error al obtener la dirección.";

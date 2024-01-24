@@ -1,28 +1,49 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MobilePhoneNumberSvg from "../../../public/mobile-phone-number-svg.svg";
 import { useRouter } from "next/navigation"; 
 import CountryCode from "./CountryCode";
+import { Button } from "@/components/ui/button";
+import { useSession } from 'next-auth/react';
 
 const MobilePhoneNumber = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [countryCode, setCountryCode] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [verificationCode, setVerificationCode] = useState<string>(''); 
+
+  useEffect(() => {
+    if (session?.user) {
+      const { name, email } = session.user;
+      console.log('Información del usuario en MobilePhone:', { name, email });
+    } else {
+      console.error('No se encontró información del usuario en la sesión.');
+    }
+  }, [session]); 
+  
   const sendVerificationCode = async () => {
     try {
       if (!countryCode.trim() || !phoneNumber.trim()) {
         console.error('Por favor, ingresa un número de teléfono válido.');
         return;
       }
+      
+      const email = session?.user?.email;
+
+      if (!email) {
+        console.error('No se encontró el email del usuario en la sesión.');
+        return;
+      }
+
       const fullPhoneNumber = `+${countryCode}${phoneNumber}`;
-  
+
       const response = await fetch('/api/auth/verify-code', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ phoneNumber: fullPhoneNumber, action: "sendCode" }),  
+        body: JSON.stringify({ email, phoneNumber: fullPhoneNumber, action: "sendCode" }),  
       });
   
       const data = await response.json();
@@ -40,16 +61,18 @@ const MobilePhoneNumber = () => {
   };
   
   return (
-    <div className="content w-100 d-flex justify-content-center align-items-center">
-      <div className="text-center">
+    <div className="content flex flex-col justify-center items-center py-6 px-6">
+       <div className="text-center">
+       <div className="flex justify-center items-center">
         <Image
-          style={{ width: '50%', height: '50%' }}
+          style={{ width: '40%', height: '40%' }}
           className="my-5"
           src={MobilePhoneNumberSvg}
           alt="Checked"
         />
+        </div>
         <p className="fw-bold fs-5 mt-5 mb-3">Introduce tu número de teléfono</p>
-        <div className="flex flex-col w-full lg:w-full mx-auto lg:flex-row justify-center items-center">
+        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
           <CountryCode onCountryCodeChange={(value: string) => setCountryCode(value)} />
           <input
             placeholder="Número de teléfono"
@@ -66,14 +89,13 @@ const MobilePhoneNumber = () => {
         </p>
         <div className="container mb-4">
           <div className="col-12">
-            <button
+            <Button
               type="button"
-              className="btn w-50 mx-auto p-3 text-light mt-3"
-              style={{ background: 'var(--primary-color)' }}
+              className="btn w-50 mx-auto p-3 text-light mt-3 bg-pink text-white"
               onClick={sendVerificationCode}
             >
               Enviar código
-            </button>
+            </Button>
           </div>
         </div>
       </div>

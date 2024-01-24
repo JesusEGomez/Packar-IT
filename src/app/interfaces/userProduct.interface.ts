@@ -1,3 +1,7 @@
+import { ITravelDB } from "./TravelDB.interface";
+import { IProfile } from "./profile.interface";
+import { IUser } from "./user.interface";
+
 export interface IUserProduct {
   desde: { calle: string | null; pais: string | null; ciudad: string | null };
   hasta: { calle: string | null; pais: string | null; ciudad: string | null };
@@ -15,4 +19,10 @@ export interface IUserProduct {
   };
   estado: string;
   driver: string;
+  findedDriver: ITravelDB;
+}
+export interface IUserProductFull extends IUserProduct {
+  driverFinded: ITravelDB;
+  driverProfile: IProfile;
+  driverUser: IUser;
 }

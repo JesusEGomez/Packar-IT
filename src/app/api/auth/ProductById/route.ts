@@ -1,6 +1,9 @@
 export const dynamic = "force-dynamic";
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
+import Profile from "@/models/perfil";
+import Viaje from "@/models/viajes";
+import User from "@/models/user";
 
 import { NextResponse } from "next/server";
 
@@ -9,20 +12,33 @@ export async function GET(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    console.log(id);
-    const envio = await Envio.findById(id);
-    // const finalEnvios = [];
 
-    // envios.forEach((envio) => {
-    // console.log(envio?.estado);
-    // const user = await Viaje.findById(envio.driver,);
-    // finalEnvios.push({ ...envio, userDriver: user });
-    // });
+    if (!id)
+      return NextResponse.json({ message: "id no valido" }, { status: 400 });
 
-    // console.log(finalEnvios);
+    const envio = await Envio.findById(id).lean();
 
-    console.log(envio);
-    return NextResponse.json(envio);
+    if (envio) {
+      const driverFinded = await Viaje.findById(envio.driver).lean();
+      console.log(driverFinded);
+      let userFinded = await User.findOne({
+        _id: driverFinded.usuario,
+      }).lean();
+      const profile = await Profile.findOne({
+        userId: { _id: driverFinded.usuario },
+      }).lean();
+
+      const finalProduct = {
+        ...envio,
+        driverFinded: driverFinded,
+        driverProfile: profile,
+        driverUser: userFinded,
+      };
+
+      return NextResponse.json(finalProduct, { status: 200 });
+    }
+
+    console.log();
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {

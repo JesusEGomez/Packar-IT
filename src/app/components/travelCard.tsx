@@ -41,7 +41,7 @@ const TravelCard = ({
           " "
         )} / ${hasta.ciudad?.replaceAll("_", " ")}`}</h3>
 
-        <p>{`${cuando}, ${estado ? "Aceptado" : "Esperando"}`}</p>
+        <p>{`${cuando},  ${estado ? "Aceptado" : "Esperando"}`}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/viajes/${_id}`}>
