@@ -6,6 +6,8 @@ import Viaje from "@/models/viajes";
 import User from "@/models/user";
 
 import { NextResponse } from "next/server";
+import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
+import { IUserProduct } from "@/app/interfaces/userProduct.interface";
 
 export async function GET(request: Request) {
   try {
@@ -16,16 +18,18 @@ export async function GET(request: Request) {
     if (!id)
       return NextResponse.json({ message: "id no valido" }, { status: 400 });
 
-    const envio = await Envio.findById(id).lean();
+    const envio: IUserProduct | null = await Envio.findById(id).lean();
 
     if (envio) {
-      const driverFinded = await Viaje.findById(envio.driver).lean();
+      const driverFinded: ITravelDB | null = await Viaje.findById(
+        envio.driver
+      ).lean();
       console.log(driverFinded);
       let userFinded = await User.findOne({
-        _id: driverFinded.usuario,
+        _id: driverFinded?.usuario,
       }).lean();
       const profile = await Profile.findOne({
-        userId: { _id: driverFinded.usuario },
+        userId: { _id: driverFinded?.usuario },
       }).lean();
 
       const finalProduct = {

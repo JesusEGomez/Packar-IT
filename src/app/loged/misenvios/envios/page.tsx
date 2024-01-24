@@ -32,7 +32,6 @@ const Envios: React.FC = () => {
   useEffect(() => {
     fetchUserProducts(user._id);
   }, []);
-  console.log(products.driver);
 
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
