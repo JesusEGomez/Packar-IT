@@ -24,6 +24,7 @@ export const useUserState = create<UserState>((set, get) => ({
     _id: "",
     email: "",
     fullname: "",
+    smsCode: "",
   },
   travel: null,
   travels: [],
