@@ -10,10 +10,25 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
+import useNotifications from "../hooks/useNotifications"
+
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
   const navigate = useRouter();
+
+  const { subscribeToNotifications } = useNotifications();
+  const { sendNotification } = useNotifications();
+
+  useEffect(() => {
+    const handleNotification = (data: any) => {
+      alert(`Nueva notificación: ${data.message}`);
+    };
+
+    subscribeToNotifications(handleNotification);
+    return () => {
+    };
+  }, [subscribeToNotifications]);
 
   return (
     <div className="w-screen z-50  fixed bottom-0 bg-white">
@@ -57,6 +72,18 @@ const BottmBar = () => {
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
+            onClick={() => {
+              console.log("Clic en el botón de mensajes");
+
+              // Enviar notificación al servidor
+              const notificationData = {
+                userId: "ID_DEL_USUARIO_DESTINO", 
+                message: "Algo ha sucedido", 
+                timestamp: Date.now(), 
+              };
+
+              sendNotification(notificationData);
+            }}
           >
             <MdOutlineMessage size={30} />
             Mensajes
