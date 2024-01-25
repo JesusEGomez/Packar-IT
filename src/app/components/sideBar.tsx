@@ -42,6 +42,7 @@ import {
 import { AccordionItem } from "@/components/ui/accordion";
 import { IUser } from "../interfaces/user.interface";
 import useUserState from "../store/sotre";
+import Monedero from "./Monedero";
 
 const Sidebar = () => {
   const { data: session } = useSession();
@@ -51,6 +52,11 @@ const Sidebar = () => {
   const [isIdModalOpen, setIsIdModalOpen] = useState(false);
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
   const [isPhoneNumber , setIsPhoneNumber] = useState(false);
+  const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
+
+  const closeMonedero = () => {
+    setIsMonederoOpen(false);
+  }
 
   const closeLicenceModal = () => {
     setIsLicenseModalOpen(false);
@@ -205,23 +211,19 @@ const Sidebar = () => {
               Vehículo
             </CommandItem>
           </CommandGroup>
-          <CommandSeparator className="my-3" />
-          <CommandGroup heading="Cuenta">
-            <CommandItem>
-              {" "}
-              <Banknote className="sideBarIcon" />
-              Monedero
+          <CommandItem>
+              <Accordion type="single" collapsible>
+                <AccordionItem value="item-1">
+                  <AccordionTrigger className="w-full flex"
+                    onClick={() => setIsMonederoOpen(true)}>
+                    <Banknote className="sideBarIcon" />
+                    Monedero
+                  </AccordionTrigger>
+                  <AccordionContent>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CommandItem>
-            <CommandItem>
-              <MessageSquareHeart className="sideBarIcon" />
-              Opiniones
-            </CommandItem>
-            <CommandItem>
-              <BellRing className="sideBarIcon" />
-              Notificaciones
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator className="my-3" />
           <CommandGroup>
             <CommandItem>
               <ShieldCheck className="sideBarIcon" />
@@ -265,6 +267,13 @@ const Sidebar = () => {
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <PhoneNumber closePhoneNumber={closePhoneNumber} />
+          </div>
+        </div>
+      )}
+      {isMonederoOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Monedero closeModal={closeMonedero} />
           </div>
         </div>
       )}
