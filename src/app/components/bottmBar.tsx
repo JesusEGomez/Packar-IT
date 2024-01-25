@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -10,25 +10,36 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
-import useNotifications from "../hooks/useNotifications"
+import useNotifications from "../hooks/useNotifications";
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
   const navigate = useRouter();
-
-  const { subscribeToNotifications } = useNotifications();
-  const { sendNotification } = useNotifications();
+  const { sendNotification, subscribeToNotifications, notifications } = useNotifications();
+  const [unreadNotifications, setUnreadNotifications] = useState<number>(0);
 
   useEffect(() => {
-    const handleNotification = (data: any) => {
-      alert(`Nueva notificación: ${data.message}`);
-    };
+    // Suscribirse a las notificaciones y actualizar el estado de las notificaciones no leídas
+    subscribeToNotifications((data) => {
+      setUnreadNotifications((prevCount) => prevCount + 1);
 
-    subscribeToNotifications(handleNotification);
-    return () => {
-    };
+      alert(`Nuevo mensaje: ${data.message} - Enviado por: ${data.userId}`);
+
+    });
   }, [subscribeToNotifications]);
+
+  const handleButtonClick = () => {
+    // Marcar las notificaciones como leídas al hacer clic en el botón
+    setUnreadNotifications(0);
+
+    // Enviar una notificación solo como ejemplo (puedes enviar la notificación al servidor aquí)
+    sendNotification({
+      userId: "1",
+      message: "¡Nuevo mensaje recibido!",
+      timestamp: Date.now(),
+    });
+  };
 
   return (
     <div className="w-screen z-50  fixed bottom-0 bg-white">
@@ -57,7 +68,7 @@ const BottmBar = () => {
           </button>
         </li>
         <li>
-          <button
+        <button
             onClick={() => navigate.push("/loged/driver")}
             className={`flex ${
               pathName === "/loged/driver" ? "text-pink" : "text-slate-600"
@@ -69,23 +80,13 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            className={`flex ${
-              pathName === "/messages" ? "text-pink" : "text-slate-600"
-            } flex-col items-center text-xs`}
-            onClick={() => {
-              console.log("Clic en el botón de mensajes");
-
-              // Enviar notificación al servidor
-              const notificationData = {
-                userId: "ID_DEL_USUARIO_DESTINO", 
-                message: "Algo ha sucedido", 
-                timestamp: Date.now(), 
-              };
-
-              sendNotification(notificationData);
-            }}
+            onClick={handleButtonClick}
+            className={`flex text-xs flex-col items-center text-xs`}
           >
             <MdOutlineMessage size={30} />
+            {unreadNotifications > 0 && (
+              <span className="text-red-500">{unreadNotifications}</span>
+            )}
             Mensajes
           </button>
         </li>
