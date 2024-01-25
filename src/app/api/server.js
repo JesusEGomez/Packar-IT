@@ -5,8 +5,6 @@ const { getSession } = require("next-auth/react");
 
 const httpServer = http.createServer();
 
-
-
 async function obtenerUserIdDeInicoSesion() {
   const session = await getSession();
   if (session) {
@@ -30,11 +28,15 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", async (socket) => {
-  console.log(`A user connected: ${socket.userInfo ? socket.userInfo.email : "Guest"} - ${socket.id}`);
+  console.log(
+    `A user connected: ${socket.userInfo ? socket.userInfo.email : "Guest"} - ${
+      socket.id
+    }`
+  );
 
   // Manejar el evento "session" para recibir la información de sesión del cliente
   socket.on("session", async ({ session }) => {
-    console.log("Received session information:", session);
+    console.log("Receivedssss session information:", session);
 
     // Puedes hacer lo que necesites con la información de sesión aquí
     // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
@@ -54,9 +56,20 @@ io.on("connection", async (socket) => {
     console.log("A user disconnected:", socket.id);
   });
 
-  socket.on("crear_envio", async (data) => {
+  socket.on("send_notification", (data) => {
+    console.log("Se ha recibido una notificación:", data);
+    // ... lógica adicional para manejar la notificación
+  });
+
+  // Definición del evento "receive_notification"
+  socket.on("receive_notification", (data) => {
+    console.log("Se ha recibido una notificación:", data);
+    // ... lógica adicional para manejar la notificación
+  });
+
+  socket.on("crear_envio", (data) => {
     console.log("Solicitud de envío recibida:", data);
-  
+
     if (userInfo) {
       const { userId, fullname } = userInfo;
       console.log(`Envío creado por ${fullname}`);
@@ -72,7 +85,6 @@ io.on("connection", async (socket) => {
       // Por ejemplo, podrías enviar una notificación genérica o ignorar el evento.
     }
   });
-  
 });
 
 const PORT = 3001;

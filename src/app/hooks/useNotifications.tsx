@@ -10,7 +10,9 @@ interface NotificationData {
 
 interface NotificationsHook {
   sendNotification: (notificationData: NotificationData) => void;
-  subscribeToNotifications: (callback: (data: NotificationData) => void) => void;
+  subscribeToNotifications: (
+    callback: (data: NotificationData) => void
+  ) => void;
 }
 
 const useNotifications = (): NotificationsHook => {
@@ -24,15 +26,14 @@ const useNotifications = (): NotificationsHook => {
 
         // Obtener la información de sesión y emitir el evento "session"
         const session = await getSession();
-        console.log("Sending session information:", session);
-        socket.emit("session", { session });
+        console.log("Sending session information:ss", session);
+        socket.emit("session sss", { session });
 
         // ... otros eventos y lógica del socket
       });
 
       // Manejar otros eventos del socket según sea necesario
       // ...
-
     };
 
     initializeSocket();
@@ -46,7 +47,9 @@ const useNotifications = (): NotificationsHook => {
     socket.emit("send_notification", notificationData);
   };
 
-  const subscribeToNotifications = (callback: (data: NotificationData) => void): void => {
+  const subscribeToNotifications = (
+    callback: (data: NotificationData) => void
+  ): void => {
     socket.on("receive_notification", callback);
   };
 
