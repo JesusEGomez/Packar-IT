@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/libs/mongodb";
@@ -78,6 +78,7 @@ const options: NextAuthOptions = {
     }),
   ],
 };
+
 const handler = NextAuth(options);
 
 export { handler as GET, handler as POST };
