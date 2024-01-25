@@ -35,7 +35,7 @@ const sendEmailConfirmation = async (email: string) => {
 
     console.log("Correo electrónico de confirmación enviado con éxito");
   } catch (error) {
-    console.error((error as Error).message);  
+    console.error((error as Error).message);
     throw error;
   }
 };
@@ -96,8 +96,8 @@ export default function Register() {
   };
 
   const googleBtn = async () => {
-    console.log('estoy en el pinche btn');
-    
+    console.log("estoy en el pinche btn");
+
     const res = await signIn("google", {
       redirect: false,
     });
@@ -195,13 +195,13 @@ export default function Register() {
       </form>
       <Separator orientation="horizontal" className="m-2 w-2/3  " />
 
-      {/* <Button
+      <Button
         onClick={() => signIn("google")}
         variant={"ghost"}
         className="bg-white p-3 m-3 w-fit rounded-full mx-auto"
       >
         <FcGoogle size={30} />
-      </Button> */}
+      </Button>
       <p className="mx-auto mb-10 text-sm">
         ¿Ya tienes una cuenta?{" "}
         <a className="text-blue-700" href="register/login">
