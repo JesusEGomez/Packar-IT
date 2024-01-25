@@ -8,10 +8,17 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { FiMapPin } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 
+import { SendModal } from "@/app/components/sendModal";
+import { Button } from "@/components/ui/button";
+
 const Page = ({ params }: { params: { id: string } }) => {
   const [travel, setTravel] = useState<ITravelDB | null>(null);
+  const [open, setOpen] = useState(false);
   const navigate = useRouter();
   const size = ["Pequeño", "Mediano", "Grande"];
+  const closeModal = () => {
+    setOpen(false);
+  };
 
   const fetTravelById = async (id: string) => {
     try {
@@ -109,6 +116,9 @@ const Page = ({ params }: { params: { id: string } }) => {
               );
             })}
           </div>
+
+          <Button onClick={() => setOpen(true)}>Envios</Button>
+
           <div className="h-1/3 flex p-2 items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around">
             {" "}
             {travel.special ? (
@@ -138,6 +148,13 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       ) : (
         <div>Cargando...</div>
+      )}
+      {open && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <SendModal closeModal={closeModal} envios={travel?.envios} />
+          </div>
+        </div>
       )}
     </div>
   );

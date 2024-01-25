@@ -2,7 +2,7 @@
 
 import ProductCard from "@/app/components/ProductCard";
 import useUserState from "@/app/store/sotre";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 interface Envio {
   _id: string;
@@ -32,7 +32,6 @@ const Envios: React.FC = () => {
   useEffect(() => {
     fetchUserProducts(user._id);
   }, []);
-  console.log(products);
 
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
@@ -43,10 +42,12 @@ const Envios: React.FC = () => {
               key={product._id}
               cuando={product.cuando!}
               desde={product.desde}
-              // estado={product.estado}
+              estado={product.estado}
               hasta={product.hasta}
               _id={product._id}
               producto={product.producto}
+              horaLlegada={product.findedDriver.horaLlegada!}
+              horaSalida={product.findedDriver.horaSalida!}
             />
           );
         })

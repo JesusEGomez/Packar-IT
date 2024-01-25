@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -19,8 +20,9 @@ function ProdForm(props: any) {
   const [img, setImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [disabled, setDisable] = useState<boolean>(true);
+  
   const cloudName = process.env.CLOUD_NAME;
-    const cloudPreset = process.env.CLOUD_PRESET;
+  const cloudPreset = process.env.CLOUD_PRESET;
 
   const handleDivClick = () => {
     if (fileInputRef.current) {
@@ -30,28 +32,29 @@ function ProdForm(props: any) {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if(file){
+    if (file) {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
       try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
-        {
-          method: "POST",
-          body: formData,
-        })
-        if(response.ok){
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        if (response.ok) {
           const ans = await response.json();
           console.log(ans);
-          
+
           setImg(ans.secure_url);
         }
       } catch (error) {
         console.log(error);
-        
       }
     }
   };
-  
+
   const {
     register,
     handleSubmit,
@@ -64,7 +67,7 @@ function ProdForm(props: any) {
       size: data.size,
       weigth: data.weight,
       photoProduct: img,
-      articulosEspeciales: 'noSpecial'
+      articulosEspeciales: "noSpecial",
     });
     props.closeModal({
       type: data.types,
@@ -72,7 +75,7 @@ function ProdForm(props: any) {
       size: data.size,
       weigth: data.weight,
       photoProduct: img,
-      articulosEspeciales: 'noSpecial'
+      articulosEspeciales: "noSpecial",
     });
   };
   const close = () => {
@@ -81,10 +84,23 @@ function ProdForm(props: any) {
 
   useEffect(() => {
     img && setDisable(false);
-  },[img]);
+  }, [img]);
+
+  const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const imgDataUrl = reader.result as string;
+        setImg(imgDataUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
-    <div>
+    <div className="m-8 h-screen">
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -93,7 +109,7 @@ function ProdForm(props: any) {
         <FaExclamationCircle className="text-slate-400" />
       </div>
       <p className="text-sm text-slate-700">
-        Para poder ofreferte las mejores opciones, detallanos informacion sobre
+        Para poder ofrecerte las mejores opciones, detallarnos información sobre
         tu envío.
       </p>
       <form
@@ -168,18 +184,38 @@ function ProdForm(props: any) {
           </select>
         </div>
 
-        <div className='flex flex-col justify-center items-center p-4 gap-y-5'>
-            <h1 className='text-2xl'>Añade una imagen de tu envío</h1>
-            <div className='p-10 border w-fit rounded-xl cursor-pointer' onClick={handleDivClick}>
+        <div className="flex flex-col justify-center items-center p-4 gap-y-5">
+          <h1 className="text-2xl">Añade una imagen de tu envío</h1>
+          <section
+             className="border rounded-xl cursor-pointer"
+             style={{
+               width: "300px",
+               height: "200px",
+               borderColor: "gray",
+               display: "flex",
+               alignItems: "center",
+               justifyContent: "center",
+             }}
+             onClick={() => handleDivClick()}
+             
+           >
+           {img ? (
+              <img
+                src={img}
+                alt="Product Preview"
+                style={{ maxWidth: "100%", maxHeight: "100%" , backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
+              />
+            ) : (
               <LuFolderInput size={70} />
-            </div>
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </div>
+            )}
+          </section>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+        </div>
 
         <Button
           variant={"ghost"}

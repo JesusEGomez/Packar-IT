@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent, useCallback } from "react";
+import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 interface RecipientData {
   nombreApellidos: string;
@@ -9,9 +9,10 @@ interface RecipientData {
 }
 
 const RecipientForm = (props:any): JSX.Element => {
-  const [nombreApellidos, setNombreApellidos] = useState<string>("");
-  const [telefono, setTelefono] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [nombreApellidos, setNombreApellidos] = useState<string | undefined>(undefined);
+  const [telefono, setTelefono] = useState<string | undefined>(undefined);
+  const [email, setEmail] = useState<string | undefined>(undefined);
+  const [disable, setDisble] = useState<boolean>(true);
   
   const submitHandler = () => {
     const newRecipient = {
@@ -42,6 +43,10 @@ const RecipientForm = (props:any): JSX.Element => {
     },
     []
   );
+
+  useEffect(() => {
+    nombreApellidos && telefono && email && setDisble(false);
+  },[nombreApellidos, telefono, email])
 
   return (
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
@@ -108,8 +113,9 @@ const RecipientForm = (props:any): JSX.Element => {
         </div>
         <div className="bg-pink p-2 rounded-md mt-4">
           <button 
+          disabled={disable}
           onClick={submitHandler}
-          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85">
+          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85 disabled:opacity-55">
             <h3 className="text-white">Siguiente</h3>{" "}
           </button>
         </div>

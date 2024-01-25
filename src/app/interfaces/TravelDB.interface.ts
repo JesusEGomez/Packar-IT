@@ -1,3 +1,5 @@
+import { IUserProduct } from "./userProduct.interface";
+
 export interface ITravelDB {
   desde: { calle: string | null; pais: string | null; ciudad: string | null };
   hasta: { calle: string | null; pais: string | null; ciudad: string | null };
@@ -13,6 +15,11 @@ export interface ITravelDB {
   cuando: string | undefined;
   eresFlexible: boolean;
   estado: boolean;
-  envios: [];
+  envios: [
+    {
+      productos: IUserProduct[];
+      _id: string;
+    }
+  ];
   special: boolean;
 }
