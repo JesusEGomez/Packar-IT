@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ChatPage from "./components/ChatPage";
 
 const HomePage = ({ socket }: any) => {
   console.log("Socket in HomePage:", socket);
@@ -18,7 +17,6 @@ const HomePage = ({ socket }: any) => {
           alt="logo"
         />
       </Link>
-      <ChatPage socket={socket} username="John" roomId="1" />
     </div>
   );
 };

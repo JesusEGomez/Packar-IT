@@ -3,9 +3,9 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { getSession } = require("next-auth/react");
 
-
-
 const httpServer = http.createServer();
+
+
 
 async function obtenerUserIdDeInicoSesion() {
   const session = await getSession();
@@ -14,6 +14,7 @@ async function obtenerUserIdDeInicoSesion() {
     return {
       userId: session.user.id,
       email: session.user.email,
+      fullname: session.user.name,
     };
   } else {
     // El usuario no ha iniciado sesión, manejar según sea necesario
@@ -28,15 +29,23 @@ const io = new Server(httpServer, {
   },
 });
 
-
 io.on("connection", async (socket) => {
-  console.log("A user connected:", socket.email, socket.id);
+  console.log(`A user connected: ${socket.userInfo ? socket.userInfo.email : "Guest"} - ${socket.id}`);
+
+  // Manejar el evento "session" para recibir la información de sesión del cliente
+  socket.on("session", async ({ session }) => {
+    console.log("Received session information:", session);
+
+    // Puedes hacer lo que necesites con la información de sesión aquí
+    // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
+    // Asegúrate de implementar la lógica según tus necesidades específicas.
+  });
 
   // Accede a la información del usuario proporcionada al conectarse.
   const userInfo = await obtenerUserIdDeInicoSesion();
 
   if (userInfo) {
-    const { userId, fullname , email } = userInfo;
+    const { userId, fullname, email } = userInfo;
     socket.userInfo = { userId, fullname, email };
     console.log(`User ID: ${userId}, Fullname: ${fullname}`);
   }
@@ -56,17 +65,14 @@ io.on("connection", async (socket) => {
       // Aquí puedes agregar lógica adicional según las necesidades.
       // Puedes enviar notificaciones, actualizar el estado del viaje, etc.
       io.to(socket.id).emit("receive_notification", {
-        message: `Tu viaje ha sido aceptado por ${fullname}.`,
+        message: `Tu enviado ha sido a creado por ${fullname}.`,
       });
       console.log("Notificación enviada: Tu viaje ha sido aceptado.");
     } else {
       console.log("Viaje aceptado por un usuario no autenticado");
       // Puedes manejar la lógica para usuarios no autenticados según sea necesario.
     }
-
   });
-
- 
 });
 
 const PORT = 3001;

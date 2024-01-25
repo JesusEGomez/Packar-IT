@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { io, Socket } from "socket.io-client";
+import { getSession } from "next-auth/react";
 
 interface NotificationData {
   userId: string;
@@ -16,6 +17,26 @@ const useNotifications = (): NotificationsHook => {
   const socket: Socket = io("http://localhost:3001");
 
   useEffect(() => {
+    const initializeSocket = async () => {
+      // Manejar el evento de conexión
+      socket.on("connect", async () => {
+        console.log("Conectado al servidor de sockets");
+
+        // Obtener la información de sesión y emitir el evento "session"
+        const session = await getSession();
+        console.log("Sending session information:", session);
+        socket.emit("session", { session });
+
+        // ... otros eventos y lógica del socket
+      });
+
+      // Manejar otros eventos del socket según sea necesario
+      // ...
+
+    };
+
+    initializeSocket();
+
     return () => {
       socket.disconnect();
     };
