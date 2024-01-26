@@ -45,6 +45,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: false,
   },
+  customerId: {
+    type: String,
+    required: false,
+  },
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);

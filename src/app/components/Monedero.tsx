@@ -3,25 +3,41 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import AuxMonedero from "./AuxMonedero";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 const Monedero = (props:any) => {
-    const stripePromise = loadStripe(`${process.env.PK_STRIPE}`);
-    
+    const pkStripe = 'pk_test_51ODUn1GnCrWyfIPCv8uKFeWbjiiKxaaBd7rdpADhIaBreTX3DhQgL5Xs9aBZuj3nrFQAwE1RGprvkPJWkqfQJh0w00ROye3xiI';
+    const {data: session} = useSession();
+    const stripePromise = loadStripe(pkStripe);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+              const userAns = await user.json();
+        }
+        fetchData();
+    },[])
+
     return(
         <div className="flex flex-col p-2">
             <div onClick={props.closeModal}><IoMdArrowRoundBack size={30} /></div>
             
                 {/* aqui pregunto si existe una tarjeta añadida, si existe muestro este div */}
-                <div>
+                {/* <div>
                     <div className='border-b mb-4' >
                         aqui va la card actual
                     </div>
                     <button
                     className='bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-xl p-3'
                   >
-                    Datos del Receptor
+                    Reemplazar
                   </button>
-                </div>
+                </div> */}
             
                 {/* si no existe muestro este div */}
                 <div>
@@ -32,7 +48,6 @@ const Monedero = (props:any) => {
                             <AuxMonedero />
                         </Elements>
                     </div>
-                    <button>Añadir tarjeta</button>
                 </div>
             
         </div>
