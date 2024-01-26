@@ -1,12 +1,14 @@
 'use client'
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 const AuxMonedero = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,15 +30,25 @@ const AuxMonedero = () => {
         setError(error.message || 'Hubo un error al procesar la tarjeta.');
       } else {
         // Enviar el token al servidor para guardar la tarjeta asociada al usuario
-        const response = await fetch('/api/pago', {
+        const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const userAns = await user.json();
+        console.log(userAns);
+        
+        const response = await fetch('/api/auth/pago', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token: token.id }),
+          body: JSON.stringify({ token: token.id, userId: userAns }),
         });
 
         const data = await response.json();
+        console.log(data);
+        
 
         if (data.success) {
           console.log('Tarjeta guardada exitosamente');
@@ -52,8 +64,8 @@ const AuxMonedero = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3" type="submit">Guardar Tarjeta</button>
+      <CardElement className='m-3 p-2 h-10' />
+      <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3" type="submit">Guardar Tarjeta</button>
       {error && <div>{error}</div>}
     </form>
   );

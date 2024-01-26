@@ -22,6 +22,7 @@ const config = {
 
     extend: {
       colors: {
+        visaPink: '#ffacc2',
         pink: "#fe1252",
         backgroundColor: "#172361",
         titleH2: "#CD2C70",
