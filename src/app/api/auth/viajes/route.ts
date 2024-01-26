@@ -74,7 +74,8 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     !horaSalida ||
     !horaLlegada ||
     !precio ||
-    !envios
+    !envios ||
+    !special
   ) {
     const missingFields = [];
 
@@ -145,21 +146,21 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
   try {
     await connectDB();
     const { viajeId, data, prod } = await request.json();
-    
+
     const viaje = await Viaje.findById(viajeId);
     viaje.envios.push(data);
-    console.log(prod, viaje, 'soy data');
-    prod.size === 'Pequeño' ?
-     viaje.precio[0].quantity = viaje.precio[0].quantity -1 :
-     prod.size === 'Mediano' ?
-     viaje.precio[1].quantity = viaje.precio[1].quantity -1 :
-     prod.size === 'Grande' ?
-     viaje.precio[2].quantity = viaje.precio[2].quantity -1 :
-     console.log('prodSpecial');
+    console.log(prod, viaje, "soy data");
+    prod.size === "Pequeño"
+      ? (viaje.precio[0].quantity = viaje.precio[0].quantity - 1)
+      : prod.size === "Mediano"
+      ? (viaje.precio[1].quantity = viaje.precio[1].quantity - 1)
+      : prod.size === "Grande"
+      ? (viaje.precio[2].quantity = viaje.precio[2].quantity - 1)
+      : console.log("prodSpecial");
 
     console.log(viaje);
-    await viaje.save()
-         
+    await viaje.save();
+
     return NextResponse.json(viaje);
   } catch (error) {
     console.error(error);
