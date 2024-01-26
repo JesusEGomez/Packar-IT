@@ -4,7 +4,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function HomePage() {
+const HomePage = ({ socket }: any) => {
+  console.log("Socket in HomePage:", socket);
   return (
     <div className="page-pink items-center">
       <Link href={"/onboarding"}>
@@ -18,4 +19,6 @@ export default function HomePage() {
       </Link>
     </div>
   );
-}
+};
+
+export default HomePage;

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { IUserProduct } from "../interfaces/userProduct.interface";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
-import { Phone, MailIcon, User } from "lucide-react";
+import { Phone, MailIcon, User, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 interface IProductInfoProps {
@@ -12,14 +12,20 @@ interface IProductInfoProps {
 const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
   console.log(product);
   const [state, setState] = useState<string>();
+  const [loading, setLoading] = useState(false);
+
   const changeState = async () => {
+    setLoading(true);
     try {
-      const response = await fetch(`/api/auth/ProductById`, {
+      const response = await fetch(`/api/auth/productById`, {
         method: "PATCH",
         body: JSON.stringify({ ...product, estado: state }),
       });
 
-      if (response.ok) location.reload();
+      if (response.ok) {
+        setLoading(false);
+        location.reload();
+      }
     } catch (error) {}
   };
   const stateHanlder = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -59,9 +65,19 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
             <option value={"Finalizado"}>Finalizado</option>
           ) : null}
         </select>
-        <Button disabled={product.estado === "Cancelado"} onClick={changeState}>
-          Modificar
-        </Button>
+        {loading ? (
+          <Button disabled className=" bg-pink text-white rounded-lg ">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          </Button>
+        ) : (
+          <Button
+            className="bg-pink text-white rounded-lg"
+            disabled={product.estado === "Cancelado"}
+            onClick={changeState}
+          >
+            Modificar
+          </Button>
+        )}
       </div>
     </div>
   );
