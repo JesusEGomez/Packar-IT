@@ -8,8 +8,6 @@ import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
 import City from "../components/City";
 import PhoneNumber from "../components/PhoneNumber";
-import { Button } from '@/components/ui/button';
-
 
 import {
   Command,
@@ -30,7 +28,7 @@ import {
   LogOut,
   Building,
   ArrowRightToLine,
-  Check
+  Check,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
@@ -51,12 +49,12 @@ const Sidebar = () => {
   const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
   const [isIdModalOpen, setIsIdModalOpen] = useState(false);
   const [isCityModalOpen, setIsCityModalOpen] = useState(false);
-  const [isPhoneNumber , setIsPhoneNumber] = useState(false);
+  const [isPhoneNumber, setIsPhoneNumber] = useState(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
 
   const closeMonedero = () => {
     setIsMonederoOpen(false);
-  }
+  };
 
   const closeLicenceModal = () => {
     setIsLicenseModalOpen(false);
@@ -83,6 +81,7 @@ const Sidebar = () => {
   const logOutSession = () => {
     sideBarControl();
     signOut();
+
     localStorage.clear();
     if (!session) {
       sideBarControl();
@@ -114,11 +113,12 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                   onClick={() => {
-                    setIsCityModalOpen(true);
-                    console.log("isLicenseModalOpen", isCityModalOpen);
-                  }}
+                  <AccordionTrigger
+                    className="w-full flex"
+                    onClick={() => {
+                      setIsCityModalOpen(true);
+                      console.log("isLicenseModalOpen", isCityModalOpen);
+                    }}
                   >
                     <Building className="sideBarIcon" />
                     Ciudad
@@ -136,11 +136,12 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                   onClick={() => {
-                    setIsPhoneNumber(true);
-                    console.log("isPhoneNumber", isPhoneNumber);
-                  }}
+                  <AccordionTrigger
+                    className="w-full flex"
+                    onClick={() => {
+                      setIsPhoneNumber(true);
+                      console.log("isPhoneNumber", isPhoneNumber);
+                    }}
                   >
                     <Phone className="sideBarIcon" />
                     Teléfono
@@ -158,13 +159,14 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                    onClick={() => navigation.push("/mobile-phone")}>
+                  <AccordionTrigger
+                    className="w-full flex"
+                    onClick={() => navigation.push("/mobile-phone")}
+                  >
                     <Check className="sideBarIcon" />
                     Validar telefono
                   </AccordionTrigger>
-                  <AccordionContent>
-                  </AccordionContent>
+                  <AccordionContent></AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CommandItem>
@@ -212,18 +214,19 @@ const Sidebar = () => {
             </CommandItem>
           </CommandGroup>
           <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="w-full flex"
-                    onClick={() => setIsMonederoOpen(true)}>
-                    <Banknote className="sideBarIcon" />
-                    Monedero
-                  </AccordionTrigger>
-                  <AccordionContent>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIsMonederoOpen(true)}
+                >
+                  <Banknote className="sideBarIcon" />
+                  Monedero
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
           <CommandGroup>
             <CommandItem>
               <ShieldCheck className="sideBarIcon" />
@@ -256,14 +259,14 @@ const Sidebar = () => {
           </div>
         </div>
       )}
-       {isCityModalOpen && (
+      {isCityModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <City closeCityModal={closeCityModal} />
           </div>
         </div>
       )}
-         {isPhoneNumber && (
+      {isPhoneNumber && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <PhoneNumber closePhoneNumber={closePhoneNumber} />
