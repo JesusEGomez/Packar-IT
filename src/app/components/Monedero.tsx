@@ -13,12 +13,21 @@ const Monedero = (props:any) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+            const userInfo = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
                 headers: {
                   "Content-Type": "application/json",
                 },
               });
-              const userAns = await user.json();
+            const user = await userInfo.json();
+
+            const getCustomerInfo = await fetch(`/api/auth/pago/?idUser=${user._id}`,{
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+            });
+            const costumer = await getCustomerInfo.json();
+            console.log(costumer,'soy el customer');
+            
         }
         fetchData();
     },[])

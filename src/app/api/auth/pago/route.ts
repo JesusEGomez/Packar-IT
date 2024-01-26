@@ -43,36 +43,32 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-//     await connectDB();
+    await connectDB();
 
-//     const { searchParams } = new URL(request.url);
-//     const userId = searchParams.get('idUser');
-//     console.log(userId);
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('idUser');
+    console.log(userId);
 
-    //const searchUser = await Profile.findOne({userId: userId});
-    //console.log(searchUser);
+    const searchUser = await Profile.findOne({userId: userId});
     
-    
-
-    // if (!customerId) {
-    //   return NextResponse.json({ message: 'ID de cliente no válido' }, { status: 400 });
-    // }
+    if (!searchUser) {
+      return NextResponse.json({ message: 'ID de cliente no válido' }, { status: 400 });
+    }
 
     // Obtener información del cliente en Stripe
-    //const customer = await stripe.customers.retrieve(customerId);
+    const customer = await stripe.customers.retrieve(searchUser.customerId) as any;   
 
     // Obtener la información de la tarjeta
-    // const paymentMethodId = customer.default_payment_method;
-
-    // if (!paymentMethodId) {
-    //   return NextResponse.json({ message: 'No se encontró información de la tarjeta' }, { status: 404 });
-    // }
+    const paymentMethodId = customer.default_source;
+    
+    if (!paymentMethodId) {
+      return NextResponse.json({ message: 'No se encontró información de la tarjeta' }, { status: 404 });
+    }
 
     // Obtener detalles del método de pago (incluyendo los últimos 4 dígitos)
-    //const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+    const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
 
-    //return NextResponse.json({ paymentMethod }, { status: 200 });
-    return NextResponse.json('holo', { status: 200 });
+    return NextResponse.json({ paymentMethod }, { status: 200 });
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
