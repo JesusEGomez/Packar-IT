@@ -6,11 +6,13 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
-
+import { io } from "socket.io-client";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
+
 const { getSession } = require("next-auth/react");
+
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
@@ -19,6 +21,18 @@ const BottmBar = () => {
   const { subscribeToNotifications } = useNotifications();
   const { sendNotification } = useNotifications();
 
+  const socket = io("http://localhost:3001"); // Establecer conexión con el servidor Socket.io
+
+  useEffect(() => {
+    // Escuchar el evento "receive_message" del servidor
+    socket.on("receive_message", (data: any) => {
+      // Actualizar el estado o realizar acciones según sea necesario
+      console.log("Mensaje recibido en el cliente:", data);
+    });
+return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
 
 
   const handleSendMessage = async () => {

@@ -58,8 +58,13 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("send_notification", (data) => {
-    console.log("Se ha recibido una notificación:", data);
+    console.log(`Nueva notificación de ${user.name}: ${data.message}`, data);
     // ... lógica adicional para manejar la notificación
+    io.emit("receive_notification", data);
+    console.log("Mensaje de Otro usuario")
+
+
+
   });
 
   
