@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect ,  useContext} from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -7,11 +7,10 @@ import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
 
-import { useContext } from "react";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
-import useNotifications from "../hooks/useNotifications"
-
+import useNotifications from "../hooks/useNotifications";
+const { getSession } = require("next-auth/react");
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
@@ -20,15 +19,43 @@ const BottmBar = () => {
   const { subscribeToNotifications } = useNotifications();
   const { sendNotification } = useNotifications();
 
-  useEffect(() => {
-    const handleNotification = (data: any) => {
-      alert(`Nueva notificación: ${data.message}`);
-    };
 
-    subscribeToNotifications(handleNotification);
-    return () => {
-    };
-  }, [subscribeToNotifications]);
+
+  const handleSendMessage = async () => {
+    try {
+      // Obtener la información del usuario de manera asíncrona
+      const userSession = await getSession();
+      const user = userSession ? userSession.user : null;
+      console.log("user", user);
+
+      if (user) {
+        // Enviar notificación al servidor
+        const notificationData = {
+          userId: user.name,
+          message: "Algo ha sucedido",
+          timestamp: Date.now(),
+        };
+
+        sendNotification(notificationData);
+
+        const handleNotification = (data: any) => {
+          alert(`Nueva notificación de ${user.name}: ${data.message}`);
+        };
+
+        if (subscribeToNotifications) {
+          subscribeToNotifications(handleNotification);
+        }
+
+
+      } else {
+        console.log("El usuario no está autenticado");
+        // Manejar la lógica para usuarios no autenticados según sea necesario
+      }
+    } catch (error) {
+      console.error("Error al obtener la información del usuario:", error);
+      // Manejar el error según sea necesario
+    }
+  };
 
   return (
     <div className="w-screen z-50  fixed bottom-0 bg-white">
@@ -68,22 +95,11 @@ const BottmBar = () => {
           </button>
         </li>
         <li>
-          <button
+        <button
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
-            onClick={() => {
-              console.log("Clic en el botón de mensajes");
-
-              // Enviar notificación al servidor
-              const notificationData = {
-                userId: "ID_DEL_USUARIO_DESTINO", 
-                message: "Algo ha sucedido", 
-                timestamp: Date.now(), 
-              };
-
-              sendNotification(notificationData);
-            }}
+            onClick={handleSendMessage}
           >
             <MdOutlineMessage size={30} />
             Mensajes

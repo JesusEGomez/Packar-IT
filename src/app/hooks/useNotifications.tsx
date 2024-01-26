@@ -27,7 +27,7 @@ const useNotifications = (): NotificationsHook => {
         // Obtener la información de sesión y emitir el evento "session"
         const session = await getSession();
         console.log("Sending session information:ss", session);
-        socket.emit("session sss", { session });
+        socket.emit("session", { session });
 
         // ... otros eventos y lógica del socket
       });
@@ -55,5 +55,7 @@ const useNotifications = (): NotificationsHook => {
 
   return { sendNotification, subscribeToNotifications };
 };
+
+
 
 export default useNotifications;

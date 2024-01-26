@@ -7,6 +7,7 @@ const httpServer = http.createServer();
 
 async function obtenerUserIdDeInicoSesion() {
   const session = await getSession();
+  console.log("Sending session information:ss desde server", session);
   if (session) {
     // El usuario ha iniciado sesión, se puede acceder al userId y fullname
     return {
@@ -22,7 +23,7 @@ async function obtenerUserIdDeInicoSesion() {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
+    origin: "http://localhost:3001" || "https://packar-it.vercel.app",
     methods: ["GET", "POST"],
   },
 });
@@ -61,11 +62,7 @@ io.on("connection", async (socket) => {
     // ... lógica adicional para manejar la notificación
   });
 
-  // Definición del evento "receive_notification"
-  socket.on("receive_notification", (data) => {
-    console.log("Se ha recibido una notificación:", data);
-    // ... lógica adicional para manejar la notificación
-  });
+  
 
   socket.on("crear_envio", (data) => {
     console.log("Solicitud de envío recibida:", data);
