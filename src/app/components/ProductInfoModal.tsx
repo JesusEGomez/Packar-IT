@@ -57,9 +57,12 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         </label>
         <select onChange={stateHanlder} name="estado" id="estado">
           <option defaultValue={product.estado}>{product.estado}</option>
-          <option value={"Cancelado"}>Cancelado</option>
+
           {product.estado === "Pendiente" ? (
-            <option value={"En Curso"}>En Curso</option>
+            <>
+              <option value={"En Curso"}>En Curso</option>
+              <option value={"Cancelado"}>Cancelado</option>
+            </>
           ) : null}
           {product.estado === "En Curso" ? (
             <option value={"Finalizado"}>Finalizado</option>
@@ -72,7 +75,9 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         ) : (
           <Button
             className="bg-pink text-white rounded-lg"
-            disabled={product.estado === "Cancelado"}
+            disabled={
+              product.estado === "Cancelado" || product.estado === "Finalizado"
+            }
             onClick={changeState}
           >
             Modificar

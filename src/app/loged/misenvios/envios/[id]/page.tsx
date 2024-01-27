@@ -14,7 +14,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const navigate = useRouter();
   const fetProductById = async (id: string) => {
     try {
-      const response = await fetch(`/api/auth/productById/?id=${id}`);
+      const response = await fetch(`/api/auth/ProductById/?id=${id}`);
       const newProduct = await response.json();
       console.log(newProduct);
       setProduct(newProduct);
