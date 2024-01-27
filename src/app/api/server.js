@@ -61,11 +61,20 @@ io.on("connection", async (socket) => {
     // ... lógica adicional para manejar la notificación
   });
 
+  // Cambia el nombre del evento de "send_notification" a "send_message"
+  socket.on("send_message", (data) => {
+    console.log("Mensaje recibido:", data);
+
+    // Transmitir el mensaje a todos los usuarios conectados
+    io.emit("receive_message", data);
+  });
+
   // Definición del evento "receive_notification"
   socket.on("receive_notification", (data) => {
     console.log("Se ha recibido una notificación:", data);
     // ... lógica adicional para manejar la notificación
   });
+
 
   socket.on("crear_envio", (data) => {
     console.log("Solicitud de envío recibida:", data);

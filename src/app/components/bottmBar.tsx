@@ -1,44 +1,84 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect ,  useContext, useState} from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
-
-import { useContext } from "react";
+import { io } from "socket.io-client";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
+
+import { getSession } from "next-auth/react";
+
+interface Message {
+  userId: string;
+  message: string;
+}
+
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const pathName = usePathname();
   const navigate = useRouter();
-  const { sendNotification, subscribeToNotifications, notifications } = useNotifications();
-  const [unreadNotifications, setUnreadNotifications] = useState<number>(0);
+
+  const { subscribeToNotifications } = useNotifications();
+  const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
+
+  const socket = io("http://localhost:3001"); // Establecer conexión con el servidor Socket.io
 
   useEffect(() => {
-    // Suscribirse a las notificaciones y actualizar el estado de las notificaciones no leídas
-    subscribeToNotifications((data) => {
-      setUnreadNotifications((prevCount) => prevCount + 1);
-
-      alert(`Nuevo mensaje: ${data.message} - Enviado por: ${data.userId}`);
-
+    // Escuchar el evento "receive_message" del servidor
+    socket.on("receive_message", (data: Message) => {
+      // Actualizar el estado con el mensaje recibido
+      setReceivedMessages((prevMessages) => [...prevMessages, data]);
+    
+      // Mostrar el mensaje en la consola del navegador
+      console.log("Mensaje recibido en el cliente:", data);
     });
-  }, [subscribeToNotifications]);
+        
+    return () => {
+      socket.disconnect();
+    };
+  }, [socket]);
 
-  const handleButtonClick = () => {
-    // Marcar las notificaciones como leídas al hacer clic en el botón
-    setUnreadNotifications(0);
 
-    // Enviar una notificación solo como ejemplo (puedes enviar la notificación al servidor aquí)
-    sendNotification({
-      userId: "1",
-      message: "¡Nuevo mensaje recibido!",
-      timestamp: Date.now(),
-    });
+  const handleSendMessage = async () => {
+    try {
+      // Obtener la información del usuario de manera asíncrona
+      const userSession = await getSession();
+      const user = userSession ? userSession.user : null;
+      console.log("user", user);
+
+      if (user) {
+        // Enviar notificación al servidor
+        const notificationData = {
+          userId: user.name || "",
+          message: "Algo ha sucedido",
+          timestamp: Date.now(),
+        };
+
+        socket.emit("send_message", notificationData);
+
+        const handleNotification = (data: any) => {
+          alert(`Nueva notificación de ${user.name}: ${data.message}`);
+        };
+
+        if (subscribeToNotifications) {
+          subscribeToNotifications(handleNotification);
+        }
+
+
+      } else {
+        console.log("El usuario no está autenticado");
+        // Manejar la lógica para usuarios no autenticados según sea necesario
+      }
+    } catch (error) {
+      console.error("Error al obtener la información del usuario:", error);
+      // Manejar el error según sea necesario
+    }
   };
 
   return (
@@ -68,7 +108,7 @@ const BottmBar = () => {
           </button>
         </li>
         <li>
-        <button
+          <button
             onClick={() => navigate.push("/loged/driver")}
             className={`flex ${
               pathName === "/loged/driver" ? "text-pink" : "text-slate-600"
@@ -79,14 +119,13 @@ const BottmBar = () => {
           </button>
         </li>
         <li>
-          <button
-            onClick={handleButtonClick}
-            className={`flex text-xs flex-col items-center text-xs`}
+        <button
+            className={`flex ${
+              pathName === "/messages" ? "text-pink" : "text-slate-600"
+            } flex-col items-center text-xs`}
+            onClick={handleSendMessage}
           >
             <MdOutlineMessage size={30} />
-            {unreadNotifications > 0 && (
-              <span className="text-red-500">{unreadNotifications}</span>
-            )}
             Mensajes
           </button>
         </li>
