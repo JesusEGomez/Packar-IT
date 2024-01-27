@@ -4,7 +4,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-const AuxMonedero = () => {
+const AuxMonedero = (props:any) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
@@ -49,8 +49,7 @@ const AuxMonedero = () => {
         const data = await response.json();
         console.log(data);
         
-
-        if (data.success) {
+        if (data.user) {
           console.log('Tarjeta guardada exitosamente');
         } else {
           setError('Error al procesar el pago.');
@@ -65,7 +64,7 @@ const AuxMonedero = () => {
   return (
     <form onSubmit={handleSubmit}>
       <CardElement className='m-3 p-2 h-10' />
-      <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3" type="submit">Guardar Tarjeta</button>
+      <button onClick={props.changeLoad} className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3" type="submit">Guardar Tarjeta</button>
       {error && <div>{error}</div>}
     </form>
   );

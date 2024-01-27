@@ -50,6 +50,8 @@ function Confirmacion(props: any) {
       if (!shipmentResponse.ok) {
         throw new Error('Failed to create shipment');
       }
+
+      
     
       const shipmentData = await shipmentResponse.json();
       console.log(shipmentData);
