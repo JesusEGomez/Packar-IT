@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   try {
     const response = await request.json();
     
-    const nuevoProducto = new Producto(response.producto, response.driver);
+    const nuevoProducto = await new Producto(response.producto, response.driver);
     await nuevoProducto.save();
 
     const envio = new Envio({
@@ -26,10 +26,12 @@ export async function POST(request: Request) {
       desde: response.desde,
       hasta: response.hasta,
       cuando: response.cuando,
-      producto: response.producto,
+      producto: nuevoProducto,
       recibe: response.recibe,
       driver: response.driver
     });
+    console.log(response.producto, 'soy el producto');
+    
     const savedEnvio = await envio.save();
     console.log(savedEnvio);
     

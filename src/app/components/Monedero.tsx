@@ -75,7 +75,7 @@ const Monedero = (props:any) => {
     }
 
     const changeLoad = () => {
-        setLoadFetch(true)
+        setLoadFetch(true);
     }
 
     useEffect(() => {

@@ -9,27 +9,26 @@ import { CiPhone } from "react-icons/ci";
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Success from './Success';
+import Monedero from './Monedero';
 
 function Confirmacion(props: any) {
   const {envio, driver} = props;
   const navigate = useRouter();
   const { data: session } = useSession();
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [total, setTotal] = useState<number | null>(null);
+  const [userHaveCard, setUserHaveCard] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
+  const [reload, setReload] = useState<boolean>(false);
+
+  const closeMonedero = () => {
+    setIsMonederoOpen(false);
+    setReload(!reload);
+  };
+
   const solicitarHandler = async () => {
     try {
-      // Fetch user ID
-      const userResponse = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    
-      if (!userResponse.ok) {
-        throw new Error('Failed to fetch user ID');
-      }
-    
-      const user = await userResponse.json();
-      
       // Create shipment
       const shipmentResponse = await fetch('/api/auth/envio', {
         headers: {
@@ -37,7 +36,7 @@ function Confirmacion(props: any) {
         },
         method: 'POST',
         body: JSON.stringify({
-          usuario: user._id,
+          usuario: userId,
           desde: envio.desde,
           hasta: envio.hasta,
           cuando: envio.cuando,
@@ -50,12 +49,8 @@ function Confirmacion(props: any) {
       if (!shipmentResponse.ok) {
         throw new Error('Failed to create shipment');
       }
-
-      
     
       const shipmentData = await shipmentResponse.json();
-      console.log(shipmentData);
-      
       // Add shipment to the trip
       const updateResponse = await fetch('/api/auth/viajes', {
         headers: {
@@ -74,16 +69,53 @@ function Confirmacion(props: any) {
       }
     
       const updated = await updateResponse.json();
+      //pagar
+
+      const pago = await fetch('/api/auth/pagar',{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          userId: userId,
+          total,
+        }),
+      });
+      console.log(pago, 'soy el pago');
+      
+            
       setSuccess(true);
     } catch (error) {
       console.error(error);
     }
   }
   useEffect(() => {
-  },[])
+    const haveCard = async () => {
+      const responseUser = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const userData = await responseUser.json();
+      setUserId(userData._id);
+      const userPropsResponse = await fetch(`/api/auth/getProfileById/?id=${userData._id}`)
+      const userProps = await userPropsResponse.json();      
+      userProps.customerId && setUserHaveCard(true);
+    }
+
+    envio.producto.size == 'Special' ? setTotal(10) :
+    envio.producto.size == 'Pequeño' ? setTotal(driver.precio[0].price) :
+    envio.producto.size == 'Mediano'? setTotal(driver.precio[1].price) :
+    setTotal(driver.precio[2].price)
+
+    haveCard();
+    
+  },[reload])
   return (
     <div className='flex flex-col p-4'>
-       <div className='m-2' onClick={props.closeModal}><FaArrowLeft size={30} /></div> 
+       <div className='m-2' onClick={props.closeModal}><FaArrowLeft size={20} /></div> 
        <h1 className='text-3xl'>Tu solicitud de envío</h1>
        <div>
         <div>
@@ -92,13 +124,10 @@ function Confirmacion(props: any) {
         </div>
         <div>
           {
-            envio.producto.size == 'Special' ? 'Precio a tratar con el conductor' :
-            envio.producto.size == 'Pequeño' ? `${driver.precio[0].price}€` :
-            envio.producto.size == 'Mediano'? `${driver.precio[1].price}€` :
-            `${driver.precio[2].price}€`
+            `${total}€`
           }
         </div>
-        <div className='border m-2 p-3'>
+        <div className='border rounded-lg m-2 p-3'>
           <div className='flex gap-y-4'>
             <p className='font-bold'>{driver.desde.ciudad}</p>
             <p className='font-bold'>{driver.horaSalida}</p>
@@ -128,7 +157,7 @@ function Confirmacion(props: any) {
             </div>
           </div>
         </div>
-        <div className='border m-2 p-3'>
+        <div className='border rounded-lg m-2 p-3'>
           <h1 className='text-xl'>Destinatario:</h1>
           <div className='flex gap-x-4 font-bold'><FaRegUserCircle size={20} /> {envio.recibe.nombreApellidos}</div> 
           <div className='flex gap-x-4 font-bold'><MdAlternateEmail size={20} />{envio.recibe.email}</div>
@@ -142,18 +171,36 @@ function Confirmacion(props: any) {
           </div>
         </div>
         <div>
-          <button
-            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
+          {
+            userHaveCard ? (
+              <button
+            className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
             onClick={solicitarHandler}>Solicitar envio</button>
+            ) : (
+              <div>
+                <button
+              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
+              onClick={() => setIsMonederoOpen(true)}
+              >Añade tu tarjeta</button>
+              </div>
+            )
+          }
           <button
-          className="bg-white w-full disabled:opacity-70 text-black font-bold rounded-b-xl p-3"
-          onClick={() => navigate.refresh()}>Cancelar envio</button>
+          className="bg-white w-full text-black border font-bold rounded-xl p-3"
+          onClick={props.closeModal}>Cancelar envio</button>
         </div>
        </div>
        {success && (
         <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
             <Success />
+          </div>
+        </div>
+      )}
+      {isMonederoOpen && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Monedero closeModal={closeMonedero} />
           </div>
         </div>
       )}
