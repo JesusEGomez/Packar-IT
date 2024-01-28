@@ -77,7 +77,7 @@ const MobilePhoneNumber = () => {
           <input
             placeholder="Número de teléfono"
             type="number"
-            className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 w-1/2 lg:w-full"
+            className="border  mb-4 border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 w-1/2 lg:w-full"
             id="number"
             aria-describedby="phoneNumber"
             onChange={(e) => setPhoneNumber(e.target.value)}
