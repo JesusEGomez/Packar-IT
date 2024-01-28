@@ -58,13 +58,24 @@ const Monedero = (props:any) => {
     const [myCard, setMyCard] = useState<Card | null>(null);
     const [loadFetch, setLoadFetch] = useState<boolean>(true);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string | null>(null);
     const closeModal = () => {
         setModalOpen(false);
     }
 
-    const closeWithChange = () => {
+    const closeWithChange = async () => {
         setMyCard(null);
+        await fetch(`/api/auth/pago/?idUser=${userId}`,{
+            headers: {
+                "Content-Type": "application/json",
+              },
+              method: 'PUT',
+        })
         setModalOpen(false);
+    }
+
+    const changeLoad = () => {
+        setLoadFetch(true);
     }
 
     useEffect(() => {
@@ -75,7 +86,7 @@ const Monedero = (props:any) => {
                 },
               });
             const user = await userInfo.json();
-
+            setUserId(user._id)
             const getCardInfo = await fetch(`/api/auth/pago/?idUser=${user._id}`,{
                 headers: {
                     "Content-Type": "application/json",
@@ -125,7 +136,7 @@ const Monedero = (props:any) => {
                             
                             <div className="flex flex-col w-64">
                                 <Elements stripe={stripePromise}>
-                                    <AuxMonedero />
+                                    <AuxMonedero changeLoad={changeLoad} />
                                 </Elements>
                             </div>
                         </div>

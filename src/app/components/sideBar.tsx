@@ -72,8 +72,6 @@ const Sidebar = () => {
     setIsPhoneNumber(false);
   };
 
-  console.log("sesion", session);
-
   const navigation = useRouter();
 
   const { isOpen, sideBarControl } = useContext(SidebarContext);
@@ -177,7 +175,6 @@ const Sidebar = () => {
                     className="w-full flex"
                     onClick={() => {
                       setIsIdModalOpen(true);
-                      console.log("isIdModalOpen", isIdModalOpen);
                     }}
                   >
                     <Fingerprint className="sideBarIcon" />
@@ -196,7 +193,6 @@ const Sidebar = () => {
                     className="w-full flex"
                     onClick={() => {
                       setIsLicenseModalOpen(true);
-                      console.log("isLicenseModalOpen", isLicenseModalOpen);
                     }}
                   >
                     <Fingerprint className="sideBarIcon" />
