@@ -3,7 +3,6 @@ import { Schema, models, model } from "mongoose";
 const ProductoSchema = new Schema({
     type: {
         type: String,
-        enum: ["Belleza", "Bebé", "Bricolaje y herramientas", "Deportes", "Electronica", "Equipaje", "Special"],
         required: true,
     },
     name: {
@@ -12,13 +11,10 @@ const ProductoSchema = new Schema({
     },
     size: {
         type: String,
-        //enum: ["64x30cm" || 'Pequeño', "81x37cm" || 'Mediano', "67x44cm" || 'Grande'],
-        enum: ['Pequeño', 'Mediano', 'Grande', 'Special'],
         required: true,
     },
     weigth: {
         type: String,
-        //enum: ["< 5 Kg", "5-15 Kg", "15-30 Kg"],
         required: true,
     },
     photoProduct: {
@@ -28,7 +24,6 @@ const ProductoSchema = new Schema({
     articulosEspeciales: {
         type: String,
         //type: Boolean,
-        //enum: ["Bicicleta" , "Tabla de Surf", "Silla", "Cama", "TV", "Kayak" , "Esquis", "Otro"],
         required: false
     },
     dirver: {

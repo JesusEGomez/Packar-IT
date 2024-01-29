@@ -94,15 +94,6 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     );
   }
 
-  // Validación para campos dentro de 'desde'
-  // if (!desde.pais || !desde.ciudad || !desde.latitud || !desde.longitud) {
-  //   return NextResponse.json({ message: "Campos obligatorios dentro de 'desde' no proporcionados" });
-  // }
-
-  // if (!hasta.pais || !hasta.ciudad || !hasta.latitud || !hasta.longitud) {
-  //   return NextResponse.json({ message: "Campos obligatorios dentro de 'hasta' no proporcionados" });
-  //}
-
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -147,26 +138,44 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
     await connectDB();
     const { viajeId, data, prod } = await request.json();
 
-    const viaje = await Viaje.findById(viajeId);
-    viaje.envios.push(data);
-    console.log(prod, viaje, "soy data");
-    prod.size === "Pequeño"
-      ? (viaje.precio[0].quantity = viaje.precio[0].quantity - 1)
-      : prod.size === "Mediano"
-      ? (viaje.precio[1].quantity = viaje.precio[1].quantity - 1)
-      : prod.size === "Grande"
-      ? (viaje.precio[2].quantity = viaje.precio[2].quantity - 1)
-      : console.log("prodSpecial");
+    const viajeActualizado = await Viaje.findByIdAndUpdate(
+      viajeId,
+      { $push: { envios: { productos: [prod] } } },
+      { new: true }
+    );
 
-    console.log(viaje);
-    await viaje.save();
+    if (viajeActualizado) {
+      // Actualizar los precios según la lógica deseada
+      switch (prod.size) {
+        case "Pequeño":
+          viajeActualizado.precio[0].quantity -= 1;
+          break;
+        case "Mediano":
+          viajeActualizado.precio[1].quantity -= 1;
+          break;
+        case "Grande":
+          viajeActualizado.precio[2].quantity -= 1;
+          break;
+        default:
+          console.log("prodSpecial");
+      }
 
-    return NextResponse.json(viaje);
+      // Guardar los cambios en la base de datos
+      await viajeActualizado.save();
+
+      console.log(viajeActualizado);
+
+      // Devolver la respuesta con el viaje actualizado
+      return NextResponse.json(viajeActualizado);
+    } else {
+      return NextResponse.json({ message: "Error: Viaje no encontrado." });
+    }
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: "Error al actualizar los viajes" });
   }
 }
+
 
 export async function GET(request: Request) {
   try {
