@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "node src/app/api/server.js",
+    "start": "next start",
     "lint": "next lint",
-    "both": "concurrently \"npm run dev\" \"npm run start\""
+    "node": "node src/app/api/server.js",
+    "both": "concurrently \"npm run dev\" \"npm run node\""
   },
     "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
