@@ -13,12 +13,9 @@ export async function POST(request: Request) {
   }
 
   try {
-
     const producto = new Producto({ type, name, size, weigth, photoProduct, articulosEspeciales, driver });
 
     const savedProducto = await producto.save();
-
-    console.log(savedProducto);
 
     return NextResponse.json(savedProducto);
   } catch (error) {

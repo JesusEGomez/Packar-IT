@@ -1,10 +1,35 @@
 'use client'
 
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { CiLock } from "react-icons/ci";
+import { MdAddCard } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
-const AuxMonedero = (props:any) => {
+const inputStyle = {
+  base: {
+    fontSize: '16px', 
+    color: '#32325d',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    '::placeholder': {
+      color: '#aab7c4',
+    },
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a',
+  },
+};
+
+const AuxMonedero = (props: any) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
@@ -18,19 +43,20 @@ const AuxMonedero = (props:any) => {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement);
+    const cardNumberElement = elements.getElement(CardNumberElement);
+    const cardExpiryElement = elements.getElement(CardExpiryElement);
+    const cardCvcElement = elements.getElement(CardCvcElement);
 
-    if (!cardElement) {
+    if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
       return;
     }
 
     try {
-      const { token, error } = await stripe.createToken(cardElement);
+      const { token, error } = await stripe.createToken(cardNumberElement);
 
       if (error) {
         setError(error.message || 'Hubo un error al procesar la tarjeta.');
       } else {
-        // Enviar el token al servidor para guardar la tarjeta asociada al usuario
         const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
           headers: {
             "Content-Type": "application/json",
@@ -65,33 +91,40 @@ const AuxMonedero = (props:any) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement 
-        options={{
-          style: {
-            base: {
-              color: '#32325d',
-              fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-              fontSmoothing: 'antialiased',
-              fontSize: '16px',
-              '::placeholder': {
-                color: '#aab7c4',
-              },
-
-            },
-            invalid: {
-              color: '#fa755a',
-              iconColor: '#fa755a',
-            },
-          },
-        }}
-      />
-      <button onClick={props.changeLoad} disabled={success} className="bg-pink w-full disabled:opacity-70 mt-4 text-white font-bold rounded-xl p-3" type="submit">
-        {`${success ? 'Tarjeta añadida exitosamente': 'Guardar Tarjeta'}`}
-        </button>
-      {error && <div className='text-red-600'>{error}</div>}
+    <form className='flex flex-col gap-y-4 w-max' onSubmit={handleSubmit}>
+      <div className='flex justify-evenly gap-x-2 my-2 items-center border-b text-slate-400'><MdAddCard />Tarjeta de crédito o débito <IoIosArrowForward /></div>
+      <label className='border-b'>
+        <span className='flex flex-row items-center gap-x-2'>Número de tarjeta <CiLock /></span>
+        <CardNumberElement
+          options={{ style: inputStyle }}
+        />
+      </label>
+      <div className='flex gap-x-20'>
+        <label className='border-b mb-4'>
+          <span>Caducidad</span>
+          <CardExpiryElement
+            options={{ style: inputStyle }}
+          />
+        </label>
+        <label className='border-b mb-2'>
+          <span>CVV</span>
+          <CardCvcElement
+            options={{ style: inputStyle }}
+          />
+        </label>
+      </div>
+      <button
+        onClick={props.changeLoad}
+        disabled={success}
+        className="bg-pink w-full disabled:opacity-70 mt-4 text-white font-bold rounded-xl p-3"
+        type="submit"
+      >
+        {`${success ? 'Tarjeta añadida exitosamente' : 'Guardar Tarjeta'}`}
+      </button>
+      {error && <div className="text-red-600">{error}</div>}
     </form>
   );
 };
 
 export default AuxMonedero;
+
