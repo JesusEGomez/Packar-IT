@@ -78,11 +78,11 @@ export default function PhoneNumber(props: any) {
   };
 
   return (
-    <div className="m-8 h-screen">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5">
       <Button onClick={props.closePhoneNumber} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
+      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l mr-5">
         <h1 className="text-3xl font-black text-left">Numero de teléfono</h1>
       </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
@@ -90,7 +90,7 @@ export default function PhoneNumber(props: any) {
           <input
             type="text"
             placeholder="+54 9 11 1111 1111"
-            className="p-4 border rounded-sm cursor-pointer"
+            className="p-4 border rounded-sm cursor-pointer mr-5"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             style={{
