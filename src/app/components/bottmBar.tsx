@@ -82,8 +82,8 @@ const BottmBar = () => {
   };
 
   return (
-    <div className="w-screen z-50  fixed bottom-0 bg-white">
-      <ul className="flex  justify-between px-5 border-t mb-2 pt-2">
+    <div className="w-screen z-[999] fixed bottom-0 bg-white">
+      <ul className="flex justify-between px-5 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>
             <button
