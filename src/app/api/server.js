@@ -20,11 +20,13 @@ async function obtenerUserIdDeInicoSesion() {
   }
 }
 
+const corsOptions = {
+  origin: process.env.NODE_ENV === "production" ? "https://packar-it.vercel.app" : "http://localhost:3000",
+  methods: ["GET", "POST"],
+};
+
 const io = new Server(httpServer, {
-  cors: {
-    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
-    methods: ["GET", "POST"],
-  },
+  cors: corsOptions,
 });
 
 io.on("connection", async (socket) => {

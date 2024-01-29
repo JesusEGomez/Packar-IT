@@ -24,7 +24,9 @@ interface NotificationsHook {
 }
 
 const useNotifications = (): NotificationsHook => {
-  const socket: Socket = io("http://localhost:3001");
+  const socketServerUrl = process.env.SOCKET_SERVER_URL || "http://localhost:3001";
+  const socket: Socket = io(socketServerUrl);
+
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
 
 
