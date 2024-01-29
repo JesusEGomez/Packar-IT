@@ -7,11 +7,13 @@ import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
 import { io } from "socket.io-client";
+import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
 
 
 const BottmBar = () => {
+  const { sideBarControl, isOpen } = useContext(SidebarContext);
   const { sendNotification, handleSendMessage } = useNotifications();
 
   const pathName = usePathname();
@@ -68,13 +70,13 @@ const BottmBar = () => {
         </li>
         <li>
           <button
+            onClick={sideBarControl}
             className={`flex ${
-              pathName === "/messages" ? "text-pink" : "text-slate-600"
+              isOpen ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
-            onClick={handleSendMessage}
           >
-            <MdOutlineMessage size={30} />
-            Mensajes
+            <CgProfile size={30} />
+            Perfil
           </button>
         </li>
       </ul>
