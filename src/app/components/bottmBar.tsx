@@ -14,7 +14,7 @@ import useNotifications from "../hooks/useNotifications";
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
-  const { sendNotification, handleSendMessage } = useNotifications();
+  const { /* sendNotification, */ handleSendMessage } = useNotifications();
 
   const pathName = usePathname();
   const navigate = useRouter();

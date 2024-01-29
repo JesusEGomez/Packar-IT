@@ -56,10 +56,10 @@ io.on("connection", async (socket) => {
     console.log("A user disconnected:", socket.id);
   });
 
-  socket.on("send_notification", (data) => {
+/*   socket.on("send_notification", (data) => {
     console.log("Se ha recibido una notificación:", data);
     // ... lógica adicional para manejar la notificación
-  });
+  }); */
 
   // Cambia el nombre del evento de "send_notification" a "send_message"
   socket.on("send_message", (data) => {

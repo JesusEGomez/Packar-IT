@@ -14,7 +14,8 @@ interface Message {
 }
 
 interface NotificationsHook {
-  sendNotification: (notificationData: NotificationData) => void;
+/*   sendNotification: (notificationData: NotificationData) => void;
+ */
 /*   subscribeToNotifications: (
     callback: (data: NotificationData) => void
   ) => void;
@@ -53,10 +54,10 @@ const useNotifications = (): NotificationsHook => {
     };
   }, [socket]);
 
-  const sendNotification = (notificationData: NotificationData): void => {
+/*   const sendNotification = (notificationData: NotificationData): void => {
     socket.emit("send_notification", notificationData);
   };
-
+ */
 /*   const subscribeToNotifications = (
     callback: (data: NotificationData) => void
   ): void => {
@@ -86,7 +87,7 @@ const useNotifications = (): NotificationsHook => {
     }
   };
 
-  return { sendNotification, handleSendMessage };
+  return { /* sendNotification */ handleSendMessage };
 };
 
 export default useNotifications;
