@@ -30,7 +30,6 @@ export async function POST(request: Request) {
       recibe: response.recibe,
       driver: response.driver
     });
-    console.log(response.producto, 'soy el producto');
     
     const savedEnvio = await envio.save();
     console.log(savedEnvio);

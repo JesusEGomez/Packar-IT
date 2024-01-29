@@ -21,10 +21,9 @@ export const EnvioSchema = new Schema({
     required: [true, "La fecha de envío es obligatoria"],
   },
   producto: {
-    name: {
-      type: String,
-      required: [true, "El nombre del producto es obligatorio"],
-    },
+    type: Schema.Types.ObjectId,
+    ref: "Producto",
+    required: [true, "El producto es obligatorio"],
   },
   recibe: {
     nombreApellidos: {
