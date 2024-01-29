@@ -12,9 +12,7 @@ export async function POST(request: Request) {
   try {
     await connectDB();
 
-    const { token, userId } = await request.json();
-    console.log(userId._id);
-    
+    const { token, userId } = await request.json();    
 
     if (!token) {
       return NextResponse.json({ message: 'Token no válido' }, { status: 400 });
@@ -69,6 +67,23 @@ export async function GET(request: Request) {
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
 
     return NextResponse.json({ paymentMethod }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+export async function PUT(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const userId = searchParams.get('idUser');
+    const searchUser = await Profile.findOne({userId: userId});
+    searchUser.customerId = null;
+    await searchUser.save();
+    return NextResponse.json('Success', { status: 200 });
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
