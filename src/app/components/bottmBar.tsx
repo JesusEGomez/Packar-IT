@@ -32,7 +32,7 @@ const BottmBar = () => {
 
   return (
     <div className="w-screen z-[999] fixed bottom-0 bg-white">
-      <ul className="flex justify-between px-5 border-t mb-2 pt-2">
+      <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>
             <button
@@ -41,7 +41,7 @@ const BottmBar = () => {
               } flex-col items-center text-xs`}
             >
               <IoSendOutline size={30} />
-              Enviar paquete
+              Enviar
             </button>
           </Link>
         </li>

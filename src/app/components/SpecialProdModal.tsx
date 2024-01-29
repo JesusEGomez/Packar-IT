@@ -2,11 +2,20 @@
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { BsBoxSeam } from "react-icons/bs";
+import { IoIosArrowDown, IoMdArrowRoundBack } from "react-icons/io";
 import { LuFolderInput } from "react-icons/lu";
+import { TbTriangleSquareCircle } from "react-icons/tb";
+import { GiWeight } from "react-icons/gi";
+import { SlSizeFullscreen } from "react-icons/sl";
 
 type FormInputs = {
-  selected: string;
+  type: string;
+  name: string;
+  size: string
+  weigth: string;
+  photoProduct: string;
+  articulosEspeciales: string;
 };
 
 const SpecialProdModal = (props: any) => {
@@ -57,54 +66,70 @@ const SpecialProdModal = (props: any) => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     props.closeFirstModal({
       type: "Special",
-      name: data.selected,
-      size: "Special",
-      weigth: "Special",
+      name: data.name,
+      size: data.size,
+      weigth: data.weigth,
       photoProduct: img,
-      articulosEspeciales: data.selected,
+      articulosEspeciales: data.name,
     });
     props.closeModal({
       type: "Special",
-      name: data.selected,
-      size: "Special",
-      weigth: "Special",
+      name: data.name,
+      size: data.size,
+      weigth: data.weigth,
       photoProduct: img,
-      articulosEspeciales: data.selected,
+      articulosEspeciales: data.name,
     });
   };
-  const close = () => {
-    props.closeModal();
-  };
+  
   return (
+    <div className="px-4">
     <form
       className="flex flex-col items-center p-2 mb-10"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
-        <Button onClick={() => close()} variant={"ghost"}>
+        <Button onClick={props.justClose} variant={"ghost"}>
           <IoMdArrowRoundBack />
         </Button>
       </div>
       <h1>Selecciona tu tipo de producto</h1>
-      <select
-        className="p-2 rounded bg-white text-slate-400 w-full"
-        id="selected"
-        {...register("selected", {
-          required: { value: true, message: "Campo requerido" },
-        })}
-      >
-        <option value="" disabled selected>
-          Escoje tu producto
-        </option>
-        <option value="Bicicleta">Bicicleta</option>
-        <option value="Tabla de surf">Tabla de surf</option>
-        <option value="Silla">Silla</option>
-        <option value="Cama">Cama</option>
-        <option value="TV">TV</option>
-        <option value="Kayak">Kayak</option>
-        <option value="Esquis">Esquís</option>
-        <option value="Otro">Otro</option>
-      </select>
+      <div className="flex items-center border-b m-auto w-full gap-x-2">
+          <TbTriangleSquareCircle className="text-slate-400 ml-4" size={20} />
+          <input
+            placeholder="Producto"
+            className="p-3 text-slate-300"
+            type="text"
+            id="name"
+            {...register("name", {
+              required: { value: false, message: "Campo requerido" },
+            })}
+          />
+        </div>
+        <div className="flex items-center border-b m-auto w-full gap-x-2">
+        <SlSizeFullscreen className="text-slate-400 ml-4" size={20} />
+          <input
+            placeholder="Tamaño(cm x cm)"
+            className="p-3 text-slate-300"
+            type="text"
+            id="size"
+            {...register("size", {
+              required: { value: false, message: "Campo requerido" },
+            })}
+          />
+        </div>
+        <div className="flex items-center border-b m-auto w-full gap-x-2">
+        <GiWeight className="text-slate-400 ml-4" size={20}/>
+          <input
+            placeholder="Peso(kg)"
+            className="p-3 text-slate-300"
+            type="text"
+            id="weight"
+            {...register("weigth", {
+              required: { value: false, message: "Campo requerido" },
+            })}
+          />
+        </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5">
         <h1 className="text-2xl">Añade una imagen de tu envío</h1>
         <section
@@ -120,6 +145,7 @@ const SpecialProdModal = (props: any) => {
           onClick={handleDivClick}
         > {img ? (
           <img
+            className="m-2"
             src={img}
             alt="Product Preview"
             style={{ maxWidth: "100%", maxHeight: "100%" , backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
@@ -144,6 +170,7 @@ const SpecialProdModal = (props: any) => {
         Siguiente
       </Button>
     </form>
+    </div>
   );
 };
 

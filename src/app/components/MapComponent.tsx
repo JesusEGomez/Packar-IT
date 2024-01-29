@@ -107,16 +107,16 @@ function MapComponent(props: MapComponentProps) {
       <Button onClick={props.closeMapModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div style={{ height: "400px" }} ref={mapRef} />
-      <div className="p-2 mx-auto">
+      <div style={{ height: "600px" }} ref={mapRef} />
+      <div className="p-2">
         <input
-          className="p-2 bg-slate-200 rounded"
+          className="bg-slate-200 rounded"
           type="text"
           placeholder="Ingrese una dirección"
           ref={inputRef}
         />
         <button
-          className="bg-pink rounded mx-4 p-3 text-white text-sm"
+          className="bg-pink rounded m-2 p-3 text-white text-sm"
           onClick={handleSearch}
         >
           Seleccionar

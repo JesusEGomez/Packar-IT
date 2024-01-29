@@ -51,7 +51,7 @@ const RecipientForm = (props:any): JSX.Element => {
   return (
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
-        <div className="mb-8">
+        <div className="mb-8 cursor-pointer" onClick={props.closeModal}>
         <FaArrowLeft className="absolute left-4 " />
         </div>  
         <h1 className="text-3xl font-bold text-center mb-8">
