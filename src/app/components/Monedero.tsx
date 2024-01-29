@@ -108,7 +108,7 @@ const Monedero = (props:any) => {
         <div className="flex flex-col p-2 w-80">
             <div className="cursor-pointer" onClick={props.closeModal}><IoMdArrowRoundBack size={20} /></div>
             <h1 className="text-2xl font-bold mt-4 mb-10">Monedero</h1>
-            <p className='text-slate-400 text-sm mb-10'>Añade un método de pago para realizar tus envíos y recibir el dinero de tus trayectos.</p>
+            <p className='text-slate-400 text-sm mb-5'>Añade un método de pago para realizar tus envíos y recibir el dinero de tus trayectos.</p>
                 {/* aqui pregunto si existe una tarjeta añadida, si existe muestro este div */}
                 {
                     myCard?.card ? (
