@@ -1,9 +1,23 @@
-const cors = require("cors");
-const http = require("http");
+const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { getSession } = require("next-auth/react");
+const { parse } = require("url");
+const next = require("next");
+
+const dev = process.env.NODE_ENV !== "production";
+const nextApp = next({ dev });
+const handle = nextApp.getRequestHandler();
 
 const httpServer = http.createServer();
+
+const corsOptions = {
+  origin: "*",
+  methods: ["GET", "POST"],
+};
+
+const io = new Server(httpServer, {
+  cors: corsOptions,
+});
 
 async function obtenerUserIdDeInicoSesion() {
   const session = await getSession();
@@ -19,15 +33,6 @@ async function obtenerUserIdDeInicoSesion() {
     return null;
   }
 }
-
-const corsOptions = {
-  origin: "*",
-  methods: ["GET", "POST"],
-};
-
-const io = new Server(httpServer, {
-  cors: corsOptions,
-});
 
 io.on("connection", async (socket) => {
   console.log(
@@ -99,7 +104,21 @@ io.on("connection", async (socket) => {
  */
 ;
 
-const PORT = 3001;
-httpServer.listen(PORT, () => {
-  console.log(`Socket.io server is running on port ${PORT}`);
+nextApp.prepare().then(() => {
+  httpServer.on("request", (req, res) => {
+    const parsedUrl = parse(req.url, true);
+    const { pathname, query } = parsedUrl;
+
+    if (pathname === "/socket.io/") {
+      io.emit("request", req);
+      io.emit("response", res);
+    } else {
+      handle(req, res, parsedUrl);
+    }
+  });
+
+  const PORT = process.env.PORT || 3001;
+  httpServer.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 });
