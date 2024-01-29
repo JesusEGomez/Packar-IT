@@ -105,7 +105,7 @@ const Monedero = (props:any) => {
     },[loadFetch])
 
     return(
-        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
+        <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5 ">
             <div className="cursor-pointer" onClick={props.closeModal}><IoMdArrowRoundBack size={20} /></div>
             <h1 className="text-2xl font-bold mt-4 mb-10">Monedero</h1>
             <p className='text-slate-400 text-sm mb-10'>Añade un método de pago para realizar tus envíos y recibir el dinero de tus trayectos.</p>

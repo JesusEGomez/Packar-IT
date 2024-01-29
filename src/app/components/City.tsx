@@ -78,12 +78,12 @@ export default function City(props: any) {
   };
 
   return (
-    <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mb-5">
       <Button onClick={props.closeCityModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
-        <h1 className="text-3xl font-black text-left">¿En que ciudad vives?</h1>
+        <h1 className="text-3xl font-black  text-left">¿En que ciudad vives?</h1>
       </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <div>
