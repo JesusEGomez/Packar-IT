@@ -7,8 +7,7 @@
       { "src": "src/**/*", "use": "@vercel/node" }
     ],
     "routes": [
-      { "src": "/socket.io/(.*)", "dest": "src/app/api/server.js" },
-      { "src": "/(.*)", "dest": "src/app/api/server.js" }
+        { "src": "/(.*)", "dest": "src/app/api/server.js" }
     ]
   }
   
