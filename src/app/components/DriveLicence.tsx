@@ -124,11 +124,11 @@ export default function DriveLicense(props: any) {
   };
 
   return (
-    <div className="m-8 h-screen">
+   <div className="flex flex-col items-center justify-center w-full h-full my-auto  mb-5 mr-5  mt-60">
       <Button onClick={props.closeLicenceModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
+      <div className="flex flex-col justify-center items-center text-l ">
         <h1 className="text-3xl font-black text-left">Carnet de conducir</h1>
       </div>
       <div>

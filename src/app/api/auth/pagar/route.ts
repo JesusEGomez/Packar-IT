@@ -28,7 +28,6 @@ export async function POST(req : Request) {
             confirm: true,
             return_url: 'http://localhost:3000/respuestapago'
         });
-        console.log(paymentIntent, 'soy el payment intent');
         return NextResponse.json({ user, paymentIntent }, { status: 200 });
     } catch (error) {
         console.error('Error en la función POST:', error);

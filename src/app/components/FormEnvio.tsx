@@ -23,7 +23,7 @@ const FormEnvio = (props: any) => {
       };
 
     return(
-        <form className="flex  flex-col justify-center items-center gap-y-5 ">
+        <form className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
           <input
             type="text"
             placeholder="Ciudad de origen"

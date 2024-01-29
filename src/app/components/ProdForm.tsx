@@ -8,6 +8,8 @@ import { BsBoxSeam } from "react-icons/bs";
 import { IoIosArrowDown } from "react-icons/io";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LuFolderInput } from "react-icons/lu";
+import { GiWeight } from "react-icons/gi";
+import { SlSizeFullscreen } from "react-icons/sl";
 
 interface FormInputs {
   types: string;
@@ -100,7 +102,7 @@ function ProdForm(props: any) {
   };
 
   return (
-    <div className="m-8 h-screen">
+    <div className="m-8 px-4 h-screen">
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -116,8 +118,8 @@ function ProdForm(props: any) {
         className="flex flex-col items-center p-2 mb-10"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex items-center border-b m-auto w-full">
-          <TbTriangleSquareCircle className="text-slate-400" size={30} />
+        <div className="flex items-center border-b m-auto w-80">
+          <TbTriangleSquareCircle className="text-slate-400" size={20} />
           <select
             className="p-2 rounded bg-white text-slate-400 w-full"
             id="types"
@@ -138,8 +140,8 @@ function ProdForm(props: any) {
             <option value="Equipaje">Equipaje</option>
           </select>
         </div>
-        <div className="flex items-center border-b m-auto w-full">
-          <BsBoxSeam className="text-slate-400" size={30} />
+        <div className="flex items-center border-b m-auto w-80">
+          <BsBoxSeam className="text-slate-400" size={20} />
           <input
             placeholder="Producto"
             className="p-3 text-slate-300"
@@ -151,7 +153,8 @@ function ProdForm(props: any) {
           />
           <IoIosArrowDown className="text-slate-400" />
         </div>
-        <div className="flex items-center border-b m-auto w-full">
+        <div className="flex items-center border-b m-auto w-80">
+          <SlSizeFullscreen className="text-slate-400" size={20} />
           <select
             className="p-2 rounded bg-white text-slate-400 w-full"
             id="size"
@@ -167,7 +170,8 @@ function ProdForm(props: any) {
             <option value="Grande">Grande</option>
           </select>
         </div>
-        <div className="flex items-center border-b m-auto w-full">
+        <div className="flex items-center border-b m-auto w-80">
+          <GiWeight className="text-slate-400" size={20}/>
           <select
             className="p-2 rounded bg-white text-slate-400 w-full"
             id="weight"
