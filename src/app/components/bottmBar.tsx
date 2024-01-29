@@ -1,34 +1,24 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect ,  useContext, useState} from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
-
-import { useContext } from "react";
+import { io } from "socket.io-client";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
-import useNotifications from "../hooks/useNotifications"
+import useNotifications from "../hooks/useNotifications";
+
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
+  const { /* sendNotification, */ handleSendMessage } = useNotifications();
+
   const pathName = usePathname();
   const navigate = useRouter();
 
-  const { subscribeToNotifications } = useNotifications();
-  const { sendNotification } = useNotifications();
-
-  useEffect(() => {
-    const handleNotification = (data: any) => {
-      alert(`Nueva notificación: ${data.message}`);
-    };
-
-    subscribeToNotifications(handleNotification);
-    return () => {
-    };
-  }, [subscribeToNotifications]);
 
   return (
     <div className="w-screen z-[999] fixed bottom-0 bg-white">
@@ -68,22 +58,11 @@ const BottmBar = () => {
           </button>
         </li>
         <li>
-          <button
+        <button
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
-            onClick={() => {
-              console.log("Clic en el botón de mensajes");
-
-              // Enviar notificación al servidor
-              const notificationData = {
-                userId: "ID_DEL_USUARIO_DESTINO", 
-                message: "Algo ha sucedido", 
-                timestamp: Date.now(), 
-              };
-
-              sendNotification(notificationData);
-            }}
+            onClick={handleSendMessage}
           >
             <MdOutlineMessage size={30} />
             Mensajes
