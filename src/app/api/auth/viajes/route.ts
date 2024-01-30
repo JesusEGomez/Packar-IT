@@ -140,7 +140,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
 
     const viajeActualizado = await Viaje.findByIdAndUpdate(
       viajeId,
-      { $push: { envios: { productos: [prod] } } },
+      { $push: { envios: { productos: data.producto } } },
       { new: true }
     );
 
