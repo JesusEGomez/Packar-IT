@@ -156,7 +156,7 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center bg-pink overflow-y-auto overflow-visible    ">
+    <div className="flex flex-col items-center bg-pink overflow-y-auto">
       <div>
         <Image
           className="my-16 rounded-full"

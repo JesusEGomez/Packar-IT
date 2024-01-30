@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body, html {
+  overflow-y: auto;
+}
 .page-pink {
   @apply h-screen w-full flex justify-evenly  bg-pink;
 }
