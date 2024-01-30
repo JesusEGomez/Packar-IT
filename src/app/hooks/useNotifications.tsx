@@ -22,6 +22,7 @@ interface NotificationsHook {
   handleSendMessage: () => void;
   acceptNotification: (notificationId: string) => void;
   cancelNotification: (notificationId: string) => void;
+  handleAcceptNotification: (notificationId: any) => void;
 }
 
 const useNotifications = (): NotificationsHook => {
@@ -59,9 +60,10 @@ const useNotifications = (): NotificationsHook => {
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);
         console.log("Mensaje recibido en el cliente:", data);
+        alert("Nuevo mensaje recibido " + data);
       });
 
-      socket.on("notification_accepted", (data: NotificationData) => {
+      socket.on("accept_notification", (data: NotificationData) => {
         console.log(
           `Notificación ${data.notificationId} aceptada por el usuario`
         );
@@ -73,6 +75,11 @@ const useNotifications = (): NotificationsHook => {
           `Notificación ${data.notificationId} cancelada por el usuario`
         );
         // Puedes manejar la lógica adicional aquí si es necesario
+
+        socket.on("alert_new_message", (data: any) => {
+          console.log("Mostrar alerta:", data);
+          alert(data.message);
+        });
       });
     };
 
@@ -107,9 +114,8 @@ const useNotifications = (): NotificationsHook => {
 
         socket.emit("send_message", notificationData);
 
-        console.log(notificationData);
-
         sendNotification(notificationData);
+        console.log(notificationData);
       } else {
         console.log("El usuario no está autenticado");
         // Manejar la lógica para usuarios no autenticados según sea necesario
@@ -119,11 +125,16 @@ const useNotifications = (): NotificationsHook => {
     }
   };
 
+  const handleAcceptNotification = (notificationData: NotificationData) => {
+    const confirmAccept = window.confirm("¿Aceptar la notificación?");
+    if (confirmAccept) {
+      acceptNotification(notificationData.notificationId);
+    }
+  };
+
   const acceptNotification = (notificationId: string) => {
     socket.emit("accept_notification", { notificationId });
   };
-
-  console.log("Se acepta correctamente", acceptNotification);
 
   const cancelNotification = (notificationId: string) => {
     socket.emit("cancel_notification", { notificationId });
@@ -135,6 +146,7 @@ const useNotifications = (): NotificationsHook => {
     handleSendMessage,
     acceptNotification,
     cancelNotification,
+    handleAcceptNotification,
   };
 };
 

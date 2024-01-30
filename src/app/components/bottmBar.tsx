@@ -19,6 +19,7 @@ const BottmBar = () => {
     subscribeToNotifications,
     acceptNotification,
     cancelNotification,
+    handleAcceptNotification,
   } = useNotifications();
 
   const pathName = usePathname();
@@ -41,12 +42,10 @@ const BottmBar = () => {
     };
   }, []); // El segundo arg
 
-  const handleAcceptNotification = () => {
-    acceptNotification(uuidv4());
-  };
+ 
 
   const handleCancelNotification = () => {
-    cancelNotification(uuidv4());
+    cancelNotification(notificationId);
   };
 
   return (
