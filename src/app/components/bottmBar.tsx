@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect ,  useContext, useState} from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -10,15 +10,44 @@ import { io } from "socket.io-client";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
-
+import { v4 as uuidv4 } from "uuid";
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
-  const { /* sendNotification, */ handleSendMessage } = useNotifications();
+  const {
+    /* sendNotification, */ handleSendMessage,
+    subscribeToNotifications,
+    acceptNotification,
+    cancelNotification,
+  } = useNotifications();
 
   const pathName = usePathname();
   const navigate = useRouter();
 
+  const notificationId = uuidv4();
+
+  useEffect(() => {
+    // Suscribirse a las notificaciones al montar el componente
+    subscribeToNotifications((data: any) => {
+      // Manejar la lógica cuando se recibe una notificación
+      console.log("Notificación recibida:", data);
+      // Puedes agregar lógica adicional según tus necesidades
+    });
+
+    // Limpiar la suscripción cuando el componente se desmonta
+    return () => {
+      // Desuscribirse de las notificaciones
+      // (implementa la lógica de desuscripción según tus necesidades)
+    };
+  }, []); // El segundo arg
+
+  const handleAcceptNotification = () => {
+    acceptNotification(uuidv4());
+  };
+
+  const handleCancelNotification = () => {
+    cancelNotification(uuidv4());
+  };
 
   return (
     <div className="w-screen z-[999] fixed bottom-0 bg-white">
@@ -57,15 +86,35 @@ const BottmBar = () => {
             Añadir viaje
           </button>
         </li>
-        <li>
         <button
+          className={`flex ${
+            pathName === "/messages" ? "text-pink" : "text-slate-600"
+          } flex-col items-center text-xs`}
+          onClick={handleSendMessage}
+        >
+          <MdOutlineMessage size={30} />
+          Mensajes
+        </button>
+        <li>
+          <button
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
-            onClick={handleSendMessage}
+            onClick={handleAcceptNotification}
           >
             <MdOutlineMessage size={30} />
-            Mensajes
+            Aceptar Mensaje
+          </button>
+        </li>
+        <li>
+          <button
+            className={`flex ${
+              pathName === "/messages" ? "text-pink" : "text-slate-600"
+            } flex-col items-center text-xs`}
+            onClick={handleCancelNotification}
+          >
+            <MdOutlineMessage size={30} />
+            Cancelar Mensaje
           </button>
         </li>
         <li>
