@@ -17,8 +17,11 @@ export async function POST(request: Request) {
   await connectDB();
   try {
     const response = await request.json();
-    
-    const nuevoProducto = await new Producto(response.producto, response.driver);
+
+    const nuevoProducto = await new Producto(
+      response.producto,
+      response.driver
+    );
     await nuevoProducto.save();
 
     const envio = new Envio({
@@ -28,12 +31,12 @@ export async function POST(request: Request) {
       cuando: response.cuando,
       producto: nuevoProducto,
       recibe: response.recibe,
-      driver: response.driver
+      driver: response.driver,
     });
-    
+
     const savedEnvio = await envio.save();
     console.log(savedEnvio);
-    
+
     return NextResponse.json(savedEnvio);
   } catch (error) {
     console.error(error);
@@ -51,6 +54,7 @@ export async function GET(request: Request) {
   try {
     await connectDB();
     const envios = await Envio.find().populate("usuario", "email fullname");
+    console.log(envios);
     return NextResponse.json(envios);
   } catch (error) {
     console.error(error);

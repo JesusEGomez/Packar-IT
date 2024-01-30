@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GoArchive } from "react-icons/go";
+import { GoArchive, GoDotFill } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 interface IProductCardProps {
@@ -17,11 +17,16 @@ interface IProductCardProps {
   horaLlegada: string;
   estado: string;
   cuando: string;
-  producto: {
-    name: string | null;
-  };
+  producto: string | null;
+
   _id: string;
 }
+const stateClasses = {
+  Cancelado: "text-red-500",
+  Pendiente: "text-yellow-500",
+  "En Curso": "text-green-500",
+  Finalizado: "text-blue-500",
+};
 
 const ProductCard = ({
   cuando,
@@ -40,16 +45,21 @@ const ProductCard = ({
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p>{`${horaSalida} - ${horaLlegada} `}</p>
+        <p> {`${horaSalida} - ${horaLlegada} `}</p>
 
         <p>{`${desde.ciudad?.replaceAll("_", " ")} / ${hasta.ciudad?.replaceAll(
           "_",
           " "
         )}`}</p>
 
-        <h3 className="font-bold ">{producto.name}</h3>
+        <h3 className="font-bold ">{producto}</h3>
 
-        <p>{`estado: ${estado} `}</p>
+        <div className="flex items-center">
+          <p className={stateClasses[estado]}>
+            <GoDotFill />
+          </p>
+          <p>{estado}</p>
+        </div>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/envios/${_id}`}>

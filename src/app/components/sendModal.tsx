@@ -8,7 +8,7 @@ import ProductInfoModal from "./ProductInfoModal";
 
 interface ISendModalProps {
   closeModal: () => void;
-  envios: [{ productos: IUserProduct[]; _id: string }] | undefined;
+  envios: [{ productos: IUserProduct; _id: string }] | undefined;
 }
 export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
   const [open, setOpen] = useState(false);
@@ -40,10 +40,10 @@ export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
               </p>
               <div className="flex sm:flex-row sm:gap-x-4 w-2/4  flex-col">
                 <h3 className="font-bold ">
-                  {`Producto: ${envio.productos[0].producto.name}`}
+                  {`Producto: ${envio.productos.producto.name}`}
                 </h3>
 
-                <p>{`Estado: ${envio.productos[0].estado}`}</p>
+                <p>{`Estado: ${envio.productos.estado}`}</p>
               </div>
 
               <button
@@ -57,7 +57,7 @@ export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
                   <div className="bg-white p-4 rounded-xl">
                     <ProductInfoModal
                       closeInfoModal={closeInfoModal}
-                      product={envio.productos[0]}
+                      product={envio.productos}
                     />
                   </div>
                 </div>

@@ -8,7 +8,7 @@ const Viajes = () => {
   const { travels, fetchTravels, user } = useUserState((state) => state);
 
   useEffect(() => {
-    !travels.length && fetchTravels(user._id);
+    fetchTravels(user._id);
   }, []);
   console.log(travels);
   return (
@@ -25,6 +25,7 @@ const Viajes = () => {
               horaLlegada={travel.horaLlegada!}
               horaSalida={travel.horaSalida!}
               _id={travel._id}
+              eresFlexible={travel.eresFlexible}
             />
           );
         })

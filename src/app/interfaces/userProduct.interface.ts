@@ -1,4 +1,5 @@
 import { ITravelDB } from "./TravelDB.interface";
+import { IProductDB } from "./productDB.interface";
 import { IProfile } from "./profile.interface";
 import { IUser } from "./user.interface";
 
@@ -14,9 +15,7 @@ export interface IUserProduct {
     telefono: string;
     email: string;
   };
-  producto: {
-    name: string;
-  };
+  producto: IProductDB;
   estado: string;
   driver: string;
   findedDriver: ITravelDB;

@@ -14,9 +14,9 @@ interface Message {
 }
 
 interface NotificationsHook {
-/*   sendNotification: (notificationData: NotificationData) => void;
- */
-/*   subscribeToNotifications: (
+  /*   sendNotification: (notificationData: NotificationData) => void;
+   */
+  /*   subscribeToNotifications: (
     callback: (data: NotificationData) => void
   ) => void;
  */
@@ -24,11 +24,11 @@ interface NotificationsHook {
 }
 
 const useNotifications = (): NotificationsHook => {
-  const socketServerUrl = process.env.SOCKET_SERVER_URL || "http://localhost:3001";
+  const socketServerUrl =
+    process.env.SOCKET_SERVER_URL || "http://localhost:3001";
   const socket: Socket = io(socketServerUrl);
 
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
-
 
   useEffect(() => {
     const initializeSocket = async () => {
@@ -37,7 +37,7 @@ const useNotifications = (): NotificationsHook => {
         console.log("Conectado al servidor de sockets");
 
         // Obtener la información de sesión y emitir el evento "session"
-/*         const session = await getSession();
+        /*         const session = await getSession();
         console.log("Sending session information:ss", session);
         socket.emit("session sss", { session });
  */
@@ -56,11 +56,11 @@ const useNotifications = (): NotificationsHook => {
     };
   }, [socket]);
 
-/*   const sendNotification = (notificationData: NotificationData): void => {
+  /*   const sendNotification = (notificationData: NotificationData): void => {
     socket.emit("send_notification", notificationData);
   };
  */
-/*   const subscribeToNotifications = (
+  /*   const subscribeToNotifications = (
     callback: (data: NotificationData) => void
   ): void => {
     socket.on("receive_notification", callback);

@@ -1,25 +1,29 @@
 export const dynamic = "force-dynamic";
+import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
+import { IUserProduct } from "@/app/interfaces/userProduct.interface";
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
 import Viaje from "@/models/viajes";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const allProduct = [];
   try {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     console.log(id);
-    const user = await Viaje.findOne({
+    const user: ITravelDB | null = await Viaje.findOne({
       _id: id,
-    });
-    // console.log(user);
+    }).lean();
+    console.log(user);
     if (user) {
       for (let product of user.envios) {
-        const response = await Envio.findById(product._id);
+        const response: IUserProduct | null = await Envio.findById(
+          product._id
+        ).lean();
         console.log(response);
-        product.productos = response;
+        if (response) product.productos = response;
+        console.log(product);
       }
     }
     return NextResponse.json(user);

@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     console.log(id);
     const user = await Viaje.find({
       usuario: id,
-    });
+    }).lean();
     console.log(user);
     return NextResponse.json(user);
   } catch (error) {
