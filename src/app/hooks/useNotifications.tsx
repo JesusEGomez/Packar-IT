@@ -63,11 +63,12 @@ const useNotifications = (): NotificationsHook => {
         alert("Nuevo mensaje recibido " + data);
       });
 
-      socket.on("accept_notification", (data: NotificationData) => {
-        console.log(
-          `Notificación ${data.notificationId} aceptada por el usuario`
-        );
-        // Puedes manejar la lógica adicional aquí si es necesario
+      socket.on("notification_accepted", ({ notificationId, acceptingUser }) => {
+        // Aquí puedes actualizar el estado del cliente según la notificación aceptada
+        console.log(`Notificación ${notificationId} aceptada por:`, acceptingUser);
+        
+        // Puedes realizar la lógica que necesites para actualizar el estado del cliente
+        // Por ejemplo, podrías marcar la notificación como aceptada en tu estado local
       });
 
       socket.on("notification_canceled", (data: NotificationData) => {
@@ -125,9 +126,19 @@ const useNotifications = (): NotificationsHook => {
     }
   };
 
-  const handleAcceptNotification = (notificationData: NotificationData) => {
-    const confirmAccept = window.confirm("¿Aceptar la notificación?");
-    if (confirmAccept) {
+  const handleAcceptNotification = (
+    notificationData: NotificationData
+  ): void => {
+    console.log("Handler de aceptar notificación:", notificationData);
+    console.log("Valor de notificationData:", notificationData);
+    console.log(
+      "Valor de notificationData.notificationId:",
+      notificationData.notificationId
+    );
+    const confirmAccept: boolean = window.confirm("¿Aceptar la notificación?");
+    console.log("Confirmación:", confirmAccept);
+    if (confirmAccept && notificationData) {
+      console.log("Notificación aceptada");
       acceptNotification(notificationData.notificationId);
     }
   };

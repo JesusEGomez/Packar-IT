@@ -97,29 +97,30 @@ io.on("connection", async (socket) => {
   // Escuchar la aceptación de la notificación por parte de un usuario
 
   socket.on("accept_notification", ({ notificationId }) => {
-    // Verificar si la notificación existe y no ha sido aceptada o cancelada
-    if (
-      notifications[notificationId] &&
-      !notifications[notificationId].accepted &&
-      !notifications[notificationId].canceled
-    ) {
-      // Marcar la notificación como aceptada y enviar la confirmación al creador
-      notifications[notificationId].accepted = true;
-
-      // Obtener la información del usuario que aceptó la notificación
-      const acceptingUser = socket.userInfo;
-
-      // Guardar la información en el servidor o realiza la lógica que necesites
-      console.log("Usuario que aceptó la notificación:", acceptingUser);
-
-      // Enviar la confirmación al creador de la notificación
-      io.to(socket.id).emit("notification_accepted", { notificationId });
-
-      console.log("Te aceptaron la notificación");
+    const notification = notifications[notificationId];
+    if (notification?.accepted || notification?.canceled) {
+      return;
     }
+  
+    // Initialize the notification if it doesn't exist
+    if (!notifications[notificationId]) {
+      notifications[notificationId] = { accepted: false, canceled: false };
+    }
+  
+    // Marcar la notificación como aceptada y enviar la confirmación al creador
+    notifications[notificationId].accepted = true;
+  
+    // Obtener la información del usuario que aceptó la notificación
+    const acceptingUser = socket.userInfo;
+  
+    // Guardar la información en el servidor o realiza la lógica que necesites
+    console.log("Usuario que aceptó la notificación:", acceptingUser);
+  
+    // Enviar la confirmación al creador de la notificación
+    io.to(socket.id).emit("notification_accepted", { notificationId });
+  
+    console.log("Te aceptaron la notificación");
   });
-
-  // ...
 });
 
 const PORT = 3001;
