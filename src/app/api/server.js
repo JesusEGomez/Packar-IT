@@ -22,7 +22,7 @@ async function obtenerUserIdDeInicoSesion() {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -35,9 +35,9 @@ io.on("connection", async (socket) => {
   );
 
   // Manejar el evento "session" para recibir la información de sesión del cliente
-  socket.on("session", async ({ session }) => {
+/*   socket.on("session", async ({ session }) => {
     console.log("Receivedssss session information:", session);
-
+ */
     // Puedes hacer lo que necesites con la información de sesión aquí
     // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
     // Asegúrate de implementar la lógica según tus necesidades específicas.
@@ -56,18 +56,27 @@ io.on("connection", async (socket) => {
     console.log("A user disconnected:", socket.id);
   });
 
-  socket.on("send_notification", (data) => {
+/*   socket.on("send_notification", (data) => {
     console.log("Se ha recibido una notificación:", data);
     // ... lógica adicional para manejar la notificación
+  }); */
+
+  // Cambia el nombre del evento de "send_notification" a "send_message"
+  socket.on("send_message", (data) => {
+    console.log("Mensaje recibido:", data);
+
+    // Transmitir el mensaje a todos los usuarios conectados
+    io.emit("receive_message", data);
   });
 
-  // Definición del evento "receive_notification"
+/*   // Definición del evento "receive_notification"
   socket.on("receive_notification", (data) => {
     console.log("Se ha recibido una notificación:", data);
     // ... lógica adicional para manejar la notificación
   });
+ */
 
-  socket.on("crear_envio", (data) => {
+/*   socket.on("crear_envio", (data) => {
     console.log("Solicitud de envío recibida:", data);
 
     if (userInfo) {
@@ -85,7 +94,8 @@ io.on("connection", async (socket) => {
       // Por ejemplo, podrías enviar una notificación genérica o ignorar el evento.
     }
   });
-});
+ */
+;
 
 const PORT = 3001;
 httpServer.listen(PORT, () => {
