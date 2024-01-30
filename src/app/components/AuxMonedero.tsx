@@ -4,10 +4,11 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-const AuxMonedero = () => {
+const AuxMonedero = (props:any) => {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
   const { data: session } = useSession();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,9 +50,10 @@ const AuxMonedero = () => {
         const data = await response.json();
         console.log(data);
         
-
-        if (data.success) {
+        if (data.user) {
           console.log('Tarjeta guardada exitosamente');
+          setSuccess(true);
+          props.cloeseMonedero && props.cloeseMonedero();
         } else {
           setError('Error al procesar el pago.');
         }
@@ -64,9 +66,30 @@ const AuxMonedero = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement className='m-3 p-2 h-10' />
-      <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3" type="submit">Guardar Tarjeta</button>
-      {error && <div>{error}</div>}
+      <CardElement 
+        options={{
+          style: {
+            base: {
+              color: '#32325d',
+              fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+              fontSmoothing: 'antialiased',
+              fontSize: '16px',
+              '::placeholder': {
+                color: '#aab7c4',
+              },
+
+            },
+            invalid: {
+              color: '#fa755a',
+              iconColor: '#fa755a',
+            },
+          },
+        }}
+      />
+      <button onClick={props.changeLoad} disabled={success} className="bg-pink w-full disabled:opacity-70 mt-4 text-white font-bold rounded-xl p-3" type="submit">
+        {`${success ? 'Tarjeta añadida exitosamente': 'Guardar Tarjeta'}`}
+        </button>
+      {error && <div className='text-red-600'>{error}</div>}
     </form>
   );
 };

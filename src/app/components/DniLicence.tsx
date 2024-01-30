@@ -129,15 +129,15 @@ export default function PassportId(props: any) {
     setType(selectedType);
   };
   return (
-    <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center mr-5 ">
-      <div className="m-4 flex flex-col justify-center items-start   text-l">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mb-5 mt-60 mr-5">
+      <div className="m-4 flex flex-col justify-center items-start   text-center">
       <Button onClick={props.closeIdModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
         <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
       </div>
-      <form className="flex flex-col justify-center items-center p-4 gap-y-5">
-        <div className="flex flex-col justify-center items-center p-4 gap-y-1">
+      <form className="flex flex-col justify-center items-center mr-10">
+        <div className="flex flex-col justify-center items-center p-4">
           <div>
             <p className="text-left">Tipo de Documentación</p>
             <select
@@ -251,7 +251,7 @@ export default function PassportId(props: any) {
           Cargar documentación
         </button>
       </div>
-      <div className="flex justify-items-start items-start">
+      <div className="flex justify-items-start items-start  ">
         <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
           Sube tus documentos identificativos para poder verificar tu perfil.
           Los perfiles verificados generan más confianza dentro de la comunidad.
@@ -259,4 +259,5 @@ export default function PassportId(props: any) {
       </div>
     </div>
   );
-}
+} 
+

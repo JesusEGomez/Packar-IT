@@ -61,7 +61,7 @@ const MobilePhoneNumber = () => {
   };
   
   return (
-    <div className="content flex flex-col justify-center items-center py-6 px-6">
+    <div className="content flex flex-col justify-center items-center py- px-6">
        <div className="text-center">
        <div className="flex justify-center items-center">
         <Image
@@ -72,12 +72,12 @@ const MobilePhoneNumber = () => {
         />
         </div>
         <p className="fw-bold fs-5 mt-5 mb-3">Introduce tu número de teléfono</p>
-        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
+        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center my-auto">
           <CountryCode onCountryCodeChange={(value: string) => setCountryCode(value)} />
           <input
             placeholder="Número de teléfono"
             type="number"
-            className="border  mb-4 border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 w-1/2 lg:w-full"
+            className="border   border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 w-1/2 lg:w-full"
             id="number"
             aria-describedby="phoneNumber"
             onChange={(e) => setPhoneNumber(e.target.value)}
