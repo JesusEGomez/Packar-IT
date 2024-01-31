@@ -176,7 +176,6 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
   }
 }
 
-
 export async function GET(request: Request) {
   try {
     await connectDB();
