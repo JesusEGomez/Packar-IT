@@ -2,7 +2,6 @@ export const dynamic = "force-dynamic";
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
 import Viaje from "@/models/viajes";
-import { strict } from "assert";
 
 import { NextResponse } from "next/server";
 
@@ -11,6 +10,7 @@ export async function GET(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
+    console.log(id);
     const finalProducts = [];
 
     if (!id)
@@ -18,7 +18,10 @@ export async function GET(request: Request) {
 
     const envios = await Envio.find({
       usuario: id,
-    }).lean();
+    })
+      .populate("producto")
+      .lean();
+    console.log(envios);
 
     if (envios) {
       for (let driver of envios) {
