@@ -90,7 +90,7 @@ const BottmBar = () => {
           onClick={handleSendMessage}
         >
           <MdOutlineMessage size={30} />
-          Mensajes
+          Mensajess
         </button>
         <li>
           <button
