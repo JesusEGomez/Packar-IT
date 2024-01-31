@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
-import { v4 as uuidv4 } from "uuid";
+
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
@@ -25,7 +25,7 @@ const BottmBar = () => {
   const pathName = usePathname();
   const navigate = useRouter();
 
-  const notificationId = uuidv4();
+ 
 
   useEffect(() => {
     // Suscribirse a las notificaciones al montar el componente
@@ -42,11 +42,9 @@ const BottmBar = () => {
     };
   }, []); // El segundo arg
 
- 
 
-  const handleCancelNotification = () => {
-    cancelNotification(notificationId);
-  };
+
+
 
   return (
     <div className="w-screen z-[999] fixed bottom-0 bg-white">
@@ -105,17 +103,7 @@ const BottmBar = () => {
             Aceptar Mensaje
           </button>
         </li>
-        <li>
-          <button
-            className={`flex ${
-              pathName === "/messages" ? "text-pink" : "text-slate-600"
-            } flex-col items-center text-xs`}
-            onClick={handleCancelNotification}
-          >
-            <MdOutlineMessage size={30} />
-            Cancelar Mensaje
-          </button>
-        </li>
+        
         <li>
           <button
             onClick={sideBarControl}
