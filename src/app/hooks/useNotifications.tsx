@@ -43,7 +43,7 @@ const useNotifications = (): NotificationsHook => {
 
         // Obtener la información de sesión y emitir el evento "session"
         const session = await getSession();
-        console.log("Sending session information:", session.user.name);
+        console.log("Sending session information:", session);
         socket.emit("session", { session });
 
         // Suscribirse a las notificaciones
@@ -104,7 +104,7 @@ const useNotifications = (): NotificationsHook => {
   const handleSendMessage = async () => {
     try {
       const userSession = await getSession();
-      const user = userSession ? userSession.user.name : null;
+      const user = userSession ? userSession : null;
       console.log("Mensaje enviado por", user);
 
       if (user) {

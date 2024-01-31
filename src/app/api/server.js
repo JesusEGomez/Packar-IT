@@ -58,7 +58,7 @@ io.on("connection", async (socket) => {
 
   socket.on("send_message", (data) => {
     console.log("Mensaje recibido:", data);
-   
+
     //const senderInfo = socket.userInfo || null
 
     // Incluye el nombre del remitente en la estructura del mensaje
