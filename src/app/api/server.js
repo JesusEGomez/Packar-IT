@@ -22,7 +22,7 @@ async function obtenerUserIdDeInicoSesion() {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
     methods: ["GET", "POST"],
   },
 });
