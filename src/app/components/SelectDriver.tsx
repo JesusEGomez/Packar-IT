@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GiPathDistance } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
-import Viaje from "@/models/viajes";
 
 type Viajes = [
   {
@@ -55,7 +54,6 @@ function Page(props: any) {
           `/api/auth/findatrip/?cityOrigin=${props.ciudadOrigen}&cityFinal=${props.ciudadDestino}`
         );
         const data = await response.json();
-        console.log(data, "soy la data");
 
         props.open.type === "Special"
           ? setViajes(data.filter((viaje: any) => viaje.special === true))
@@ -77,7 +75,7 @@ function Page(props: any) {
   return (
     <div className="flex flex-col">
       <div className="m-10">
-        <button>
+        <button onClick={props.close}>
           <FaArrowLeft />
         </button>
       </div>

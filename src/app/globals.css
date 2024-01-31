@@ -23,3 +23,6 @@
 .sideBarIcon {
   @apply h-4 w-4 mr-2;
 }
+.truncate {
+  @apply whitespace-nowrap overflow-hidden  text-ellipsis hover:overflow-visible;
+}

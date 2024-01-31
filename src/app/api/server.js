@@ -28,13 +28,11 @@ async function obtenerUserIdDeInicoSesion() {
   }
 }
 
-const corsOptions = {
-  origin: "http://localhost:3000" || "https://packar-it.vercel.app",
-  methods: ["GET", "POST"],
-};
-
 const io = new Server(httpServer, {
-  cors: corsOptions,
+  cors: {
+    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
+    methods: ["GET", "POST"],
+  },
 });
 
 io.on("connection", async (socket) => {
@@ -44,35 +42,40 @@ io.on("connection", async (socket) => {
     }`
   );
 
-  const userInfo = await obtenerUserIdDeInicoSesion();
+  // Manejar el evento "session" para recibir la información de sesión del cliente
+  /*   socket.on("session", async ({ session }) => {
+    console.log("Receivedssss session information:", session);
+ */
+  // Puedes hacer lo que necesites con la información de sesión aquí
+  // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
+  // Asegúrate de implementar la lógica según tus necesidades específicas.
+});
 
-  if (userInfo) {
-    const { userId, fullname, email } = userInfo;
-    socket.userInfo = { userId, fullname, email };
-    console.log(`User ID: ${userId}, Fullname: ${fullname}`);
-  }
+// Accede a la información del usuario proporcionada al conectarse.
+const userInfo = obtenerUserIdDeInicoSesion();
 
-  socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
-  });
+if (userInfo) {
+  const { userId, fullname, email } = userInfo;
+  socket.userInfo = { userId, fullname, email };
+  console.log(`User ID: ${userId}, Fullname: ${fullname}`);
+}
 
-  socket.on("send_message", (data) => {
-    console.log("Mensaje recibido:", data);
+socket.on("disconnect", () => {
+  console.log("A user disconnected:", socket.id);
+});
 
-    //const senderInfo = socket.userInfo || null
+/*   socket.on("send_notification", (data) => {
+    console.log("Se ha recibido una notificación:", data);
+    // ... lógica adicional para manejar la notificación
+  }); */
 
-    // Incluye el nombre del remitente en la estructura del mensaje
-    //const messageData = {
-     // message: data.message,
-      //senderId: senderInfo.userId
-    //};
-    //console.log(messageData);
-    // Emitir el mensaje actualizado con el nombre del remitente
-    io.emit("receive_message",);
-    io.emit("alert_new_message", {
-      message: "Nuevo mensaje de !",
-    });
-  });
+// Cambia el nombre del evento de "send_notification" a "send_message"
+socket.on("send_message", (data) => {
+  console.log("Mensaje recibido:", data);
+
+  // Transmitir el mensaje a todos los usuarios conectados
+  io.emit("receive_message", data);
+});
 
   // Agrega el código para enviar notificaciones a un usuario específico
   socket.on(
@@ -121,7 +124,6 @@ io.on("connection", async (socket) => {
   
     console.log("Te aceptaron la notificación");
   });
-});
 
 const PORT = 3001;
 httpServer.listen(PORT, () => {

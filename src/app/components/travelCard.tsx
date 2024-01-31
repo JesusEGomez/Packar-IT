@@ -18,6 +18,7 @@ interface ITravelCardProps {
   estado: boolean;
   cuando: string;
   _id: string;
+  eresFlexible: boolean;
 }
 
 const TravelCard = ({
@@ -28,6 +29,7 @@ const TravelCard = ({
   horaLlegada,
   horaSalida,
   _id,
+  eresFlexible,
 }: ITravelCardProps) => {
   return (
     <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
@@ -35,13 +37,10 @@ const TravelCard = ({
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p>{`${horaSalida} - ${horaLlegada}`}</p>
-        <h3 className="font-bold">{`${desde.ciudad?.replaceAll(
-          "_",
-          " "
-        )} / ${hasta.ciudad?.replaceAll("_", " ")}`}</h3>
+        <p className="text-gray-500">{`${horaSalida} - ${horaLlegada}`}</p>
+        <h3 className="font-bold truncate ">{`${desde.ciudad} - ${hasta.ciudad}`}</h3>
 
-        <p>{`${cuando},  ${estado ? "Aceptado" : "Esperando"}`}</p>
+        <p className="">{`${cuando}`}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/viajes/${_id}`}>

@@ -140,7 +140,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
 
     const viajeActualizado = await Viaje.findByIdAndUpdate(
       viajeId,
-      { $push: { envios: { productos: [prod] } } },
+      { $push: { envios: { productos: data.producto } } },
       { new: true }
     );
 
@@ -175,7 +175,6 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
     return NextResponse.json({ message: "Error al actualizar los viajes" });
   }
 }
-
 
 export async function GET(request: Request) {
   try {
