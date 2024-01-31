@@ -49,7 +49,7 @@ const ProductCard = ({
         <div className="flex w-full justify-evenly">
           <p> {`${horaSalida} - ${horaLlegada} `}</p>
           <div className="flex items-center">
-            <p className={stateClasses[estado]}>
+            <p className={stateClasses[estado as keyof typeof stateClasses]}>
               <GoDotFill />
             </p>
             <p>{estado}</p>

@@ -12,9 +12,16 @@ import { FaRegCalendarAlt, FaWeightHanging } from "react-icons/fa";
 import { Scan, Weight } from "lucide-react";
 import { GoDotFill } from "react-icons/go";
 
+interface IStateClases {
+  Cancelado: string;
+  Pendiente: string;
+  "En Curso": string;
+  Finalizado: string;
+}
+
 const Page = ({ params }: { params: { id: string } }) => {
   const [product, setProduct] = useState<IUserProductFull>();
-  const stateClasses = {
+  const stateClasses: IStateClases = {
     Cancelado: "text-red-500",
     Pendiente: "text-yellow-500",
     "En Curso": "text-green-500",
@@ -146,7 +153,11 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="flex flex-col justify-start  w-80">
             <h3 className="font-bold">Estado</h3>
             <div className="flex  items-center">
-              <p className={stateClasses[product.estado]}>
+              <p
+                className={
+                  stateClasses[product.estado as keyof typeof stateClasses]
+                }
+              >
                 <GoDotFill />
               </p>
               <p>{product.estado}</p>
