@@ -20,8 +20,8 @@ export default function DriveLicense(props: any) {
   const [imgFront, setImgFront] = useState<string | null>(null);
   const [imgBack, setImgBack] = useState<string | null>(null);
   const [disable, setDisable] = useState(true);
-  const navigate = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const navigate = useRouter();
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (imgFront && imgBack) {
@@ -62,7 +62,7 @@ export default function DriveLicense(props: any) {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          // console.log(ans);
 
           const fileName = ans.secure_url.split("/").pop();
           setImage(fileName);
