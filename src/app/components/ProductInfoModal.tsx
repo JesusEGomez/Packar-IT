@@ -4,10 +4,11 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { Phone, MailIcon, User, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { IProductEnvio } from "../interfaces/productDB.interface";
 
 interface IProductInfoProps {
   closeInfoModal: () => void;
-  product: IUserProduct;
+  product: [IProductEnvio];
 }
 const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
   console.log(product);
@@ -17,9 +18,10 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
   const changeState = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/auth/productById`, {
+      console.log({ ...product[0].EnvioInfo, estado: state });
+      const response = await fetch(`/api/auth/ProductById`, {
         method: "PATCH",
-        body: JSON.stringify({ ...product, estado: state }),
+        body: JSON.stringify({ ...product[0].EnvioInfo, estado: state }),
       });
 
       if (response.ok) {
@@ -29,6 +31,7 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
     } catch (error) {}
   };
   const stateHanlder = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
     setState(event.target.value);
   };
   return (
@@ -41,13 +44,15 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         <h3 className="text-xl font-semibold">Datos del Receptor</h3>
         <div className="flex gap-4 flex-col">
           <div className="flex gap-x-2 text-lg ">
-            <User /> <p>{` Nombre: ${product.recibe.nombreApellidos}`}</p>{" "}
+            <User />{" "}
+            <p>{` Nombre: ${product[0].EnvioInfo.recibe.nombreApellidos}`}</p>{" "}
           </div>
           <div className="flex  gap-x-2 text-lg">
-            <Phone /> <p>{`Telefono: ${product.recibe.telefono}`}</p>
+            <Phone />{" "}
+            <p>{`Telefono: ${product[0].EnvioInfo.recibe.telefono}`}</p>
           </div>
           <div className="flex gap-x-2 text-lg ">
-            <MailIcon /> <p>{`Mail: ${product.recibe.email}`}</p>
+            <MailIcon /> <p>{`Mail: ${product[0].EnvioInfo.recibe.email}`}</p>
           </div>
         </div>
       </div>
@@ -56,15 +61,17 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
           Modificar el Estado de Envio
         </label>
         <select onChange={stateHanlder} name="estado" id="estado">
-          <option defaultValue={product.estado}>{product.estado}</option>
+          <option defaultValue={product[0].EnvioInfo.estado}>
+            {product[0].EnvioInfo.estado}
+          </option>
 
-          {product.estado === "Pendiente" ? (
+          {product[0].EnvioInfo.estado === "Pendiente" ? (
             <>
               <option value={"En Curso"}>En Curso</option>
               <option value={"Cancelado"}>Cancelado</option>
             </>
           ) : null}
-          {product.estado === "En Curso" ? (
+          {product[0].EnvioInfo.estado === "En Curso" ? (
             <option value={"Finalizado"}>Finalizado</option>
           ) : null}
         </select>
@@ -76,7 +83,8 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
           <Button
             className="bg-pink text-white rounded-lg"
             disabled={
-              product.estado === "Cancelado" || product.estado === "Finalizado"
+              product[0].EnvioInfo.estado === "Cancelado" ||
+              product[0].EnvioInfo.estado === "Finalizado"
             }
             onClick={changeState}
           >

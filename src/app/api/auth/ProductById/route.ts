@@ -18,8 +18,10 @@ export async function GET(request: Request) {
     if (!id)
       return NextResponse.json({ message: "id no valido" }, { status: 400 });
 
-    const envio: IUserProduct | null = await Envio.findById(id).lean();
-
+    const envio: IUserProduct | null = await Envio.findById(id)
+      .populate("producto")
+      .lean();
+    console.log(envio);
     if (envio) {
       const driverFinded: ITravelDB | null = await Viaje.findById(
         envio.driver

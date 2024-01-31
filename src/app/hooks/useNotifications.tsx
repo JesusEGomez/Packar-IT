@@ -23,7 +23,6 @@ const useNotifications = (): NotificationsHook => {
 
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
 
-
   useEffect(() => {
     const initializeSocket = async () => {
       socket.on("connect", async () => {
@@ -32,7 +31,6 @@ const useNotifications = (): NotificationsHook => {
         const session = await getSession();
         console.log("Sending session information:", session);
         socket.emit("session", { session });
-
       });
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);

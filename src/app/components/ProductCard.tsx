@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { GoArchive } from "react-icons/go";
+import { GoArchive, GoDotFill } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { IProductDB } from "../interfaces/productDB.interface";
 
 interface IProductCardProps {
   desde: {
@@ -17,11 +18,16 @@ interface IProductCardProps {
   horaLlegada: string;
   estado: string;
   cuando: string;
-  producto: {
-    name: string | null;
-  };
+  producto: IProductDB;
+
   _id: string;
 }
+const stateClasses = {
+  Cancelado: "text-red-500",
+  Pendiente: "text-yellow-500",
+  "En Curso": "text-green-500",
+  Finalizado: "text-blue-500",
+};
 
 const ProductCard = ({
   cuando,
@@ -33,23 +39,25 @@ const ProductCard = ({
   producto,
   _id,
 }: IProductCardProps) => {
-  console.log(estado);
+  console.log(producto.name);
   return (
     <div className="w-full h-[110px] rounded-xl  shadow-md  hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
       <p className="text-5xl  w-1/5 text-pink">
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p>{`${horaSalida} - ${horaLlegada} `}</p>
+        <div className="flex w-full justify-evenly">
+          <p> {`${horaSalida} - ${horaLlegada} `}</p>
+          <div className="flex items-center">
+            <p className={stateClasses[estado as keyof typeof stateClasses]}>
+              <GoDotFill />
+            </p>
+            <p>{estado}</p>
+          </div>
+        </div>
 
-        <p>{`${desde.ciudad?.replaceAll("_", " ")} / ${hasta.ciudad?.replaceAll(
-          "_",
-          " "
-        )}`}</p>
-
+        <p className="truncate ">{`${desde.ciudad} / ${hasta.ciudad}`}</p>
         <h3 className="font-bold ">{producto.name}</h3>
-
-        <p>{`estado: ${estado} `}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/envios/${_id}`}>
