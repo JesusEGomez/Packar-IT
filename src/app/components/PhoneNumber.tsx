@@ -78,7 +78,7 @@ export default function PhoneNumber(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5 overflow-y-auto">
       <Button onClick={props.closePhoneNumber} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -94,7 +94,7 @@ export default function PhoneNumber(props: any) {
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             style={{
-              width: "300px",
+              width: "200px",
               height: "5px",
               borderColor: "gray",
               display: "flex",

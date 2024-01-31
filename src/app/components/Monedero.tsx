@@ -113,7 +113,7 @@ const Monedero = (props:any) => {
                 {
                     myCard?.card ? (
                         <div>
-                            <div className='flex justify-between items-center border-b pb-4 mb-4' >
+                            <div className='flex justify-between items-center border-b pb-4 mb-5' >
                                 <div className="flex gap-x-3">
                                     <div className="p-2 bg-visaPink rounded-xl text-blue-800">
                                         <RiVisaLine size={30} />
@@ -143,7 +143,7 @@ const Monedero = (props:any) => {
                     )
                 } 
                 {modalOpen && (
-                    <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="fixed  flex-col top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
                       <div className="bg-white p-4 rounded-xl">
                         <ModalChangeCard closeModal={closeModal} closeWithChange={closeWithChange} />
                       </div>

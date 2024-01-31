@@ -94,7 +94,7 @@ export default function City(props: any) {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             style={{
-              width: "300px",
+              width: "200px",
               height: "5px",
               borderColor: "gray",
               display: "flex",

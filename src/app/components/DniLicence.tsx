@@ -129,22 +129,22 @@ export default function PassportId(props: any) {
     setType(selectedType);
   };
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full my-auto mb-5 mt-60 mr-5">
-      <div className="m-4 flex flex-col justify-center items-start   text-center">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto  mt-60">
+      <div className=" flex flex-col justify-center items-start   text-center">
       <Button onClick={props.closeIdModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
         <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
       </div>
-      <form className="flex flex-col justify-center items-center mr-10">
-        <div className="flex flex-col justify-center items-center p-4">
+      <form className="flex flex-col justify-center mt-3 items-center">
+        <div className="flex flex-col justify-center items-center">
           <div>
             <p className="text-left">Tipo de Documentación</p>
             <select
               onChange={handleTypeChange}
-              className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
+              className="p-4 border rounded-sm cursor-pointer  bg-white text-slate-400"
               style={{
-                width: "300px",
+                width: "200px",
                 height: "5px",
                 borderColor: "gray",
                 display: "flex",
@@ -161,11 +161,11 @@ export default function PassportId(props: any) {
             </select>
           </div>
           <div>
-            <p className="text-left">Numero de DNI o Pasaporte</p>
+            <p className="text-left  mt-5">Numero de DNI o Pasaporte</p>
             <input
               type="text"
               placeholder="123456789"
-              className="p-4 border rounded-sm cursor-pointer"
+              className="p-4 border rounded-sm cursor-pointer  mt-5"
               value={numeroDni}
               onChange={(e) => {
                 const inputValue = e.target.value;
@@ -173,7 +173,7 @@ export default function PassportId(props: any) {
                 setNumeroDni(onlyNumbers);
               }}
               style={{
-                width: "300px",
+                width: "210px",
                 height: "5px",
                 borderColor: "gray",
                 display: "flex",
@@ -182,12 +182,12 @@ export default function PassportId(props: any) {
               }}
             />
           </div>
-          <p className="text-left">Foto para la parte delantera</p>
+          <p className="text-left mt-2  px-3">Foto para la parte delantera</p>
           <section
-            className="border rounded-xl cursor-pointer"
+            className="border rounded-xl cursor-pointer mt-5"
             style={{
-              width: "300px",
-              height: "200px",
+              width: "100px",
+              height: "80px",
               borderColor: "gray",
               display: "flex",
               alignItems: "center",
@@ -211,13 +211,13 @@ export default function PassportId(props: any) {
             style={{ display: "none" }}
           />
         </div>
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center  mt-5">
           <p>Foto para la parte trasera</p>
           <section
-            className="border rounded-xl cursor-pointer"
+            className="border rounded-xl cursor-pointer mt-5"
             style={{
-              width: "300px",
-              height: "200px",
+              width: "100px",
+              height: "80px",
               borderColor: "gray",
               display: "flex",
               alignItems: "center",
@@ -252,7 +252,7 @@ export default function PassportId(props: any) {
         </button>
       </div>
       <div className="flex justify-items-start items-start  ">
-        <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
+        <p className="my-2 mx-5  text-gray-600 font-bold text-left">
           Sube tus documentos identificativos para poder verificar tu perfil.
           Los perfiles verificados generan más confianza dentro de la comunidad.
         </p>

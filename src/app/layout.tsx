@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className} style={{ overflowY: "auto" }}>
+      <body className={poppins.className} >
         <Providers>{children}</Providers>
       </body>
     </html>

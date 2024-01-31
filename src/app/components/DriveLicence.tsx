@@ -124,22 +124,22 @@ export default function DriveLicense(props: any) {
   };
 
   return (
-   <div className="flex flex-col items-center justify-center w-full h-full my-auto  mb-5 mr-5  mt-60">
+   <div className="flex flex-col items-center justify-center w-full h-full my-auto  mt-40">
       <Button onClick={props.closeLicenceModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex flex-col justify-center items-center text-l ">
-        <h1 className="text-3xl font-black text-left">Carnet de conducir</h1>
+        <h1 className="text-3xl font-black  mb-5 text-center">Carnet de conducir</h1>
       </div>
       <div>
         <form>
-          <div className="flex flex-col justify-center items-center p-4 gap-y-5">
-            <p className="text-left">Foto para la parte delantera</p>
+          <div className="flex flex-col justify-center items-center  gap-y-5">
+            <p className="text-center">Foto para la parte delantera</p>
             <section
               className="border rounded-xl cursor-pointer"
               style={{
-                width: "300px",
-                height: "200px",
+                width: "100px",
+                height: "80px",
                 borderColor: "gray",
                 display: "flex",
                 alignItems: "center",
@@ -169,8 +169,8 @@ export default function DriveLicense(props: any) {
             <section
               className="border rounded-xl cursor-pointer"
               style={{
-                width: "300px",
-                height: "200px",
+                width: "100px",
+                height: "80px",
                 borderColor: "gray",
                 display: "flex",
                 alignItems: "center",
