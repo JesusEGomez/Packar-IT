@@ -34,7 +34,7 @@ export const ViajeSchema = new Schema({
     default: false,
   },
   estado: {
-    type: Boolean,
+    type: String,
   },
   precio: [
     {
