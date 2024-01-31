@@ -27,7 +27,7 @@ interface NotificationsHook {
 
 const useNotifications = (): NotificationsHook => {
   const socketServerUrl =
-    process.env.SOCKET_SERVER_URL || "http://localhost:3001";
+    process.env.SOCKET_SERVER_URL || "http://localhost:3001" ||  "https://socket-q0pz.onrender.com/";
   const socket: Socket = io(socketServerUrl);
 
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
@@ -43,7 +43,7 @@ const useNotifications = (): NotificationsHook => {
 
         // Obtener la información de sesión y emitir el evento "session"
         const session = await getSession();
-        console.log("Sending session information:", session);
+        console.log("Sending session information:", session.user.name);
         socket.emit("session", { session });
 
         // Suscribirse a las notificaciones
@@ -59,8 +59,8 @@ const useNotifications = (): NotificationsHook => {
 
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);
-        console.log("Mensaje recibido en el cliente:", data);
-        alert("Nuevo mensaje recibido " + data);
+        console.log("Mensaje recibido en el cliente:" + data);
+        alert("Nuevo mensaje recibido "  + data);
       });
 
       socket.on("notification_accepted", ({ notificationId, acceptingUser }) => {
@@ -104,12 +104,12 @@ const useNotifications = (): NotificationsHook => {
   const handleSendMessage = async () => {
     try {
       const userSession = await getSession();
-      const user = userSession ? userSession.user : null;
-      console.log("user", user);
+      const user = userSession ? userSession.user.name : null;
+      console.log("Mensaje enviado por", user);
 
       if (user) {
         const notificationData = {
-          notificationId: uuidv4(),
+          notificationId: "",
           notification: "Algo ha sucedido",
         };
 
