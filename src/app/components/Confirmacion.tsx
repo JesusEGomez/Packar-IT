@@ -60,7 +60,7 @@ function Confirmacion(props: any) {
         body: JSON.stringify({
           viajeId: driver._id,
           data: shipmentData,
-          prod: envio.producto
+          prod: shipmentData.producto
         }),
       });
     
@@ -69,6 +69,8 @@ function Confirmacion(props: any) {
       }
     
       const updated = await updateResponse.json();
+      console.log(updated,'soy updated');
+      
       //pagar
 
       const pago = await fetch('/api/auth/pagar',{
@@ -80,9 +82,7 @@ function Confirmacion(props: any) {
           userId: userId,
           total,
         }),
-      });
-      console.log(pago, 'soy el pago');
-      
+      });  
             
       setSuccess(true);
     } catch (error) {
