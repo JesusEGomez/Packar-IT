@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
 import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
-import { IUserProduct } from "@/app/interfaces/userProduct.interface";
+
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
 import Viaje from "@/models/viajes";
+
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -18,12 +19,12 @@ export async function GET(request: Request) {
     console.log(user);
     if (user) {
       for (let product of user.envios) {
-        const response: IUserProduct | null = await Envio.findById(
-          product._id
-        ).lean();
-        console.log(response);
-        if (response) product.productos = response;
-        console.log(product);
+        const response = await Envio.findOne({
+          producto: product.productos[0]._id,
+        }).lean();
+        const finalTravel = { ...product.productos[0], EnvioInfo: response };
+        product.productos[0] = finalTravel;
+        console.log({ ...product.productos[0], EnvioInfo: response });
       }
     }
     return NextResponse.json(user);

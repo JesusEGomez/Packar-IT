@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ITravelDB } from "../interfaces/TravelDB.interface";
+import { ITravelDB, ITravelEnvioDB } from "../interfaces/TravelDB.interface";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 interface TravelEditModalProps {
   closeEditModal: () => void;
-  travel: ITravelDB;
+  travel: ITravelEnvioDB;
 }
 const TravelEditModal = ({ closeEditModal, travel }: TravelEditModalProps) => {
   console.log(travel);

@@ -46,29 +46,42 @@ const Page = ({ params }: { params: { id: string } }) => {
             </Button>
           </div>
 
-          <div className=" flex  items-center ">
-            <div className="sm:flex sm:flex-col sm:items-center">
-              <div className="flex w-80 sm:w-screen sm:p-5 sm:justify-around justify-between">
+          <div className=" flex    items-center ">
+            <div className="sm:flex flex-col items-center">
+              <div className="flex  sm:w-screen sm:p-5 sm:justify-around justify-between">
                 <div>
                   <h1 className="text-xl font-bold">{product.producto.name}</h1>
-                  {/* <p className='font-bold'>Paquete {envio.producto.size.toLowerCase()}</p> */}
-                  <p className=" text-sm text-gray-500">Paquete chico</p>
+                  <p className="text-gray-500">
+                    Paquete {product.producto.type.toLowerCase()}
+                  </p>
                 </div>
-                <h2 className="font-bold text-xl ">{`${75}€`}</h2>
+
+                {product.producto.size === "Pequeño" && (
+                  <h2 className="font-bold text-xl ">{`${product.driverFinded.precio[0].price}€`}</h2>
+                )}
+                {product.producto.size === "Mediano" && (
+                  <h2 className="font-bold text-xl ">{`${product.driverFinded.precio[1].price}€`}</h2>
+                )}
+                {product.producto.size === "Grande" && (
+                  <h2 className="font-bold text-xl ">{`${product.driverFinded.precio[2].price}€`}</h2>
+                )}
+                {product.producto.type === "Special" && (
+                  <h2 className="font-bold text-xl ">{`${75}€`}</h2>
+                )}
               </div>
 
-              <div className="flex h-2/5 p-3 items-center sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
-                <div className=" flex  flex-col gap-y-5 ">
+              <div className="flex flex-col w-80 h-2/5 p-3  sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
+                <div className=" flex   flex-col gap-y-3 ">
                   <div className="flex  flex-wrap gap-4">
-                    <p className="font-bold sm:text-xl sm:uppercase">
+                    <p className="font-bold sm:text-xl truncate sm:uppercase">
                       {product.desde.ciudad?.replaceAll("_", " ") + ""}
                     </p>
                     <p className="font-bold sm:text-xl ">
                       {product.driverFinded.horaSalida}
                     </p>
                   </div>
-                  <div className="flex gap-4">
-                    <p className="font-bold sm:text-xl sm:uppercase">
+                  <div className="flex  gap-4">
+                    <p className="font-bold sm:text-xl truncate sm:uppercase">
                       {product.hasta.ciudad?.replaceAll("_", " ")}
                     </p>
                     <p className="font-bold  sm:text-xl">
@@ -76,25 +89,18 @@ const Page = ({ params }: { params: { id: string } }) => {
                     </p>
                   </div>
                 </div>
-                <div className=" flex flex-col gap-3">
-                  <div className="flex gap-x-4">
+                <div className=" flex justify-center  gap-3">
+                  <div className="flex gap-x-2">
                     <Scan size={20} />
-                    <p className="font-bold">
-                      {
-                        // envio.producto.size == 'Pequeño' ? '64x30cm' :
-                        // envio.producto.size == 'Mediano'? '91x37cm' :
-                        "67x44cm"
-                      }
-                    </p>
+                    <p className="font-bold">{product.producto.size}</p>
                   </div>
-                  <div className="flex gap-x-4">
+                  <div className="flex gap-x-2">
                     <Weight size={20} />
-                    {/* <p className='font-bold'>{envio.producto.weigth}</p> */}
-                    <p className="font-bold">{"pequeño"}</p>
+                    <p className="font-bold">{product.producto.weigth}</p>
                   </div>
-                  <div className="flex gap-x-4">
+                  <div className="flex gap-x-2">
                     <FaRegCalendarAlt size={20} />
-                    <p className="font-bold">{product.findedDriver?.cuando}</p>
+                    <p className="font-bold">{product.driverFinded.cuando}</p>
                   </div>
                 </div>
               </div>

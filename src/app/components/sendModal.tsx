@@ -1,16 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { IUserProduct } from "../interfaces/userProduct.interface";
+
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { TbCubeSend } from "react-icons/tb";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useState } from "react";
 import ProductInfoModal from "./ProductInfoModal";
+import { IProductEnvio } from "../interfaces/productDB.interface";
 
 interface ISendModalProps {
   closeModal: () => void;
-  envios: [{ productos: IUserProduct; _id: string }] | undefined;
+  envios: [{ productos: [IProductEnvio]; _id: string }] | undefined;
 }
 export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
+  console.log(envios);
   const [open, setOpen] = useState(false);
   const [numberModal, setNumberModal] = useState<Number>();
   const closeInfoModal = () => {
@@ -32,7 +34,7 @@ export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
         {envios?.map((envio, i) => {
           return (
             <div
-              key={envio._id}
+              key={envio.productos[0]._id}
               className="w-full h-[90px] rounded-xl my-2    shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex"
             >
               <p className="text-5xl  w-1/5 text-pink">
@@ -40,10 +42,10 @@ export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
               </p>
               <div className="flex sm:flex-row sm:gap-x-4 w-2/4  flex-col">
                 <h3 className="font-bold ">
-                  {`Producto: ${envio.productos.producto.name}`}
+                  {`Producto: ${envio.productos[0].name}`}
                 </h3>
 
-                <p>{`Estado: ${envio.productos.estado}`}</p>
+                <p>{`Estado: ${envio.productos[0].EnvioInfo.estado}`}</p>
               </div>
 
               <button

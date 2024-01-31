@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { GiPathDistance } from "react-icons/gi";
-import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
+
+import { ITravelEnvioDB } from "@/app/interfaces/TravelDB.interface";
 import { CalendarDays, CheckCircle2, X, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import TravelEditModal from "@/app/components/TravelEditModal";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const [travel, setTravel] = useState<ITravelDB | null>(null);
+  const [travel, setTravel] = useState<ITravelEnvioDB | null>(null);
   const [open, setOpen] = useState(false);
   const [openTravel, setOpenTravel] = useState(false);
   const navigate = useRouter();
@@ -28,7 +28,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const fetTravelById = async (id: string) => {
     try {
       const response = await fetch(`/api/auth/getTravelById/?id=${id}`);
-      const newTravel = await response.json();
+      const newTravel: ITravelEnvioDB = await response.json();
       console.log(newTravel);
       setTravel(newTravel);
     } catch (error) {
@@ -175,7 +175,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       {open && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <SendModal closeModal={closeModal} envios={travel?.envios} />
+            <SendModal closeModal={closeModal} envios={travel?.envios!} />
           </div>
         </div>
       )}

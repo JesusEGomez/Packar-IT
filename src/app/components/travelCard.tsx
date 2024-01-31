@@ -37,15 +37,10 @@ const TravelCard = ({
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p className="text-gray-500">
-          <span className="bg-pink text-sm text-white rounded-lg p-1">
-            {eresFlexible ? "Flex" : null}
-          </span>{" "}
-          {`${horaSalida} - ${horaLlegada}`}
-        </p>
-        <h3 className="font-bold">{`${desde.ciudad} - ${hasta.ciudad}`}</h3>
+        <p className="text-gray-500">{`${horaSalida} - ${horaLlegada}`}</p>
+        <h3 className="font-bold truncate ">{`${desde.ciudad} - ${hasta.ciudad}`}</h3>
 
-        <p>{`${cuando}`}</p>
+        <p className="">{`${cuando}`}</p>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/viajes/${_id}`}>
