@@ -7,7 +7,7 @@ const FileInputComponent: React.FC = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
+    // console.log(file);
   };
 
   const handleDivClick = () => {
