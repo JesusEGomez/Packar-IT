@@ -1,100 +1,101 @@
-const cors = require("cors");
-const http = require("http");
-const { Server } = require("socket.io");
-const { getSession } = require("next-auth/react");
+import cors from "cors";
+import http from "http";
+import { Server } from "socket.io";
+import { getSession } from "next-auth/react";
+
+// Función para obtener el socket según el userId
+function findSocketByUserId(userId) {
+  return Array.from(io.sockets.sockets.values()).find(
+    (socket) => socket.userInfo && socket.userInfo.userId === userId
+  );
+}
 
 const httpServer = http.createServer();
 
-async function obtenerUserIdDeInicoSesion() {
-  const session = await getSession();
+// Variable para rastrear el estado de las notificaciones
+const notifications = {};
+
+async function obtenerUserIdDeInicoSesion(socket) {
+  const session = await getSession({ req: socket.request });
   if (session) {
-    // El usuario ha iniciado sesión, se puede acceder al userId y fullname
     return {
       userId: session.user.id,
       email: session.user.email,
       fullname: session.user.name,
     };
   } else {
-    // El usuario no ha iniciado sesión, manejar según sea necesario
     return null;
   }
 }
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
+    origin: ["http://localhost:3000", "https://packar-it.vercel.app"],
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", async (socket) => {
   console.log(
-    `A user connected: ${socket.userInfo ? socket.userInfo.email : "Guest"} - ${
-      socket.id
-    }`
+    `A user connected: ${socket.userInfo ? socket.userInfo.email : "Guest"} - ${socket.id}`
   );
 
-  // Manejar el evento "session" para recibir la información de sesión del cliente
-  /*   socket.on("session", async ({ session }) => {
-    console.log("Receivedssss session information:", session);
- */
-  // Puedes hacer lo que necesites con la información de sesión aquí
-  // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
-  // Asegúrate de implementar la lógica según tus necesidades específicas.
-});
+  // Accede a la información del usuario proporcionada al conectarse.
+  const userInfo = await obtenerUserIdDeInicoSesion(socket);
 
-// Accede a la información del usuario proporcionada al conectarse.
-const userInfo = obtenerUserIdDeInicoSesion();
+  if (userInfo) {
+    const { userId, fullname, email } = userInfo;
+    socket.userInfo = { userId, fullname, email };
+    console.log(`User ID: ${userId}, Fullname: ${fullname}`);
+  }
 
-if (userInfo) {
-  const { userId, fullname, email } = userInfo;
-  socket.userInfo = { userId, fullname, email };
-  console.log(`User ID: ${userId}, Fullname: ${fullname}`);
-}
-
-socket.on("disconnect", () => {
-  console.log("A user disconnected:", socket.id);
-});
-
-/*   socket.on("send_notification", (data) => {
-    console.log("Se ha recibido una notificación:", data);
-    // ... lógica adicional para manejar la notificación
-  }); */
-
-// Cambia el nombre del evento de "send_notification" a "send_message"
-socket.on("send_message", (data) => {
-  console.log("Mensaje recibido:", data);
-
-  // Transmitir el mensaje a todos los usuarios conectados
-  io.emit("receive_message", data);
-});
-
-/*   // Definición del evento "receive_notification"
-  socket.on("receive_notification", (data) => {
-    console.log("Se ha recibido una notificación:", data);
-    // ... lógica adicional para manejar la notificación
+  socket.on("disconnect", () => {
+    console.log("A user disconnected:", socket.id);
   });
- */
 
-/*   socket.on("crear_envio", (data) => {
-    console.log("Solicitud de envío recibida:", data);
+  socket.on("send_message", (data) => {
+    console.log("Mensaje recibido:", data);
+    socket.broadcast.emit("receive_message", data);
+    socket.broadcast.emit("alert_new_message", {
+      message: "Nuevo mensaje de !",
+    });
+  });
 
-    if (userInfo) {
-      const { userId, fullname } = userInfo;
-      console.log(`Envío creado por ${fullname}`);
-      // Aquí puedes agregar lógica adicional según las necesidades.
-      // Puedes enviar notificaciones, actualizar el estado del envío, etc.
-      io.emit("receive_notification", {
-        message: `Tu envío ha sido creado por ${fullname}.`,
-      });
-      console.log("Notificación enviada: Tu envío ha sido creado.");
-    } else {
-      console.log("Envío creado por un usuario no autenticado");
-      // Puedes manejar la lógica para usuarios no autenticados según sea necesario.
-      // Por ejemplo, podrías enviar una notificación genérica o ignorar el evento.
+  socket.on(
+    "send_notification_to_user",
+    ({ notificationId, recipientUserId, notification }) => {
+      const recipientSocket = findSocketByUserId(recipientUserId);
+      if (recipientSocket) {
+        notifications[notificationId] = { accepted: false, canceled: false };
+        recipientSocket.emit("receive_notification", {
+          notificationId,
+          notification,
+        });
+      }
     }
+  );
+
+  socket.on("accept_notification", ({ notificationId }) => {
+    const notification = notifications[notificationId];
+    if (notification?.accepted || notification?.canceled) {
+      return;
+    }
+
+    if (!notifications[notificationId]) {
+      notifications[notificationId] = { accepted: false, canceled: false };
+    }
+
+    notifications[notificationId].accepted = true;
+    const acceptingUser = socket.userInfo;
+
+    console.log("Usuario que aceptó la notificación:", acceptingUser);
+
+    io.to(socket.id).emit("notification_accepted", { notificationId });
+
+    console.log("Te aceptaron la notificación");
   });
- */
+});
+
 const PORT = 3001;
 httpServer.listen(PORT, () => {
   console.log(`Socket.io server is running on port ${PORT}`);

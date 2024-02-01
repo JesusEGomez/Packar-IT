@@ -5,7 +5,6 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
-import { useSession } from "next-auth/react";
 import MapComponent from "@/app/components/MapComponent";
 import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
@@ -17,7 +16,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
-import { Separator } from "@/components/ui/separator";
 
 type prod = {
   pequeño: {
@@ -32,6 +30,10 @@ type prod = {
     quantity: number;
     price: number;
   };
+  specialSize: {
+    quantity: number;
+    price: number;
+  }
   special: boolean;
 };
 
@@ -47,13 +49,14 @@ export interface ITravel {
   precio: [
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null },
+    { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
   ];
   horaSalida: string | null;
   horaLlegada: string | null;
   cuando: string | undefined;
   eresFlexible: boolean;
-  estado: boolean;
+  estado: string;
   envios: [];
   special: boolean;
 }
@@ -103,6 +106,10 @@ const Driver = () => {
         quantity: 0,
         price: 0,
       },
+      {
+        quantity: 0,
+        price: 0,
+      }
     ],
     horaSalida: "",
 
@@ -112,7 +119,7 @@ const Driver = () => {
 
     eresFlexible: true,
 
-    estado: false,
+    estado: 'pendiente',
     envios: [],
     special: false,
   });
@@ -126,6 +133,10 @@ const Driver = () => {
       price: 0,
     },
     grande: {
+      quantity: 0,
+      price: 0,
+    },
+    specialSize: {
       quantity: 0,
       price: 0,
     },
@@ -248,18 +259,18 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
+        selectedProductData.specialSize
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,
       cuando: stringDate,
       eresFlexible: flex,
-      estado: true,
+      estado: 'pendiente',
       envios: [],
       special: selectedProductData.special,
     };
-//hola
     search && setTravel(newTravel);
-    console.log("nuevoViaje", newTravel);
+    //console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (

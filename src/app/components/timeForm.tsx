@@ -20,8 +20,7 @@ function TimeForm(props: any) {
     formState: { errors },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
-
+    //console.log(data);
     props.closeModal(data);
   };
   const close = () => {

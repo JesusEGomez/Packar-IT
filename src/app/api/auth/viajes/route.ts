@@ -46,25 +46,10 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     horaSalida,
     horaLlegada,
     eresFlexible,
-    estado,
     precio,
     envios,
     special,
   } = await request.json();
-
-  console.log(
-    userId,
-    desde,
-    hasta,
-    cuando,
-    horaSalida,
-    horaLlegada,
-    eresFlexible,
-    estado,
-    precio,
-    envios,
-    special
-  );
 
   if (
     !userId ||
@@ -74,8 +59,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     !horaSalida ||
     !horaLlegada ||
     !precio ||
-    !envios ||
-    !special
+    !envios 
   ) {
     const missingFields = [];
 
@@ -111,7 +95,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: false,
+      estado: 'pendiente',
       precio,
       envios,
       special,

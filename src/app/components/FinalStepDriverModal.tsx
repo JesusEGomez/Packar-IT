@@ -23,11 +23,11 @@ function FinalDriverModal({
   flex,
 }: IPropsDriver) {
   const { postTravel } = useUserState((state) => state);
-  const [sendButton, setSendButton] = useState(true);
+  //const [sendButton, setSendButton] = useState(true);
 
   const sendTravel = async () => {
     const response = await postTravel(travel);
-    console.log("viaje enviado", response);
+    //console.log("viaje enviado", response);
     if (response) {
       Swal.fire({
         title: "¡Se ha publicado tu trayecto!",
