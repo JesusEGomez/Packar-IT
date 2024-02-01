@@ -3,7 +3,6 @@ import http from "http";
 import { Server } from "socket.io";
 import { getSession } from "next-auth/react";
 
-
 // Función para obtener el socket según el userId
 function findSocketByUserId(userId) {
   return Array.from(io.sockets.sockets.values()).find(
@@ -61,7 +60,6 @@ io.on("connection", async (socket) => {
       message: "Nuevo mensaje de !",
     });
   });
-});
 
   socket.on(
     "send_notification_to_user",
@@ -96,6 +94,7 @@ io.on("connection", async (socket) => {
 
     console.log("Te aceptaron la notificación");
   });
+});
 
 const PORT = 3001;
 httpServer.listen(PORT, () => {
