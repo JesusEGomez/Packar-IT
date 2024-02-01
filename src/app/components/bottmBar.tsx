@@ -69,7 +69,7 @@ const BottmBar = () => {
             } flex-col items-center text-xs`}
           >
             <CiDeliveryTruck size={30} />
-            Mis envios
+            Mis servicios
           </button>
         </li>
         <li>
