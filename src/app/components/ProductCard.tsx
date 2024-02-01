@@ -26,6 +26,7 @@ const stateClasses = {
   Cancelado: "text-red-500",
   Pendiente: "text-yellow-500",
   "En Curso": "text-green-500",
+  Entregado: "text-blue-500",
   Finalizado: "text-blue-500",
 };
 

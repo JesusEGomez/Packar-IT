@@ -17,6 +17,7 @@ interface IStateClases {
   Pendiente: string;
   "En Curso": string;
   Finalizado: string;
+  Entregado: string;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -25,6 +26,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     Cancelado: "text-red-500",
     Pendiente: "text-yellow-500",
     "En Curso": "text-green-500",
+    Entregado: "text-blue-500",
     Finalizado: "text-blue-500",
   };
   const navigate = useRouter();
