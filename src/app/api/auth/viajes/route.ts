@@ -46,25 +46,10 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     horaSalida,
     horaLlegada,
     eresFlexible,
-    estado,
     precio,
     envios,
     special,
   } = await request.json();
-
-  console.log(
-    userId,
-    desde,
-    hasta,
-    cuando,
-    horaSalida,
-    horaLlegada,
-    eresFlexible,
-    estado,
-    precio,
-    envios,
-    special
-  );
 
   // if (
   //   !userId ||
@@ -75,8 +60,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
   //   !horaLlegada ||
   //   !precio ||
   //   !envios ||
-  //   !special ||
-  //   !estado
+  //   !special
   // ) {
   //   const missingFields = [];
 
@@ -88,7 +72,6 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
   //   if (!horaLlegada) missingFields.push("horaLlegada");
   //   if (!precio) missingFields.push("precio");
   //   if (!envios) missingFields.push("envios");
-  //   if (!estado) missingFields.push("estado");
 
   //   console.log(missingFields);
   //   return NextResponse.json(
@@ -114,7 +97,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado,
+      estado: "pendiente",
       precio,
       envios,
       special,
