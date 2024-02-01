@@ -46,53 +46,38 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     horaSalida,
     horaLlegada,
     eresFlexible,
-    estado,
     precio,
     envios,
     special,
   } = await request.json();
 
-  console.log(
-    userId,
-    desde,
-    hasta,
-    cuando,
-    horaSalida,
-    horaLlegada,
-    eresFlexible,
-    estado,
-    precio,
-    envios,
-    special
-  );
+  // if (
+  //   !userId ||
+  //   !desde ||
+  //   !hasta ||
+  //   !cuando ||
+  //   !horaSalida ||
+  //   !horaLlegada ||
+  //   !precio ||
+  //   !envios ||
+  //   !special
+  // ) {
+  //   const missingFields = [];
 
-  if (
-    !userId ||
-    !desde ||
-    !hasta ||
-    !cuando ||
-    !horaSalida ||
-    !horaLlegada ||
-    !precio ||
-    !envios ||
-    !special
-  ) {
-    const missingFields = [];
+  //   if (!userId) missingFields.push("userId");
+  //   if (!desde) missingFields.push("desde");
+  //   if (!hasta) missingFields.push("hasta");
+  //   if (!cuando) missingFields.push("cuando");
+  //   if (!horaSalida) missingFields.push("horaSalida");
+  //   if (!horaLlegada) missingFields.push("horaLlegada");
+  //   if (!precio) missingFields.push("precio");
+  //   if (!envios) missingFields.push("envios");
 
-    if (!userId) missingFields.push("userId");
-    if (!desde) missingFields.push("desde");
-    if (!hasta) missingFields.push("hasta");
-    if (!cuando) missingFields.push("cuando");
-    if (!horaSalida) missingFields.push("horaSalida");
-    if (!horaLlegada) missingFields.push("horaLlegada");
-    if (!precio) missingFields.push("precio");
-    if (!envios) missingFields.push("envios");
-
-    return NextResponse.json(
-      { error: `Faltan campos obligatorios${missingFields.join(", ")}` },
-      { status: 400 }
-    );
-  }
+  //   return NextResponse.json(
+  //     { error: `Faltan campos obligatorios${missingFields.join(", ")}` },
+  //     { status: 400 }
+  //   );
+  // }
 
   try {
     const user = await User.findById(userId);

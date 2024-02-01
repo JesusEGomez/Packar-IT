@@ -65,7 +65,7 @@ export const SendProduct = (props: any) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    //console.log(values);
+    console.log(values);
     const fixedValues = { ...values, special: specials };
     hoverButton && props.closeModal(fixedValues);
     if (
@@ -207,7 +207,7 @@ export const SendProduct = (props: any) => {
               ></FormField>
             </div>
           </div>
-          <div className="w-full h-24  flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
             <div className="flex flex-col  justify-center items-center w-full">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
@@ -217,17 +217,19 @@ export const SendProduct = (props: any) => {
                 presiona el botón
               </p>
             </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={specialsHandler}
-                className="bg-rose-200 text-pink text-sm w-[70px] h-[24px] "
-              >
-                {specials ? "Cancelar" : "Aceptar"}
-              </Button>
-              {specials ? <CheckCircle2 className="text-green-400" /> : null}
+            <div className="flex flex-col gap-2 justify-center items-center">
+              <div className="flex gap-x-4 justify-center items-center">
+                <Button
+                  onClick={specialsHandler}
+                  className="bg-rose-200 text-pink mt-4 text-sm w-[70px] h-[24px] "
+                  >
+                  {specials ? "Cancelar" : "Aceptar"}
+                </Button>
+                {specials ? <CheckCircle2 className="text-green-400 mt-4" /> : null}
+              </div>
               {
-                specials && (
-                  <div className="border flex flex-col justify-center">
+                 (
+                  <div className="border flex flex-col m-2 p-2 justify-center">
                     <FormField
                     name="specialSize.quantity"
                     control={form.control}
@@ -235,7 +237,7 @@ export const SendProduct = (props: any) => {
                       <FormItem>
                         <FormLabel>Cantidad</FormLabel>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input disabled={!specials} type="number" {...field} />
                         </FormControl>
                       </FormItem>
                       )}
@@ -248,7 +250,7 @@ export const SendProduct = (props: any) => {
                       <FormItem>
                         <FormLabel>Precio $ </FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} />
+                            <Input disabled={!specials} type="number" {...field} />
                           </FormControl>
                         <FormMessage />
                       </FormItem>
