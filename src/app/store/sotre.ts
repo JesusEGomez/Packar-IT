@@ -5,7 +5,7 @@ import { ITravel } from "../loged/driver/page";
 import { ITravelDB } from "../interfaces/TravelDB.interface";
 
 import { IProfile } from "../interfaces/profile.interface";
-import { IUserProduct } from "../interfaces/userProduct.interface";
+import { IUserProductFull } from "../interfaces/userProduct.interface";
 
 interface UserState {
   user: IUser;
@@ -13,7 +13,7 @@ interface UserState {
   fetchUser: (email: string) => Promise<void>;
   postTravel: (travel: ITravel) => Promise<boolean | undefined>;
   travels: ITravelDB[];
-  products: IUserProduct[];
+  products: IUserProductFull[];
   profile: IProfile | null;
   fetchTravels: (id: string) => Promise<void>;
   fetchUserProducts: (id: string) => Promise<void>;

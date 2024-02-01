@@ -14,34 +14,23 @@ interface Message {
 }
 
 interface NotificationsHook {
-/*   sendNotification: (notificationData: NotificationData) => void;
- */
-/*   subscribeToNotifications: (
-    callback: (data: NotificationData) => void
-  ) => void;
- */
-  handleSendMessage: () => void; // Include handleSendMessage in the interface
+  handleSendMessage: () => void;
 }
 
 const useNotifications = (): NotificationsHook => {
-  const socketServerUrl = process.env.SOCKET_SERVER_URL || "http://localhost:3001";
+  const socketServerUrl = "https://socket-q0pz.onrender.com";
   const socket: Socket = io(socketServerUrl);
 
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
 
-
   useEffect(() => {
     const initializeSocket = async () => {
-      // Manejar el evento de conexión
       socket.on("connect", async () => {
         console.log("Conectado al servidor de sockets");
 
-        // Obtener la información de sesión y emitir el evento "session"
-/*         const session = await getSession();
-        console.log("Sending session information:ss", session);
-        socket.emit("session sss", { session });
- */
-        // ... otros eventos y lógica del socket
+        const session = await getSession();
+        console.log("Sending session information:", session);
+        socket.emit("session", { session });
       });
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);
@@ -54,18 +43,8 @@ const useNotifications = (): NotificationsHook => {
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
-/*   const sendNotification = (notificationData: NotificationData): void => {
-    socket.emit("send_notification", notificationData);
-  };
- */
-/*   const subscribeToNotifications = (
-    callback: (data: NotificationData) => void
-  ): void => {
-    socket.on("receive_notification", callback);
-  };
- */
   const handleSendMessage = async () => {
     try {
       const userSession = await getSession();
@@ -82,14 +61,13 @@ const useNotifications = (): NotificationsHook => {
         socket.emit("send_message", notificationData);
       } else {
         console.log("El usuario no está autenticado");
-        // Manejar la lógica para usuarios no autenticados según sea necesario
       }
     } catch (error) {
       console.error("Error al obtener la información del usuario:", error);
     }
   };
 
-  return { /* sendNotification */ handleSendMessage };
+  return { handleSendMessage };
 };
 
 export default useNotifications;

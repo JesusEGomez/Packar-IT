@@ -22,7 +22,7 @@ async function obtenerUserIdDeInicoSesion() {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000" || "https://packar-it.vercel.app",
     methods: ["GET", "POST"],
   },
 });
@@ -35,39 +35,39 @@ io.on("connection", async (socket) => {
   );
 
   // Manejar el evento "session" para recibir la información de sesión del cliente
-/*   socket.on("session", async ({ session }) => {
+  /*   socket.on("session", async ({ session }) => {
     console.log("Receivedssss session information:", session);
  */
-    // Puedes hacer lo que necesites con la información de sesión aquí
-    // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
-    // Asegúrate de implementar la lógica según tus necesidades específicas.
-  });
+  // Puedes hacer lo que necesites con la información de sesión aquí
+  // Por ejemplo, almacenarla en una variable de estado, asociarla con el socket, etc.
+  // Asegúrate de implementar la lógica según tus necesidades específicas.
+});
 
-  // Accede a la información del usuario proporcionada al conectarse.
-  const userInfo = await obtenerUserIdDeInicoSesion();
+// Accede a la información del usuario proporcionada al conectarse.
+const userInfo = obtenerUserIdDeInicoSesion();
 
-  if (userInfo) {
-    const { userId, fullname, email } = userInfo;
-    socket.userInfo = { userId, fullname, email };
-    console.log(`User ID: ${userId}, Fullname: ${fullname}`);
-  }
+if (userInfo) {
+  const { userId, fullname, email } = userInfo;
+  socket.userInfo = { userId, fullname, email };
+  console.log(`User ID: ${userId}, Fullname: ${fullname}`);
+}
 
-  socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
-  });
+socket.on("disconnect", () => {
+  console.log("A user disconnected:", socket.id);
+});
 
 /*   socket.on("send_notification", (data) => {
     console.log("Se ha recibido una notificación:", data);
     // ... lógica adicional para manejar la notificación
   }); */
 
-  // Cambia el nombre del evento de "send_notification" a "send_message"
-  socket.on("send_message", (data) => {
-    console.log("Mensaje recibido:", data);
+// Cambia el nombre del evento de "send_notification" a "send_message"
+socket.on("send_message", (data) => {
+  console.log("Mensaje recibido:", data);
 
-    // Transmitir el mensaje a todos los usuarios conectados
-    io.emit("receive_message", data);
-  });
+  // Transmitir el mensaje a todos los usuarios conectados
+  io.emit("receive_message", data);
+});
 
 /*   // Definición del evento "receive_notification"
   socket.on("receive_notification", (data) => {
@@ -95,8 +95,6 @@ io.on("connection", async (socket) => {
     }
   });
  */
-;
-
 const PORT = 3001;
 httpServer.listen(PORT, () => {
   console.log(`Socket.io server is running on port ${PORT}`);
