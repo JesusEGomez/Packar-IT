@@ -288,7 +288,7 @@ const Driver = () => {
                   onClick={fromHandler}
                   title={from || undefined}
                 >
-                  {<RiMapPinAddLine size={30} />}
+                  {<RiMapPinAddLine size={20} />}
                   {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
                 </button>
 
@@ -297,14 +297,14 @@ const Driver = () => {
                   onClick={toHandler}
                   title={to || undefined}
                 >
-                  <RiMapPin2Fill size={30} />
+                  <RiMapPin2Fill size={20} />
                   {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
                 </button>
                   <button
                     onClick={() => dateModalClose()}
                     className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                   >
-                    <FaRegCalendarAlt size={30} />
+                    <FaRegCalendarAlt size={20} />
                     {date
                       ? `${date.toLocaleDateString("es-AR", {
                           day: "2-digit",
@@ -318,7 +318,7 @@ const Driver = () => {
                     onClick={() => timeHandler()}
                     className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
                   >
-                    <IoTime size={30} />
+                    <IoTime size={20} />
                     {time === null ? (
                       "Hora "
                     ) : (
@@ -334,7 +334,7 @@ const Driver = () => {
               onClick={() => productsHandler()}
               className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
             >
-              <BsBoxSeam size={30} />
+              <BsBoxSeam size={20} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
 
