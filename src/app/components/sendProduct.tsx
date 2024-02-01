@@ -36,7 +36,7 @@ export const SendProduct = (props: any) => {
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
-    specialSize: z.object({
+    special: z.object({
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     })
@@ -57,7 +57,7 @@ export const SendProduct = (props: any) => {
         quantity: 0,
         price: 0,
       },
-      specialSize: {
+      special: {
         quantity: 0,
         price: 0,
       }
@@ -65,14 +65,14 @@ export const SendProduct = (props: any) => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    //console.log(values);
     const fixedValues = { ...values, special: specials };
     hoverButton && props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
       values.grande.quantity  ||
-      values.specialSize.quantity
+      values.special.quantity
     ) {
       props.setProductSelected(true);
     } else {
@@ -81,14 +81,14 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col m-6 p-4">
+    <div className="flex flex-col m-4 p-4">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className="text-2xl font-bold mb-4">¿Qué puedes enviar?</h1>
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 m-4">
             <div className="border-2 relative border-slate-300 rounded p-3">
               <div
                 style={{ top: "-1px", left: "-10px" }}
@@ -207,8 +207,8 @@ export const SendProduct = (props: any) => {
               ></FormField>
             </div>
           </div>
-          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
-            <div className="flex flex-col  justify-center items-center w-full">
+          <div className="w-full h-24  flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+            <div className="flex flex-col my-6 justify-center items-center w-full">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
               </h3>
@@ -217,40 +217,38 @@ export const SendProduct = (props: any) => {
                 presiona el botón
               </p>
             </div>
-            <div className="flex flex-col gap-2 justify-center items-center">
-              <div className="flex gap-x-4 justify-center items-center">
-                <Button
-                  onClick={specialsHandler}
-                  className="bg-rose-200 text-pink mt-4 text-sm w-[70px] h-[24px] "
-                  >
-                  {specials ? "Cancelar" : "Aceptar"}
-                </Button>
-                {specials ? <CheckCircle2 className="text-green-400 mt-4" /> : null}
-              </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={specialsHandler}
+                className="bg-rose-200 text-pink text-sm w-[70px] h-[24px] "
+              >
+                {specials ? "Cancelar" : "Aceptar"}
+              </Button>
+              {specials ? <CheckCircle2 className="text-green-400" /> : null}
               {
-                 (
-                  <div className="border flex flex-col m-2 p-2 justify-center">
+                specials && (
+                  <div>
                     <FormField
-                    name="specialSize.quantity"
+                    name="special.quantity"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Cantidad</FormLabel>
                         <FormControl>
-                          <Input disabled={!specials} type="number" {...field} />
+                          <Input type="number" {...field} />
                         </FormControl>
                       </FormItem>
                       )}
                     ></FormField>
 
                     <FormField
-                    name="specialSize.price"
+                    name="special.price"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Precio $ </FormLabel>
                           <FormControl>
-                            <Input disabled={!specials} type="number" {...field} />
+                            <Input type="number" {...field} />
                           </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -266,7 +264,7 @@ export const SendProduct = (props: any) => {
             onMouseEnter={() => setHoverButton(true)}
             onMouseLeave={() => setHoverButton(false)}
             variant={"ghost"}
-            className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
+            className="bg-pink text-white w-full p-3 m-6 rounded-xl font-bold text-lg mx-auto"
           >
             Cerrar
           </Button>
