@@ -30,6 +30,10 @@ type prod = {
     quantity: number;
     price: number;
   };
+  specialSize: {
+    quantity: number;
+    price: number;
+  }
   special: boolean;
 };
 
@@ -43,6 +47,7 @@ export interface ITravel {
   desde: { calle: string | null; pais: string | null; ciudad: string | null };
   hasta: { calle: string | null; pais: string | null; ciudad: string | null };
   precio: [
+    { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
@@ -101,6 +106,10 @@ const Driver = () => {
         quantity: 0,
         price: 0,
       },
+      {
+        quantity: 0,
+        price: 0,
+      }
     ],
     horaSalida: "",
 
@@ -124,6 +133,10 @@ const Driver = () => {
       price: 0,
     },
     grande: {
+      quantity: 0,
+      price: 0,
+    },
+    specialSize: {
       quantity: 0,
       price: 0,
     },
@@ -246,6 +259,7 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
+        selectedProductData.specialSize
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,

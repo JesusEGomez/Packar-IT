@@ -111,7 +111,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: false,
+      estado: 'pendiente',
       precio,
       envios,
       special,
