@@ -59,7 +59,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     !horaSalida ||
     !horaLlegada ||
     !precio ||
-    !envios 
+    !envios
   ) {
     const missingFields = [];
 
@@ -95,7 +95,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: 'pendiente',
+      estado: "pendiente",
       precio,
       envios,
       special,
