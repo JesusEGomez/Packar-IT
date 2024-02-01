@@ -3,19 +3,27 @@ const http = require("http");
 const { Server } = require("socket.io");
 const { getSession } = require("next-auth/react");
 
+// Función para obtener el socket según el userId
+function findSocketByUserId(userId) {
+  return Array.from(io.sockets.sockets.values()).find(
+    (socket) => socket.userInfo && socket.userInfo.userId === userId
+  );
+}
+
 const httpServer = http.createServer();
+
+// Variable para rastrear el estado de las notificaciones
+const notifications = {};
 
 async function obtenerUserIdDeInicoSesion() {
   const session = await getSession();
   if (session) {
-    // El usuario ha iniciado sesión, se puede acceder al userId y fullname
     return {
       userId: session.user.id,
       email: session.user.email,
       fullname: session.user.name,
     };
   } else {
-    // El usuario no ha iniciado sesión, manejar según sea necesario
     return null;
   }
 }
@@ -69,33 +77,62 @@ socket.on("send_message", (data) => {
   io.emit("receive_message", data);
 });
 
-/*   // Definición del evento "receive_notification"
-  socket.on("receive_notification", (data) => {
-    console.log("Se ha recibido una notificación:", data);
-    // ... lógica adicional para manejar la notificación
-  });
- */
+  // Agrega el código para enviar notificaciones a un usuario específico
+  socket.on(
+    "send_notification_to_user",
+    ({ notificationId, recipientUserId, notification }) => {
+      const recipientSocket = findSocketByUserId(recipientUserId);
+      if (recipientSocket) {
+        // Almacenar el estado inicial de la notificación
+        notifications[notificationId] = { accepted: false, canceled: false };
 
-/*   socket.on("crear_envio", (data) => {
-    console.log("Solicitud de envío recibida:", data);
-
-    if (userInfo) {
-      const { userId, fullname } = userInfo;
-      console.log(`Envío creado por ${fullname}`);
-      // Aquí puedes agregar lógica adicional según las necesidades.
-      // Puedes enviar notificaciones, actualizar el estado del envío, etc.
-      io.emit("receive_notification", {
-        message: `Tu envío ha sido creado por ${fullname}.`,
-      });
-      console.log("Notificación enviada: Tu envío ha sido creado.");
-    } else {
-      console.log("Envío creado por un usuario no autenticado");
-      // Puedes manejar la lógica para usuarios no autenticados según sea necesario.
-      // Por ejemplo, podrías enviar una notificación genérica o ignorar el evento.
+        recipientSocket.emit("receive_notification", {
+          notificationId,
+          notification,
+        });
+      }
     }
+  );
+
+  // Escuchar la aceptación de la notificación por parte de un usuario
+  // ...
+
+  // Escuchar la aceptación de la notificación por parte de un usuario
+
+  socket.on("accept_notification", ({ notificationId }) => {
+    const notification = notifications[notificationId];
+    if (notification?.accepted || notification?.canceled) {
+      return;
+    }
+  
+    // Initialize the notification if it doesn't exist
+    if (!notifications[notificationId]) {
+      notifications[notificationId] = { accepted: false, canceled: false };
+    }
+  
+    // Marcar la notificación como aceptada y enviar la confirmación al creador
+    notifications[notificationId].accepted = true;
+  
+    // Obtener la información del usuario que aceptó la notificación
+    const acceptingUser = socket.userInfo;
+  
+    // Guardar la información en el servidor o realiza la lógica que necesites
+    console.log("Usuario que aceptó la notificación:", acceptingUser);
+  
+    // Enviar la confirmación al creador de la notificación
+    io.to(socket.id).emit("notification_accepted", { notificationId });
+  
+    console.log("Te aceptaron la notificación");
   });
- */
+
 const PORT = 3001;
 httpServer.listen(PORT, () => {
   console.log(`Socket.io server is running on port ${PORT}`);
 });
+
+/** // Escuchar la cancelación de la notificación por parte de un usuario
+  socket.on("cancel_notification", ({ notificationId }) => {
+    // Marcar la notificación como cancelada y enviar la confirmación al creador
+    notifications[notificationId].canceled = true;
+    socket.emit("notification_canceled", { notificationId });
+  }); */
