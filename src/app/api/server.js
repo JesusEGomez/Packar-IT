@@ -96,7 +96,6 @@ io.on("connection", async (socket) => {
 
     console.log("Te aceptaron la notificación");
   });
-});
 
 const PORT = 3001;
 httpServer.listen(PORT, () => {
