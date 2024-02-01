@@ -36,7 +36,7 @@ export const SendProduct = (props: any) => {
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
-    special: z.object({
+    specialSize: z.object({
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     })
@@ -57,7 +57,7 @@ export const SendProduct = (props: any) => {
         quantity: 0,
         price: 0,
       },
-      special: {
+      specialSize: {
         quantity: 0,
         price: 0,
       }
@@ -72,7 +72,7 @@ export const SendProduct = (props: any) => {
       values.pequeño.quantity ||
       values.mediano.quantity ||
       values.grande.quantity  ||
-      values.special.quantity
+      values.specialSize.quantity
     ) {
       props.setProductSelected(true);
     } else {
@@ -227,9 +227,9 @@ export const SendProduct = (props: any) => {
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
               {
                 specials && (
-                  <div>
+                  <div className="border flex flex-col justify-center">
                     <FormField
-                    name="special.quantity"
+                    name="specialSize.quantity"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
@@ -242,7 +242,7 @@ export const SendProduct = (props: any) => {
                     ></FormField>
 
                     <FormField
-                    name="special.price"
+                    name="specialSize.price"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
