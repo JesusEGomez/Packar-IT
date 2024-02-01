@@ -100,7 +100,7 @@ const BottmBar = () => {
             onClick={handleAcceptNotification}
           >
             <MdOutlineMessage size={30} />
-            Aceptar Mensajesss
+            Aceptar Mensajesss 
           </button>
         </li>       
         <li>
