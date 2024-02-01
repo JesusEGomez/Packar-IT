@@ -36,10 +36,10 @@ export const SendProduct = (props: any) => {
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
-    special: z.object({
+    especial: z.object({
       quantity: z.coerce.number(),
       price: z.coerce.number(),
-    })
+    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -57,22 +57,22 @@ export const SendProduct = (props: any) => {
         quantity: 0,
         price: 0,
       },
-      special: {
+      especial: {
         quantity: 0,
         price: 0,
-      }
+      },
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    //console.log(values);
     const fixedValues = { ...values, special: specials };
+    console.log(fixedValues);
     hoverButton && props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
-      values.grande.quantity  ||
-      values.special.quantity
+      values.grande.quantity ||
+      values.especial.quantity
     ) {
       props.setProductSelected(true);
     } else {
@@ -225,11 +225,10 @@ export const SendProduct = (props: any) => {
                 {specials ? "Cancelar" : "Aceptar"}
               </Button>
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
-              {
-                specials && (
-                  <div>
-                    <FormField
-                    name="special.quantity"
+              {specials && (
+                <div>
+                  <FormField
+                    name="especial.quantity"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
@@ -238,25 +237,24 @@ export const SendProduct = (props: any) => {
                           <Input type="number" {...field} />
                         </FormControl>
                       </FormItem>
-                      )}
-                    ></FormField>
+                    )}
+                  ></FormField>
 
-                    <FormField
-                    name="special.price"
+                  <FormField
+                    name="especial.price"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Precio $ </FormLabel>
-                          <FormControl>
-                            <Input type="number" {...field} />
-                          </FormControl>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                    ></FormField>
-                  </div>
-                )
-              }
+                  ></FormField>
+                </div>
+              )}
             </div>
           </div>
           <Button
