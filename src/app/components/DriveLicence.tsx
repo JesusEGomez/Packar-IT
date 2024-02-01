@@ -207,7 +207,7 @@ export default function DriveLicense(props: any) {
         </button>
       </div>
       <div className="flex justify-items-start items-start">
-        <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
+        <p className="my-5 mx-4  text-gray-600 font-bold text-center">
           Sube tus documentos identificativos para poder verificar tu perfil.
           Los perfiles verificados generan más confianza dentro de la comunidad.
         </p>

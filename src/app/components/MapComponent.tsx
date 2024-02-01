@@ -103,11 +103,14 @@ function MapComponent(props: MapComponentProps) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <Button onClick={props.closeMapModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div style={{ height: "400px" }} ref={mapRef} />
+      <div
+      className={`map-container ${window.innerWidth < 768 ? "map-container-mobile" : ""}`}
+      ref={mapRef}
+    />
       <div className="p-2">
         <input
           className="bg-slate-200 rounded"

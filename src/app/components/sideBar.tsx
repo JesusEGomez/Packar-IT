@@ -94,7 +94,7 @@ const Sidebar = () => {
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
-        <div className="m-2 flex justify-evenly items-center">
+        <div className="m-2 flex justify-evenly z-index: 5 items-center ">
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>

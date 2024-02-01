@@ -17,7 +17,7 @@
   @apply h-screen w-full flex bg-white;
 }
 .sideBarClose {
-  @apply fixed right-0 bottom-0 translate-x-0 z-10 w-full md:w-1/5 transition-transform mr-1 h-screen overflow-y-auto  bg-white;
+  @apply fixed right-0 bottom-0 translate-x-0  w-full md:w-1/5 transition-transform mr-1 h-screen overflow-y-auto  bg-white;
 
   /* Responsivo en pantallas medianas (md) y más grandes */
   @screen md {
@@ -32,8 +32,18 @@
   }
 }
 .sideBarOpen {
-  @apply fixed  right-0 bottom-0  translate-y-full z-10 w-full md:w-1/5 transition-transform  h-screen bg-white;
+  @apply fixed  right-0 bottom-0  translate-y-full  w-full md:w-1/5 transition-transform  h-screen bg-white;
 }
 .sideBarIcon {
   @apply h-4 w-4 mr-2;
+}
+
+.map-container {
+  height: 400px;
+}
+
+@media (max-width: 767px) {
+  .map-container-mobile {
+    height: 250px;
+  }
 }

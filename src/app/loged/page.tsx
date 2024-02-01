@@ -166,11 +166,11 @@ const Loged = () => {
           height={150}
         />
       </div>
-      <div className="flex flex-col items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
-        <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
+      <div className="flex flex-col items-center flex-wrap align-content-center md:overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
+        <h1 className="font-bold text-center m-2">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-4 ">
           <form
-            className="flex flex-col items-center gap-y-8 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
+            className="flex flex-col items-center gap-y-8 p-2 md:h-1/2 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex  justify-center flex-col items-center overflow-y-auto gap-y-5 ">
@@ -181,7 +181,7 @@ const Loged = () => {
                   onClick={fromHandler}
                   title={from || undefined}
                 >
-                  {<RiMapPinAddLine size={30} />}
+                  {<RiMapPinAddLine size={20} />}
                   {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
                 </button>
                 <button
@@ -189,14 +189,14 @@ const Loged = () => {
                   onClick={toHandler}
                   title={to || undefined}
                 >
-                  <RiMapPin2Fill size={30} />
+                  <RiMapPin2Fill size={20} />
                   {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
                 </button>
                 <button
                   onClick={() => dateModalClose()}
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
-                  <FaRegCalendarAlt size={30} />
+                  <FaRegCalendarAlt size={20} />
                   {date
                     ? `${date.toLocaleDateString("es-AR", {
                         day: "2-digit",
@@ -209,7 +209,7 @@ const Loged = () => {
                   onClick={() => productsHandler()}
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
-                  <BsBoxSeam size={30} />
+                  <BsBoxSeam size={20} />
                   {selectedProductData
                     ? `${selectedProductData.name}`
                     : "Producto"}
