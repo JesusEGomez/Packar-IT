@@ -55,7 +55,7 @@ export default function PassportId(props: any) {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          // console.log(ans);
 
           const fileName = ans.secure_url.split("/").pop(); // Extrae el nombre del archivo de la URL
           if (!img2) {
@@ -98,8 +98,8 @@ export default function PassportId(props: any) {
   };
 
   const handleBotonPic = async () => {
-    console.log("Valor de img (front):", img2);
-    console.log("Valor de img1 (back):", img3);
+    // console.log("Valor de img (front):", img2);
+    // console.log("Valor de img1 (back):", img3);
     const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +125,7 @@ export default function PassportId(props: any) {
   };
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = e.target.value.toLowerCase();
-    console.log("Selected Type:", selectedType);
+    //console.log("Selected Type:", selectedType);
     setType(selectedType);
   };
   return (
