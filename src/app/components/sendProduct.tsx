@@ -36,6 +36,10 @@ export const SendProduct = (props: any) => {
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
+    special: z.object({
+      quantity: z.coerce.number(),
+      price: z.coerce.number(),
+    })
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,6 +57,10 @@ export const SendProduct = (props: any) => {
         quantity: 0,
         price: 0,
       },
+      special: {
+        quantity: 0,
+        price: 0,
+      }
     },
   });
 
@@ -63,7 +71,8 @@ export const SendProduct = (props: any) => {
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
-      values.grande.quantity
+      values.grande.quantity  ||
+      values.special.quantity
     ) {
       props.setProductSelected(true);
     } else {
@@ -216,6 +225,38 @@ export const SendProduct = (props: any) => {
                 {specials ? "Cancelar" : "Aceptar"}
               </Button>
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
+              {
+                specials && (
+                  <div>
+                    <FormField
+                    name="special.quantity"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cantidad</FormLabel>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
+                      </FormItem>
+                      )}
+                    ></FormField>
+
+                    <FormField
+                    name="special.price"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Precio $ </FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                    ></FormField>
+                  </div>
+                )
+              }
             </div>
           </div>
           <Button
