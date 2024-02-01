@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/server.js, src/app/components/Monedero.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/server.js, src/app/components/Monedero.tsx", "src/models/viajes.js", "src/models/user.js", "src/models/productos.js", "src/models/envios.js", "src/models/perfil.js"],
   "exclude": ["node_modules"]
 }
