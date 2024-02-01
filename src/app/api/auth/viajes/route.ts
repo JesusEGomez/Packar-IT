@@ -19,9 +19,9 @@ interface ViajeRequest {
   horaSalida: string;
   horaLlegada: string;
   eresFlexible: boolean;
-  estado: boolean;
-  precio: number;
-  envios: {}[];
+  estado: string;
+  precio: {}[];
+  envios: [];
   special: boolean;
 }
 
@@ -66,33 +66,36 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     special
   );
 
-  if (
-    !userId ||
-    !desde ||
-    !hasta ||
-    !cuando ||
-    !horaSalida ||
-    !horaLlegada ||
-    !precio ||
-    !envios ||
-    !special
-  ) {
-    const missingFields = [];
+  // if (
+  //   !userId ||
+  //   !desde ||
+  //   !hasta ||
+  //   !cuando ||
+  //   !horaSalida ||
+  //   !horaLlegada ||
+  //   !precio ||
+  //   !envios ||
+  //   !special ||
+  //   !estado
+  // ) {
+  //   const missingFields = [];
 
-    if (!userId) missingFields.push("userId");
-    if (!desde) missingFields.push("desde");
-    if (!hasta) missingFields.push("hasta");
-    if (!cuando) missingFields.push("cuando");
-    if (!horaSalida) missingFields.push("horaSalida");
-    if (!horaLlegada) missingFields.push("horaLlegada");
-    if (!precio) missingFields.push("precio");
-    if (!envios) missingFields.push("envios");
+  //   if (!userId) missingFields.push("userId");
+  //   if (!desde) missingFields.push("desde");
+  //   if (!hasta) missingFields.push("hasta");
+  //   if (!cuando) missingFields.push("cuando");
+  //   if (!horaSalida) missingFields.push("horaSalida");
+  //   if (!horaLlegada) missingFields.push("horaLlegada");
+  //   if (!precio) missingFields.push("precio");
+  //   if (!envios) missingFields.push("envios");
+  //   if (!estado) missingFields.push("estado");
 
-    return NextResponse.json(
-      { error: `Faltan campos obligatorios${missingFields.join(", ")}` },
-      { status: 400 }
-    );
-  }
+  //   console.log(missingFields);
+  //   return NextResponse.json(
+  //     { error: `Faltan campos obligatorios${missingFields.join(", ")}` },
+  //     { status: 400 }
+  //   );
+  // }
 
   try {
     const user = await User.findById(userId);
@@ -111,7 +114,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: false,
+      estado,
       precio,
       envios,
       special,
