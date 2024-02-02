@@ -30,7 +30,7 @@ type prod = {
     quantity: number;
     price: number;
   };
-  specialSize: {
+  especial: {
     quantity: number;
     price: number;
   };
@@ -136,7 +136,7 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
-    specialSize: {
+    especial: {
       quantity: 0,
       price: 0,
     },
@@ -226,8 +226,6 @@ const Driver = () => {
     } else {
       setSearch(false);
     }
-
-    console.log("flex", ciudadOrigen);
   }, [productSelected, flex, from, to, date, selectedProductData, time]);
 
   const felxhandler = () => {
@@ -241,7 +239,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-  console.log("Boton", hoverButton);
+
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
 
@@ -259,7 +257,7 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
-        selectedProductData.specialSize,
+        selectedProductData.especial,
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,

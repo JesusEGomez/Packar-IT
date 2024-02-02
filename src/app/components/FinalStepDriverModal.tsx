@@ -24,7 +24,7 @@ function FinalDriverModal({
 }: IPropsDriver) {
   const { postTravel } = useUserState((state) => state);
   //const [sendButton, setSendButton] = useState(true);
-
+  console.log(travel);
   const sendTravel = async () => {
     const response = await postTravel(travel);
     //console.log("viaje enviado", response);

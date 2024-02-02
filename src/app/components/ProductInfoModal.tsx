@@ -8,7 +8,7 @@ import { IProductEnvio } from "../interfaces/productDB.interface";
 
 interface IProductInfoProps {
   closeInfoModal: () => void;
-  product: [IProductEnvio];
+  product: IProductEnvio;
 }
 const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
   console.log(product);
@@ -18,10 +18,10 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
   const changeState = async () => {
     setLoading(true);
     try {
-      console.log({ ...product[0].EnvioInfo, estado: state });
+      console.log({ ...product.EnvioInfo, estado: state });
       const response = await fetch(`/api/auth/ProductById`, {
         method: "PATCH",
-        body: JSON.stringify({ ...product[0].EnvioInfo, estado: state }),
+        body: JSON.stringify({ ...product.EnvioInfo, estado: state }),
       });
 
       if (response.ok) {
@@ -45,14 +45,13 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         <div className="flex gap-4 flex-col">
           <div className="flex gap-x-2 text-lg ">
             <User />{" "}
-            <p>{` Nombre: ${product[0].EnvioInfo.recibe.nombreApellidos}`}</p>{" "}
+            <p>{` Nombre: ${product.EnvioInfo.recibe.nombreApellidos}`}</p>{" "}
           </div>
           <div className="flex  gap-x-2 text-lg">
-            <Phone />{" "}
-            <p>{`Telefono: ${product[0].EnvioInfo.recibe.telefono}`}</p>
+            <Phone /> <p>{`Telefono: ${product.EnvioInfo.recibe.telefono}`}</p>
           </div>
           <div className="flex gap-x-2 text-lg ">
-            <MailIcon /> <p>{`Mail: ${product[0].EnvioInfo.recibe.email}`}</p>
+            <MailIcon /> <p>{`Mail: ${product.EnvioInfo.recibe.email}`}</p>
           </div>
         </div>
       </div>
@@ -61,17 +60,17 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
           Modificar el Estado de Envio
         </label>
         <select onChange={stateHanlder} name="estado" id="estado">
-          <option defaultValue={product[0].EnvioInfo.estado}>
-            {product[0].EnvioInfo.estado}
+          <option defaultValue={product.EnvioInfo.estado}>
+            {product.EnvioInfo.estado}
           </option>
 
-          {product[0].EnvioInfo.estado === "Pendiente" ? (
+          {product.EnvioInfo.estado === "Pendiente" ? (
             <>
               <option value={"En Curso"}>En Curso</option>
               <option value={"Cancelado"}>Cancelado</option>
             </>
           ) : null}
-          {product[0].EnvioInfo.estado === "En Curso" ? (
+          {product.EnvioInfo.estado === "En Curso" ? (
             <option value={"Finalizado"}>Finalizado</option>
           ) : null}
         </select>
@@ -83,8 +82,8 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
           <Button
             className="bg-pink text-white rounded-lg"
             disabled={
-              product[0].EnvioInfo.estado === "Cancelado" ||
-              product[0].EnvioInfo.estado === "Finalizado"
+              product.EnvioInfo.estado === "Cancelado" ||
+              product.EnvioInfo.estado === "Finalizado"
             }
             onClick={changeState}
           >

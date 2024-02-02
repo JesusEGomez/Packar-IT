@@ -17,7 +17,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [open, setOpen] = useState(false);
   const [openTravel, setOpenTravel] = useState(false);
   const navigate = useRouter();
-  const size = ["Pequeño", "Mediano", "Grande"];
+  const size = ["Pequeño", "Mediano", "Grande", "Especial"];
   const closeModal = () => {
     setOpen(false);
   };
@@ -29,7 +29,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     try {
       const response = await fetch(`/api/auth/getTravelById/?id=${id}`);
       const newTravel: ITravelEnvioDB = await response.json();
-      console.log(newTravel);
       setTravel(newTravel);
     } catch (error) {
       console.error(error);
