@@ -29,7 +29,7 @@ function DateModal({
         selected={date}
         onSelect={(e) => dateModalHandler(e!)}
         className="rounded-md border"
-        disabled={(date: Date) => date < new Date()}
+        disabled={(date: Date) => date <= new Date()}
       />
     </div>
   );

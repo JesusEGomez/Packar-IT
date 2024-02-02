@@ -36,6 +36,10 @@ export const SendProduct = (props: any) => {
       quantity: z.coerce.number(),
       price: z.coerce.number(),
     }),
+    special: z.object({
+      quantity: z.coerce.number(),
+      price: z.coerce.number(),
+    })
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,17 +57,22 @@ export const SendProduct = (props: any) => {
         quantity: 0,
         price: 0,
       },
+      special: {
+        quantity: 0,
+        price: 0,
+      }
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    //console.log(values);
     const fixedValues = { ...values, special: specials };
     hoverButton && props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||
       values.mediano.quantity ||
-      values.grande.quantity
+      values.grande.quantity  ||
+      values.special.quantity
     ) {
       props.setProductSelected(true);
     } else {
@@ -72,14 +81,14 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col  p-4">
+    <div className="flex flex-col m-4 p-4">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className="text-2xl font-bold mb-4">¿Qué puedes enviar?</h1>
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 m-4">
             <div className="border-2 relative border-slate-300 rounded p-3">
               <div
                 style={{ top: "-1px", left: "-10px" }}
@@ -199,7 +208,7 @@ export const SendProduct = (props: any) => {
             </div>
           </div>
           <div className="w-full h-24  flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
-            <div className="flex flex-col  justify-center items-center w-full">
+            <div className="flex flex-col my-6 justify-center items-center w-full">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
               </h3>
@@ -216,6 +225,38 @@ export const SendProduct = (props: any) => {
                 {specials ? "Cancelar" : "Aceptar"}
               </Button>
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
+              {
+                specials && (
+                  <div>
+                    <FormField
+                    name="special.quantity"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cantidad</FormLabel>
+                        <FormControl>
+                          <Input type="number" {...field} />
+                        </FormControl>
+                      </FormItem>
+                      )}
+                    ></FormField>
+
+                    <FormField
+                    name="special.price"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Precio $ </FormLabel>
+                          <FormControl>
+                            <Input type="number" {...field} />
+                          </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                    ></FormField>
+                  </div>
+                )
+              }
             </div>
           </div>
           <Button
@@ -223,7 +264,7 @@ export const SendProduct = (props: any) => {
             onMouseEnter={() => setHoverButton(true)}
             onMouseLeave={() => setHoverButton(false)}
             variant={"ghost"}
-            className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
+            className="bg-pink text-white w-full p-3 m-6 rounded-xl font-bold text-lg mx-auto"
           >
             Cerrar
           </Button>

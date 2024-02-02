@@ -38,26 +38,19 @@ import {
   AccordionTrigger,
 } from "@radix-ui/react-accordion";
 import { AccordionItem } from "@/components/ui/accordion";
-import { IUser } from "../interfaces/user.interface";
 import useUserState from "../store/sotre";
 import Monedero from "./Monedero";
 
 const Sidebar = () => {
   const { data: session } = useSession();
   const { fetchUser } = useUserState((state) => state);
-  const { user } = useUserState((state) => state);
-  const [isLicenseModalOpen, setIsLicenseModalOpen] = useState(false);
-  const [isIdModalOpen, setIsIdModalOpen] = useState(false);
-  const [isCityModalOpen, setIsCityModalOpen] = useState(false);
-  const [isPhoneNumber, setIsPhoneNumber] = useState(false);
+  const [isIdModalOpen, setIsIdModalOpen] = useState<boolean>(false);
+  const [isCityModalOpen, setIsCityModalOpen] = useState<boolean>(false);
+  const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
 
   const closeMonedero = () => {
     setIsMonederoOpen(false);
-  };
-
-  const closeLicenceModal = () => {
-    setIsLicenseModalOpen(false);
   };
 
   const closeIdModal = () => {
@@ -186,28 +179,6 @@ const Sidebar = () => {
                 </AccordionItem>
               </Accordion>
             </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => {
-                      setIsLicenseModalOpen(true);
-                    }}
-                  >
-                    <Fingerprint className="sideBarIcon" />
-                    Licencia de Conducir
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p>{} </p>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
-            <CommandItem>
-              <FileCheck2 className="sideBarIcon" />
-              Vehículo
-            </CommandItem>
           </CommandGroup>
           <CommandItem>
             <Accordion type="single" collapsible>
@@ -241,13 +212,6 @@ const Sidebar = () => {
           </CommandGroup>
         </CommandList>
       </Command>
-      {isLicenseModalOpen && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
-            <DriveLicense closeLicenceModal={closeLicenceModal} />
-          </div>
-        </div>
-      )}
       {isIdModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">

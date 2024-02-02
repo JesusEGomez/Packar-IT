@@ -12,7 +12,7 @@ interface ISendModalProps {
   envios: [{ productos: [IProductEnvio]; _id: string }] | undefined;
 }
 export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
-  console.log(envios);
+  //console.log(envios);
   const [open, setOpen] = useState(false);
   const [numberModal, setNumberModal] = useState<Number>();
   const closeInfoModal = () => {
@@ -23,7 +23,7 @@ export const SendModal = ({ closeModal, envios }: ISendModalProps) => {
     setNumberModal(i);
     setOpen(true);
   };
-  console.log(envios);
+  //console.log(envios);
   return (
     <div className="flex w-screen  h-screen flex-col p-4">
       <Button className="w-14" onClick={closeModal} variant={"ghost"}>

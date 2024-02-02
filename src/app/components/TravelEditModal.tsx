@@ -7,7 +7,7 @@ interface TravelEditModalProps {
   travel: ITravelEnvioDB;
 }
 const TravelEditModal = ({ closeEditModal, travel }: TravelEditModalProps) => {
-  console.log(travel);
+  //console.log(travel);
   return (
     <div className="flex flex-col gap-y-5 p-4 border justify-center items-center bg-slate-100 rounded">
       <Button onClick={closeEditModal} variant={"ghost"}>

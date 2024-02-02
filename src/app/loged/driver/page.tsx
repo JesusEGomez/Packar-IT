@@ -5,7 +5,6 @@ import { RiMapPinAddLine } from "react-icons/ri";
 import { RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
-import { useSession } from "next-auth/react";
 import MapComponent from "@/app/components/MapComponent";
 import { getFormattedAddress } from "@/app/api/components/components";
 import TimeForm from "@/app/components/timeForm";
@@ -17,7 +16,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
-import { Separator } from "@/components/ui/separator";
 
 type prod = {
   pequeño: {
@@ -29,6 +27,10 @@ type prod = {
     price: number;
   };
   grande: {
+    quantity: number;
+    price: number;
+  };
+  specialSize: {
     quantity: number;
     price: number;
   };
@@ -47,13 +49,14 @@ export interface ITravel {
   precio: [
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null },
+    { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
   ];
   horaSalida: string | null;
   horaLlegada: string | null;
   cuando: string | undefined;
   eresFlexible: boolean;
-  estado: boolean;
+  estado: string;
   envios: [];
   special: boolean;
 }
@@ -103,6 +106,10 @@ const Driver = () => {
         quantity: 0,
         price: 0,
       },
+      {
+        quantity: 0,
+        price: 0,
+      },
     ],
     horaSalida: "",
 
@@ -112,7 +119,7 @@ const Driver = () => {
 
     eresFlexible: true,
 
-    estado: false,
+    estado: "pendiente",
     envios: [],
     special: false,
   });
@@ -129,6 +136,10 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
+    specialSize: {
+      quantity: 0,
+      price: 0,
+    },
     special: false,
   });
   const { user } = useUserState((state) => state);
@@ -140,11 +151,11 @@ const Driver = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    const fromArray = fromLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(fromArray[1]);
+    const fromArray = fromLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
-    setPaisOrigen(fromArray[fromArray.length -1]);
+    setPaisOrigen(fromArray[fromArray.length - 1]);
     setFrom(fromArray[0]);
   };
   const closeMapModal = () => {
@@ -176,11 +187,11 @@ const Driver = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    const toArray = toLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(toArray[1]);    
-    setCiudadDestino(city)
-    setPaisDestino(toArray[toArray.length -1])
+    const toArray = toLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = toArray[1].trim().replaceAll(" ", "-");
+    setCiudadDestino(city);
+    setPaisDestino(toArray[toArray.length - 1]);
     setTo(toArray[0]);
   };
 
@@ -248,18 +259,18 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
+        selectedProductData.specialSize,
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,
       cuando: stringDate,
       eresFlexible: flex,
-      estado: true,
+      estado: "pendiente",
       envios: [],
       special: selectedProductData.special,
     };
-//hola
     search && setTravel(newTravel);
-    console.log("nuevoViaje", newTravel);
+    //console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (
@@ -288,8 +299,12 @@ const Driver = () => {
                   onClick={fromHandler}
                   title={from || undefined}
                 >
-                  {<RiMapPinAddLine size={20} />}
-                  {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
+                  {<RiMapPinAddLine size={30} />}
+                  {from === null
+                    ? "Dirección Origen"
+                    : from.length > 20
+                    ? `${from.slice(0, 15)}.....`
+                    : `${from}`}
                 </button>
 
                 <button
@@ -297,37 +312,41 @@ const Driver = () => {
                   onClick={toHandler}
                   title={to || undefined}
                 >
-                  <RiMapPin2Fill size={20} />
-                  {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
+                  <RiMapPin2Fill size={30} />
+                  {to === null
+                    ? "Dirección Origen"
+                    : to.length > 20
+                    ? `${to.slice(0, 15)}.....`
+                    : `${to}`}
                 </button>
-                  <button
-                    onClick={() => dateModalClose()}
-                    className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
-                  >
-                    <FaRegCalendarAlt size={20} />
-                    {date
-                      ? `${date.toLocaleDateString("es-AR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}`
-                      : "Cuando"}
-                  </button>
+                <button
+                  onClick={() => dateModalClose()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                >
+                  <FaRegCalendarAlt size={30} />
+                  {date
+                    ? `${date.toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}`
+                    : "Cuando"}
+                </button>
 
-                  <button
-                    onClick={() => timeHandler()}
-                    className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
-                  >
-                    <IoTime size={20} />
-                    {time === null ? (
-                      "Hora "
-                    ) : (
-                      <div className="flex flex-col">
-                        <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
-                        <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
-                      </div>
-                    )}
-                  </button>
+                <button
+                  onClick={() => timeHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
+                >
+                  <IoTime size={30} />
+                  {time === null ? (
+                    "Hora "
+                  ) : (
+                    <div className="flex flex-col">
+                      <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
+                      <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
             <button

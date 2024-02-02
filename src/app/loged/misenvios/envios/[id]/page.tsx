@@ -77,11 +77,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 )}
               </div>
 
-              <div className="flex flex-col w-80 h-2/5 p-3  sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
+              <div className="flex flex-col sm:flex-row w-80 h-2/5 p-3  sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
                 <div className=" flex   flex-col gap-y-3 ">
                   <div className="flex  flex-wrap gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
-                      {product.desde.ciudad?.replaceAll("_", " ") + ""}
+                      {product.desde.ciudad?.replaceAll("-", " ") + ""}
                     </p>
                     <p className="font-bold sm:text-xl ">
                       {product.driverFinded.horaSalida}
@@ -89,14 +89,14 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </div>
                   <div className="flex  gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
-                      {product.hasta.ciudad?.replaceAll("_", " ")}
+                      {product.hasta.ciudad?.replaceAll("-", " ")}
                     </p>
                     <p className="font-bold  sm:text-xl">
                       {product.driverFinded.horaLlegada}
                     </p>
                   </div>
                 </div>
-                <div className=" flex justify-center  gap-3">
+                <div className=" flex sm:flex-col justify-center  gap-3">
                   <div className="flex gap-x-2">
                     <Scan size={20} />
                     <p className="font-bold">{product.producto.size}</p>

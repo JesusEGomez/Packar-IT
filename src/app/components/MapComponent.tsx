@@ -14,8 +14,7 @@ function MapComponent(props: MapComponentProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete>();
-  const [selectedPos, setSelectedPos] =
-    useState<google.maps.LatLngLiteral | null>(null);
+  const [selectedPos, setSelectedPos] = useState<google.maps.LatLngLiteral | null>(null);
 
   useEffect(() => {
     const loadMap = async () => {
