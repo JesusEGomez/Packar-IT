@@ -31,6 +31,7 @@ const TravelCard = ({
   _id,
   eresFlexible,
 }: ITravelCardProps) => {
+  console.log(_id);
   return (
     <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
       <p className="text-5xl  w-1/5 text-pink">

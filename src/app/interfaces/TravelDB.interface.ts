@@ -18,7 +18,7 @@ export interface ITravelDB {
   estado: boolean;
   envios: [
     {
-      productos: [IUserProduct];
+      productos: IUserProduct;
       _id: string;
     }
   ];
@@ -41,7 +41,7 @@ export interface ITravelEnvioDB {
   estado: boolean;
   envios: [
     {
-      productos: [IProductEnvio];
+      productos: IProductEnvio;
       _id: string;
     }
   ];
