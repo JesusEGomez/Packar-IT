@@ -217,7 +217,7 @@ export const SendProduct = (props: any) => {
                 presiona el botón
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 ">
               <Button
                 onClick={specialsHandler}
                 className="bg-rose-200 text-pink text-sm w-[70px] h-[24px] "
@@ -225,8 +225,9 @@ export const SendProduct = (props: any) => {
                 {specials ? "Cancelar" : "Aceptar"}
               </Button>
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
+            </div>
               {specials && (
-                <div>
+                <div className="mb-2">
                   <FormField
                     name="especial.quantity"
                     control={form.control}
@@ -255,14 +256,13 @@ export const SendProduct = (props: any) => {
                   ></FormField>
                 </div>
               )}
-            </div>
           </div>
           <Button
             type="submit"
             onMouseEnter={() => setHoverButton(true)}
             onMouseLeave={() => setHoverButton(false)}
             variant={"ghost"}
-            className="bg-pink text-white w-full p-3 m-6 rounded-xl font-bold text-lg mx-auto"
+            className="bg-pink text-white w-full p-3 m-2 rounded-xl font-bold text-lg mx-auto"
           >
             Cerrar
           </Button>
