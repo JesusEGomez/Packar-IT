@@ -38,7 +38,10 @@ const TravelCard = ({
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
         <p className="text-gray-500">{`${horaSalida} - ${horaLlegada}`}</p>
-        <h3 className="font-bold truncate ">{`${desde.ciudad} - ${hasta.ciudad}`}</h3>
+        <h3 className="font-bold truncate ">{`${desde.ciudad?.replaceAll(
+          "-",
+          " "
+        )} - ${hasta.ciudad?.replaceAll("-", " ")}`}</h3>
 
         <p className="">{`${cuando}`}</p>
       </div>
