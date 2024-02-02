@@ -207,7 +207,7 @@ export const SendProduct = (props: any) => {
               ></FormField>
             </div>
           </div>
-          <div className="w-full h-24  flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
             <div className="flex flex-col my-6 justify-center items-center w-full">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
