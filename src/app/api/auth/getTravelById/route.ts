@@ -37,3 +37,29 @@ export async function GET(request: Request) {
     );
   }
 }
+export async function PATCH(request: Request) {
+  try {
+    await connectDB();
+
+    const response: { _id: string; estado: string } = await request.json();
+    console.log(response);
+    if (!response) return NextResponse.json({ message: "Faltan datos" });
+
+    const envio = await Viaje.updateOne(
+      { _id: response._id },
+      { estado: response.estado }
+    );
+
+    console.log(envio);
+    return NextResponse.json(envio, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
