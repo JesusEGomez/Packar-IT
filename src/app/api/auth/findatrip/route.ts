@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     console.log("city:" + cityOrigin, "cityFinal:" + cityFinal);
     // Filtra los viajes basándose en los criterios especificados
     const viajes = await Viaje.find({
-      estado: "pendiente",
+      estado: "Pendiente",
     })
       .populate("usuario")
       .lean();

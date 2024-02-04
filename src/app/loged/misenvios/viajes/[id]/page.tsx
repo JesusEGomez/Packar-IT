@@ -16,10 +16,14 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [travel, setTravel] = useState<ITravelEnvioDB | null>(null);
   const [open, setOpen] = useState(false);
   const [openTravel, setOpenTravel] = useState(false);
+  const [update, setUpdate] = useState<boolean>(false);
   const navigate = useRouter();
   const size = ["Pequeño", "Mediano", "Grande", "Especial"];
   const closeModal = () => {
     setOpen(false);
+  };
+  const updateData = () => {
+    setUpdate(true);
   };
   const closeEditModal = () => {
     setOpenTravel(false);
@@ -38,7 +42,8 @@ const Page = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     fetTravelById(params.id);
     console.log(travel);
-  }, [params.id]);
+    setUpdate(false);
+  }, [params.id, update]);
   return (
     <div className="w-screen flex flex-col justify-center items-center">
       {travel ? (
@@ -55,7 +60,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             <div className=" flex sm:w-2/5 p-2 w-96 flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
               <div className="flex mb-2">
                 <div className="md:flex  items-center w-full">
-                  <div className="flex w-full flex-col">
+                  <div className="flex w-full sm:gap-y-2 flex-col">
                     <div className="flex w-full  items-center gap-x-2">
                       <FiMapPin />
                       <p>
@@ -63,7 +68,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         {`${travel.desde.pais}, ${travel.desde.calle}`}
                       </p>
                     </div>
-                    <div className="flex w-full  items-center gap-x-2">
+                    <div className="flex w-full   items-center gap-x-2">
                       <IoTime />
                       <p>
                         <span className="font-semibold">Salida:</span>
@@ -71,7 +76,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col w-full ">
+                  <div className="flex flex-col sm:gap-y-2  w-full ">
                     <div className="flex w-full  items-center gap-x-2">
                       <FiMapPin />
                       <p>
@@ -174,14 +179,22 @@ const Page = ({ params }: { params: { id: string } }) => {
       {open && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
-            <SendModal closeModal={closeModal} envios={travel?.envios!} />
+            <SendModal
+              updateData={updateData}
+              closeModal={closeModal}
+              travel={travel!}
+            />
           </div>
         </div>
       )}
       {openTravel && (
-        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
-            <TravelEditModal closeEditModal={closeEditModal} travel={travel!} />
+        <div className="fixed top-0  z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white  p-4 rounded-xl">
+            <TravelEditModal
+              updateData={updateData}
+              closeEditModal={closeEditModal}
+              travel={travel!}
+            />
           </div>
         </div>
       )}
