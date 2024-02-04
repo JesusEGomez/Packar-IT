@@ -32,6 +32,7 @@ export interface FormInputs {
   paisOrigen: string;
   ciudadDestino: string;
   paisDestino: string;
+  como: string;
 }
 type receptor = {
   nombreApellido: string;

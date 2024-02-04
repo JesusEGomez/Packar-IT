@@ -59,6 +59,7 @@ export interface ITravel {
   estado: string;
   envios: [];
   special: boolean;
+  como: string;
 }
 
 const Driver = () => {
@@ -122,6 +123,7 @@ const Driver = () => {
     estado: "pendiente",
     envios: [],
     special: false,
+    como: '',
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -266,9 +268,10 @@ const Driver = () => {
       estado: "pendiente",
       envios: [],
       special: selectedProductData.special,
+      como: data.como
     };
     search && setTravel(newTravel);
-    //console.log("nuevoViaje", newTravel);
+    console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (
@@ -354,6 +357,23 @@ const Driver = () => {
               <BsBoxSeam size={30} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
+
+            <div className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64">
+              <select
+              className="p-2 rounded bg-white text-slate-400 w-full"
+              id="como"
+              {...register("como", {
+                required: { value: true, message: "Campo requerido" },
+              })}
+              >
+                <option value="" disabled selected>¿Como viajas?</option>
+                <option value="auto">Auto</option>
+                <option value="avion">Avión</option>
+                <option value="bus">Bus</option>
+                <option value="motocicleta">Motocicleta</option>
+                <option value="tren">Tren</option>
+              </select>
+            </div>
 
             <div className="flex text-slate-400 gap-x-4 justify-center p-2 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />
