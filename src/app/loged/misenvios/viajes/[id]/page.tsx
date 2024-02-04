@@ -52,7 +52,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             </h2>
           </div>
           <div className=" flex flex-col gap-y-4 sm:justify-evenly  sm:flex-row sm:w-screen">
-            <div className=" flex sm:w-2/5 p-2 w-96 flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
+            <div className=" flex sm:w-2/5 p-2 w-[350px] flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
               <div className="flex mb-2">
                 <div className="md:flex  items-center w-full">
                   <div className="flex w-full flex-col">

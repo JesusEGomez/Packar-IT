@@ -188,7 +188,7 @@ function Confirmacion(props: any) {
         <div>
           {userHaveCard ? (
             <button
-              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
+              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl my-2 p-3"
               onClick={solicitarHandler}
             >
               Solicitar envio
@@ -196,7 +196,7 @@ function Confirmacion(props: any) {
           ) : (
             <div>
               <button
-                className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
+                className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl my-2 p-3"
                 onClick={() => setIsMonederoOpen(true)}
               >
                 Añade tu tarjeta
