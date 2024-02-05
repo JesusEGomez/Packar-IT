@@ -35,7 +35,7 @@ const Envios: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
+    <div className="w-full flex p-2 flex-col overflow-auto gap-2 justify-center items-center">
       {products.length ? (
         products.map((product) => {
           return (

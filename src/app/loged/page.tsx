@@ -167,6 +167,7 @@ const Loged = () => {
           height={150}
         />
       </div>
+      {/* hola */}
       <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-4 ">

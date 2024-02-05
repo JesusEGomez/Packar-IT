@@ -59,7 +59,7 @@ const useNotifications = (): NotificationsHook => {
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);
         console.log("Mensaje recibido en el cliente:" + data);
-        alert("Nuevo mensaje recibido "  + data);
+       // alert("Nuevo mensaje recibido "  + data);
       });
 
       socket.on("notification_accepted", ({ notificationId, acceptingUser }) => {
