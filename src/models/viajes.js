@@ -52,6 +52,9 @@ export const ViajeSchema = new Schema({
   special: {
     type: Boolean,
     default: false,
+  },
+  como: {
+    type: String,
   }
 
 });

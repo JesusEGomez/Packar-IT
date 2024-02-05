@@ -17,19 +17,7 @@
   @apply h-screen w-full flex bg-white;
 }
 .sideBarClose {
-  @apply fixed right-0 bottom-0 translate-x-0 z-10 w-full md:w-1/5 transition-transform mr-1 h-screen overflow-y-auto  bg-white;
-
-  /* Responsivo en pantallas medianas (md) y más grandes */
-  @screen md {
-    width: 35%; 
-    max-width: 300px;
-  }
-
-  /* Responsivo en pantallas grandes (lg) y más grandes */
-  @screen lg {
-    width: 30%; 
-    max-width: 300px; 
-  }
+  @apply fixed  right-0 bottom-20 top-0  translate-x-0 z-10 w-full  md:w-1/5 transition-transform  h-screen bg-white;
 }
 .sideBarOpen {
   @apply fixed  right-0 bottom-0  translate-y-full z-10 w-full md:w-1/5 transition-transform  h-screen bg-white;

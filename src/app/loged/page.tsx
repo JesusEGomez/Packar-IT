@@ -32,6 +32,7 @@ export interface FormInputs {
   paisOrigen: string;
   ciudadDestino: string;
   paisDestino: string;
+  como: string;
 }
 type receptor = {
   nombreApellido: string;
@@ -46,9 +47,7 @@ const Loged = () => {
   const [to, setTo] = useState<string | null>(null);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
-    null
-  );
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -168,8 +167,8 @@ const Loged = () => {
           height={150}
         />
       </div>
-      <div className="flex flex-col items-center flex-wrap align-content-center md:overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
-        <h1 className="font-bold text-xl mt-2 m-2">¿Que quieres enviar?</h1>
+      <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
+        <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-4 ">
           <form
             className="flex flex-col items-center gap-y-8 p-2 md:h-1/2 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"

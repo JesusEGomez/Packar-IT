@@ -74,11 +74,11 @@ function Page(props: any) {
 
   return (
     <div className="flex flex-col">
-      <div className="m-10">
+      {/* <div className="m-10">
         <button onClick={props.close}>
           <FaArrowLeft />
         </button>
-      </div>
+      </div> */}
       <div className="flex flex-col p-4 items-center">
         <h1 className="text-2xl font-bold">Solicita tu envío a un viajero</h1>
         <div className="border p-5">box</div>
@@ -93,7 +93,7 @@ function Page(props: any) {
           </p>
         </div>
         <button
-          onClick={() => navigate.push("/loged")}
+          onClick={props.justClose}
           className="flex w-full mt-20 justify-center bg-pink p-3 rounded text-white"
         >
           Volver

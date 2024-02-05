@@ -23,6 +23,7 @@ interface ViajeRequest {
   precio: number;
   envios: {}[];
   special: boolean;
+  como: string;
 }
 
 interface PutRequest {
@@ -49,6 +50,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     precio,
     envios,
     special,
+    como,
   } = await request.json();
 
   if (
@@ -95,10 +97,11 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: "pendiente",
+      estado: "Pendiente",
       precio,
       envios,
       special,
+      como,
     });
     const savedViaje = await nuevoViaje.save();
 

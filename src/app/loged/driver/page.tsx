@@ -30,7 +30,7 @@ type prod = {
     quantity: number;
     price: number;
   };
-  specialSize: {
+  especial: {
     quantity: number;
     price: number;
   };
@@ -59,6 +59,7 @@ export interface ITravel {
   estado: string;
   envios: [];
   special: boolean;
+  como: string;
 }
 
 const Driver = () => {
@@ -119,9 +120,10 @@ const Driver = () => {
 
     eresFlexible: true,
 
-    estado: "pendiente",
+    estado: "Pendiente",
     envios: [],
     special: false,
+    como: '',
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -136,7 +138,7 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
-    specialSize: {
+    especial: {
       quantity: 0,
       price: 0,
     },
@@ -226,8 +228,6 @@ const Driver = () => {
     } else {
       setSearch(false);
     }
-
-    console.log("flex", ciudadOrigen);
   }, [productSelected, flex, from, to, date, selectedProductData, time]);
 
   const felxhandler = () => {
@@ -241,7 +241,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-  console.log("Boton", hoverButton);
+
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
 
@@ -259,18 +259,19 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
-        selectedProductData.specialSize,
+        selectedProductData.especial,
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,
       cuando: stringDate,
       eresFlexible: flex,
-      estado: "pendiente",
+      estado: "Pendiente",
       envios: [],
       special: selectedProductData.special,
+      como: data.como
     };
     search && setTravel(newTravel);
-    //console.log("nuevoViaje", newTravel);
+    console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (
@@ -356,6 +357,23 @@ const Driver = () => {
               <BsBoxSeam size={20} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
+
+            <div className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64">
+              <select
+              className="p-2 rounded bg-white text-slate-400 w-full"
+              id="como"
+              {...register("como", {
+                required: { value: true, message: "Campo requerido" },
+              })}
+              >
+                <option value="" disabled selected>¿Como viajas?</option>
+                <option value="auto">Auto</option>
+                <option value="avion">Avión</option>
+                <option value="bus">Bus</option>
+                <option value="motocicleta">Motocicleta</option>
+                <option value="tren">Tren</option>
+              </select>
+            </div>
 
             <div className="flex text-slate-400 gap-x-4 justify-center p-2 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />
