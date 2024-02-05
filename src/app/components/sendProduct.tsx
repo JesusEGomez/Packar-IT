@@ -220,7 +220,7 @@ export const SendProduct = (props: any) => {
             <div className="flex gap-2 ">
               <Button
                 onClick={specialsHandler}
-                className="bg-rose-200 text-pink text-sm w-[70px] h-[24px] "
+                className="bg-rose-200 text-pink text-sm m-2 w-[70px] h-[24px] "
               >
                 {specials ? "Cancelar" : "Aceptar"}
               </Button>
