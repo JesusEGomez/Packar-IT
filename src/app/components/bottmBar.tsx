@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
-import useNotifications from "../hooks/useNotifications";
+
 import useUserState from "../store/sotre";
 import { sendNotification } from "../api/ably/Notifications";
 
@@ -18,31 +18,8 @@ const BottmBar = () => {
   const recipientUserId = "65ae71c9f52787741b7a26d9";
   const { user } = useUserState((state) => state);
 
-  const {
-    /* sendNotification, */ handleSendMessage,
-    subscribeToNotifications,
-    acceptNotification,
-    cancelNotification,
-    handleAcceptNotification,
-  } = useNotifications();
-
   const pathName = usePathname();
   const navigate = useRouter();
-
-  useEffect(() => {
-    // Suscribirse a las notificaciones al montar el componente
-    subscribeToNotifications((data: any) => {
-      // Manejar la lógica cuando se recibe una notificación
-      console.log("Notificación recibida:", data);
-      // Puedes agregar lógica adicional según tus necesidades
-    });
-
-    // Limpiar la suscripción cuando el componente se desmonta
-    return () => {
-      // Desuscribirse de las notificaciones
-      // (implementa la lógica de desuscripción según tus necesidades)
-    };
-  }, []); // El segundo arg
 
   return (
     //<div className="w-screen z-[999] fixed bottom-0 bg-white">
@@ -98,7 +75,6 @@ const BottmBar = () => {
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
-            onClick={handleAcceptNotification}
           >
             <MdOutlineMessage size={30} />
             Aceptar Mensajesss
