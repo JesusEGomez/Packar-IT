@@ -65,7 +65,7 @@ export default function LoginPage() {
           Iniciar sesión
         </h1>
         <h2 className="text-xl m-4 font-bold text-center text-defaultButton mb-3">
-          Encuentra tu mejor opcion al mejor precio.
+          Encuentra tu mejor opción al mejor precio.
         </h2>
         <label htmlFor="email" className="text-defaultButton">
           Email:
@@ -75,6 +75,10 @@ export default function LoginPage() {
           type="email"
           {...register("email", {
             required: { value: true, message: "Campo requerido" },
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "La dirección de correo electrónico debe ser válida",
+            },
           })}
         />
 
@@ -94,6 +98,11 @@ export default function LoginPage() {
           {...register("password", {
             required: { value: true, message: "Campo requerido" },
             minLength: { value: 8, message: "Mínimo 8 caracteres" },
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+              message:
+                "Debe incluir al menos una minúscula, una mayúscula y un número",
+            },
           })}
         />
 
