@@ -129,7 +129,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
       viajeId,
       { $push: { envios: { productos: data.producto } } },
       { new: true }
-    );
+    );   
 
     if (viajeActualizado) {
       // Actualizar los precios según la lógica deseada
@@ -144,7 +144,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
           viajeActualizado.precio[2].quantity -= 1;
           break;
         default:
-          console.log("prodSpecial");
+          viajeActualizado.precio[3].quantity -= 1;
       }
 
       // Guardar los cambios en la base de datos
