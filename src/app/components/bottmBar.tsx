@@ -6,13 +6,18 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
-import { io } from "socket.io-client";
+
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
+import useUserState from "../store/sotre";
+import { sendNotification } from "../api/ably/Notifications";
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
+  const recipientUserId = "65ae71c9f52787741b7a26d9";
+  const { user } = useUserState((state) => state);
+
   const {
     /* sendNotification, */ handleSendMessage,
     subscribeToNotifications,
@@ -81,7 +86,9 @@ const BottmBar = () => {
           className={`flex ${
             pathName === "/messages" ? "text-pink" : "text-slate-600"
           } flex-col items-center text-xs`}
-          onClick={handleSendMessage}
+          onClick={() =>
+            sendNotification(recipientUserId, `Holis este es mi id ${user._id}`)
+          }
         >
           <MdOutlineMessage size={30} />
           Mensajess
