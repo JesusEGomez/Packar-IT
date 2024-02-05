@@ -1,20 +1,22 @@
 "use client";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useContext } from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { MdOutlineMessage } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
-
+import useLocationNotification from "../hooks/geoLocalización";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 
-import useUserState from "../store/sotre";
+
+import useUserState from "../store/sotre";  // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
 import { sendNotification } from "../api/ably/Notifications";
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
+  const { sendLocationNotification } = useLocationNotification();
   const recipientUserId = "65ae71c9f52787741b7a26d9";
   const { user } = useUserState((state) => state);
 
@@ -22,7 +24,6 @@ const BottmBar = () => {
   const navigate = useRouter();
 
   return (
-    //<div className="w-screen z-[999] fixed bottom-0 bg-white">
     <div className="w-screen fixed bottom-0 bg-white">
       <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
@@ -60,21 +61,23 @@ const BottmBar = () => {
           </button>
         </li>
         <button
-          className={`flex ${
-            pathName === "/messages" ? "text-pink" : "text-slate-600"
-          } flex-col items-center text-xs`}
-          onClick={() =>
-            sendNotification(recipientUserId, `Holis este es mi id ${user._id}`)
-          }
-        >
-          <MdOutlineMessage size={30} />
-          Mensajess
-        </button>
+  className={`flex ${
+    pathName === "/messages" ? "text-pink" : "text-slate-600"
+  } flex-col items-center text-xs`}
+  onClick={() => {
+    sendNotification(recipientUserId, { content: "Hola, me llamo Packar-IT", location: { latitude: 37.7749, longitude: -122.4194 } });
+
+  }}
+>
+  <MdOutlineMessage size={30} />
+  Mensajess
+</button>
         <li>
           <button
             className={`flex ${
               pathName === "/messages" ? "text-pink" : "text-slate-600"
             } flex-col items-center text-xs`}
+            onClick={sendLocationNotification}
           >
             <MdOutlineMessage size={30} />
             Aceptar Mensajesss
@@ -95,4 +98,5 @@ const BottmBar = () => {
     </div>
   );
 };
+
 export default BottmBar;
