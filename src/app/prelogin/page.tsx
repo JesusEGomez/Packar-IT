@@ -19,7 +19,7 @@ function PreLogin() {
           })}
           href={"prelogin/register/login"}
         >
-          Iniciar sesion
+          Iniciar sesión
         </Link>
       </div>
     </div>
