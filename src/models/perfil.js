@@ -1,4 +1,4 @@
-// models/profile.js
+
 import { Schema, models, model } from "mongoose";
 
 const ProfileSchema = new Schema({
