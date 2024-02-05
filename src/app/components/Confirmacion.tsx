@@ -110,13 +110,13 @@ function Confirmacion(props: any) {
       userProps.customerId && setUserHaveCard(true);
     };
 
-    envio.producto.size == "especial"
-      ? setTotal(10)
+    envio.producto.type == "especial"
+      ? setTotal(driver.precio[3].price)
       : envio.producto.size == "Pequeño"
       ? setTotal(driver.precio[0].price)
       : envio.producto.size == "Mediano"
       ? setTotal(driver.precio[1].price)
-      : setTotal(driver.precio[2].price);
+      : setTotal(driver.precio[2].price)
 
     haveCard();
   }, [reload]);
@@ -188,7 +188,7 @@ function Confirmacion(props: any) {
         <div>
           {userHaveCard ? (
             <button
-              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
+              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl my-2 p-3"
               onClick={solicitarHandler}
             >
               Solicitar envio
@@ -196,7 +196,7 @@ function Confirmacion(props: any) {
           ) : (
             <div>
               <button
-                className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3"
+                className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl my-2 p-3"
                 onClick={() => setIsMonederoOpen(true)}
               >
                 Añade tu tarjeta

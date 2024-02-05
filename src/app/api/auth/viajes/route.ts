@@ -23,6 +23,7 @@ interface ViajeRequest {
   precio: number;
   envios: {}[];
   special: boolean;
+  como: string;
 }
 
 interface PutRequest {
@@ -46,25 +47,11 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     horaSalida,
     horaLlegada,
     eresFlexible,
-    estado,
     precio,
     envios,
     special,
+    como,
   } = await request.json();
-
-  console.log(
-    userId,
-    desde,
-    hasta,
-    cuando,
-    horaSalida,
-    horaLlegada,
-    eresFlexible,
-    estado,
-    precio,
-    envios,
-    special
-  );
 
   if (
     !userId ||
@@ -74,8 +61,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     !horaSalida ||
     !horaLlegada ||
     !precio ||
-    !envios ||
-    !special
+    !envios
   ) {
     const missingFields = [];
 
@@ -111,10 +97,11 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
       horaSalida,
       horaLlegada,
       eresFlexible,
-      estado: 'pendiente',
+      estado: "Pendiente",
       precio,
       envios,
       special,
+      como,
     });
     const savedViaje = await nuevoViaje.save();
 
@@ -142,7 +129,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
       viajeId,
       { $push: { envios: { productos: data.producto } } },
       { new: true }
-    );
+    );   
 
     if (viajeActualizado) {
       // Actualizar los precios según la lógica deseada
@@ -157,7 +144,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
           viajeActualizado.precio[2].quantity -= 1;
           break;
         default:
-          console.log("prodSpecial");
+          viajeActualizado.precio[3].quantity -= 1;
       }
 
       // Guardar los cambios en la base de datos

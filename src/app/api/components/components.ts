@@ -10,8 +10,15 @@ export const getFormattedAddress = async (location: myLocation) => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
-    const results = data.results[0].formatted_address;
-    if (results && results.length > 0) {
+
+    const number = data.results[0].address_components[0].long_name;
+    const street = data.results[0].address_components[1].long_name;
+    const city = data.results[0].address_components[2].long_name;
+    const formatted_address = data.results[0].formatted_address.split(",");
+    const country = formatted_address[formatted_address.length - 1].trim();
+    const results = `${number} ${street}, ${city}, ${country}`;
+    if (results) {
+      console.log(results);
       return results;
     } else {
       return "No se encontró ninguna dirección para la geoposición proporcionada.";

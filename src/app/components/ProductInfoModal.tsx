@@ -1,36 +1,56 @@
 import { Button } from "@/components/ui/button";
-import { IUserProduct } from "../interfaces/userProduct.interface";
+
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { Phone, MailIcon, User, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { IProductEnvio } from "../interfaces/productDB.interface";
+import Swal from "sweetalert2";
 
 interface IProductInfoProps {
   closeInfoModal: () => void;
-  product: [IProductEnvio];
+  product: IProductEnvio;
+  updateData: () => void;
+  estado: string;
 }
-const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
-  console.log(product);
+const ProductInfoModal = ({
+  closeInfoModal,
+  estado,
+  product,
+  updateData,
+}: IProductInfoProps) => {
+  console.log(estado);
   const [state, setState] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   const changeState = async () => {
     setLoading(true);
     try {
-      console.log({ ...product[0].EnvioInfo, estado: state });
-      const response = await fetch(`/api/auth/ProductById`, {
-        method: "PATCH",
-        body: JSON.stringify({ ...product[0].EnvioInfo, estado: state }),
-      });
+      console.log({ ...product.EnvioInfo, estado: state });
+      if (state) {
+        const response = await fetch(`/api/auth/ProductById`, {
+          method: "PATCH",
+          body: JSON.stringify({ ...product.EnvioInfo, estado: state }),
+        });
 
-      if (response.ok) {
+        if (response.ok) {
+          setLoading(false);
+          updateData();
+        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrió un error al modificar el estado",
+          confirmButtonColor: "#fe1252",
+          confirmButtonText: "Aceptar",
+        });
         setLoading(false);
-        location.reload();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
-  const stateHanlder = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const stateHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(event.target.value);
     setState(event.target.value);
   };
@@ -45,14 +65,13 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         <div className="flex gap-4 flex-col">
           <div className="flex gap-x-2 text-lg ">
             <User />{" "}
-            <p>{` Nombre: ${product[0].EnvioInfo.recibe.nombreApellidos}`}</p>{" "}
+            <p>{` Nombre: ${product.EnvioInfo.recibe.nombreApellidos}`}</p>{" "}
           </div>
           <div className="flex  gap-x-2 text-lg">
-            <Phone />{" "}
-            <p>{`Telefono: ${product[0].EnvioInfo.recibe.telefono}`}</p>
+            <Phone /> <p>{`Telefono: ${product.EnvioInfo.recibe.telefono}`}</p>
           </div>
           <div className="flex gap-x-2 text-lg ">
-            <MailIcon /> <p>{`Mail: ${product[0].EnvioInfo.recibe.email}`}</p>
+            <MailIcon /> <p>{`Mail: ${product.EnvioInfo.recibe.email}`}</p>
           </div>
         </div>
       </div>
@@ -60,18 +79,20 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
         <label htmlFor="estado" className="text-xl font-semibold">
           Modificar el Estado de Envio
         </label>
-        <select onChange={stateHanlder} name="estado" id="estado">
-          <option defaultValue={product[0].EnvioInfo.estado}>
-            {product[0].EnvioInfo.estado}
+        <select onChange={stateHandler} name="estado" id="estado">
+          <option disabled selected value={product.EnvioInfo.estado}>
+            {product.EnvioInfo.estado}
           </option>
 
-          {product[0].EnvioInfo.estado === "Pendiente" ? (
+          {product.EnvioInfo.estado === "Pendiente" ? (
             <>
-              <option value={"En Curso"}>En Curso</option>
+              {estado === "En Curso" ? (
+                <option value={"En Curso"}>En Curso</option>
+              ) : null}
               <option value={"Cancelado"}>Cancelado</option>
             </>
           ) : null}
-          {product[0].EnvioInfo.estado === "En Curso" ? (
+          {product.EnvioInfo.estado === "En Curso" ? (
             <option value={"Finalizado"}>Finalizado</option>
           ) : null}
         </select>
@@ -83,8 +104,8 @@ const ProductInfoModal = ({ closeInfoModal, product }: IProductInfoProps) => {
           <Button
             className="bg-pink text-white rounded-lg"
             disabled={
-              product[0].EnvioInfo.estado === "Cancelado" ||
-              product[0].EnvioInfo.estado === "Finalizado"
+              product.EnvioInfo.estado === "Cancelado" ||
+              product.EnvioInfo.estado === "Finalizado"
             }
             onClick={changeState}
           >

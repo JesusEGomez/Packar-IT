@@ -11,7 +11,6 @@ import { SidebarContext } from "../Provider";
 import Link from "next/link";
 import useNotifications from "../hooks/useNotifications";
 
-
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const {
@@ -24,8 +23,6 @@ const BottmBar = () => {
 
   const pathName = usePathname();
   const navigate = useRouter();
-
- 
 
   useEffect(() => {
     // Suscribirse a las notificaciones al montar el componente
@@ -42,12 +39,9 @@ const BottmBar = () => {
     };
   }, []); // El segundo arg
 
-
-
-
-
   return (
-    <div className="w-screen z-[999] fixed bottom-0 bg-white">
+    //<div className="w-screen z-[999] fixed bottom-0 bg-white">
+    <div className="w-screen fixed bottom-0 bg-white">
       <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>
@@ -100,9 +94,9 @@ const BottmBar = () => {
             onClick={handleAcceptNotification}
           >
             <MdOutlineMessage size={30} />
-            Aceptar Mensajesss 
+            Aceptar Mensajesss
           </button>
-        </li>       
+        </li>
         <li>
           <button
             onClick={sideBarControl}

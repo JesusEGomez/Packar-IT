@@ -26,6 +26,7 @@ const stateClasses = {
   Cancelado: "text-red-500",
   Pendiente: "text-yellow-500",
   "En Curso": "text-green-500",
+  Entregado: "text-blue-500",
   Finalizado: "text-blue-500",
 };
 
@@ -56,7 +57,10 @@ const ProductCard = ({
           </div>
         </div>
 
-        <p className="truncate ">{`${desde.ciudad} / ${hasta.ciudad}`}</p>
+        <p className="truncate ">{`${desde.ciudad?.replaceAll(
+          "-",
+          " "
+        )} / ${hasta.ciudad?.replaceAll("-", " ")}`}</p>
         <h3 className="font-bold ">{producto.name}</h3>
       </div>
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">

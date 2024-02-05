@@ -30,10 +30,10 @@ type prod = {
     quantity: number;
     price: number;
   };
-  specialSize: {
+  especial: {
     quantity: number;
     price: number;
-  }
+  };
   special: boolean;
 };
 
@@ -59,6 +59,7 @@ export interface ITravel {
   estado: string;
   envios: [];
   special: boolean;
+  como: string;
 }
 
 const Driver = () => {
@@ -109,7 +110,7 @@ const Driver = () => {
       {
         quantity: 0,
         price: 0,
-      }
+      },
     ],
     horaSalida: "",
 
@@ -119,9 +120,10 @@ const Driver = () => {
 
     eresFlexible: true,
 
-    estado: 'pendiente',
+    estado: "Pendiente",
     envios: [],
     special: false,
+    como: '',
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -136,7 +138,7 @@ const Driver = () => {
       quantity: 0,
       price: 0,
     },
-    specialSize: {
+    especial: {
       quantity: 0,
       price: 0,
     },
@@ -151,11 +153,11 @@ const Driver = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    const fromArray = fromLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(fromArray[1]);
+    const fromArray = fromLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
-    setPaisOrigen(fromArray[fromArray.length -1]);
+    setPaisOrigen(fromArray[fromArray.length - 1]);
     setFrom(fromArray[0]);
   };
   const closeMapModal = () => {
@@ -187,11 +189,11 @@ const Driver = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    const toArray = toLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(toArray[1]);    
-    setCiudadDestino(city)
-    setPaisDestino(toArray[toArray.length -1])
+    const toArray = toLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = toArray[1].trim().replaceAll(" ", "-");
+    setCiudadDestino(city);
+    setPaisDestino(toArray[toArray.length - 1]);
     setTo(toArray[0]);
   };
 
@@ -226,8 +228,6 @@ const Driver = () => {
     } else {
       setSearch(false);
     }
-
-    console.log("flex", ciudadOrigen);
   }, [productSelected, flex, from, to, date, selectedProductData, time]);
 
   const felxhandler = () => {
@@ -241,7 +241,7 @@ const Driver = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
-  console.log("Boton", hoverButton);
+
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
 
@@ -259,18 +259,19 @@ const Driver = () => {
         selectedProductData.pequeño,
         selectedProductData.mediano,
         selectedProductData.grande,
-        selectedProductData.specialSize
+        selectedProductData.especial,
       ],
       horaSalida: time.salida,
       horaLlegada: time.llegada,
       cuando: stringDate,
       eresFlexible: flex,
-      estado: 'pendiente',
+      estado: "Pendiente",
       envios: [],
       special: selectedProductData.special,
+      como: data.como
     };
     search && setTravel(newTravel);
-    //console.log("nuevoViaje", newTravel);
+    console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (
@@ -300,7 +301,11 @@ const Driver = () => {
                   title={from || undefined}
                 >
                   {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
+                  {from === null
+                    ? "Dirección Origen"
+                    : from.length > 20
+                    ? `${from.slice(0, 15)}.....`
+                    : `${from}`}
                 </button>
 
                 <button
@@ -309,36 +314,40 @@ const Driver = () => {
                   title={to || undefined}
                 >
                   <RiMapPin2Fill size={30} />
-                  {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
+                  {to === null
+                    ? "Dirección Origen"
+                    : to.length > 20
+                    ? `${to.slice(0, 15)}.....`
+                    : `${to}`}
                 </button>
-                  <button
-                    onClick={() => dateModalClose()}
-                    className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
-                  >
-                    <FaRegCalendarAlt size={30} />
-                    {date
-                      ? `${date.toLocaleDateString("es-AR", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}`
-                      : "Cuando"}
-                  </button>
+                <button
+                  onClick={() => dateModalClose()}
+                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                >
+                  <FaRegCalendarAlt size={30} />
+                  {date
+                    ? `${date.toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}`
+                    : "Cuando"}
+                </button>
 
-                  <button
-                    onClick={() => timeHandler()}
-                    className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
-                  >
-                    <IoTime size={30} />
-                    {time === null ? (
-                      "Hora "
-                    ) : (
-                      <div className="flex flex-col">
-                        <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
-                        <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
-                      </div>
-                    )}
-                  </button>
+                <button
+                  onClick={() => timeHandler()}
+                  className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
+                >
+                  <IoTime size={30} />
+                  {time === null ? (
+                    "Hora "
+                  ) : (
+                    <div className="flex flex-col">
+                      <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
+                      <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
             <button
@@ -348,6 +357,23 @@ const Driver = () => {
               <BsBoxSeam size={30} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
+
+            <div className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64">
+              <select
+              className="p-2 rounded bg-white text-slate-400 w-full"
+              id="como"
+              {...register("como", {
+                required: { value: true, message: "Campo requerido" },
+              })}
+              >
+                <option value="" disabled selected>¿Como viajas?</option>
+                <option value="auto">Auto</option>
+                <option value="avion">Avión</option>
+                <option value="bus">Bus</option>
+                <option value="motocicleta">Motocicleta</option>
+                <option value="tren">Tren</option>
+              </select>
+            </div>
 
             <div className="flex text-slate-400 gap-x-4 justify-center p-2 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />

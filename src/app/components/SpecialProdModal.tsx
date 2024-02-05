@@ -12,7 +12,9 @@ import { SlSizeFullscreen } from "react-icons/sl";
 type FormInputs = {
   type: string;
   name: string;
-  size: string
+  size1: string;
+  size2: string;
+  size3: string;
   weigth: string;
   photoProduct: string;
   articulosEspeciales: string;
@@ -67,7 +69,7 @@ const SpecialProdModal = (props: any) => {
     props.closeFirstModal({
       type: "Special",
       name: data.name,
-      size: data.size,
+      size: `${data.size1}x${data.size2}x${data.size3}`,
       weigth: data.weigth,
       photoProduct: img,
       articulosEspeciales: data.name,
@@ -75,7 +77,7 @@ const SpecialProdModal = (props: any) => {
     props.closeModal({
       type: "Special",
       name: data.name,
-      size: data.size,
+      size: `${data.size1}x${data.size2}x${data.size3}`,
       weigth: data.weigth,
       photoProduct: img,
       articulosEspeciales: data.name,
@@ -107,13 +109,33 @@ const SpecialProdModal = (props: any) => {
           />
         </div>
         <div className="flex items-center border-b m-auto w-full gap-x-2">
-        <SlSizeFullscreen className="text-slate-400 ml-4" size={20} />
+          <SlSizeFullscreen className="text-slate-400 ml-4" size={20} />
           <input
-            placeholder="Tamaño(cm x cm)"
-            className="p-3 text-slate-300"
+            placeholder="cm"
+            className="p-3 text-slate-300 w-16 rounded"
             type="text"
-            id="size"
-            {...register("size", {
+            id="size1"
+            {...register("size1", {
+              required: { value: false, message: "Campo requerido" },
+            })}
+          />
+          x
+          <input
+            placeholder="cm"
+            className="p-3 text-slate-300 w-16 rounded"
+            type="text"
+            id="size2"
+            {...register("size2", {
+              required: { value: false, message: "Campo requerido" },
+            })}
+          />
+          x
+          <input
+            placeholder="cm"
+            className="p-3 text-slate-300 w-16 rounded"
+            type="text"
+            id="size3"
+            {...register("size3", {
               required: { value: false, message: "Campo requerido" },
             })}
           />

@@ -26,8 +26,7 @@ interface NotificationsHook {
 }
 
 const useNotifications = (): NotificationsHook => {
-  const socketServerUrl =
-    process.env.SOCKET_SERVER_URL || "http://localhost:3001" ||  "https://socket-q0pz.onrender.com/";
+  const socketServerUrl = "https://socket-q0pz.onrender.com/";
   const socket: Socket = io(socketServerUrl);
 
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);

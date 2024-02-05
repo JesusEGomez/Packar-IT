@@ -32,6 +32,7 @@ export interface FormInputs {
   paisOrigen: string;
   ciudadDestino: string;
   paisDestino: string;
+  como: string;
 }
 type receptor = {
   nombreApellido: string;
@@ -68,11 +69,11 @@ const Loged = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    const fromArray = fromLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(fromArray[1]);
+    const fromArray = fromLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
-    setPaisOrigen(fromArray[fromArray.length -1]);
+    setPaisOrigen(fromArray[fromArray.length - 1]);
     setFrom(fromArray[0]);
   };
 
@@ -88,11 +89,11 @@ const Loged = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    const toArray = toLocation.split(',');
-    const extractCity = (str:string) => str.replace(/[\d\s\W]+/g, '').trim();
-    const city = extractCity(toArray[1]);    
-    setCiudadDestino(city)
-    setPaisDestino(toArray[toArray.length -1])
+    const toArray = toLocation.split(",");
+    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+    const city = toArray[1].trim().replaceAll(" ", "-");
+    setCiudadDestino(city);
+    setPaisDestino(toArray[toArray.length - 1]);
     setTo(toArray[0]);
   };
 
@@ -166,7 +167,8 @@ const Loged = () => {
           height={150}
         />
       </div>
-      <div className="flex flex-col items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
+      {/* hola */}
+      <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-4 ">
           <form
@@ -174,7 +176,6 @@ const Loged = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex  justify-center flex-col items-center overflow-y-auto gap-y-5 ">
-              
               <div className="flex flex-col items-center gap-y-4">
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
@@ -182,7 +183,11 @@ const Loged = () => {
                   title={from || undefined}
                 >
                   {<RiMapPinAddLine size={30} />}
-                  {from === null ? "Dirección Origen" : from.length > 20 ? `${from.slice(0,15)}.....` : `${from}`}
+                  {from === null
+                    ? "Dirección Origen"
+                    : from.length > 20
+                    ? `${from.slice(0, 15)}.....`
+                    : `${from}`}
                 </button>
                 <button
                   className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
@@ -190,7 +195,11 @@ const Loged = () => {
                   title={to || undefined}
                 >
                   <RiMapPin2Fill size={30} />
-                  {to === null ? "Dirección Origen" : to.length > 20 ? `${to.slice(0,15)}.....` : `${to}`}
+                  {to === null
+                    ? "Dirección Origen"
+                    : to.length > 20
+                    ? `${to.slice(0, 15)}.....`
+                    : `${to}`}
                 </button>
                 <button
                   onClick={() => dateModalClose()}
@@ -218,27 +227,24 @@ const Loged = () => {
             </div>
             <div>
               <div className="flex flex-row items-center justify-center">
-                {
-                  receptorInfo ? 
-                  (
+                {receptorInfo ? (
                   <button
                     onClick={() => searchHandler()}
-                    className={`bg-pink ${search ? "w-full" : "w-auto"} m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
-                  disabled={!search}
+                    className={`bg-pink ${
+                      search ? "w-full" : "w-auto"
+                    } m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
+                    disabled={!search}
                   >
                     Buscar
                   </button>
-                  )
-                  :
-                  (
+                ) : (
                   <button
                     className="bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-xl p-3"
                     onClick={() => receptorOpen()}
                   >
                     Datos del Receptor
                   </button>
-                  )
-                }                
+                )}
               </div>
             </div>
           </form>
