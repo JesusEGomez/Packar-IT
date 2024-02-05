@@ -41,7 +41,7 @@ const BottmBar = () => {
 
   return (
     //<div className="w-screen z-[999] fixed bottom-0 bg-white">
-    <div className="w-screen z-10 absolute bottom-0 bg-white">
+    <div className="w-screen fixed bottom-0 bg-white">
       <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
           <Link href={"/loged"}>
