@@ -10,7 +10,7 @@ export const getFormattedAddress = async (location: myLocation) => {
   try {
     const response = await fetch(apiUrl);
     const data = await response.json();
-    console.log(data);
+
     const number = data.results[0].address_components[0].long_name;
     const street = data.results[0].address_components[1].long_name;
     const city = data.results[0].address_components[2].long_name;

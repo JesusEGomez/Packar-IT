@@ -120,7 +120,7 @@ const Driver = () => {
 
     eresFlexible: true,
 
-    estado: "pendiente",
+    estado: "Pendiente",
     envios: [],
     special: false,
     como: '',
@@ -265,7 +265,7 @@ const Driver = () => {
       horaLlegada: time.llegada,
       cuando: stringDate,
       eresFlexible: flex,
-      estado: "pendiente",
+      estado: "Pendiente",
       envios: [],
       special: selectedProductData.special,
       como: data.como

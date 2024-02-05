@@ -38,7 +38,7 @@ export interface ITravelEnvioDB {
   horaLlegada: string | null;
   cuando: string | undefined;
   eresFlexible: boolean;
-  estado: boolean;
+  estado: string;
   envios: [
     {
       productos: IProductEnvio;
