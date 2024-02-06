@@ -114,13 +114,13 @@ function Page(props: any) {
                   <p className="text-xl">{viaje.usuario.fullname}</p>
                 </div>
                 <p>{`${
-                  props.open.type === "Special"
-                    ? "Confirma con el conductor"
+                  props.open.size === "Grande"
+                    ? `${viaje.precio[2].price}€`
                     : props.open.size === "Pequeño"
                     ? `${viaje.precio[0].price}€`
                     : props.open.size === "Mediano"
                     ? `${viaje.precio[1].price}€`
-                    : `${viaje.precio[2].price}€`
+                    : `${viaje.precio[3].price}€`
                 }`}</p>
               </div>
               <div>
