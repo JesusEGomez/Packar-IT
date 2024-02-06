@@ -97,12 +97,6 @@ export default function LoginPage() {
           type="password"
           {...register("password", {
             required: { value: true, message: "Campo requerido" },
-            minLength: { value: 8, message: "Mínimo 8 caracteres" },
-            pattern: {
-              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-              message:
-                "Debe incluir al menos una minúscula, una mayúscula y un número",
-            },
           })}
         />
 
@@ -145,3 +139,16 @@ export default function LoginPage() {
     </div>
   );
 }
+
+
+/*
+ {...register("password", {
+            required: { value: true, message: "Campo requerido" },
+            minLength: { value: 8, message: "Mínimo 8 caracteres" },
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+              message:
+                "Debe incluir al menos una minúscula, una mayúscula y un número",
+            },
+          })}
+*/

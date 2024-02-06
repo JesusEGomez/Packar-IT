@@ -17,9 +17,7 @@ import { sendNotification } from "../api/ably/Notifications";
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
   const { sendLocationNotification } = useLocationNotification();
-  const recipientUserId = "65ae71c9f52787741b7a26d9";
   const { user } = useUserState((state) => state);
-
   const pathName = usePathname();
   const navigate = useRouter();
 
@@ -64,10 +62,7 @@ const BottmBar = () => {
   className={`flex ${
     pathName === "/messages" ? "text-pink" : "text-slate-600"
   } flex-col items-center text-xs`}
-  onClick={() => {
-    sendNotification(recipientUserId, { content: "Hola, me llamo Packar-IT", location: { latitude: 37.7749, longitude: -122.4194 } });
-
-  }}
+  
 >
   <MdOutlineMessage size={30} />
   Mensajess
