@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Success from "./Success";
 import Monedero from "./Monedero";
+import { sendNotification } from "../api/ably/Notifications";
 
 function Confirmacion(props: any) {
   const { envio, driver } = props;
@@ -29,13 +30,8 @@ function Confirmacion(props: any) {
 
   const solicitarHandler = async () => {
     try {
-      // Create shipment
-      const shipmentResponse = await fetch("/api/auth/envio", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
+      //crear notificicion, enviarla con typo
+      const propsEnvio = {
           usuario: userId,
           desde: envio.desde,
           hasta: envio.hasta,
@@ -43,46 +39,68 @@ function Confirmacion(props: any) {
           producto: envio.producto,
           recibe: envio.recibe,
           driver: driver._id,
-        }),
-      });
+        }
 
-      if (!shipmentResponse.ok) {
-        throw new Error("Failed to create shipment");
-      }
+      sendNotification(driver._id, {content: JSON.stringify(propsEnvio)});
+      //.then ok
+      // const shipmentResponse = await fetch("/api/auth/envio", {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     usuario: userId,
+      //     desde: envio.desde,
+      //     hasta: envio.hasta,
+      //     cuando: envio.cuando,
+      //     producto: envio.producto,
+      //     recibe: envio.recibe,
+      //     driver: driver._id,
+      //   }),
+      // });
 
-      const shipmentData = await shipmentResponse.json();
+      // if (!shipmentResponse.ok) {
+      //   throw new Error("Failed to create shipment");
+      // }
+      // const shipmentData = await shipmentResponse.json();
+
+      
+      //crear el envio 
+      // Create shipment
+      
       // Add shipment to the trip
-      const updateResponse = await fetch("/api/auth/viajes", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify({
-          viajeId: driver._id,
-          data: shipmentData,
-          prod: shipmentData.producto,
-        }),
-      });
 
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update trip with shipment");
-      }
+      // const updateResponse = await fetch("/api/auth/viajes", {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "PUT",
+      //   body: JSON.stringify({
+      //     viajeId: driver._id,
+      //     data: shipmentData,
+      //     prod: shipmentData.producto,
+      //   }),
+      // });
 
-      const updated = await updateResponse.json();
-      console.log(updated, "soy updated");
+      // if (!updateResponse.ok) {
+      //   throw new Error("Failed to update trip with shipment");
+      // }
+
+      // const updated = await updateResponse.json();
+      // console.log(updated, "soy updated");
 
       //pagar
 
-      const pago = await fetch("/api/auth/pagar", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          userId: userId,
-          total,
-        }),
-      });
+      // const pago = await fetch("/api/auth/pagar", {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify({
+      //     userId: userId,
+      //     total,
+      //   }),
+      // });
 
       setSuccess(true);
     } catch (error) {
