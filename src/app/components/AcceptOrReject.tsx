@@ -2,10 +2,10 @@
 
 const AcceptOrReject = () => {
     return(
-        <div>
-            <h1>Tienes una solicitud de envio!!</h1>
-            <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl my-2 p-3">Aceptar</button>
-            <button className="bg-white w-full text-black border font-bold rounded-xl p-3">Rechazar</button>
+        <div className="flex flex-col gap-3 items-center justify-center p-2">
+            <h1 className="text-xl">Tienes una solicitud de envio!!</h1>
+            <button className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-xl p-3">Aceptar</button>
+            <button className="bg-white w-full text-black border font-bold rounded-xl p-3 hover:bg-slate-400">Rechazar</button>
         </div>
     )
 }
