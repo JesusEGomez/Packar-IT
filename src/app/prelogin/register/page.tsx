@@ -105,7 +105,7 @@ export default function Register() {
   };
 
   return (
-    <div className="user-managment-styles items-center justify-center  flex-col">
+    <div className="user-managment-styles items-stretch justify-center  flex-col mt-1 md:items-center ">
       <form
         className="flex flex-col p-4 gap-y-2"
         onSubmit={handleSubmit(onSubmit)}
