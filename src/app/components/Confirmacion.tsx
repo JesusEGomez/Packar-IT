@@ -40,8 +40,8 @@ function Confirmacion(props: any) {
           recibe: envio.recibe,
           driver: driver._id,
         }
-
-      sendNotification(driver._id, {content: JSON.stringify(propsEnvio)});
+        const conductor = "65c22715e1fdf7fb91000d05"
+      sendNotification(conductor, {content: JSON.stringify(propsEnvio)});
       //.then ok
       // const shipmentResponse = await fetch("/api/auth/envio", {
       //   headers: {
