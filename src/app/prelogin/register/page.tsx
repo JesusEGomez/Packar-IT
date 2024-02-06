@@ -105,9 +105,9 @@ export default function Register() {
   };
 
   return (
-    <div className="user-managment-styles items-center justify-center  flex-col">
+    <div className="w-full flex bg-white items-stretch justify-center  flex-col mt-0.5 md:items-center ">
       <form
-        className="flex flex-col p-4 gap-y-2"
+        className="flex flex-col p-4 gap-y-1"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Link href={"/prelogin"}>
