@@ -55,7 +55,7 @@ function FinalDriverModal({
   };
 
   return (
-    <div>
+    <div className="w-80 p-2">
       <Button onClick={() => closeModal()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -63,7 +63,7 @@ function FinalDriverModal({
         <h1 className="text-xl font-bold mb-4">Tu trayecto</h1>
         <FaExclamationCircle className="text-slate-400" />
       </div>
-      <div className="w-[450px] h-[155px] flex items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
+      <div className="p-2 flex items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
         <div>
           <div className="flex gap-5 mb-2">
             <GiPathDistance className={"text-pink"} size={50} />
@@ -76,12 +76,12 @@ function FinalDriverModal({
               </p>
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex my-2">
             <CalendarDays />
             {travel.cuando}
           </div>
         </div>
-        <div className="flex gap-2 w-full justify-center">
+        <div className="flex gap-2 flex-wrap w-full justify-center">
           <div className="border-2 mb-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Pequeño
@@ -124,6 +124,21 @@ function FinalDriverModal({
               <div className="flex   items-center ">
                 <p className="text-sm font-bold ">$</p>
                 <p className="text-sm font-bold">{travel.precio[2].price}</p>
+              </div>
+            </div>
+          </div>
+          <div className="border-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
+            <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
+              Especial
+            </div>
+            <div className="flex justify-evenly  ">
+              <div className="flex   items-center ">
+                <p className="text-sm font-bold ">#</p>
+                <p className="text-sm font-bold">{travel.precio[3].quantity}</p>
+              </div>
+              <div className="flex   items-center ">
+                <p className="text-sm font-bold ">$</p>
+                <p className="text-sm font-bold">{travel.precio[3].price}</p>
               </div>
             </div>
           </div>
