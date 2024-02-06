@@ -65,19 +65,9 @@ const BottmBar = () => {
   
 >
   <MdOutlineMessage size={30} />
-  Mensajess
+Notificaciones
 </button>
-        <li>
-          <button
-            className={`flex ${
-              pathName === "/messages" ? "text-pink" : "text-slate-600"
-            } flex-col items-center text-xs`}
-            onClick={sendLocationNotification}
-          >
-            <MdOutlineMessage size={30} />
-            Aceptar Mensajesss
-          </button>
-        </li>
+       
         <li>
           <button
             onClick={sideBarControl}

@@ -12,39 +12,27 @@ const useLocationNotification = () => {
 
   useEffect(() => {
     const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setLocation({ latitude, longitude });
-            console.log("Ubicación actualizada:", { latitude, longitude });
-          },
-          (error) => {
-            console.error("Error al obtener la ubicación:", error);
-          },
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 } // Configuración adicional
-        );
-      }
-    };
-
-    const fetchRecipientUserId = async () => {
-      try {
-        const response = await fetch("/api/recipientUserId");
-        const data = await response.json();
-        setRecipientUserId(data.recipientUserId);
-        console.log("ID del destinatario actualizado:", data.recipientUserId);
-      } catch (error) {
-        console.error("Error al obtener el ID del destinatario:", error);
-      }
-    };
-
-    getLocation();
-    fetchRecipientUserId();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              setLocation({ latitude, longitude });
+              console.log("Ubicación actualizada:", { latitude, longitude });
+            },
+            (error) => {
+              console.error("Error al obtener la ubicación:", error.message);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } 
+          );
+        } else {
+          console.error("La geolocalización no es compatible con este navegador");
+        }
+      };
 
     const locationInterval = setInterval(() => {
       getLocation();
-      console.log("Ubicación actualizada en intervalo:", location);
-    }, 240000);
+      console.log("Ubicación actualiza");
+    }, 50000);
 
     return () => {
       clearInterval(locationInterval);
