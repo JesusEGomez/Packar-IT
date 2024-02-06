@@ -2,6 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
 import Producto from "@/models/productos";
 import { NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
     try {
