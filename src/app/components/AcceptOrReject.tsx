@@ -1,6 +1,7 @@
 'use client'
 
 const AcceptOrReject = () => {
+    
     return(
         <div className="flex flex-col gap-3 items-center justify-center p-2">
             <h1 className="text-xl">Tienes una solicitud de envio!!</h1>
