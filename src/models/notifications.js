@@ -1,7 +1,10 @@
 import { Schema, models, model } from "mongoose";
+import { boolean } from "zod";
 
 const NotificationSchema = new Schema({
     type: { type: String, required: false },
+    estado: { type: String, enum: ["Pendiente", "Aceptado", "Rechazado"], default: 'Pendiente' },
+    visto: { type: Boolean, default: false},
     usuario: { type: String, required: false },
     desde: { calle: { type: String, required: false }, pais: { type: String, required: false }, ciudad: { type: String, required: false }},
     hasta: { calle: { type: String, required: false }, pais: { type: String, required: false }, ciudad: { type: String, required: false }},
