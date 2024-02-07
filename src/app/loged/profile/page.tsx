@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 function Profile() {
+  
   const formSchema = z.object({
     nombre: z.string(),
     email: z.string(),
