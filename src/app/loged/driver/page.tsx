@@ -275,13 +275,13 @@ const Driver = () => {
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col  w-full    items-center bg-pink">
+    <div className="flex flex-col w-full max-h-screen	items-center bg-pink">
       <Image
-        className="my-16  rounded-full"
+        className="my-8 rounded-full"
         src={"/step-3.svg"}
         alt="logo"
-        width={250}
-        height={250}
+        width={150}
+        height={150}
       />
       <div className="bg-white  rounded-t-3xl">
         {/* Contenido del segundo div */}
@@ -290,13 +290,12 @@ const Driver = () => {
         className="flex w-full justify-center"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" fixed  flex top-56   bg-white border rounded-xl">
-          <div className="flex flex-col  h-1/2 items-center gap-y-2">
+        <div className=" fixed  flex top-32 bg-white border rounded-xl max-h-lvh	">
+          <div className="flex flex-col  h-1/2 items-center md:gap-y-2">
             <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
-            <div className="flex flex-col items-center">
-              <div className="flex w-full gap-y-4 flex-col items-center  ">
+            <div className="flex flex-col text-center items-center gap-y-2 ">
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
                   onClick={fromHandler}
                   title={from || undefined}
                 >
@@ -309,7 +308,7 @@ const Driver = () => {
                 </button>
 
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
                   onClick={toHandler}
                   title={to || undefined}
                 >
@@ -322,7 +321,7 @@ const Driver = () => {
                 </button>
                 <button
                   onClick={() => dateModalClose()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
                 >
                   <FaRegCalendarAlt size={30} />
                   {date
@@ -336,31 +335,29 @@ const Driver = () => {
 
                 <button
                   onClick={() => timeHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64"
+                  className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64"
                 >
                   <IoTime size={30} />
                   {time === null ? (
                     "Hora "
                   ) : (
                     <div className="flex flex-col">
-                      <p>{`Salida: ${time?.salida ? time.salida : ""}`} </p>
-                      <p>{`Llegada: ${time?.llegada ? time.llegada : ""}`}</p>
+                      <p>{`Salida ${time?.salida ? time.salida : ""}`} - {`Llegada ${time?.llegada ? time.llegada : ""}`}</p>
                     </div>
                   )}
                 </button>
-              </div>
             </div>
             <button
               onClick={() => productsHandler()}
-              className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+              className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
             >
               <BsBoxSeam size={30} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
 
-            <div className="flex text-slate-400 gap-x-4 border-b items-center p-2 mx-4 w-64">
+            <div className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64">
               <select
-              className="p-2 rounded bg-white text-slate-400 w-full"
+              className="p-1 rounded bg-white text-slate-400 w-full"
               id="como"
               {...register("como", {
                 required: { value: true, message: "Campo requerido" },
@@ -389,7 +386,7 @@ const Driver = () => {
               onMouseEnter={() => setHoverButton(true)}
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-3"
+              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-2"
               disabled={!search}
             >
               Crear
