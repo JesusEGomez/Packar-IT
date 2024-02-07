@@ -8,7 +8,7 @@ const Success = () => {
             <div className="text-green-600">
                 <FaCheckCircle size={70} />
             </div>
-            <h1 className="text-3xl">¡Tu envio ha sido añadido con exito!</h1>
+            <h1 className="text-3xl">¡Tu envio ha sido solicitado con exito!</h1>
             <button onClick={() => router.push('/loged/misenvios')} className="bg-pink w-full text-white font-bold rounded-xl p-3">
                 Cerrar
             </button>
