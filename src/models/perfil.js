@@ -1,4 +1,3 @@
-
 import { Schema, models, model } from "mongoose";
 
 const ProfileSchema = new Schema({
@@ -53,6 +52,16 @@ const ProfileSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Notification",
   }],
+  location: {
+    type: {
+      latitude: Number,
+      longitude: Number,
+    },
+    address: String,
+    city: String,
+    country: String,
+    province: String,
+  },
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);
