@@ -27,23 +27,6 @@ export async function GET(request: Request) {
       (viaje) =>
         viaje.desde.ciudad === cityOrigin && viaje.hasta.ciudad === cityFinal
     );
-    // const filter2Viajes = filter1Viajes.filter(
-    //   (viaje) => viaje.hasta.ciudad === cityFinal
-    // );
-
-    // Mapea los viajes para agregar la información del usuario
-    // const viajesConUsuario = await Promise.all(
-    //   filter2Viajes.map(async (viaje) => {
-    //     const usuario: IUser | null = await User.findById(viaje.usuario).lean();
-
-    //     if (usuario) {
-    //       return {
-    //         ...viaje,
-    //         usuario: usuario, // Agrega la información del usuario al objeto del viaje
-    //       };
-    //     }
-    //   })
-    // );
     return NextResponse.json(filter1Viajes);
   } catch (error) {
     console.error(error);
