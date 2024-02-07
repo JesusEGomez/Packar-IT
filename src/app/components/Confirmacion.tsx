@@ -50,6 +50,7 @@ function Confirmacion(props: any) {
       });
       const newNotification = await info.json();
       console.log(newNotification);
+      setSuccess(true);
       
       //sendNotification(driver.usuario._id, {content: JSON.stringify(notification)});
       //.then ok
@@ -111,8 +112,6 @@ function Confirmacion(props: any) {
       //     total,
       //   }),
       // });
-
-      //setSuccess(true);
     } catch (error) {
       console.error(error);
     }

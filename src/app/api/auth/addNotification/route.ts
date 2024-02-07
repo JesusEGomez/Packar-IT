@@ -1,19 +1,30 @@
 import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
+import Notification from '@/models/notifications';
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
       await connectDB();
       const notification = await request.json();
-      console.log(notification);
-      const driver = await Profile.findOne({userId: notification.driver.usuario._id});
-      console.log(driver);
-      driver.notifications.push({data: notification, message:'se ha creado una solicitud de envio'});
+      //console.log(notification);
+      const newNotification = await new Notification(notification);
+      console.log(notification.driver.usuario._id);
+      const driverId = notification.driver.usuario._id
+      await newNotification.save();
+      //console.log(newNotification);
+      const driver = await Profile.findOne({ userId: driverId });
+      //console.log(driver);
+      
+      if (!driver) {
+        return NextResponse.json({ message: 'Perfil no encontrado' }, { status: 404 });
+      }
+
+      driver.notifications.push(newNotification);
       const saved = await driver.save();
       console.log(saved);
       
-      return NextResponse.json(saved);
+       return NextResponse.json(saved);
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
