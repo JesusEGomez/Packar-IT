@@ -11,63 +11,63 @@ interface ExtendedLocation extends BaseLocation {
   city?: string;
   country?: string;
   province?: string;
+  timestamp: number;
 }
 
 const useLocationNotification = () => {
   const [location, setLocation] = useState<ExtendedLocation | null>(null);
   const [recipientUserId, setRecipientUserId] = useState<string | null>(null);
+  const [locationHistory, setLocationHistory] = useState<ExtendedLocation[]>(
+    []
+  );
+
+  const LOCATION_UPDATE_INTERVAL = 50000;
 
   useEffect(() => {
-const getLocation = async () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        console.log('Got position:', position);
-        const { latitude, longitude } = position.coords;
-        if (latitude !== undefined && longitude !== undefined) {
-          try {
-            const response = await fetch(
-              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-            );
-            const data = await response.json();
-            console.log('Received data:', data);
-            setLocation({
-              latitude,
-              longitude,
-              address: data.localityInfo.administrative[2].name,
-              city: data.localityInfo.administrative[1].name,
-              province: data.localityInfo.administrative[0].name,
-              country: data.countryName,
-            });
-          } catch (error) {
-            console.error(
-              "Error al obtener la información de la ubicación:",
-              error
-            );
+    const getLocation = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            try {
+              const response = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+              );
+              const data = await response.json();
+              console.log(data);
+              setLocation({
+                latitude,
+                longitude,
+                timestamp: Date.now(),
+                address: data?.localityInfo?.administrative[2]?.name,
+                city: data?.localityInfo?.administrative[1]?.name,
+                province: data?.localityInfo?.administrative[0]?.name,
+                country: data?.countryName,
+              }); 
+              setLocationHistory([
+                ...locationHistory,
+                {
+                  latitude,
+                  longitude,
+                  timestamp: Date.now(),
+                },
+              ]);
+            } catch (error) {
+              console.error(error);
+            }
+          },
+          (error) => {
+            console.error(error);
           }
-        } else {
-          console.error("La latitud y la longitud no están definidas.");
-        }
-      },
-      (error) => {
-        console.error("Error al obtener la ubicación:", error.message);
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
-  } else {
-    console.error("La geolocalización no es compatible con este navegador");
-  }
-};
-
-    const locationInterval = setInterval(() => {
-      getLocation();
-      console.log("Ubicación actualiza");
-    }, 50000);
-
-    return () => {
-      clearInterval(locationInterval);
-      console.log("Temporizador limpiado");
+        );
+      } else {
+        console.error("Geolocalización no soportada");
+      }
     };
+
+    const locationInterval = setInterval(getLocation, LOCATION_UPDATE_INTERVAL);
+
+    return () => clearInterval(locationInterval);
   }, []);
 
   const sendLocationNotification = () => {
@@ -85,6 +85,9 @@ const getLocation = async () => {
   };
 
   return {
+    location,
+    locationHistory,
+    recipientUserId,
     sendLocationNotification,
   };
 };
