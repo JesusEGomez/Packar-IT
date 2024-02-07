@@ -157,10 +157,10 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center bg-pink overflow-y-auto overflow-visible    ">
+    <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible">
       <div>
         <Image
-          className="my-16 rounded-full"
+          className="my-8 rounded-full"
           src={logo}
           alt="logo"
           width={150}
@@ -168,17 +168,16 @@ const Loged = () => {
         />
       </div>
       {/* hola */}
-      <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed top-48 left-5 right-5 bg-white border rounded-xl ">
+      <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed max-h-lvh top-36 left-5 right-5 bg-white border rounded-xl ">
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
-        <div className="flex flex-col text-center items-center gap-y-4 ">
+        <div className="flex flex-col text-center items-center gap-y-2 ">
           <form
-            className="flex flex-col items-center gap-y-8 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
+            className="flex flex-col items-center gap-y-4 p-2 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="flex  justify-center flex-col items-center overflow-y-auto gap-y-5 ">
-              <div className="flex flex-col items-center gap-y-4">
+            <div className="flex flex-col items-center overflow-y-auto gap-y-3 ">
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                   onClick={fromHandler}
                   title={from || undefined}
                 >
@@ -190,7 +189,7 @@ const Loged = () => {
                     : `${from}`}
                 </button>
                 <button
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                   onClick={toHandler}
                   title={to || undefined}
                 >
@@ -203,7 +202,7 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => dateModalClose()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
                   <FaRegCalendarAlt size={30} />
                   {date
@@ -216,14 +215,13 @@ const Loged = () => {
                 </button>
                 <button
                   onClick={() => productsHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
+                  className="flex items-center text-slate-400 gap-x-4 border-b p-2 mx-4 w-64"
                 >
                   <BsBoxSeam size={30} />
                   {selectedProductData
                     ? `${selectedProductData.name}`
                     : "Producto"}
                 </button>
-              </div>
             </div>
             <div>
               <div className="flex flex-row items-center justify-center">
@@ -239,7 +237,7 @@ const Loged = () => {
                   </button>
                 ) : (
                   <button
-                    className="bg-pink w-full disabled:opacity-70 m-2 text-white font-bold rounded-xl p-3"
+                    className="bg-pink w-full disabled:opacity-70 m-1 text-white font-bold rounded-xl p-2"
                     onClick={() => receptorOpen()}
                   >
                     Datos del Receptor

@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react";
 import useUserState from "../store/sotre";
 import { useRouter } from "next/navigation";
 import ably from "@/app/api/ably/ably";
+import { connectDB } from "@/libs/mongodb";
+import Profile from "@/models/perfil";
 
 function layout({ children }: React.PropsWithChildren) {
   const { data: session } = useSession();
@@ -21,14 +23,17 @@ function layout({ children }: React.PropsWithChildren) {
     }
     if (status === "unauthenticated") {
       navigation.push("/onboarding");
-    } else if (!isSubscribed) {
+    }
+    // } else if (!isSubscribed) {
       // Suscribirse al canal de notificaciones solo si no hemos suscrito antes
       const channel = ably.channels.get(notificationChannelName);
       channel.subscribe((message) => {
         alert(`Mensaje recibido: ${message.data.content}`);
+        console.log(message);
+        
       });
       setIsSubscribed(true); // Marcar que ya nos hemos suscrito
-    }
+    //}
   }, [navigation, status, notificationChannelName, isSubscribed]);
 
   return (
