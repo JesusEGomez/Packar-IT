@@ -7,12 +7,12 @@ import User from "@/models/user";
 
 export async function PUT(request: Request) {
   await connectDB();
-  const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications } =
+  const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications , location } =
     await request.json();
 
-  if (!userId) {
-    return NextResponse.json({ message: "Id requerido" });
-  }
+    if (!userId || !location) {
+      return NextResponse.json({ message: "Se requiere ID de usuario y datos de ubicación" });
+    }
 
   try {
     // Obtén el email del usuario utilizando la referencia al modelo de usuario
@@ -39,6 +39,7 @@ export async function PUT(request: Request) {
         city,
         phoneNumber,
         notifications,
+        location,
       });
 
       await profile.save();
@@ -49,6 +50,7 @@ export async function PUT(request: Request) {
       if (city) profile.city = city;
       if (phoneNumber) profile.phoneNumber = phoneNumber;
       if (notifications) profile.notifications = notifications;
+      if (location) profile.location = location;
 
       await profile.save();
     }
@@ -103,6 +105,7 @@ export async function GET(request: Request) {
         city: profile.city || "",
         phoneNumber: profile.phoneNumber || "",
         notifications: profile.notifications || [],
+        location: profile.location || {},
 
         __v: profile.__v || 0,
       };
