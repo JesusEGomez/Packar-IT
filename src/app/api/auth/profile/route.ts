@@ -1,13 +1,11 @@
-
 import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
 import User from "@/models/user";
 
-
 export async function PUT(request: Request) {
   await connectDB();
-  const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications } =
+  const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications, routes } =
     await request.json();
 
   if (!userId) {
@@ -26,7 +24,6 @@ export async function PUT(request: Request) {
 
     const userEmail = user.email || "CorreoNoDefinido";
 
-  
     let profile = await Profile.findOne({ userId });
 
     if (!profile) {
@@ -39,6 +36,7 @@ export async function PUT(request: Request) {
         city,
         phoneNumber,
         notifications,
+        routes, // Agrega las rutas al perfil
       });
 
       await profile.save();
@@ -49,6 +47,7 @@ export async function PUT(request: Request) {
       if (city) profile.city = city;
       if (phoneNumber) profile.phoneNumber = phoneNumber;
       if (notifications) profile.notifications = notifications;
+      if (routes) profile.routes = routes; // Actualiza las rutas
 
       await profile.save();
     }
@@ -71,52 +70,3 @@ export async function PUT(request: Request) {
     );
   }
 }
-
-export async function GET(request: Request) {
-  try {
-    const profiles = await Profile.find()
-      .populate({
-        path: "userId",
-        select: "email fullname",
-      })
-      .populate("driverLicense")
-      .populate("idDocument");
-
-    const profilesWithUserDetails = profiles.map((profile) => {
-      return {
-        _id: profile._id,
-        userId: {
-          _id: profile.userId?._id || null,
-          email: profile.userId?.email || "CorreoNoDefinido",
-          fullname: profile.userId?.fullname || "NombreNoDefinido",
-        },
-        driverLicense: {
-          frontPhoto: profile.driverLicense?.frontPhoto || "",
-          backPhoto: profile.driverLicense?.backPhoto || "",
-        },
-        idDocument: {
-          type: profile.idDocument?.type || "",
-          number: profile.idDocument?.number || "",
-          frontPhoto: profile.idDocument?.frontPhoto || "",
-          backPhoto: profile.idDocument?.backPhoto || "",
-        },
-        city: profile.city || "",
-        phoneNumber: profile.phoneNumber || "",
-        notifications: profile.notifications || [],
-
-        __v: profile.__v || 0,
-      };
-    });
-
-    return NextResponse.json(profilesWithUserDetails);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { message: "Error al obtener los perfiles" },
-      { status: 500 }
-    );
-  }
-}
-
-
-

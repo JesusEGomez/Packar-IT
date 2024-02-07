@@ -10,8 +10,7 @@ import useLocationNotification from "../hooks/geoLocalización";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
 
-
-import useUserState from "../store/sotre";  // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
+import useUserState from "../store/sotre"; // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
 import { sendNotification } from "../api/ably/Notifications";
 
 const BottmBar = () => {
@@ -59,15 +58,14 @@ const BottmBar = () => {
           </button>
         </li>
         <button
-  className={`flex ${
-    pathName === "/messages" ? "text-pink" : "text-slate-600"
-  } flex-col items-center text-xs`}
-  
->
-  <MdOutlineMessage size={30} />
-Notificaciones
-</button>
-       
+          className={`flex ${
+            pathName === "/messages" ? "text-pink" : "text-slate-600"
+          } flex-col items-center text-xs`}
+        >
+          <MdOutlineMessage size={30} />
+          Notificaciones
+        </button>
+
         <li>
           <button
             onClick={sideBarControl}

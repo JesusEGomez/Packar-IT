@@ -61,6 +61,26 @@ const ProfileSchema = new Schema({
       },
     }
   ],
+  routes: [
+    {
+      positions: [
+        {
+          latitude: {
+            type: Number,
+            required: true,
+          },
+          longitude: {
+            type: Number,
+            required: true,
+          },
+          timestamp: {
+            type: Date,
+            default: Date.now,
+          },
+        }
+      ],
+    }
+  ],
 });
 
 const Profile = models.Profile || model("Profile", ProfileSchema);
