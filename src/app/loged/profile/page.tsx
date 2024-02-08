@@ -3,14 +3,11 @@ import { useState, useEffect } from "react";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
-  
 
   useEffect(() => {
     async function fetchProfileData() {
       try {
-        const response = await fetch(
-          `/api/auth/getProfileById/?id=&{}`
-        );
+        const response = await fetch(`/api/auth/getProfileById/?id=&{}`);
         const data = await response.json();
         console.log("Profile data:", data);
         setProfileData(data);
