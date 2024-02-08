@@ -31,7 +31,7 @@ function Profile() {
   }
 
   if (error) {
-    return <div>¡Vaya! Algo salió mal.</div>;
+    return <div>Algo salió mal.</div>;
   }
 
   if (!profileData) {
