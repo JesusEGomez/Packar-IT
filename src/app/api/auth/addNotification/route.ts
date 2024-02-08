@@ -36,3 +36,24 @@ export async function POST(request: Request) {
       );
     }
   }
+
+  export async function PUT(request: Request) {
+    try {
+      await connectDB();
+      const {id, estado} = await request.json();
+      const notification = await Notification.findOne({})
+      if(estado === 'Aceptado'){
+        
+      }
+
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        return NextResponse.json({ message: error.message }, { status: 500 });
+      }
+      return NextResponse.json(
+        { message: "Internal Server Error" },
+        { status: 500 }
+      );
+    }
+  }
