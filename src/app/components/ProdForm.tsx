@@ -141,10 +141,10 @@ function ProdForm(props: any) {
           </select>
         </div>
         <div className="flex items-center border-b m-auto w-80">
-          <BsBoxSeam className="text-slate-400" size={20} />
+          <BsBoxSeam className="text-slate-400"  />
           <input
             placeholder="Producto"
-            className="p-3 text-slate-300"
+            className="p-2 rounded bg-white text-slate-400 w-full"
             type="text"
             id="name"
             {...register("name", {
