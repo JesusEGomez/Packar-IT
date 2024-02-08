@@ -1,112 +1,80 @@
 "use client";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FaEdit } from "react-icons/fa"; // Reemplaza 'react-icons/fa' con la biblioteca y el icono específico que prefieras
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { useState, useEffect } from "react";
 
 function Profile() {
-  const formSchema = z.object({
-    nombre: z.string(),
-    email: z.string(),
-    telefono: z.string(),
-    ciudad: z.string(),
-    driverLicense: z.object({
-      frontPhoto: z.string().nullable(),
-      backPhoto: z.string().nullable(),
-    }),
-  });
+  const [profileData, setProfileData] = useState<any | null>(null);
+  const [viajesData, setViajesData] = useState<any | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      nombre: "",
-      email: "",
-      ciudad: "",
-      telefono: "",
-      driverLicense: {
-        frontPhoto: null,
-        backPhoto: null,
-      },
-    },
-  });
+  useEffect(() => {
+    async function fetchProfileData() {
+      try {
+        const response = await fetch(
+          `/api/auth/getProfileById/?id=&{}`
+        );
+        const data = await response.json();
+        console.log("Profile data:", data);
+        setProfileData(data);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    }
+    fetchProfileData();
+  }, []);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  useEffect(() => {
+    async function fetchViajesData() {
+      try {
+        const response = await fetch(
+          `/api/auth/getTravelById/?id=65a6a4cf72c947b5cbb67646`
+        );
+        const data = await response.json();
+        console.log("Viajes data:", data);
+        setViajesData(data);
+      } catch (error) {
+        console.error("Error fetching travel data:", error);
+      }
+    }
+    fetchViajesData();
+  }, []);
 
   return (
-    <div className=" container mx-auto h-screen flex flex-col justify-center items-center">
-      <h1 className="text-5xl font-bold mb-4">Mi perfil</h1>
-      <div className="max-w-md p-8 bg-white rounded-md shadow-md">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col space-y-4"
-          >
-            <FormField
-              control={form.control}
-              name="nombre"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nombre</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Joe" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="correo@correo.com" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="telefono"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Teléfono</FormLabel>
-                  <FormControl>
-                    <Input placeholder="5423313423" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="ciudad"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Ciudad</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Madrid" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <Button className="bg-pink py-2 rounded-md" type="submit">
-              <FaEdit className="mr-2" /> Modificar
-            </Button>
-          </form>
-        </Form>
+    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:p-18">
+      <h1 className="text-4xl font-bold mb-4 text-gray-800 text-center">
+        Mi perfil
+      </h1>
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+          <h2 className="text-gray-800 text-xl text-center font-bold mb-6">
+            Datos Personales
+          </h2>
+          <section className="mb-8">
+            {profileData && (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <p className="text-gray-700 text-lg mb-4">
+                    <span className="font-bold">Nombre:</span>{" "}
+                    {profileData.fullName}
+                  </p>
+                  <p className="text-gray-700 text-lg mb-4">
+                    <span className="font-bold">Email:</span>{" "}
+                    {profileData.email}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-700 text-lg mb-4">
+                    <span className="font-bold">Teléfono:</span>{" "}
+                    {profileData.phoneNumber}
+                  </p>
+                  <p className="text-gray-700 text-lg mb-4">
+                    <span className="font-bold">Ciudad:</span>{" "}
+                    {profileData.city}
+                  </p>
+                </div>
+              </div>
+            )}
+          </section>
+        </div>
       </div>
     </div>
   );

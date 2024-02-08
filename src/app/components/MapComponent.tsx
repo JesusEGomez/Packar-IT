@@ -102,20 +102,20 @@ function MapComponent(props: MapComponentProps) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center">
       <Button onClick={props.closeMapModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <div style={{ height: "400px" }} ref={mapRef} />
-      <div className="p-2">
+      <div className="p-1">
         <input
-          className="bg-slate-200 rounded"
+          className="bg-slate-200 rounded-r-lg border-slate-300	white"
           type="text"
           placeholder="Ingrese una dirección"
           ref={inputRef}
         />
         <button
-          className="bg-pink rounded m-2 p-3 text-white text-sm"
+          className="bg-pink rounded-xl m-2 p-3 text-white text-sm"
           onClick={handleSearch}
         >
           Seleccionar

@@ -1,5 +1,5 @@
 
-export const pushNotification = (estado:string) => {
+export const pushNotification = (estado: string) => {
     if(Notification.permission === 'granted'){
         switch (estado) {
             case 'Pendiente':
@@ -7,6 +7,7 @@ export const pushNotification = (estado:string) => {
                     body: 'Tienes una nueva solicitud de envío, no pierdas la oportunidad de sacarle provecho a tus viajes'
                 });
                 break;
+
             case 'Aceptado':
                 new Notification('Tu solicitud ha sido aceptada', {
                     body: 'Se ha actualizado el estado de tu pedido'
@@ -19,9 +20,6 @@ export const pushNotification = (estado:string) => {
                 break;
             default:
                 console.error('Estado no reconocido:', estado);
-        }    
-        // new Notification('Nueva solicitud de envío', {
-        //     body: 'Tienes una nueva solicitud de envío, no pierdas la oportunidad de sacarle provecho a tus viajes'
-        // });    
+        }  
     }
 }
