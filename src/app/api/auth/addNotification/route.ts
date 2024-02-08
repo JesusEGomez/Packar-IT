@@ -2,6 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
 import Notification from '@/models/notifications';
 import { NextResponse } from "next/server";
+import { pushNotification } from "./pushNotification";
 
 export async function POST(request: Request) {
   try {

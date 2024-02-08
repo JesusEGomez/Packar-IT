@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import Success from "./Success";
 import Monedero from "./Monedero";
 import { sendNotification } from "../api/ably/Notifications";
+import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 function Confirmacion(props: any) {
   const { envio, driver } = props;
@@ -49,6 +50,7 @@ function Confirmacion(props: any) {
           body: JSON.stringify(notification)
       });
       const newNotification = await info.json();
+      pushNotification(newNotification.estado)
       console.log(newNotification);
       setSuccess(true);
       
