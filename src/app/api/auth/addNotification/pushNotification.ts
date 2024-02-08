@@ -19,6 +19,9 @@ export const pushNotification = (estado:string) => {
                 break;
             default:
                 console.error('Estado no reconocido:', estado);
-        }        
+        }    
+        // new Notification('Nueva solicitud de envío', {
+        //     body: 'Tienes una nueva solicitud de envío, no pierdas la oportunidad de sacarle provecho a tus viajes'
+        // });    
     }
 }

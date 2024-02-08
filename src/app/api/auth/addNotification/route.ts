@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       const saved = await driver.save();
       console.log(saved);
       
-       return NextResponse.json(saved);
+       return NextResponse.json(newNotification);
     } catch (error) {
       console.error(error);
       if (error instanceof Error) {
