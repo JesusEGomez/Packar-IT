@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
-  const [viajesData, setViajesData] = useState<any | null>(null);
+  
 
   useEffect(() => {
     async function fetchProfileData() {
@@ -21,21 +21,9 @@ function Profile() {
     fetchProfileData();
   }, []);
 
-  useEffect(() => {
-    async function fetchViajesData() {
-      try {
-        const response = await fetch(
-          `/api/auth/getTravelById/?id=65a6a4cf72c947b5cbb67646`
-        );
-        const data = await response.json();
-        console.log("Viajes data:", data);
-        setViajesData(data);
-      } catch (error) {
-        console.error("Error fetching travel data:", error);
-      }
-    }
-    fetchViajesData();
-  }, []);
+  if (!profileData) {
+    return <div className="text-center text-3xl">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:p-18">
