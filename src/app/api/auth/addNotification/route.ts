@@ -41,10 +41,14 @@ export async function POST(request: Request) {
     try {
       await connectDB();
       const {id, estado} = await request.json();
-      const notification = await Notification.findOne({})
-      if(estado === 'Aceptado'){
-        
-      }
+      const notification = await Notification.findOne({_id : id});
+      notification.type = 'respuestaServicio';
+      notification.estado = estado;
+      const receptor = await Profile.findOne({userId: notification.usuario});
+      receptor.notifications.push(notification);
+      const saved = await receptor.save();
+
+      return NextResponse.json(saved);
 
     } catch (error) {
       console.error(error);
