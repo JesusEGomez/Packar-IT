@@ -33,9 +33,16 @@ const CardNotification = ({
         )}
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <p>
-          Tienes una solicitud de envio de <b>{name.toUpperCase()}</b>
-        </p>
+        {type === "SolicitudDriver" ? (
+          <p>
+            Tienes una solicitud de envió de <b>{name.toUpperCase()}</b>
+          </p>
+        ) : (
+          <p>
+            Tienes una solicitud de envió en espera para{" "}
+            <b>{name.toUpperCase()}</b>
+          </p>
+        )}
       </div>
 
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
