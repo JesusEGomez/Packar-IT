@@ -3,39 +3,40 @@ import { useState, useEffect } from "react";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
-  const [viajesData, setViajesData] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchProfileData() {
       try {
+        setLoading(true);
         const response = await fetch(
-          `/api/auth/getProfileById/?id=&{}`
+          `/api/auth/getProfileById/?id=65a6a4cf72c947b5cbb67646`
         );
+        if (!response.ok) throw new Error("Error fetching profile data");
         const data = await response.json();
-        console.log("Profile data:", data);
         setProfileData(data);
       } catch (error) {
         console.error("Error fetching profile data:", error);
+        setError(true);
+      } finally {
+        setLoading(false);
       }
     }
     fetchProfileData();
   }, []);
 
-  useEffect(() => {
-    async function fetchViajesData() {
-      try {
-        const response = await fetch(
-          `/api/auth/getTravelById/?id=65a6a4cf72c947b5cbb67646`
-        );
-        const data = await response.json();
-        console.log("Viajes data:", data);
-        setViajesData(data);
-      } catch (error) {
-        console.error("Error fetching travel data:", error);
-      }
-    }
-    fetchViajesData();
-  }, []);
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>¡Vaya! Algo salió mal.</div>;
+  }
+
+  if (!profileData) {
+    return <div>No hay datos disponibles.</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:p-18">
