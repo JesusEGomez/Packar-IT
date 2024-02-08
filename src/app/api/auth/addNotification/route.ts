@@ -2,7 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
 import Notification from '@/models/notifications';
 import { NextResponse } from "next/server";
-import { pushNotification } from "./pushNotification";
+import { sendNotification } from "../../ably/Notifications";
 
 export async function POST(request: Request) {
   try {
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       driver.notifications.push(newNotification);
       const saved = await driver.save();
       console.log(saved);
-      
+      sendNotification(driver._id, { content: newNotification.estado });
        return NextResponse.json(newNotification);
     } catch (error) {
       console.error(error);
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   export async function PUT(request: Request) {
     try {
       await connectDB();
-      const {id, estado} = await request.json();
+      const { id, estado } = await request.json();
       const notification = await Notification.findOne({_id : id});
       notification.type = 'respuestaServicio';
       notification.estado = estado;
