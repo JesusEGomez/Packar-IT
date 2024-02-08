@@ -1,8 +1,7 @@
 "use client";
-"use client";
 import { LuFolderInput } from "react-icons/lu";
-import { ChangeEvent, useRef } from "react";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -83,7 +82,9 @@ export default function City(props: any) {
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
-        <h1 className="text-3xl font-black  text-left">¿En que ciudad vives?</h1>
+        <h1 className="text-3xl font-black  text-left">
+          ¿En que ciudad vives?
+        </h1>
       </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <div>
