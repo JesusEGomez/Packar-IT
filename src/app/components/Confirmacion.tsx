@@ -51,7 +51,6 @@ function Confirmacion(props: any) {
       });
       const newNotification = await info.json();
       //console.log(newNotification.estado);
-      pushNotification(newNotification.estado)
       // console.log(newNotification);
       // setSuccess(true);
       
@@ -132,7 +131,7 @@ function Confirmacion(props: any) {
       );
 
       const userData = await responseUser.json();
-      setUserId(userData._id);
+      setUserId(userData);
       const userPropsResponse = await fetch(
         `/api/auth/getProfileById/?id=${userData._id}`
       );
