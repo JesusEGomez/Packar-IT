@@ -20,7 +20,7 @@ const UserSchema = new Schema({
 
 // Esquema para las notificaciones
 const NotificationSchema = new Schema({
-  type: { type: String, required: false },
+  type: { type: String, enum: ["solicitudServicio", "respuestaServicio"] },
   estado: { type: String, enum: ["Pendiente", "Aceptado", "Rechazado"], default: 'Pendiente' },
   visto: { type: Boolean, default: false },
   usuario: { type: String, required: false },
