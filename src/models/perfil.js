@@ -48,10 +48,14 @@ const ProfileSchema = new Schema({
     type: String,
     required: false,
   },
+
+
+
   notifications: [{
     type: Schema.Types.ObjectId,
     ref: "Notification",
   }],
+
   location: {
     type: {
       latitude: Number,
