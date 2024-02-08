@@ -17,6 +17,7 @@ const TravelEditModal = ({
 }: TravelEditModalProps) => {
   const [state, setState] = useState<String>();
   const [finalizado, setFinalizado] = useState<boolean>(true);
+  const [enCruso, setenCruso] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
   const statusFinder = () => {
     console.log(travel);
@@ -29,6 +30,9 @@ const TravelEditModal = ({
     travelFiltered.envios.forEach((envio) => {
       if (envio.productos.EnvioInfo.estado !== "Finalizado") {
         setFinalizado(false);
+      }
+      if (envio.productos.EnvioInfo.estado !== "Aceptado") {
+        setenCruso(false);
       }
     });
   };
@@ -92,10 +96,11 @@ const TravelEditModal = ({
 
         {travel.estado === "Pendiente" ? (
           <>
-            <option value={"En Curso"}>En Curso</option>
+            {enCruso && <option value={"En Curso"}>En Curso</option>}
             <option value={"Cancelado"}>Cancelado</option>
           </>
         ) : null}
+
         {travel.estado === "En Curso" && finalizado ? (
           <option value={"Finalizado"}>Finalizado</option>
         ) : null}
@@ -114,6 +119,12 @@ const TravelEditModal = ({
         >
           Modificar
         </Button>
+      )}
+      {!enCruso && (
+        <p>
+          Para cambiar al estado <b>En Curso</b> todos tus viajes deben estar
+          aceptados o cancelados.
+        </p>
       )}
     </div>
   );

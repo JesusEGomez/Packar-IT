@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import Success from "./Success";
 import Monedero from "./Monedero";
 import { sendNotification } from "../api/ably/Notifications";
+import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 function Confirmacion(props: any) {
   const { envio, driver } = props;
@@ -31,17 +32,30 @@ function Confirmacion(props: any) {
   const solicitarHandler = async () => {
     try {
       //crear notificicion, enviarla con typo
-      const propsEnvio = {
+      const notification = {
+          type: 'solicitudServicio',
           usuario: userId,
           desde: envio.desde,
           hasta: envio.hasta,
           cuando: envio.cuando,
           producto: envio.producto,
           recibe: envio.recibe,
-          driver: driver._id,
+          driver: driver,
         }
-        //const conductor = "65c22715e1fdf7fb91000d05"
-      sendNotification(driver.usuario._id, {content: JSON.stringify(propsEnvio)});
+      const info = await fetch('/api/auth/addNotification',{
+          headers: {
+          "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(notification)
+      });
+      const newNotification = await info.json();
+      //console.log(newNotification.estado);
+      pushNotification(newNotification.estado)
+      // console.log(newNotification);
+      // setSuccess(true);
+      
+      //sendNotification(driver.usuario._id, {content: JSON.stringify(notification)});
       //.then ok
       // const shipmentResponse = await fetch("/api/auth/envio", {
       //   headers: {
@@ -101,8 +115,6 @@ function Confirmacion(props: any) {
       //     total,
       //   }),
       // });
-
-      setSuccess(true);
     } catch (error) {
       console.error(error);
     }

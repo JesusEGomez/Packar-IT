@@ -81,7 +81,7 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col m-6 p-4">
+    <div className="flex flex-col m-6 p-4 max-h-screen">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -207,7 +207,7 @@ export const SendProduct = (props: any) => {
               ></FormField>
             </div>
           </div>
-          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md max-h-screen">
             <div className="flex flex-col my-6 justify-center items-center w-full">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
@@ -217,7 +217,7 @@ export const SendProduct = (props: any) => {
                 presiona el botón
               </p>
             </div>
-            <div className="flex gap-2 ">
+            <div className="pb-4 ">
               <Button
                 onClick={specialsHandler}
                 className="bg-rose-200 text-pink text-sm m-2 w-[70px] h-[24px] "
@@ -227,7 +227,7 @@ export const SendProduct = (props: any) => {
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
             </div>
               {specials && (
-                <div className="mb-2">
+                <div className="flex flex-col">
                   <FormField
                     name="especial.quantity"
                     control={form.control}
@@ -262,7 +262,7 @@ export const SendProduct = (props: any) => {
             onMouseEnter={() => setHoverButton(true)}
             onMouseLeave={() => setHoverButton(false)}
             variant={"ghost"}
-            className="bg-pink text-white w-full p-3 m-2 rounded-xl font-bold text-lg mx-auto"
+            className="bg-pink text-white w-full mb-6 rounded-xl font-bold text-lg mx-auto"
           >
             Cerrar
           </Button>
