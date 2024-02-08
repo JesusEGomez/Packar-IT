@@ -48,18 +48,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: false,
   },
-  notifications: [
-    {
-      message: {
-        type: String,
-        required: true,
-      },
-      timestamp: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+  notifications: [{
+    type: Schema.Types.ObjectId,
+    ref: "Notification",
+  }],
   location: {
     type: {
       latitude: Number,

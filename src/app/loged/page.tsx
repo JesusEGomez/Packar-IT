@@ -18,6 +18,7 @@ import QuienEnvia from "../components/QuienEnvia";
 import Confirmacion from "../components/Confirmacion";
 import FormEnvio from "../components/FormEnvio";
 import DateModal from "../components/DateModal";
+import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 type prod = {
   type: string;
