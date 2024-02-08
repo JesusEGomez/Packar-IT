@@ -3,16 +3,13 @@ import React, { useContext } from "react";
 import { IoSendOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { MdOutlineMessage } from "react-icons/md";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { usePathname, useRouter } from "next/navigation";
 import useLocationNotification from "../hooks/geoLocalización";
 import { SidebarContext } from "../Provider";
 import Link from "next/link";
-
-
-import useUserState from "../store/sotre";  // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
-import { sendNotification } from "../api/ably/Notifications";
+import useUserState from "../store/sotre"; // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
 
 const BottmBar = () => {
   const { sideBarControl, isOpen } = useContext(SidebarContext);
@@ -59,15 +56,15 @@ const BottmBar = () => {
           </button>
         </li>
         <button
-  className={`flex ${
-    pathName === "/messages" ? "text-pink" : "text-slate-600"
-  } flex-col items-center text-xs`}
-  
->
-  <MdOutlineMessage size={30} />
-Notificaciones
-</button>
-       
+          className={`flex ${
+            pathName === "/loged/notifications" ? "text-pink" : "text-slate-600"
+          } flex-col items-center text-xs`}
+          onClick={() => navigate.push("/loged/notifications")}
+        >
+          <MdOutlineNotificationsNone size={30} />
+          Notificaciones
+        </button>
+
         <li>
           <button
             onClick={sideBarControl}

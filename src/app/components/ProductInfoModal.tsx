@@ -50,6 +50,7 @@ const ProductInfoModal = ({
       console.error(error);
     }
   };
+
   const stateHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(event.target.value);
     setState(event.target.value);
@@ -83,17 +84,18 @@ const ProductInfoModal = ({
           <option disabled selected value={product.EnvioInfo.estado}>
             {product.EnvioInfo.estado}
           </option>
-
-          {product.EnvioInfo.estado === "Pendiente" ? (
+          {/* {product.EnvioInfo.estado === "Pendiente" ? (
             <>
-              {estado === "En Curso" ? (
-                <option value={"En Curso"}>En Curso</option>
-              ) : null}
               <option value={"Cancelado"}>Cancelado</option>
+              <option value={"Aceptado"}>Aceptado</option>
             </>
+          ) : null} */}{" "}
+          //! El estado pendiente ya no debería existir en esta etapa
+          {estado === "En Curso" ? (
+            <option value={"En Curso"}>En Curso</option>
           ) : null}
           {product.EnvioInfo.estado === "En Curso" ? (
-            <option value={"Finalizado"}>Finalizado</option>
+            <option value={"Entregado"}>Entregado</option>
           ) : null}
         </select>
         {loading ? (
