@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { IUserProductFull } from "@/app/interfaces/userProduct.interface";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { MailIcon, Phone, User } from "lucide-react";
-
+import { Loader2, MailIcon, Phone, User } from "lucide-react";
+import Swal from "sweetalert2";
 import { FaRegCalendarAlt, FaWeightHanging } from "react-icons/fa";
 import { Scan, Weight } from "lucide-react";
 import { GoDotFill } from "react-icons/go";
@@ -19,8 +19,11 @@ interface IStateClases {
   Finalizado: string;
 }
 
+//!Estados: Aceptado, Cancelado, En curso, Entregado y Finalizado
+
 const Page = ({ params }: { params: { id: string } }) => {
   const [product, setProduct] = useState<IUserProductFull>();
+  const [loading, setLoading] = useState(false);
   const stateClasses: IStateClases = {
     Cancelado: "text-red-500",
     Pendiente: "text-yellow-500",
@@ -39,10 +42,34 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  const changeState = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/auth/ProductById`, {
+        method: "PATCH",
+        body: JSON.stringify({ ...product, estado: "Finalizado" }),
+      });
+
+      if (response.ok) {
+        setLoading(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Ocurrió un error al modificar el estado",
+          confirmButtonColor: "#fe1252",
+          confirmButtonText: "Aceptar",
+        });
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetProductById(params.id);
     console.log(product);
-  }, [params.id]);
+  }, [params.id, loading]);
   return (
     <div className="w-screen flex flex-col justify-center">
       {product ? (
@@ -162,20 +189,26 @@ const Page = ({ params }: { params: { id: string } }) => {
               </p>
               <p>{product.estado}</p>
             </div>
-            {product.estado === "Finalizado" ? (
+            {product.estado === "Entregado" ? (
               <p className="text-center text-sm">
                 El conductor ha entregado tu pedido. Confirma que todo ha ido
                 bien o puedes reportar un incidencia.
               </p>
             ) : null}
           </div>
-
-          <Button
-            disabled={product.estado !== "Finalizado"}
-            className="w-80 bg-pink text-white m-5"
-          >
-            Envio correcto
-          </Button>
+          {loading ? (
+            <Button disabled className=" bg-pink text-white rounded-lg ">
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            </Button>
+          ) : (
+            <Button
+              onClick={changeState}
+              disabled={product.estado !== "Entregado"}
+              className="w-80 bg-pink text-white m-5 rounded-lg"
+            >
+              Envio correcto
+            </Button>
+          )}
         </div>
       ) : (
         <div>Cargando...</div>
