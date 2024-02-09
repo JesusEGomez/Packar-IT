@@ -1,8 +1,7 @@
 "use client";
-"use client";
 import { LuFolderInput } from "react-icons/lu";
-import { ChangeEvent, useRef } from "react";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect, ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -78,12 +77,14 @@ export default function City(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full my-auto mb-5">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mt-4">
       <Button onClick={props.closeCityModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
-        <h1 className="text-3xl font-black  text-left">¿En que ciudad vives?</h1>
+        <h1 className="text-3xl font-black  text-left">
+          ¿En que ciudad vives?
+        </h1>
       </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <div>
@@ -113,12 +114,6 @@ export default function City(props: any) {
         >
           Cargar datos
         </button>
-      </div>
-      <div className="flex justify-items-start items-start">
-        <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
-          Comparte tu teléfono para que el resto de usuarios se puedan poner en
-          contacto contigo una vez se confirme el envío.
-        </p>
       </div>
     </div>
   );

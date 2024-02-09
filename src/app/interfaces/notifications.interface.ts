@@ -2,10 +2,13 @@ import { IProductDB } from "./productDB.interface";
 import { IUser } from "./user.interface";
 
 export interface INotification {
-  type?: string;
+  _id: string;
+  type?: "solicitudServicio" | "respuestaServicio";
   estado?: "Pendiente" | "Aceptado" | "Rechazado";
-  visto?: boolean;
-  usuario?: string;
+  subEstado?: "solicitud" | "cambios";
+  vistoDriver?: boolean;
+  vistoUser?: boolean;
+  usuario?: IUser;
   desde?: {
     calle?: string;
     pais?: string;
