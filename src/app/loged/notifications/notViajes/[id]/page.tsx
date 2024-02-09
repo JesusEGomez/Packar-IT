@@ -7,64 +7,56 @@ import { Button } from "@/components/ui/button";
 import { FiMapPin } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { CalendarDays, CheckCircle2, XCircle } from "lucide-react";
-import { toDate } from "date-fns";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const Prueba: INotification = {
-    type: "solicitudServicio",
-    usuario: "65b2cee6d11c0c635e89bd97",
-    desde: {
-      calle: "17 Santiago Humberstone",
-      pais: " Chile",
-      ciudad: "Antofagasta",
-    },
-    hasta: {
-      calle: "2799 Santiago Humberstone",
-      pais: " Chile",
-      ciudad: "Calama",
-    },
-    cuando: toDate("2024-02-08T03:00:00.000Z"),
-    producto: {
-      _id: "1",
-      type: "Special",
-      name: "rrrr",
-      size: "12x12x12",
-      weigth: "12",
-      photoProduct:
-        "https://res.cloudinary.com/dezg8rinp/image/upload/v1707314359/ProjectsImages/nvscetexyq8xjteccbfd.png",
-      articulosEspeciales: "rrrr",
-    },
-    recibe: {
-      nombreApellidos: "c",
-      telefono: "123",
-      email: "cleivaj93@gmail.com",
-    },
-    driver: {
-      _id: "65c2b9821356b6a13d283c5b",
-      usuario: {
-        _id: "65c22715e1fdf7fb91000d05",
-        email: "cleivaj93@gmail.com",
-
-        fullname: "cesar leiva jimenez",
-        smsCode: "",
-      },
-      desde: { pais: " Chile", ciudad: "Antofagasta", calle: "1202 Antilhue" },
-      hasta: { pais: " Chile", ciudad: "Calama", calle: "2313 Arturo Prat" },
-      cuando: "07/02/2024",
-      horaSalida: "15:15",
-      horaLlegada: "16:16",
-      eresFlexible: false,
-      estado: "Pendiente",
-      precio: [[], [], [], []],
-      envios: [],
-      special: true,
-      como: "auto",
-    },
-  };
   const [notification, setNotification] = useState<INotification | null>();
+  const fetchNotification = async () => {
+    try {
+      const response = await fetch(
+        `/api/auth/getNotificationById/?id=${params.id}`
+      );
+      const newNotification: INotification = await response.json();
+      if (response.ok) {
+        setNotification(newNotification);
+        if (!newNotification?.vistoDriver) {
+          console.log(notification?.vistoDriver);
+          setVisto();
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //* Esta función marca como visto a la notificación
+  const setVisto = async () => {
+    try {
+      const response = await fetch(`/api/auth/getNotificationById`, {
+        method: "PATCH",
+        body: JSON.stringify({ _id: params.id, vistoDriver: true }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //* Esta función realiza la respuesta actualizando esta notificación y creando una para el solicitante
+  const response = async (estado: string, id: string) => {
+    try {
+      const response = await fetch(
+        `/api/auth/getNotificationById/?id=${params.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ _id: params.id, estado: estado }),
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const navigate = useRouter();
   useEffect(() => {
-    setNotification(Prueba);
+    fetchNotification();
   }, []);
   return (
     <div className="w-screen flex flex-col justify-center items-center">
@@ -75,7 +67,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <MdKeyboardArrowLeft />
             </button>
             <h2 className="text-xl sm:text-2xl sm:ml-20 font-bold ml-5">
-              Solicitud de <b>Jose</b>
+              Solicitud de <b>{notification.usuario?.fullname}</b>
             </h2>
           </div>
           <div className=" flex flex-col gap-y-4 sm:justify-evenly sm:h-52 sm:flex-row sm:w-screen">
@@ -123,10 +115,10 @@ const Page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          <div className=" flex flex-col gap-y-4 rounded-xl bg-gray-50  shadow-md  items-center sm:h-52  p-4  w-[350px]">
+          <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
             <p>Información del producto</p>
-            <div className="flex w-full justify-center gap-x-2 ">
-              <div>
+            <div className="flex flex-col sm:flex-row w-full justify-evenly items-center gap-x-2 ">
+              <div className="sm:flex flex-col gap-y-3">
                 <h3>
                   <b>Nombre:</b> {notification.producto?.name}
                 </h3>
@@ -138,8 +130,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </p>
               </div>
               <img
-                width={150}
-                height={150}
+                onClick={() =>
+                  window.open(notification.producto?.photoProduct, "_blank")
+                }
+                className="p-1 rounded-md shadow-sm cursor-pointer shadow-gray-500 "
+                width={180}
+                height={180}
                 src={notification.producto?.photoProduct}
                 alt={notification.producto?.name}
               />
@@ -147,8 +143,18 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className="flex flex-col gap-y-3"></div>
           <div className="flex justify-center gap-x-4 w-full">
-            <Button className="bg-pink text-white">Aceptar Solicitud</Button>
-            <Button className="bg-pink text-white">Cancelar Solicitud</Button>
+            <Button
+              onClick={() => response("Aceptado", notification._id!)}
+              className="bg-pink text-white"
+            >
+              Aceptar Solicitud
+            </Button>
+            <Button
+              onClick={() => response("Rechazado", notification._id!)}
+              className="bg-pink text-white"
+            >
+              Cancelar Solicitud
+            </Button>
           </div>
         </div>
       ) : (

@@ -1,70 +1,58 @@
+"use client";
 import CardNotification from "@/app/components/CardNotification";
 import { INotification } from "@/app/interfaces/notifications.interface";
-import { toDate } from "date-fns";
+import useUserState from "@/app/store/sotre";
 
-const NotEnvios = () => {
-  const Prueba: INotification = {
-    type: "solicitudServicio",
-    usuario: "65b2cee6d11c0c635e89bd97",
-    desde: {
-      calle: "17 Santiago Humberstone",
-      pais: " Chile",
-      ciudad: "Antofagasta",
-    },
-    hasta: {
-      calle: "2799 Santiago Humberstone",
-      pais: " Chile",
-      ciudad: "Calama",
-    },
-    cuando: toDate("2024-02-08T03:00:00.000Z"),
-    producto: {
-      _id: "1",
-      type: "Special",
-      name: "rrrr",
-      size: "12x12x12",
-      weigth: "12",
-      photoProduct:
-        "https://res.cloudinary.com/dezg8rinp/image/upload/v1707314359/ProjectsImages/nvscetexyq8xjteccbfd.png",
-      articulosEspeciales: "rrrr",
-    },
-    recibe: {
-      nombreApellidos: "c",
-      telefono: "123",
-      email: "cleivaj93@gmail.com",
-    },
-    driver: {
-      _id: "65c2b9821356b6a13d283c5b",
-      usuario: {
-        _id: "65c22715e1fdf7fb91000d05",
-        email: "cleivaj93@gmail.com",
+import { useEffect, useState } from "react";
 
-        fullname: "cesar leiva jimenez",
-        smsCode: "",
-      },
-      desde: { pais: " Chile", ciudad: "Antofagasta", calle: "1202 Antilhue" },
-      hasta: { pais: " Chile", ciudad: "Calama", calle: "2313 Arturo Prat" },
-      cuando: "07/02/2024",
-      horaSalida: "15:15",
-      horaLlegada: "16:16",
-      eresFlexible: false,
-      estado: "Pendiente",
-      precio: [[], [], [], []],
-      envios: [],
-      special: true,
-      como: "auto",
-    },
+const NotViajes = () => {
+  const [notifications, setNotification] = useState<INotification[] | null>();
+  const { user } = useUserState((state) => state);
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch(
+        `/api/auth/addNotification/?id=${user._id}&type=driver.usuario._id`
+      );
+      const newNotifications: INotification[] = await response.json();
+      console.log(newNotifications);
+      if (response.ok && newNotifications) {
+        setNotification(newNotifications);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
-      <CardNotification
-        id="1"
-        name="jose"
-        type={Prueba.type!}
-        visto={Prueba.visto!}
-        detail="notViajes"
-      />
+      {notifications ? (
+        <>
+          {notifications.map((n) => {
+            return (
+              <>
+                {n.vistoDriver && n.estado !== "Pendiente" ? null : (
+                  <CardNotification
+                    id={n._id}
+                    name={n.usuario?.fullname!}
+                    type={n.type!}
+                    visto={n.vistoDriver!}
+                    detail="notViajes"
+                  />
+                )}
+              </>
+            );
+          })}
+        </>
+      ) : (
+        <div>No tienes Notificaciones</div>
+      )}
     </div>
   );
 };
 
-export default NotEnvios;
+export default NotViajes;
