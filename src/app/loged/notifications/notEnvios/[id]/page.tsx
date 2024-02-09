@@ -10,6 +10,8 @@ import { CalendarDays, CheckCircle2, XCircle } from "lucide-react";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [notification, setNotification] = useState<INotification | null>();
+  const [update, setUpdate] = useState(false);
+  const navigation = useRouter();
   const fetchNotification = async () => {
     try {
       const response = await fetch(
@@ -35,7 +37,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   };
 
-  //* Esta función realiza la respuesta actualizando esta notificación
   const response = async (estado: string, id: string) => {
     try {
       const response = await fetch(
@@ -45,15 +46,25 @@ const Page = ({ params }: { params: { id: string } }) => {
           body: JSON.stringify({ _id: params.id, estado: estado }),
         }
       );
+      if (response.ok) {
+        setUpdate(true);
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  //? Tal vez debería redirigir al envió en especifico pero no tengo el id y todavia no se crea
+  const moreInformation = () => {
+    setVisto();
+    navigate.replace("loged/misenvios");
+  };
+
   const navigate = useRouter();
   useEffect(() => {
+    setUpdate(false);
     fetchNotification();
-  }, []);
+  }, [update]);
   return (
     <div className="w-screen flex flex-col justify-center items-center">
       {notification ? (
@@ -113,7 +124,36 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
           <div className=" flex sm:flex-row sm:gap-x-4 flex-col">
             <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
-              <p>Información del Conductor</p>
+              <p>El conductor recibo tu solicitud</p>
+              <div className="flex flex-col items-center gap-y-3">
+                {notification.estado === "Pendiente" && (
+                  <Button
+                    onClick={() => response("Rechazado", notification._id)}
+                    className="bg-pink text-white"
+                  >
+                    Cancelar
+                  </Button>
+                )}
+                {notification.estado === "Aceptado" && (
+                  <>
+                    <p>Tu solicitud fue Aceptada</p>
+                    <Button
+                      onClick={moreInformation}
+                      className="bg-pink text-white"
+                    >
+                      Mas Información
+                    </Button>
+                  </>
+                )}
+                {notification.estado === "Rechazado" && (
+                  <>
+                    <p>Tu solicitud fue Rechazada</p>
+                    <Button className="bg-pink text-white">
+                      Seleccionar otro conductor
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
             <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
               <p>Información del producto que quieres enviar</p>

@@ -208,6 +208,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             >
               Envió correcto
             </Button>
+            //* Agregar boton cancelar siempre y cuando el estado sea Pendiente
           )}
         </div>
       ) : (
