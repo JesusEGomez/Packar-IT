@@ -4,8 +4,9 @@ import { IUser } from "./user.interface";
 export interface INotification {
   type?: string;
   estado?: "Pendiente" | "Aceptado" | "Rechazado";
+  subEstado?: "solicitud" | "cambios";
   visto?: boolean;
-  usuario?: string;
+  usuario?: IUser;
   desde?: {
     calle?: string;
     pais?: string;

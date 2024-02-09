@@ -12,7 +12,7 @@ import { toDate } from "date-fns";
 const Page = ({ params }: { params: { id: string } }) => {
   const Prueba: INotification = {
     type: "solicitudDriver", //? Si es solicitudDriver es para el conductor y si es solicitudProduct es para el solicitante la notificación
-    usuario: "65b2cee6d11c0c635e89bd97",
+    // usuario: "65b2cee6d11c0c635e89bd97",
     desde: {
       calle: "17 Santiago Humberstone",
       pais: " Chile",
