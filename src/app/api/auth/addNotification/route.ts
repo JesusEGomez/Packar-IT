@@ -2,7 +2,6 @@ import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
 import Notification from '@/models/notifications';
 import { NextResponse } from "next/server";
-import { sendNotification } from "../../ably/Notifications";
 
 export async function POST(request: Request) {
   try {
@@ -24,7 +23,6 @@ export async function POST(request: Request) {
       driver.notifications.push(newNotification);
       const saved = await driver.save();
       console.log(saved);
-      sendNotification(driver._id, { content: newNotification.estado });
        return NextResponse.json(newNotification);
     } catch (error) {
       console.error(error);
