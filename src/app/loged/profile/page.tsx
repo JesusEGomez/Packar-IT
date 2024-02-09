@@ -44,7 +44,7 @@ function Profile() {
     fetchProfileData();
   }, []);
 
-  if (!session) {
+  if (!session || !profileData) {
     return loading();
   }
 
@@ -56,7 +56,7 @@ function Profile() {
         </h1>
       </div>
       <div className="flex justify-center items-center m-3">
-        <Avatar className="w-25 h-25 mr-2">
+        <Avatar className="w-40 h-40">
           <AvatarImage src={session?.user?.image!} alt="@shadcn" />
           <AvatarFallback>?</AvatarFallback>
         </Avatar>
