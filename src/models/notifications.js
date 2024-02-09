@@ -5,7 +5,7 @@ const ProductSchema = new Schema({
   type: { type: String, required: false },
   name: { type: String, required: false },
   size: { type: String, required: false },
-  weight: { type: String, required: false },
+  weigth: { type: String, required: false },
   photoProduct: { type: String, required: false },
   articulosEspeciales: { type: String, required: false }
 });
