@@ -12,9 +12,8 @@ export async function POST(req : Request) {
     try {
         await connectDB();
         const { userId, total } = await req.json();
-        console.log(userId, 'soy el userId')             
+        console.log(userId, 'soy el userId', total)             
         const user = await Profile.find({ userId: userId });
-        console.log(user);
         
         const customerId = user[0].customerId;
         const customer = await stripe.customers.retrieve(customerId) as any;
