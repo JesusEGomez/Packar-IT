@@ -7,19 +7,46 @@ import { Button } from "@/components/ui/button";
 import { FiMapPin } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { CalendarDays, CheckCircle2, XCircle } from "lucide-react";
+import SelectDriver from "@/app/components/SelectDriver";
+import Confirmacion from "@/app/components/Confirmacion";
 
 const Page = ({ params }: { params: { id: string } }) => {
-  const [notification, setNotification] = useState<INotification | null>();
-  const [update, setUpdate] = useState(false);
-  const navigation = useRouter();
+  const [notification, setNotification] = useState<INotification | null>(null);
+  const [update, setUpdate] = useState<boolean>(false);
+  const navigate = useRouter();
+  const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
+  const [selectdriverOpen, setSelectdriverOpen] = useState<boolean>(false);
+  const [driver, setDriver] = useState<any>(null); // Cambia el tipo según corresponda
+  const [envio, setEnvio] = useState<any>(null); // Cambia el tipo según corresponda
+
+  const closeLastModal = () => {
+    setLastModalOpen(false);
+  };
+
+  const closeSelectDriver = (data: any) => {
+    setDriver(data);
+    setLastModalOpen(true);
+    setSelectdriverOpen(false);
+  };
+  
+  const confrmacionHandler = () => {
+    console.log("hola");
+  };
+
   const fetchNotification = async () => {
     try {
-      const response = await fetch(
-        `/api/auth/getNotificationById/?id=${params.id}`
-      );
-      const newNotification: INotification = await response.json();
+      const response = await fetch(`/api/auth/getNotificationById/?id=${params.id}`);
       if (response.ok) {
+        const newNotification: INotification = await response.json();
         setNotification(newNotification);
+        const newEnvio = {
+          desde: newNotification?.desde,
+          hasta: newNotification?.hasta,
+          cuando: newNotification?.cuando,
+          producto: newNotification?.producto,
+          recibe: newNotification?.recibe
+        };
+        setEnvio(newEnvio);
       }
     } catch (error) {
       console.error(error);
@@ -28,10 +55,10 @@ const Page = ({ params }: { params: { id: string } }) => {
   //* Esta función marca como visto a la notificación
   const setVisto = async () => {
     try {
-      const response = await fetch(`/api/auth/getNotificationById`, {
-        method: "PATCH",
-        body: JSON.stringify({ _id: params.id, vistoUser: true }),
-      });
+      // const response = await fetch(`/api/auth/getNotificationById`, {
+      //   method: "PATCH",
+      //   body: JSON.stringify({ _id: params.id, vistoUser: true }),
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -57,10 +84,9 @@ const Page = ({ params }: { params: { id: string } }) => {
   //? Tal vez debería redirigir al envió en especifico pero no tengo el id y todavia no se crea
   const moreInformation = () => {
     setVisto();
-    navigate.replace("loged/misenvios");
+    navigate.push("loged/misenvios");
   };
 
-  const navigate = useRouter();
   useEffect(() => {
     setUpdate(false);
     fetchNotification();
@@ -148,7 +174,10 @@ const Page = ({ params }: { params: { id: string } }) => {
                 {notification.estado === "Rechazado" && (
                   <>
                     <p>Tu solicitud fue Rechazada</p>
-                    <Button className="bg-pink text-white">
+                    <Button 
+                      className="bg-pink text-white"
+                      onClick={() => setSelectdriverOpen(true)}
+                    >
                       Seleccionar otro conductor
                     </Button>
                   </>
@@ -201,6 +230,30 @@ const Page = ({ params }: { params: { id: string } }) => {
       ) : (
         <div>Cargando...</div>
       )}
+      {selectdriverOpen && (
+          <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-4 rounded-xl">
+              <SelectDriver
+                close={closeSelectDriver}
+                open={notification?.producto}
+                ciudadOrigen={notification?.desde?.ciudad}
+                ciudadDestino={notification?.hasta?.ciudad}
+              />
+            </div>
+          </div>
+        )}
+        {lastModalOpen && (
+          <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-4 rounded-xl">
+              <Confirmacion
+                closeModal={closeLastModal}
+                confirmar={confrmacionHandler}
+                driver={driver}
+                envio={envio}
+              />
+            </div>
+          </div>
+        )}
     </div>
   );
 };
