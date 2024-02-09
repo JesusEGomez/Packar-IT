@@ -78,11 +78,11 @@ export default function PhoneNumber(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5">
+    <div className="flex flex-col items-center justify-center w-full h-full my-auto mt-4">
       <Button onClick={props.closePhoneNumber} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l mr-5">
+      <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
         <h1 className="text-3xl font-black text-left">Numero de teléfono</h1>
       </div>
       <div className="flex flex-col justify-center items-center p-4 gap-y-5 text-l">
@@ -107,7 +107,7 @@ export default function PhoneNumber(props: any) {
 
       <div>
         <button
-          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-sm p-3"
+          className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-3"
           disabled={disable}
           onClick={handleBotonPic}
         >

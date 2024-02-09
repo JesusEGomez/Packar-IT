@@ -87,7 +87,7 @@ const Sidebar = () => {
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
-        <div className="m-2 flex justify-evenly items-center">
+        <div className="mx-2 flex justify-evenly items-center">
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
@@ -98,8 +98,8 @@ const Sidebar = () => {
             onClick={() => navigation.push("/loged/profile")}
           />
         </div>
-        <CommandSeparator className="my-3" />
-        <CommandList className="overflow-visible">
+        <CommandSeparator className="my-3	" />
+        <CommandList className="overflow-visible ">
           <CommandGroup heading="Datos personales">
             <CommandItem>
               <Accordion type="single" collapsible>
@@ -114,13 +114,6 @@ const Sidebar = () => {
                     <Building className="sideBarIcon" />
                     Ciudad
                   </AccordionTrigger>
-                  <AccordionContent>
-                    {/* <p>
-                      {user.profile.city
-                        ? user.profile.city
-                        : "Debes completar el perfil"}
-                    </p> */}
-                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CommandItem>
@@ -137,13 +130,6 @@ const Sidebar = () => {
                     <Phone className="sideBarIcon" />
                     Teléfono
                   </AccordionTrigger>
-                  <AccordionContent>
-                    {/* <p>
-                      {user.profile.phoneNumber
-                        ? user.profile.phoneNumber
-                        : "Debes completar el perfil"}
-                    </p> */}
-                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CommandItem>
@@ -173,13 +159,9 @@ const Sidebar = () => {
                     <Fingerprint className="sideBarIcon" />
                     Documento identificador
                   </AccordionTrigger>
-                  <AccordionContent>
-                    <p>{} </p>
-                  </AccordionContent>
                 </AccordionItem>
               </Accordion>
             </CommandItem>
-          </CommandGroup>
           <CommandItem>
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
@@ -194,6 +176,7 @@ const Sidebar = () => {
               </AccordionItem>
             </Accordion>
           </CommandItem>
+          </CommandGroup>
           <CommandGroup>
             <CommandItem>
               <ShieldCheck className="sideBarIcon" />
@@ -221,14 +204,14 @@ const Sidebar = () => {
       )}
       {isCityModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
+          <div className="bg-white p-4 rounded-xl mx-10">
             <City closeCityModal={closeCityModal} />
           </div>
         </div>
       )}
       {isPhoneNumber && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
+          <div className="bg-white p-4 rounded-xl mx-10">
             <PhoneNumber closePhoneNumber={closePhoneNumber} />
           </div>
         </div>
