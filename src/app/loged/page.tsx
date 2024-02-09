@@ -52,16 +52,16 @@ const Loged = () => {
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
-  const [selectdriverOpen, setSelectdriverOpen] = useState(false);
+  const [selectdriverOpen, setSelectdriverOpen] = useState<boolean>(false);
   const [driver, setDriver] = useState(null);
   const { data: session } = useSession();
   const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [receptor, setReceptor] = useState<boolean | null>(false);
   const [receptorInfo, setReceptorInfo] = useState<receptor | null>(null);
-  const [lastModalOpen, setLastModalOpen] = useState(false);
+  const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [envio, setEnvio] = useState<any | null>(null);
-  const [dateModalOpen, setDateModalOpen] = useState(false);
+  const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
 
   const fromHandler = () => {
     setFromModalOpen(true);

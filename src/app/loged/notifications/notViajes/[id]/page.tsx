@@ -110,9 +110,12 @@ const Page = ({ params }: { params: { id: string } }) => {
           }),
         });
         const ansPago = await pago.json();
-        console.log(pago, 'im the pago ctm!!', ansPago);
-      }
-      
+        //console.log(pago, 'im the pago ctm!!', ansPago);
+        //enviar pushNotification
+      } 
+      // else {
+        //tirar notificacion de rechazo!!
+      // } 
     } catch (error) {
       console.error(error);
     }
