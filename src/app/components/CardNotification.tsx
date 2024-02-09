@@ -26,14 +26,26 @@ const CardNotification = ({
       <p
         className={`text-5xl  w-1/5 ${visto ? "text-gray-500" : "text-pink"} `}
       >
-        {visto ? (
-          <MdOutlineNotificationsNone />
+        {detail === "notViajes" ? (
+          <>
+            {visto ? (
+              <MdOutlineNotificationsNone />
+            ) : (
+              <MdOutlineNotificationsActive />
+            )}
+          </>
         ) : (
-          <MdOutlineNotificationsActive />
+          <>
+            {visto ? (
+              <MdOutlineNotificationsNone />
+            ) : (
+              <MdOutlineNotificationsActive />
+            )}
+          </>
         )}
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        {type === "SolicitudDriver" ? (
+        {detail === "notViajes" ? (
           <p>
             Tienes una solicitud de envió de <b>{name.toUpperCase()}</b>
           </p>
