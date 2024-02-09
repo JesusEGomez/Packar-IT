@@ -87,7 +87,7 @@ const Sidebar = () => {
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
-        <div className="mx-2 flex justify-evenly items-center">
+        <div className="mx-2 flex justify-evenly items-center my-3">
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
@@ -141,7 +141,7 @@ const Sidebar = () => {
                     onClick={() => navigation.push("/mobile-phone")}
                   >
                     <Check className="sideBarIcon" />
-                    Validar telefono
+                    Validar teléfono
                   </AccordionTrigger>
                   <AccordionContent></AccordionContent>
                 </AccordionItem>
@@ -189,7 +189,7 @@ const Sidebar = () => {
             <CommandItem>
               <button className="flex" onClick={logOutSession}>
                 <LogOut className="sideBarIcon" />
-                Cerrar sesion
+                Cerrar sesión
               </button>
             </CommandItem>
           </CommandGroup>

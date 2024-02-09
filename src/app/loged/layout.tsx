@@ -56,7 +56,7 @@ function layout({ children }: React.PropsWithChildren) {
             <div className="bg-slate-200 p-4 rounded-xl">
               <div className="flex flex-col w-80 gap-y-3">
                 <button onClick={closePopUp} className="bg-pink text-white w-fit rounded-full p-2 hover:opacity-60"><IoMdCloseCircleOutline size={20} /></button>
-                <h1 className="font-bold w-72 mx-auto text-center">Hola, ¿nos autorizas a enviarte notificaciones para mantenerte al día sobre tus envios y viajes?</h1>
+                <h1 className="font-bold w-72 mx-auto text-center">Hola, ¿nos autorizas a enviarte notificaciones para mantenerte al día sobre tus envíos y viajes?</h1>
                 <button className="bg-pink w-full text-white font-bold rounded-xl my-2 p-3 hover:opacity-75"
                 onClick={allowNotifications}
                 >Permitir</button>

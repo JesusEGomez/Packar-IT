@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { RiMapPinAddLine } from "react-icons/ri";
-import { RiMapPin2Fill } from "react-icons/ri";
+import { RiMapPinAddLine, RiMapPin2Fill } from "react-icons/ri";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { BsBoxSeam } from "react-icons/bs";
 import MapComponent from "@/app/components/MapComponent";

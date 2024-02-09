@@ -16,7 +16,7 @@ function Step1() {
       </h1>
       <p className="onboarding-font-text p-3">
         Aprovecha el viaje de otro conductor para enviar tus paquetes de manera
-        colaborativa, rapida y sostenible.
+        colaborativa, rápida y sostenible.
       </p>
     </div>
   );
