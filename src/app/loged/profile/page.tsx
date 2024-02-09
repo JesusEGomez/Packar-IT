@@ -56,12 +56,10 @@ function Profile() {
         </h1>
       </div>
       <div className="flex justify-center items-center m-3">
-        <dl className="border-t border-gray-200 px-4 py-5 sm:p-0 m-5">
-          <Avatar className="w-20 h-20 mr-2">
-            <AvatarImage src={session?.user?.image!} alt="@shadcn" />
-            <AvatarFallback>?</AvatarFallback>
-          </Avatar>
-        </dl>
+        <Avatar className="w-25 h-25 mr-2">
+          <AvatarImage src={session?.user?.image!} alt="@shadcn" />
+          <AvatarFallback>?</AvatarFallback>
+        </Avatar>
       </div>
       <dl className="border-t border-gray-200 px-4 py-5 sm:p-0 m-5">
         <div className="sm:divide-y sm:divide-gray-200">
@@ -80,13 +78,13 @@ function Profile() {
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-700">Ciudad</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {profileData?.city || 'No disponible'}
+              {profileData?.city || "No disponible"}
             </dd>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-700">Teléfono</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            {profileData?.phoneNumber || 'No disponible'}
+              {profileData?.phoneNumber || "No disponible"}
             </dd>
           </div>
         </div>
