@@ -1,13 +1,9 @@
-"use client"
-import VerificationCode from './VerificationCode'
-import React from 'react'
+"use client";
+import VerificationCode from "./VerificationCode";
+import React from "react";
 
 const page = () => {
-  return (
-    <>
-      <VerificationCode />
-    </>
-  )
-}
+  return <VerificationCode />;
+};
 
-export default page
+export default page;

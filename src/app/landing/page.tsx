@@ -7,8 +7,8 @@ export default function landing() {
         <h2 className="text-azulprimario">Aprovecha el viaje de otras personas para enviar lo que necesites</h2>
       </div>
       <div>
-        <p>Boton 1</p>
-        <p>Boton 2</p>
+        <p>Botón 1</p>
+        <p>Botón 2</p>
       </div>
     </div>
   );

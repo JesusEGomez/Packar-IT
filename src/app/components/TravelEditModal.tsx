@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ITravelDB, ITravelEnvioDB } from "../interfaces/TravelDB.interface";
+import {  ITravelEnvioDB } from "../interfaces/TravelDB.interface";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -15,7 +15,7 @@ const TravelEditModal = ({
   travel,
   updateData,
 }: TravelEditModalProps) => {
-  const [state, setState] = useState<String>();
+  const [state, setState] = useState<string>();
   const [finalizado, setFinalizado] = useState<boolean>(true);
   const [enCruso, setenCruso] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
@@ -82,7 +82,7 @@ const TravelEditModal = ({
         </Button>
       </div>
       <p>
-        Aqui podras gestionar el estado de tu viaje. Cada cambio que hagas se le
+        Aquí podrás gestionar el estado de tu viaje. Cada cambio que hagas se le
         avisara a las personas que enviaron paquetes en este viaje
       </p>
 

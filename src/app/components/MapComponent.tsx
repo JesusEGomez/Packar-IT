@@ -65,7 +65,7 @@ function MapComponent(props: MapComponentProps) {
             newMap.setCenter(userPosition);
           },
           (error) => {
-            console.error("Error obteniendo la geoposición:", error);
+            console.error("Error obteniendo la geolocalización:", error);
           }
         );
       } else {

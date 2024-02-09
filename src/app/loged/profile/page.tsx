@@ -18,29 +18,27 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    async function fetchProfileData() {
-      try {
-        const responseUser = await fetch(
-          `/api/auth/myid/?email=${session?.user?.email}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const userData = await responseUser.json();
-        setUserId(userData);
-        const response = await fetch(
-          `/api/auth/getProfileById/?id=${userData._id}`
-        );
-        const data = await response.json();
-        console.log("Profile data:", data);
-        setProfileData(data);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
+async function fetchProfileData() {
+  try {
+    const userData = await (await fetch(
+      `/api/auth/myid/?email=${session?.user?.email}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    }
+    )).json();
+    setUserId(userData);
+    const data = await (await fetch(
+      `/api/auth/getProfileById/?id=${userData._id}`
+    )).json();
+    console.log("Profile data:", data);
+    setProfileData(data);
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+  }
+}
     fetchProfileData();
   }, []);
 

@@ -21,7 +21,7 @@ export const getFormattedAddress = async (location: myLocation) => {
       console.log(results);
       return results;
     } else {
-      return "No se encontró ninguna dirección para la geoposición proporcionada.";
+      return "No se encontró ninguna dirección para la geolocalización proporcionada.";
     }
   } catch (error) {
     console.error("Error al obtener la dirección:", error);

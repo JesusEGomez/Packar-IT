@@ -89,7 +89,7 @@ function Page(props: any) {
           <h1 className="text-2xl">Oops! Nada por acá!</h1>
           <br />
           <p className="text-center m-2">
-            No encontramos trayectos con las caracteristicas que indicaste.
+            No encontramos trayectos con las características que indicaste.
           </p>
         </div>
         <button

@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { getSession } from "next-auth/react";
-import { SidebarContext } from "../Provider";
+
 
 
 interface NotificationData {

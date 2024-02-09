@@ -1,8 +1,6 @@
 "use client";
-"use client";
-import { LuFolderInput } from "react-icons/lu";
-import { ChangeEvent, useRef } from "react";
-import { useState, useEffect } from "react";
+
+import { useState, useEffect , ChangeEvent} from "react";
 import { useSession } from "next-auth/react";
 
 require("dotenv").config();
