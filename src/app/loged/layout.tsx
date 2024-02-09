@@ -7,9 +7,8 @@ import { useSession } from "next-auth/react";
 import useUserState from "../store/sotre";
 import { useRouter } from "next/navigation";
 import ably from "@/app/api/ably/ably";
-import { connectDB } from "@/libs/mongodb";
-import Profile from "@/models/perfil";
 import { IoMdCloseCircleOutline } from "react-icons/io";
+import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 function layout({ children }: React.PropsWithChildren) {
   const { data: session } = useSession();
@@ -39,7 +38,7 @@ function layout({ children }: React.PropsWithChildren) {
       const channel = ably.channels.get(notificationChannelName);
       channel.subscribe((message) => {
         alert(`Mensaje recibido: ${message.data.content}`);
-        
+        pushNotification(message.data.content);
       });
       setIsSubscribed(true); // Marcar que ya nos hemos suscrito
     //}
