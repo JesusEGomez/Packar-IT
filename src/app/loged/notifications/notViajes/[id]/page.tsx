@@ -39,7 +39,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     }
   };
 
-  //* Esta función realiza la respuesta actualizando esta notificación y creando una para el solicitante
+  //* Esta función realiza la respuesta actualizando esta notificación
   const response = async (estado: string, id: string) => {
     try {
       const response = await fetch(
