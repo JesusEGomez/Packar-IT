@@ -12,7 +12,7 @@ function Step2() {
         className=""
       />
       <h1 className="onboarding-font text-xl mt-28  font-bold md:text-4xl md:font-bold md:text-center md:mt-20">
-        Envia tu paquete
+        Envía tu paquete
       </h1>
       <p className="onboarding-font-text p-3">
         Elige el viaje que mejor se adapte a tus necesidades, chatea con el

@@ -1,6 +1,6 @@
 
 export const pushNotification = (estado: string) => {
-    console.log('estoy en el pushNotif');
+    console.log('estoy en el push Notificaciones');
     
     if(Notification.permission === 'granted'){
         switch (estado) {
@@ -17,7 +17,7 @@ export const pushNotification = (estado: string) => {
                 break;
             case 'Rechazado':
                 new Notification('Tu solicitud ha sido rechazada', {
-                    body: 'Tu solicitud fue rechada, vamos a buscar a otro viajero para llevar tu pedido'
+                    body: 'Tu solicitud fue rechazada, vamos a buscar a otro viajero para llevar tu pedido'
                 });
                 break;
             default:

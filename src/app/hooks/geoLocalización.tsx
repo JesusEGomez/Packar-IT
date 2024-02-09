@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { sendNotification } from "../api/ably/Notifications";
+
 
 interface BaseLocation {
   latitude: number;

@@ -163,7 +163,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               className="bg-pink text-white"
               onClick={() => setOpen(true)}
             >
-              Administrar Envios
+              Administrar Envíos
             </Button>
             <Button
               className="bg-pink text-white"

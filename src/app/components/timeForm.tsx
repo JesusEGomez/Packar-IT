@@ -32,7 +32,7 @@ function TimeForm(props: any) {
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex w-64">
-        <h1 className="text-xl font-bold mb-4">Hora de Envio</h1>
+        <h1 className="text-xl font-bold mb-4">Hora de Envió</h1>
         <FaExclamationCircle className="text-slate-400" />
       </div>
 

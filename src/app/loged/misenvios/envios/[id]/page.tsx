@@ -113,7 +113,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     <p className="font-bold sm:text-xl ">
                       {product.driverFinded.horaSalida}
                     </p>
-                  </div>
+              s    </div>
                   <div className="flex  gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
                       {product.hasta.ciudad?.replaceAll("-", " ")}
@@ -168,7 +168,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
                 <div className="flex  gap-x-2 ">
                   <Phone />{" "}
-                  <p className=" sm:text-xl">{`Telefono: ${product.driverProfile.phoneNumber}`}</p>
+                  <p className=" sm:text-xl">{`Teléfono: ${product.driverProfile.phoneNumber}`}</p>
                 </div>
                 <div className="flex gap-x-2  ">
                   <MailIcon />{" "}
@@ -206,8 +206,9 @@ const Page = ({ params }: { params: { id: string } }) => {
               disabled={product.estado !== "Entregado"}
               className="w-80 bg-pink text-white m-5 rounded-lg"
             >
-              Envio correcto
+              Envió correcto
             </Button>
+            //* Agregar boton cancelar siempre y cuando el estado sea Pendiente
           )}
         </div>
       ) : (

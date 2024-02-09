@@ -57,24 +57,38 @@ export default function City(props: any) {
   };
 
   const handleBotonPic = async () => {
-    const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const userAns = await user.json();
-    const updatedProfile = await fetch("/api/auth/profile", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: userAns,
-        city,
-      }),
-    });
-    props.closeCityModal();
+    try {
+      const userResponse = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!userResponse.ok) {
+        throw new Error('No se pudo obtener el ID del usuario');
+      }
+      const userAns = await userResponse.json();
+      const updatedProfileResponse = await fetch("/api/auth/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userAns._id, // Asegúrate de enviar solo el _id del usuario
+          city,
+        }),
+      });
+      console.log(updatedProfileResponse);
+      if (!updatedProfileResponse.ok) {
+        throw new Error('No se pudo actualizar el perfil');
+      }
+      // Aquí puedes manejar la respuesta de la API, por ejemplo, mostrando un mensaje de éxito
+      props.closeCityModal();
+    } catch (error) {
+      console.error(error);
+      // Aquí puedes manejar el error, por ejemplo, mostrando un mensaje de error al usuario
+    }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full my-auto mt-4">

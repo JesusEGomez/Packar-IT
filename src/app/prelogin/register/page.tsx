@@ -117,7 +117,7 @@ export default function Register() {
           Crear cuenta
         </h1>
         <h2 className="text-xl m-4 font-bold text-center text-defaultButton mb-3">
-          Ahorra tiempo y dinero en tus envios de paqueteria.
+          Ahorra tiempo y dinero en tus envíos de paquetería.
         </h2>
         <label htmlFor="fullname" className="text-defaultButton ">
           Nombre:
@@ -205,7 +205,7 @@ export default function Register() {
       <p className="mx-auto mb-10 text-sm">
         ¿Ya tienes una cuenta?{" "}
         <a className="text-blue-700" href="register/login">
-          Inicia sesion
+          Inicia sesión
         </a>
       </p>
     </div>
