@@ -6,6 +6,7 @@ export interface INotification {
   type?: "solicitudServicio" | "respuestaServicio";
   estado?: "Pendiente" | "Aceptado" | "Rechazado";
   subEstado?: "solicitud" | "cambios";
+  total: number;
   vistoDriver?: boolean;
   vistoUser?: boolean;
   usuario?: IUser;
@@ -44,7 +45,7 @@ export interface INotification {
     horaLlegada?: string;
     eresFlexible?: boolean;
     estado?: string;
-    precio?: object[];
+    precio?: {_id: string, price: number ,quantity: number}[];
     envios?: Array<any>[];
     special?: boolean;
     como?: string;

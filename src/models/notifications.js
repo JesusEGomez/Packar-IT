@@ -43,6 +43,7 @@ const NotificationSchema = new Schema({
     ],
     default: "Pendiente",
   },
+  total: { type: Number },
   vistoDriver: { type: Boolean, default: false },
   vistoUser: { type: Boolean, default: false },
 

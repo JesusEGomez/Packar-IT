@@ -10,14 +10,17 @@ import { CalendarDays, CheckCircle2, XCircle } from "lucide-react";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [notification, setNotification] = useState<INotification | null>();
+  
   const fetchNotification = async () => {
     try {
       const response = await fetch(
         `/api/auth/getNotificationById/?id=${params.id}`
       );
       const newNotification: INotification = await response.json();
+      
       if (response.ok) {
         setNotification(newNotification);
+        
         if (!newNotification?.vistoDriver) {
           console.log(notification?.vistoDriver);
           setVisto();
@@ -30,10 +33,10 @@ const Page = ({ params }: { params: { id: string } }) => {
   //* Esta función marca como visto a la notificación
   const setVisto = async () => {
     try {
-      const response = await fetch(`/api/auth/getNotificationById`, {
-        method: "PATCH",
-        body: JSON.stringify({ _id: params.id, vistoDriver: true }),
-      });
+      // const response = await fetch(`/api/auth/getNotificationById`, {
+      //   method: "PATCH",
+      //   body: JSON.stringify({ _id: params.id, vistoDriver: true }),
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -49,6 +52,67 @@ const Page = ({ params }: { params: { id: string } }) => {
           body: JSON.stringify({ _id: params.id, estado: estado }),
         }
       );
+      
+      if(notification && estado === 'Aceptado'){
+        const shipmentResponse = await fetch("/api/auth/envio", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            usuario: notification.usuario?._id,
+            desde: notification.desde,
+            hasta: notification.hasta,
+            cuando: notification.cuando,
+            producto: notification.producto,
+            recibe: notification.recibe,
+            driver: notification.driver?._id,
+          }),
+        });
+        if (!shipmentResponse.ok) {
+          throw new Error("Failed to create shipment");
+        }
+        
+        const shipmentData = await shipmentResponse.json();
+        // console.log('shipment creado',shipmentData);
+        //crear el envio 
+        // Create shipment
+        // Add shipment to the trip
+
+        const updateResponse = await fetch("/api/auth/viajes", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+          body: JSON.stringify({
+            viajeId: notification.driver?._id,
+            data: shipmentData,
+            prod: shipmentData.producto,
+          }),
+        });
+
+        if (!updateResponse.ok) {
+          throw new Error("Failed to update trip with shipment");
+        }
+        
+        const updated = await updateResponse.json();
+        // console.log(updated, "soy updated");
+
+        //pagar                  
+        const pago = await fetch("/api/auth/pagar", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            userId: notification.usuario?._id,
+            total: notification?.total
+          }),
+        });
+        const ansPago = await pago.json();
+        console.log(pago, 'im the pago ctm!!', ansPago);
+      }
+      
     } catch (error) {
       console.error(error);
     }
@@ -145,7 +209,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="flex justify-center gap-x-4 w-full">
             <Button
               onClick={() => response("Aceptado", notification._id!)}
-              className="bg-pink text-white"
+              className="bg-pink text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              //disabled={disabledAceptar}
             >
               Aceptar Solicitud
             </Button>
