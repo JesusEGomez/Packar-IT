@@ -23,7 +23,7 @@ const NotificationSchema = new Schema({
   type: { type: String, enum: ["solicitudServicio", "respuestaServicio"] },
   estado: { type: String, enum: ["Pendiente", "Aceptado", "Rechazado"], default: 'Pendiente' },
   subestado: { type: String, enum: ['solicitud', 'cambios'], default: 'solicitud'},
-  estadoEnvio: { type: String, enum: ['Aceptado', 'Cancelado', 'En Curso', 'Entregado', 'Finalizado'], default: 'Pendiente'},
+  estadoEnvio: { type: String, enum: ['Pendiente','Aceptado', 'Cancelado', 'En Curso', 'Entregado', 'Finalizado'], default: 'Pendiente'},
   visto: { type: Boolean, default: false },
   usuario: { type: UserSchema, required: false },
   desde: { type: { calle: String, pais: String, ciudad: String }, required: false },
