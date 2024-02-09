@@ -1,5 +1,7 @@
 
 export const pushNotification = (estado: string) => {
+    console.log('estoy en el pushNotif');
+    
     if(Notification.permission === 'granted'){
         switch (estado) {
             case 'Pendiente':
