@@ -1,5 +1,5 @@
-"use client";
-import { useState, useEffect } from "react";
+"use client"
+import  { memo, useState, useEffect } from "react";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
@@ -65,4 +65,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default memo(Profile);
