@@ -8,6 +8,12 @@ import { useSession } from "next-auth/react";
 import { RiVisaLine } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ModalChangeCard from "./ModalChangeCard";
+import { FaCcMastercard } from "react-icons/fa";
+import { SiAmericanexpress } from "react-icons/si";
+import { FaCcDiscover } from "react-icons/fa6";
+import { FaCcDinersClub } from "react-icons/fa";
+import { SiJcb } from "react-icons/si";
+import { FaRegCreditCard } from "react-icons/fa";
 
 type Card = {
     id: string;
@@ -105,7 +111,7 @@ const Monedero = (props:any) => {
     },[loadFetch])
 
     return(
-        <div className="flex flex-col items-center justify-center w-full h-full my-auto mr-5 ">
+        <div className="flex flex-col items-center p-2 justify-center w-full h-full my-auto mr-5 ">
             <div className="cursor-pointer" onClick={props.closeModal}><IoMdArrowRoundBack size={20} /></div>
             <h1 className="text-2xl font-bold mt-4 mb-10">Monedero</h1>
             <p className='text-slate-400 text-sm mb-5'>Añade un método de pago para realizar tus envíos y recibir el dinero de tus trayectos.</p>
@@ -116,7 +122,21 @@ const Monedero = (props:any) => {
                             <div className='flex justify-between items-center border-b pb-4 mb-4' >
                                 <div className="flex gap-x-3">
                                     <div className="p-2 bg-visaPink rounded-xl text-blue-800">
-                                        <RiVisaLine size={30} />
+                                        {
+                                            myCard.card.brand === 'Visa' 
+                                            ? <RiVisaLine size={30} />
+                                            : myCard.card.brand === 'American Express'
+                                            ? <SiAmericanexpress size={30} />
+                                            : myCard.card.brand === 'Diners Club'
+                                            ? <FaCcDinersClub size={30} />
+                                            : myCard.card.brand === 'Discover'
+                                            ? <FaCcDiscover size={30} />
+                                            : myCard.card.brand === 'MasterCard'
+                                            ? <FaCcMastercard size={30} />
+                                            : myCard.card.brand === 'JCB'
+                                            ? <SiJcb size={30} />
+                                            : <FaRegCreditCard size={30} />
+                                        }
                                     </div>
                                     <div>
                                         <p>...{myCard.card.last4}</p>

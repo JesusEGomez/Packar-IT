@@ -14,7 +14,8 @@ function MapComponent(props: MapComponentProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete>();
-  const [selectedPos, setSelectedPos] = useState<google.maps.LatLngLiteral | null>(null);
+  const [selectedPos, setSelectedPos] =
+    useState<google.maps.LatLngLiteral | null>(null);
 
   useEffect(() => {
     const loadMap = async () => {
@@ -65,7 +66,7 @@ function MapComponent(props: MapComponentProps) {
             newMap.setCenter(userPosition);
           },
           (error) => {
-            console.error("Error obteniendo la geolocalización:", error);
+            console.error("Error obteniendo la geoposición:", error);
           }
         );
       } else {
@@ -102,20 +103,20 @@ function MapComponent(props: MapComponentProps) {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div>
       <Button onClick={props.closeMapModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div style={{ height: "400px" }} ref={mapRef} />
-      <div className="p-1">
+      <div style={{ height: "400px", width:'350px' }} ref={mapRef} />
+      <div className="p-2 flex flex-col gap-y-2 my-2 mx-auto">
         <input
-          className="bg-slate-200 rounded-r-lg border-slate-300	white"
+          className="p-2 bg-slate-200 rounded"
           type="text"
           placeholder="Ingrese una dirección"
           ref={inputRef}
         />
         <button
-          className="bg-pink rounded-xl m-2 p-3 text-white text-sm"
+          className="bg-pink rounded mx-4 p-3 text-white text-sm"
           onClick={handleSearch}
         >
           Seleccionar
