@@ -8,6 +8,12 @@ import { useSession } from "next-auth/react";
 import { RiVisaLine } from "react-icons/ri";
 import { FaRegCheckCircle } from "react-icons/fa";
 import ModalChangeCard from "./ModalChangeCard";
+import { FaCcMastercard } from "react-icons/fa";
+import { SiAmericanexpress } from "react-icons/si";
+import { FaCcDiscover } from "react-icons/fa6";
+import { FaCcDinersClub } from "react-icons/fa";
+import { SiJcb } from "react-icons/si";
+import { FaRegCreditCard } from "react-icons/fa";
 
 type Card = {
     id: string;
@@ -116,7 +122,21 @@ const Monedero = (props:any) => {
                             <div className='flex justify-between items-center border-b pb-4 mb-4' >
                                 <div className="flex gap-x-3">
                                     <div className="p-2 bg-visaPink rounded-xl text-blue-800">
-                                        <RiVisaLine size={30} />
+                                        {
+                                            myCard.card.brand === 'Visa' 
+                                            ? <RiVisaLine size={30} />
+                                            : myCard.card.brand === 'American Express'
+                                            ? <SiAmericanexpress size={30} />
+                                            : myCard.card.brand === 'Diners Club'
+                                            ? <FaCcDinersClub size={30} />
+                                            : myCard.card.brand === 'Discover'
+                                            ? <FaCcDiscover size={30} />
+                                            : myCard.card.brand === 'MasterCard'
+                                            ? <FaCcMastercard size={30} />
+                                            : myCard.card.brand === 'JCB'
+                                            ? <SiJcb size={30} />
+                                            : <FaRegCreditCard size={30} />
+                                        }
                                     </div>
                                     <div>
                                         <p>...{myCard.card.last4}</p>
