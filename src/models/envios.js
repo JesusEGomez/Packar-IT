@@ -44,8 +44,8 @@ export const EnvioSchema = new Schema({
   },
   estado: {
     type: String,
-    enum: ["Pendiente", "Recibido", "Entregado"],
-    default: "Pendiente",
+    enum: ["Aceptado", "Recibido", "Entregado"],
+    default: "Aceptado",
   },
 });
 

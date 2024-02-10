@@ -7,9 +7,16 @@ import { Button } from "@/components/ui/button";
 import { FiMapPin } from "react-icons/fi";
 import { IoTime } from "react-icons/io5";
 import { CalendarDays, CheckCircle2, XCircle } from "lucide-react";
+import Accepted from "@/app/components/Acepted";
+import Rejected from "@/app/components/Rejected";
+import { sendNotification } from "@/app/api/ably/Notifications";
+import RejectedPayment from "@/app/components/RejectedPayment";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [notification, setNotification] = useState<INotification | null>();
+  const [success, setSuccess] = useState<boolean>(false);
+  const [rejected, setRejected] = useState<boolean>(false);
+  const [payment, setPayment] = useState<boolean>(false);
   
   const fetchNotification = async () => {
     try {
@@ -33,10 +40,10 @@ const Page = ({ params }: { params: { id: string } }) => {
   //* Esta función marca como visto a la notificación
   const setVisto = async () => {
     try {
-      // const response = await fetch(`/api/auth/getNotificationById`, {
-      //   method: "PATCH",
-      //   body: JSON.stringify({ _id: params.id, vistoDriver: true }),
-      // });
+      const response = await fetch(`/api/auth/getNotificationById`, {
+        method: "PATCH",
+        body: JSON.stringify({ _id: params.id, vistoDriver: true }),
+      });
     } catch (error) {
       console.error(error);
     }
@@ -111,11 +118,15 @@ const Page = ({ params }: { params: { id: string } }) => {
         });
         const ansPago = await pago.json();
         //console.log(pago, 'im the pago ctm!!', ansPago);
-        //enviar pushNotification
+        pago.ok ? setSuccess(true) : setPayment(true);
       } 
-      // else {
-        //tirar notificacion de rechazo!!
-      // } 
+      else {
+        setRejected(true);
+      } 
+      notification 
+        && notification.usuario 
+        && notification.estado
+        && sendNotification(notification.usuario._id, { content: notification.estado });
     } catch (error) {
       console.error(error);
     }
@@ -227,6 +238,27 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
       ) : (
         <div>Cargando...</div>
+      )}
+      {success && (
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Accepted />
+          </div>
+        </div>
+      )}
+      {rejected && (
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Rejected />
+          </div>
+        </div>
+      )}
+      {payment && (
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <RejectedPayment />
+          </div>
+        </div>
       )}
     </div>
   );

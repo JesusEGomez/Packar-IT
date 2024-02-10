@@ -2,7 +2,7 @@
 
 const ModalChangeCard = (props:any) => {
     return(
-        <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center">
+        <div className="flex flex-col w-[350px] p-2 mx-auto justify-center items-center">
             <h1 className="text-2xl">¿Vas a cambiar de tarjeta?</h1>
             <p className="">Recuerda que esto borrará tu previa tarjeta. Esta acción es irreversible</p>
             <button className='bg-pink w-full m-2 text-white font-bold cursor-pointer rounded-xl p-3' onClick={props.closeWithChange}>Sí, cambiar</button>

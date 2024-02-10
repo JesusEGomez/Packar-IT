@@ -16,9 +16,8 @@ const Page = ({ params }: { params: { id: string } }) => {
   const navigate = useRouter();
   const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [selectdriverOpen, setSelectdriverOpen] = useState<boolean>(false);
-  const [driver, setDriver] = useState<any>(null); // Cambia el tipo según corresponda
-  const [envio, setEnvio] = useState<any>(null); // Cambia el tipo según corresponda
-
+  const [driver, setDriver] = useState<any>(null);
+  const [envio, setEnvio] = useState<any>(null);
   const closeLastModal = () => {
     setLastModalOpen(false);
   };
@@ -55,10 +54,10 @@ const Page = ({ params }: { params: { id: string } }) => {
   //* Esta función marca como visto a la notificación
   const setVisto = async () => {
     try {
-      // const response = await fetch(`/api/auth/getNotificationById`, {
-      //   method: "PATCH",
-      //   body: JSON.stringify({ _id: params.id, vistoUser: true }),
-      // });
+      const response = await fetch(`/api/auth/getNotificationById`, {
+        method: "PATCH",
+        body: JSON.stringify({ _id: params.id, vistoUser: true }),
+      });
     } catch (error) {
       console.error(error);
     }
