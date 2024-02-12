@@ -12,6 +12,11 @@ const MobilePhoneNumber = () => {
   const [countryCode, setCountryCode] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [verificationCode, setVerificationCode] = useState<string>(''); 
+  const [disable, setDisable] = useState<boolean>(true);
+
+  const updateButtonState = (code: string, number: string) => {
+    setDisable(!code.trim() || !number.trim());
+  };  
 
   useEffect(() => {
     if (session?.user) {
@@ -73,17 +78,23 @@ const MobilePhoneNumber = () => {
         </div>
         <p className="fw-bold fs-5 mt-5 mb-3">Introduce tu número de teléfono</p>
         <div className="flex flex-col w-2/3 lg:w-2/3 mx-auto lg:flex-row justify-center items-center my-auto">
-          <CountryCode onCountryCodeChange={(value: string) => setCountryCode(value)} />
+          <CountryCode onCountryCodeChange={(value: string) => {
+          setCountryCode(value);
+          updateButtonState(value, phoneNumber);
+          }} />
           <input
             placeholder="Número de teléfono"
             type="number"
             className="border   border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500 w-1/2 lg:w-full"
             id="number"
             aria-describedby="phoneNumber"
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+              updateButtonState(countryCode, e.target.value);
+            }}
           />
         </div>
-        <p className="fs-6 mt-4 mb-3">
+        <p className="fs-6 pt-6 mb-8">
           Te enviaremos un código OTP para{' '}
           <span className="d-block text-left">verificar tu número de teléfono</span>
         </p>
@@ -91,9 +102,10 @@ const MobilePhoneNumber = () => {
           <div className="col-12">
             <Button
               type="button"
-              className="btn w-50 mx-auto p-3 text-light mt-3 bg-pink text-white"
+              className="bg-pink w-1/2 disabled:opacity-70 text-white font-bold rounded-b-xl p-3 "
+              disabled={disable}
               onClick={sendVerificationCode}
-            >
+              >
               Enviar código
             </Button>
           </div>
