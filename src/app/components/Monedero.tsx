@@ -102,6 +102,8 @@ const Monedero = (props:any) => {
                 if(getCardInfo.ok){
                     const card = await getCardInfo.json();
                     setMyCard(card.paymentMethod);
+                    console.log(card.paymentMethod);
+                    
                     setLoadFetch(false);
                 }
             }
@@ -123,7 +125,7 @@ const Monedero = (props:any) => {
                                 <div className="flex gap-x-3">
                                     <div className="p-2 bg-visaPink rounded-xl text-blue-800">
                                         {
-                                            myCard.card.brand === 'Visa' 
+                                            myCard.card.brand === 'visa' 
                                             ? <RiVisaLine size={30} />
                                             : myCard.card.brand === 'American Express'
                                             ? <SiAmericanexpress size={30} />
