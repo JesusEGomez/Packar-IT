@@ -36,8 +36,8 @@ const InputCode = (props: InputCodeProps) => {
 
   return (
     <div className="flex flex-col items-center code-inputs">
-      <label className="mb-4">Introducir código</label>
-      <div className="flex justify-start items-center">
+      <label className="mb-2 text-lg md:mb-4 md:text-xl">Introducir código</label>
+      <div className="flex justify-start items-center justify-center md:justify-start">
         {code.map((num, idx) => (
           <input
             key={idx}
@@ -50,7 +50,7 @@ const InputCode = (props: InputCodeProps) => {
             onChange={(e) => processInput(e, idx)}
             onKeyUp={(e) => onKeyUp(e, idx)}
             ref={(ref) => inputs.current.push(ref)}
-            className="mr-4 bg-transparent text-center h-16 w-16 border-2 border-gray-400 rounded-md mx-1"
+            className="mr-4 bg-transparent text-center h-8 w-8 md:h-20 md:w-20 border-2 border-gray-400 rounded-md mx-1"
           />
         ))}
       </div>

@@ -8,20 +8,68 @@ interface RecipientData {
   email: string;
 }
 
-const RecipientForm = (props:any): JSX.Element => {
-  const [nombreApellidos, setNombreApellidos] = useState<string | undefined>(undefined);
+const RecipientForm = (props: any): JSX.Element => {
+  const [nombreApellidos, setNombreApellidos] = useState<string | undefined>(
+    undefined
+  );
   const [telefono, setTelefono] = useState<string | undefined>(undefined);
   const [email, setEmail] = useState<string | undefined>(undefined);
+  const [nombreApellidosError, setNombreApellidosError] = useState<
+    string | null
+  >(null);
+  const [telefonoError, setTelefonoError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [disable, setDisble] = useState<boolean>(true);
-  
+
+  const validateForm = () => {
+    let isValid = true;
+
+    // Verificar que los campos no estén vacíos
+    if (!nombreApellidos) {
+      setNombreApellidosError("El nombre y apellidos son obligatorios.");
+      isValid = false;
+    } else {
+      setNombreApellidosError(null);
+    }
+
+    if (!telefono) {
+      setTelefonoError("El teléfono es obligatorio.");
+      isValid = false;
+    } else if (telefono.length !== 10) {
+      setTelefonoError("El teléfono debe tener  10 dígitos.");
+      isValid = false;
+    } else {
+      setTelefonoError(null);
+    }
+
+    // Validar el formato del email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setEmailError("El correo electrónico es obligatorio.");
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError("El correo electrónico no tiene un formato válido.");
+      isValid = false;
+    } else {
+      setEmailError(null);
+    }
+
+    return isValid;
+  };
+
   const submitHandler = () => {
-    const newRecipient = {
-      nombreApellidos: nombreApellidos,
-      telefono: telefono,
-      email: email,
-    };    
-    props.closeModal(newRecipient);
-  }
+    if (validateForm()) {
+      const newRecipient = {
+        nombreApellidos: nombreApellidos,
+        telefono: telefono,
+        email: email,
+      };
+      props.closeModal(newRecipient);
+    } else {
+      // Mostrar un mensaje de error o realizar alguna acción
+      console.error("Los datos ingresados no son válidos.");
+    }
+  };
 
   const handleNombreApellidosChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -46,14 +94,14 @@ const RecipientForm = (props:any): JSX.Element => {
 
   useEffect(() => {
     nombreApellidos && telefono && email && setDisble(false);
-  },[nombreApellidos, telefono, email])
+  }, [nombreApellidos, telefono, email]);
 
   return (
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
         <div className="mb-8 cursor-pointer" onClick={props.closeModal}>
-        <FaArrowLeft className="absolute left-4 " />
-        </div>  
+          <FaArrowLeft className="absolute left-4 " />
+        </div>
         <h1 className="text-3xl font-bold text-center mb-8">
           ¿A quién se lo envías?
         </h1>
@@ -62,7 +110,7 @@ const RecipientForm = (props:any): JSX.Element => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {" "}
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="nombreApellidos"
               className="block text-gray-700 font-bold mb-2"
@@ -77,10 +125,15 @@ const RecipientForm = (props:any): JSX.Element => {
               placeholder="Nombre y apellidos"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
+            {nombreApellidosError && (
+              <span className="text-red-500 text-xs">
+                {nombreApellidosError}
+              </span>
+            )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
-              htmlFor="nombreApellidos"
+              htmlFor="telefono"
               className="block text-gray-700 font-bold mb-2"
             >
               Teléfono
@@ -91,10 +144,21 @@ const RecipientForm = (props:any): JSX.Element => {
               value={telefono}
               onChange={handleTelefonoChange}
               placeholder="Teléfono"
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
+              pattern="\d{10}"
+              maxLength={10}
+              inputMode="numeric"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
+            {telefonoError && (
+              <span className="text-red-500 text-xs">{telefonoError}</span>
+            )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="email"
               className="block text-gray-700 font-bold mb-2"
@@ -109,13 +173,17 @@ const RecipientForm = (props:any): JSX.Element => {
               placeholder="Email"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
+            {emailError && (
+              <span className="text-red-500 text-xs">{emailError}</span>
+            )}
           </div>
         </div>
         <div className="bg-pink p-2 rounded-md mt-4">
-          <button 
-          disabled={disable}
-          onClick={submitHandler}
-          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85 disabled:opacity-55">
+          <button
+            disabled={disable}
+            onClick={submitHandler}
+            className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85 disabled:opacity-55"
+          >
             <h3 className="text-white">Siguiente</h3>{" "}
           </button>
         </div>
