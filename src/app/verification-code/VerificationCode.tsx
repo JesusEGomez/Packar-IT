@@ -50,7 +50,7 @@ const VerificationCode = () => {
 
       if (response.ok) {
         console.log('Código verificado con éxito');
-        router.push('/');
+        router.push('/loged');
       } else {
         console.error('Error al verificar el código:', data.error || 'Error desconocido');
       }
