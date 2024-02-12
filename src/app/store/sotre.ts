@@ -52,16 +52,7 @@ export const useUserState = create<UserState>((set, get) => ({
           localStorage.setItem("user", JSON.stringify(userData));
           console.log("usuario encontrado", userData);
 
-          // const responseProfile = await fetch(
-          //   `/api/auth/getProfileById/?id=${userData._id}`,
-          //   {
-          //     method: "GET",
-          //     headers: {
-          //       "Content-Type": "application/json",
-          //     },
-          //   }
-          // );
-          // const profile = await responseProfile.json();
+
 
           // profile && set({ profile: profile });
           // console.log(profile);
