@@ -144,6 +144,11 @@ const RecipientForm = (props: any): JSX.Element => {
               value={telefono}
               onChange={handleTelefonoChange}
               placeholder="Teléfono"
+              onKeyPress={(event) => {
+                if (!/[0-9]/.test(event.key)) {
+                  event.preventDefault();
+                }
+              }}
               pattern="\d{10}"
               maxLength={10}
               inputMode="numeric"
