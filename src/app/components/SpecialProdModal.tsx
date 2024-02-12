@@ -147,7 +147,7 @@ const SpecialProdModal = (props: any) => {
           <input
             placeholder="Peso(kg)"
             className="p-3 text-black"
-            type="text"
+            type="number"
             id="weight"
             {...register("weight", {
               required: { value: false, message: "Campo requerido" },
