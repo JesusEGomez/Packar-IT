@@ -110,7 +110,7 @@ const RecipientForm = (props: any): JSX.Element => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {" "}
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="nombreApellidos"
               className="block text-gray-700 font-bold mb-2"
@@ -131,7 +131,7 @@ const RecipientForm = (props: any): JSX.Element => {
               </span>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="telefono"
               className="block text-gray-700 font-bold mb-2"
@@ -158,7 +158,7 @@ const RecipientForm = (props: any): JSX.Element => {
               <span className="text-red-500 text-xs">{telefonoError}</span>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label
               htmlFor="email"
               className="block text-gray-700 font-bold mb-2"
