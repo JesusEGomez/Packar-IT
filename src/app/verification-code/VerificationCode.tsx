@@ -50,7 +50,7 @@ const VerificationCode = () => {
 
       if (response.ok) {
         console.log('Código verificado con éxito');
-        router.push('/');
+        router.push('/loged');
       } else {
         console.error('Error al verificar el código:', data.error || 'Error desconocido');
       }
@@ -61,7 +61,7 @@ const VerificationCode = () => {
   
 
   return (
-    <>
+    <div className="content my-3 flex flex-col justify-center w-full  ">
       <div className="my-3 flex flex-col">
         <Image
           src={LeftArrow}
@@ -69,7 +69,7 @@ const VerificationCode = () => {
           alt="left arrow"
           className="cursor-pointer"
         />
-        <span className="m-2 text-black text-xl">Verificación</span>
+        <span className="m-1 text-black text-xl">Verificación</span>
       </div>
       <div className="my-5 flex items-center flex-col w-full">
         <p className="text-xl my-4">
@@ -99,7 +99,7 @@ const VerificationCode = () => {
           Verificar
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
