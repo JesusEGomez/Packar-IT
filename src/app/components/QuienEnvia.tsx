@@ -8,20 +8,22 @@ interface RecipientData {
   email: string;
 }
 
-const RecipientForm = (props:any): JSX.Element => {
-  const [nombreApellidos, setNombreApellidos] = useState<string | undefined>(undefined);
+const RecipientForm = (props: any): JSX.Element => {
+  const [nombreApellidos, setNombreApellidos] = useState<string | undefined>(
+    undefined
+  );
   const [telefono, setTelefono] = useState<string | undefined>(undefined);
   const [email, setEmail] = useState<string | undefined>(undefined);
   const [disable, setDisble] = useState<boolean>(true);
-  
+
   const submitHandler = () => {
     const newRecipient = {
       nombreApellidos: nombreApellidos,
       telefono: telefono,
       email: email,
-    };    
+    };
     props.closeModal(newRecipient);
-  }
+  };
 
   const handleNombreApellidosChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>): void => {
@@ -46,14 +48,14 @@ const RecipientForm = (props:any): JSX.Element => {
 
   useEffect(() => {
     nombreApellidos && telefono && email && setDisble(false);
-  },[nombreApellidos, telefono, email])
+  }, [nombreApellidos, telefono, email]);
 
   return (
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
         <div className="mb-8 cursor-pointer" onClick={props.closeModal}>
-        <FaArrowLeft className="absolute left-4 " />
-        </div>  
+          <FaArrowLeft className="absolute left-4 " />
+        </div>
         <h1 className="text-3xl font-bold text-center mb-8">
           ¿A quién se lo envías?
         </h1>
@@ -80,7 +82,7 @@ const RecipientForm = (props:any): JSX.Element => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="nombreApellidos"
+              htmlFor="telefono"
               className="block text-gray-700 font-bold mb-2"
             >
               Teléfono
@@ -91,6 +93,8 @@ const RecipientForm = (props:any): JSX.Element => {
               value={telefono}
               onChange={handleTelefonoChange}
               placeholder="Teléfono"
+              pattern="\d{10}"
+              maxLength={10}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
           </div>
@@ -112,10 +116,11 @@ const RecipientForm = (props:any): JSX.Element => {
           </div>
         </div>
         <div className="bg-pink p-2 rounded-md mt-4">
-          <button 
-          disabled={disable}
-          onClick={submitHandler}
-          className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85 disabled:opacity-55">
+          <button
+            disabled={disable}
+            onClick={submitHandler}
+            className="text-white w-full text-center px-4 py-2 font-bold hover:bg-#CD3B85 disabled:opacity-55"
+          >
             <h3 className="text-white">Siguiente</h3>{" "}
           </button>
         </div>
