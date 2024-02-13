@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {  ITravelEnvioDB } from "../interfaces/TravelDB.interface";
+import { ITravelEnvioDB } from "../interfaces/TravelDB.interface";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -90,7 +90,7 @@ const TravelEditModal = ({
         Modificar el Estado de Viaje
       </label>
       <select onChange={stateHandler} name="estado" id="estado">
-        <option disabled selected value={travel.estado}>
+        <option disabled selected defaultValue={travel.estado}>
           {travel.estado}
         </option>
 

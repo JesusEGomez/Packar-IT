@@ -19,7 +19,7 @@ const ProductInfoModal = ({
   product,
   updateData,
 }: IProductInfoProps) => {
-  console.log(product);
+  console.log(estado);
   const [state, setState] = useState<string>();
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +33,6 @@ const ProductInfoModal = ({
         });
 
         if (response.ok) {
-          setLoading(false);
           updateData();
 
           const info = await fetch("/api/auth/getNotificationById", {
@@ -54,6 +53,7 @@ const ProductInfoModal = ({
               showConfirmButton: true,
             }).then((result) => {
               if (result.isConfirmed) {
+                setLoading(false);
                 closeInfoModal();
               }
             });
@@ -107,7 +107,7 @@ const ProductInfoModal = ({
             {product.EnvioInfo.estado}
           </option>
 
-          {estado === "Aceptado" && (
+          {estado === "En Curso" && (
             <option value={"En Curso"}>En Curso</option>
           )}
           {product.EnvioInfo.estado === "En Curso" && (
