@@ -75,13 +75,29 @@ export async function PUT(request: NextRequest) {
       "producto._id": response.producto,
     }).lean();
     const filter = { _id: notifications?._id };
-    const update = {
+
+    let update = {
       $set: {
         subestado: "cambios",
         estadoEnvio: response.estado,
         vistoUser: false,
+        vistoDriver: true,
+        type: "solicitudServicio",
       },
     };
+
+    if (response.estado === "Finalizado") {
+      update = {
+        $set: {
+          subestado: "cambios",
+          estadoEnvio: response.estado,
+          vistoUser: true,
+          vistoDriver: false,
+          type: "respuestaServicio",
+        },
+      };
+    }
+    console.log(update);
     const options = { new: true };
 
     const notificationUpdated = await Notification.findByIdAndUpdate(

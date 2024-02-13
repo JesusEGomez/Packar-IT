@@ -11,23 +11,24 @@ import Accepted from "@/app/components/Acepted";
 import Rejected from "@/app/components/Rejected";
 import { sendNotification } from "@/app/api/ably/Notifications";
 import RejectedPayment from "@/app/components/RejectedPayment";
+import Swal from "sweetalert2";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [notification, setNotification] = useState<INotification | null>();
   const [success, setSuccess] = useState<boolean>(false);
   const [rejected, setRejected] = useState<boolean>(false);
   const [payment, setPayment] = useState<boolean>(false);
-  
+
   const fetchNotification = async () => {
     try {
       const response = await fetch(
         `/api/auth/getNotificationById/?id=${params.id}`
       );
       const newNotification: INotification = await response.json();
-      
+
       if (response.ok) {
         setNotification(newNotification);
-        
+
         if (!newNotification?.vistoDriver) {
           console.log(notification?.vistoDriver);
           setVisto();
@@ -59,8 +60,22 @@ const Page = ({ params }: { params: { id: string } }) => {
           body: JSON.stringify({ _id: params.id, estado: estado }),
         }
       );
-      
-      if(notification && estado === 'Aceptado'){
+
+      if (notification && estado === "Rechazado") {
+        Swal.fire({
+          icon: "error",
+          title: "El producto fue rechazado",
+          confirmButtonColor: "#fe1252",
+          confirmButtonText: "Aceptar",
+          showConfirmButton: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate.back();
+          }
+        });
+      }
+
+      if (notification && estado === "Aceptado") {
         const shipmentResponse = await fetch("/api/auth/envio", {
           headers: {
             "Content-Type": "application/json",
@@ -78,11 +93,23 @@ const Page = ({ params }: { params: { id: string } }) => {
         });
         if (!shipmentResponse.ok) {
           throw new Error("Failed to create shipment");
+        } else {
+          Swal.fire({
+            icon: "success",
+            title: "El producto fue aceptado",
+            confirmButtonColor: "#fe1252",
+            confirmButtonText: "Aceptar",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate.back();
+            }
+          });
         }
-        
+
         const shipmentData = await shipmentResponse.json();
         // console.log('shipment creado',shipmentData);
-        //crear el envio 
+        //crear el envio
         // Create shipment
         // Add shipment to the trip
 
@@ -101,11 +128,11 @@ const Page = ({ params }: { params: { id: string } }) => {
         if (!updateResponse.ok) {
           throw new Error("Failed to update trip with shipment");
         }
-        
+
         const updated = await updateResponse.json();
         // console.log(updated, "soy updated");
 
-        //pagar                  
+        //pagar
         const pago = await fetch("/api/auth/pagar", {
           headers: {
             "Content-Type": "application/json",
@@ -113,20 +140,21 @@ const Page = ({ params }: { params: { id: string } }) => {
           method: "POST",
           body: JSON.stringify({
             userId: notification.usuario?._id,
-            total: notification?.total
+            total: notification?.total,
           }),
         });
         const ansPago = await pago.json();
         //console.log(pago, 'im the pago ctm!!', ansPago);
         pago.ok ? setSuccess(true) : setPayment(true);
-      } 
-      else {
+      } else {
         setRejected(true);
-      } 
-      notification 
-        && notification.usuario 
-        && notification.estado
-        && sendNotification(notification.usuario._id, { content: notification.estado });
+      }
+      notification &&
+        notification.usuario &&
+        notification.estado &&
+        sendNotification(notification.usuario._id, {
+          content: notification.estado,
+        });
     } catch (error) {
       console.error(error);
     }
@@ -137,9 +165,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     fetchNotification();
   }, []);
   return (
-    <div className="w-screen flex flex-col justify-center items-center">
+    <div className="w-screen flex flex-col    justify-center items-center">
       {notification ? (
-        <div className=" flex gap-y-5  flex-col items-center">
+        <div className=" flex gap-y-5 h-screen  flex-col items-center">
           <div className="w-full flex flex-col p-5 justify-start h-20">
             <button className="text-3xl" onClick={navigate.back}>
               <MdKeyboardArrowLeft />

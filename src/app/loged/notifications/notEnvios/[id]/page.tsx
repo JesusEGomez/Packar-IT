@@ -26,6 +26,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     setDriver(data);
     setLastModalOpen(true);
     setSelectdriverOpen(false);
+    setVisto();
   };
 
   const confrmacionHandler = () => {

@@ -106,7 +106,7 @@ const ProductInfoModal = ({
           <option disabled selected defaultValue={product.EnvioInfo.estado}>
             {product.EnvioInfo.estado}
           </option>
-          //! El estado pendiente ya no debería existir en esta etapa
+
           {estado === "Aceptado" && (
             <option value={"En Curso"}>En Curso</option>
           )}
@@ -123,12 +123,18 @@ const ProductInfoModal = ({
             className="bg-pink text-white rounded-lg"
             disabled={
               product.EnvioInfo.estado === "Cancelado" ||
-              product.EnvioInfo.estado === "Finalizado"
+              product.EnvioInfo.estado === "Entregado"
             }
             onClick={changeState}
           >
             Modificar
           </Button>
+        )}
+        {product.EnvioInfo.estado === "Entregado" && (
+          <p>
+            El viaje se dara por <b>Finalizado</b> cuando el dueño del paquete
+            verifique el estado del mismo
+          </p>
         )}
       </div>
     </div>
