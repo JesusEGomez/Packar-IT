@@ -9,14 +9,16 @@ import { useEffect, useState } from "react";
 const NotViajes = () => {
   const [notifications, setNotification] = useState<INotification[] | null>();
   const { user } = useUserState((state) => state);
-  const [visto, setVisto] = useState(true);
+  const [visto, setVisto] = useState(false);
   const [update, setUpdate] = useState(false);
 
   const filter = (notifications: INotification[]) => {
     console.log(notifications);
-    const found = notifications.find((n) => n.estado !== "Pendiente");
+    const found = notifications.find(
+      (n) => n.estado === "Pendiente" || n.type === "respuestaServicio"
+    );
     console.log(found);
-    if (found) setVisto(false);
+    if (found) setVisto(true);
   };
 
   const fetchNotifications = async () => {
@@ -28,6 +30,7 @@ const NotViajes = () => {
       console.log(newNotifications);
       if (response.ok && newNotifications) {
         setNotification(newNotifications);
+        console.log(newNotifications);
         filter(newNotifications);
       }
     } catch (err) {
@@ -40,13 +43,15 @@ const NotViajes = () => {
 
   useEffect(() => {
     setUpdate(false);
+
+    console.log("aca toy");
     fetchNotifications();
   }, [update]);
 
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {notifications ? (
-        !visto ? (
+        visto ? (
           <>
             {notifications?.map((n) => {
               return (

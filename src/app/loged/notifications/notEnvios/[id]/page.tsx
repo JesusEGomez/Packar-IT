@@ -150,8 +150,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          <div className=" flex sm:flex-row sm:gap-x-4 flex-col">
-            <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
+          <div className=" flex sm:flex-row sm:m-5  sm:gap-x-4 flex-col">
+            <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md justify-center  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
               <p>El conductor recibo tu solicitud</p>
               <div className="flex flex-col items-center gap-y-3">
                 {notification.estado === "Pendiente" && (
