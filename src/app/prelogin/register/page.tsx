@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -151,6 +152,10 @@ export default function Register() {
           type="email"
           {...register("email", {
             required: { value: true, message: "Campo requerido" },
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: "Formato de email inválido",
+            },
           })}
         />
 
@@ -167,10 +172,15 @@ export default function Register() {
           <div className="relative">
             <input
               className="p-3 rounded block mb-2 bg-slate-100 text-black w-full"
-              type={showPassword ? "text" : "password"} // Cambia el tipo de entrada según el estado
+              type={showPassword ? "text" : "password"}
               {...register("password", {
                 required: { value: true, message: "Campo requerido" },
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
+                pattern: {
+                  value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
+                  message:
+                    "La contraseña debe tener al menos 8 caracteres, un número y un carácter especial.",
+                },
               })}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -194,11 +204,6 @@ export default function Register() {
             {errors.password.message}
           </span>
         )}
-        {/* <label htmlFor='confirmPassword' className='text-defaultButton'>Confirma tu contraseña:</label>
-        <input className='p-3 rounded block mb-2 bg-slate-100 text-black' type="password" {...register('confirmPassword', { required: {value: true, message: 'Campo requerido'} })} />
-        {
-          errors.confirmPassword && <span className='text-defaultButton flex gap-x-3'><FaExclamationCircle />{errors.confirmPassword.message}</span>
-        } */}
         <div className="flex w-full justify-center">
           {loading ? (
             <Button
