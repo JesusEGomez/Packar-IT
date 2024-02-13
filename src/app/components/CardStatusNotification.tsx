@@ -31,7 +31,7 @@ const CardStatusNotification = ({
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Button
           onAbort={() =>
-            console.log(`marcar como visto la notificación con el id ${id}`)
+            console.log(`marcar como visto la notificacion con el id ${id}`)
           }
         >
           <IoMdCloseCircleOutline />

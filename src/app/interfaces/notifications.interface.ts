@@ -2,11 +2,11 @@ import { IProductDB } from "./productDB.interface";
 import { IUser } from "./user.interface";
 
 export interface INotification {
-  _id: string;
+  _id?: string;
   type?: "solicitudServicio" | "respuestaServicio";
   estado?: "Pendiente" | "Aceptado" | "Rechazado";
   subEstado?: "solicitud" | "cambios";
-  total: number;
+  total?: number;
   vistoDriver?: boolean;
   vistoUser?: boolean;
   usuario?: IUser;
@@ -45,7 +45,7 @@ export interface INotification {
     horaLlegada?: string;
     eresFlexible?: boolean;
     estado?: string;
-    precio?: {_id: string, price: number ,quantity: number}[];
+    precio?: { _id: string; price: number; quantity: number }[];
     envios?: Array<any>[];
     special?: boolean;
     como?: string;
