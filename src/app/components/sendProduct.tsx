@@ -25,20 +25,20 @@ export const SendProduct = (props: any) => {
   };
   const formSchema = z.object({
     pequeño: z.object({
-      quantity: z.coerce.number(),
-      price: z.coerce.number(),
+      quantity: z.coerce.number().nonnegative(),
+      price: z.coerce.number().nonnegative(),
     }),
     mediano: z.object({
-      quantity: z.coerce.number(),
-      price: z.coerce.number(),
+      quantity: z.coerce.number().nonnegative(),
+      price: z.coerce.number().nonnegative(),
     }),
     grande: z.object({
-      quantity: z.coerce.number(),
-      price: z.coerce.number(),
+      quantity: z.coerce.number().nonnegative(),
+      price: z.coerce.number().nonnegative(),
     }),
     especial: z.object({
-      quantity: z.coerce.number(),
-      price: z.coerce.number(),
+      quantity: z.coerce.number().nonnegative(),
+      price: z.coerce.number().nonnegative(),
     }),
   });
 
@@ -110,7 +110,6 @@ export const SendProduct = (props: any) => {
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -123,7 +122,6 @@ export const SendProduct = (props: any) => {
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -162,7 +160,6 @@ export const SendProduct = (props: any) => {
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -201,7 +198,6 @@ export const SendProduct = (props: any) => {
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -226,36 +222,35 @@ export const SendProduct = (props: any) => {
               </Button>
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
             </div>
-              {specials && (
-                <div className="flex flex-col">
-                  <FormField
-                    name="especial.quantity"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Cantidad</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  ></FormField>
+            {specials && (
+              <div className="flex flex-col">
+                <FormField
+                  name="especial.quantity"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cantidad</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
 
-                  <FormField
-                    name="especial.price"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Precio $ </FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  ></FormField>
-                </div>
-              )}
+                <FormField
+                  name="especial.price"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Precio $ </FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                ></FormField>
+              </div>
+            )}
           </div>
           <Button
             type="submit"
@@ -264,7 +259,7 @@ export const SendProduct = (props: any) => {
             variant={"ghost"}
             className="bg-pink text-white w-full mb-6 rounded-xl font-bold text-lg mx-auto"
           >
-            Cerrar
+            Guardar
           </Button>
         </form>
       </Form>

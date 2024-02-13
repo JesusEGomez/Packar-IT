@@ -10,9 +10,11 @@ export async function POST(request: Request) {
   try {
     await connectDB();
     const notification = await request.json();
+
     console.log(notification);
     const newNotification = await new Notification(notification);
     console.log(notification.driver.usuario._id);
+
     const driverId = notification.driver.usuario._id;
     await newNotification.save();
 
