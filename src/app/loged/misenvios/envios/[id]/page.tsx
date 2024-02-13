@@ -14,7 +14,7 @@ import { GoDotFill } from "react-icons/go";
 
 interface IStateClases {
   Cancelado: string;
-  Pendiente: string;
+  Aceptado: string;
   "En Curso": string;
   Finalizado: string;
 }
@@ -26,7 +26,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [loading, setLoading] = useState(false);
   const stateClasses: IStateClases = {
     Cancelado: "text-red-500",
-    Pendiente: "text-yellow-500",
+    Aceptado: "text-yellow-500",
     "En Curso": "text-green-500",
     Finalizado: "text-blue-500",
   };
@@ -51,7 +51,28 @@ const Page = ({ params }: { params: { id: string } }) => {
       });
 
       if (response.ok) {
-        setLoading(false);
+        const info = await fetch("/api/auth/getNotificationById", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PUT",
+          body: JSON.stringify({ ...product, estado: "Finalizado" }),
+        });
+
+        if (info.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "El cambio se realizo con éxito",
+            text: "Se le notificara al usuario el estado de su paquete",
+            confirmButtonColor: "#fe1252",
+            confirmButtonText: "Aceptar",
+            showConfirmButton: true,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              setLoading(false);
+            }
+          });
+        }
       } else {
         Swal.fire({
           icon: "error",
@@ -113,7 +134,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                     <p className="font-bold sm:text-xl ">
                       {product.driverFinded.horaSalida}
                     </p>
-              s    </div>
+                    s{" "}
+                  </div>
                   <div className="flex  gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
                       {product.hasta.ciudad?.replaceAll("-", " ")}

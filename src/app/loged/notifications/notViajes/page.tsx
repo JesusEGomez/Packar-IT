@@ -1,5 +1,6 @@
 "use client";
 import CardNotification from "@/app/components/CardNotification";
+import CardStatusNotification from "@/app/components/CardStatusNotification";
 import { INotification } from "@/app/interfaces/notifications.interface";
 import useUserState from "@/app/store/sotre";
 
@@ -8,6 +9,15 @@ import { useEffect, useState } from "react";
 const NotViajes = () => {
   const [notifications, setNotification] = useState<INotification[] | null>();
   const { user } = useUserState((state) => state);
+  const [visto, setVisto] = useState(true);
+  const [update, setUpdate] = useState(false);
+
+  const filter = (notifications: INotification[]) => {
+    console.log(notifications);
+    const found = notifications.find((n) => n.estado !== "Pendiente");
+    console.log(found);
+    if (found) setVisto(false);
+  };
 
   const fetchNotifications = async () => {
     try {
@@ -18,36 +28,54 @@ const NotViajes = () => {
       console.log(newNotifications);
       if (response.ok && newNotifications) {
         setNotification(newNotifications);
+        filter(newNotifications);
       }
     } catch (err) {
       console.error(err);
     }
   };
+  const updateCards = () => {
+    setUpdate(true);
+  };
 
   useEffect(() => {
+    setUpdate(false);
     fetchNotifications();
-  }, []);
+  }, [update]);
 
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {notifications ? (
-        <>
-          {notifications.map((n) => {
-            return (
-              <>
-                {n.vistoDriver && n.estado !== "Pendiente" ? null : (
-                  <CardNotification
-                    id={n._id}
-                    name={n.usuario?.fullname!}
-                    type={n.type!}
-                    visto={n.vistoDriver!}
-                    detail="notViajes"
-                  />
-                )}
-              </>
-            );
-          })}
-        </>
+        !visto ? (
+          <>
+            {notifications?.map((n) => {
+              return (
+                <>
+                  {n.vistoDriver && n.estado !== "Pendiente" ? null : n.type ===
+                    "solicitudServicio" ? (
+                    <CardNotification
+                      id={n._id}
+                      name={n.usuario?.fullname!}
+                      type={n.type!}
+                      visto={n.vistoDriver!}
+                      detail="notViajes"
+                    />
+                  ) : (
+                    <CardStatusNotification
+                      estadoEnvio={n.estadoEnvio}
+                      id={n._id}
+                      name={n.producto?.name!}
+                      type={n.type!}
+                      updateCards={updateCards}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </>
+        ) : (
+          <>No tienes Notificaciones</>
+        )
       ) : (
         <div>No tienes Notificaciones</div>
       )}
