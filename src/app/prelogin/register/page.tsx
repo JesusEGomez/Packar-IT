@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FaExclamationCircle } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaExclamationCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
 
@@ -48,6 +48,12 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     setLoading(true);
@@ -154,19 +160,34 @@ export default function Register() {
             {errors.email.message}
           </span>
         )}
-        <label htmlFor="password" className="text-defaultButton">
-          Contraseña:
-        </label>
-
-        <input
-          className="p-3 rounded block mb-2 bg-slate-100 text-black"
-          type="password"
-          {...register("password", {
-            required: { value: true, message: "Campo requerido" },
-            minLength: { value: 8, message: "Mínimo 8 caracteres" },
-          })}
-        />
-
+        <div className="flex flex-col w-full">
+          <label htmlFor="password" className="text-defaultButton">
+            Contraseña:
+          </label>
+          <div className="relative">
+            <input
+              className="p-3 rounded block mb-2 bg-slate-100 text-black w-full"
+              type={showPassword ? "text" : "password"} // Cambia el tipo de entrada según el estado
+              {...register("password", {
+                required: { value: true, message: "Campo requerido" },
+                minLength: { value: 8, message: "Mínimo 8 caracteres" },
+              })}
+            />
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+              {showPassword ? (
+                <FaEyeSlash
+                  onClick={togglePasswordVisibility}
+                  className="cursor-pointer"
+                />
+              ) : (
+                <FaEye
+                  onClick={togglePasswordVisibility}
+                  className="cursor-pointer"
+                />
+              )}
+            </div>
+          </div>
+        </div>
         {errors.password && (
           <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle />
