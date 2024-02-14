@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import loading from "../../../app/loading";
 import useUserState from "../../../app/store/sotre";
 import { useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
@@ -19,20 +19,24 @@ function Profile() {
   
   
   useEffect(() => {
-async function fetchProfileData() {
-  try {
-    setUserId(userId);
-    const data = await (await fetch(
-      `/api/auth/getProfileById/?id=${user._id}`
-    )).json();
-    console.log("Profile data:", data);
-    setProfileData(data);
-  } catch (error) {
-    console.error("Error fetching profile data:", error);
-  }
-}
+    async function fetchProfileData() {
+      try {
+        if (!user?._id) {
+          console.error("El ID del usuario no está definido.");
+          return;
+        }
+        const data = await (await fetch(
+          `/api/auth/getProfileById/?id=${user._id}`
+        )).json();
+        console.log("Profile data:", data);
+        setProfileData(data);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    }
     fetchProfileData();
-  }, []);
+  }, [user]);
+  
 
   if (!session || !profileData) {
     return loading();
