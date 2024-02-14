@@ -38,6 +38,7 @@ export const SendModal = ({
       <h2 className="text-2xl font-bold text-center">Envíos</h2>
       <div className=" h-screen gap-y-2 overflow-auto">
         {travel?.envios?.map((envio, i) => {
+          console.log(envio);
           return (
             <div
               key={envio.productos._id}

@@ -26,15 +26,18 @@ const Page = ({ params }: { params: { id: string } }) => {
     setDriver(data);
     setLastModalOpen(true);
     setSelectdriverOpen(false);
+    setVisto();
   };
-  
+
   const confrmacionHandler = () => {
     console.log("hola");
   };
 
   const fetchNotification = async () => {
     try {
-      const response = await fetch(`/api/auth/getNotificationById/?id=${params.id}`);
+      const response = await fetch(
+        `/api/auth/getNotificationById/?id=${params.id}`
+      );
       if (response.ok) {
         const newNotification: INotification = await response.json();
         setNotification(newNotification);
@@ -43,7 +46,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           hasta: newNotification?.hasta,
           cuando: newNotification?.cuando,
           producto: newNotification?.producto,
-          recibe: newNotification?.recibe
+          recibe: newNotification?.recibe,
         };
         setEnvio(newEnvio);
       }
@@ -83,7 +86,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   //? Tal vez debería redirigir al envió en especifico pero no tengo el id y todavia no se crea
   const moreInformation = () => {
     setVisto();
-    navigate.push("loged/misenvios");
+    navigate.replace("/loged/misenvios");
   };
 
   useEffect(() => {
@@ -173,7 +176,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 {notification.estado === "Rechazado" && (
                   <>
                     <p>Tu solicitud fue Rechazada</p>
-                    <Button 
+                    <Button
                       className="bg-pink text-white"
                       onClick={() => setSelectdriverOpen(true)}
                     >
@@ -211,48 +214,34 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
           <div className="flex flex-col gap-y-3"></div>
-          {/* <div className="flex justify-center gap-x-4 w-full">
-            <Button
-              onClick={() => response("Aceptado", notification._id!)}
-              className="bg-pink text-white"
-            >
-              Aceptar Solicitud
-            </Button>
-            <Button
-              onClick={() => response("Rechazado", notification._id!)}
-              className="bg-pink text-white"
-            >
-              Cancelar Solicitud
-            </Button>
-          </div> */}
         </div>
       ) : (
         <div>Cargando...</div>
       )}
       {selectdriverOpen && (
-          <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-xl">
-              <SelectDriver
-                close={closeSelectDriver}
-                open={notification?.producto}
-                ciudadOrigen={notification?.desde?.ciudad}
-                ciudadDestino={notification?.hasta?.ciudad}
-              />
-            </div>
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <SelectDriver
+              close={closeSelectDriver}
+              open={notification?.producto}
+              ciudadOrigen={notification?.desde?.ciudad}
+              ciudadDestino={notification?.hasta?.ciudad}
+            />
           </div>
-        )}
-        {lastModalOpen && (
-          <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-xl">
-              <Confirmacion
-                closeModal={closeLastModal}
-                confirmar={confrmacionHandler}
-                driver={driver}
-                envio={envio}
-              />
-            </div>
+        </div>
+      )}
+      {lastModalOpen && (
+        <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <Confirmacion
+              closeModal={closeLastModal}
+              confirmar={confrmacionHandler}
+              driver={driver}
+              envio={envio}
+            />
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 };

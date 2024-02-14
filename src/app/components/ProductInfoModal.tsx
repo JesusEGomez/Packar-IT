@@ -19,15 +19,14 @@ const ProductInfoModal = ({
   product,
   updateData,
 }: IProductInfoProps) => {
-  console.log(estado);
+  console.log(product);
   const [state, setState] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   const changeState = async () => {
     setLoading(true);
     try {
-      console.log({ ...product.EnvioInfo, estado: state });
-      if (state) {
+      if (state && state !== product.EnvioInfo.estado) {
         const response = await fetch(`/api/auth/ProductById`, {
           method: "PATCH",
           body: JSON.stringify({ ...product.EnvioInfo, estado: state }),
@@ -36,6 +35,29 @@ const ProductInfoModal = ({
         if (response.ok) {
           setLoading(false);
           updateData();
+
+          const info = await fetch("/api/auth/getNotificationById", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: "PUT",
+            body: JSON.stringify({ ...product.EnvioInfo, estado: state }),
+          });
+
+          if (info.ok) {
+            Swal.fire({
+              icon: "success",
+              title: "El cambio se realizo con éxito",
+              text: "Se le notificara al usuario el estado de su paquete",
+              confirmButtonColor: "#fe1252",
+              confirmButtonText: "Aceptar",
+              showConfirmButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                closeInfoModal();
+              }
+            });
+          }
         }
       } else {
         Swal.fire({
@@ -81,22 +103,16 @@ const ProductInfoModal = ({
           Modificar el Estado de Envio
         </label>
         <select onChange={stateHandler} name="estado" id="estado">
-          <option disabled selected value={product.EnvioInfo.estado}>
+          <option disabled selected defaultValue={product.EnvioInfo.estado}>
             {product.EnvioInfo.estado}
           </option>
-          {/* {product.EnvioInfo.estado === "Pendiente" ? (
-            <>
-              <option value={"Cancelado"}>Cancelado</option>
-              <option value={"Aceptado"}>Aceptado</option>
-            </>
-          ) : null} */}{" "}
-          //! El estado pendiente ya no debería existir en esta etapa
-          {estado === "En Curso" ? (
+
+          {estado === "Aceptado" && (
             <option value={"En Curso"}>En Curso</option>
-          ) : null}
-          {product.EnvioInfo.estado === "En Curso" ? (
+          )}
+          {product.EnvioInfo.estado === "En Curso" && (
             <option value={"Entregado"}>Entregado</option>
-          ) : null}
+          )}
         </select>
         {loading ? (
           <Button disabled className=" bg-pink text-white rounded-lg ">
@@ -107,12 +123,18 @@ const ProductInfoModal = ({
             className="bg-pink text-white rounded-lg"
             disabled={
               product.EnvioInfo.estado === "Cancelado" ||
-              product.EnvioInfo.estado === "Finalizado"
+              product.EnvioInfo.estado === "Entregado"
             }
             onClick={changeState}
           >
             Modificar
           </Button>
+        )}
+        {product.EnvioInfo.estado === "Entregado" && (
+          <p>
+            El viaje se dara por <b>Finalizado</b> cuando el dueño del paquete
+            verifique el estado del mismo
+          </p>
         )}
       </div>
     </div>

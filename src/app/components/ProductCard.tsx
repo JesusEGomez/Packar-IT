@@ -24,7 +24,7 @@ interface IProductCardProps {
 }
 const stateClasses = {
   Cancelado: "text-red-500",
-  Pendiente: "text-yellow-500",
+  Aceptado: "text-yellow-500",
   "En Curso": "text-green-500",
   Entregado: "text-blue-500",
   Finalizado: "text-blue-500",
@@ -46,7 +46,7 @@ const ProductCard = ({
       <p className="text-5xl  w-1/5 text-pink">
         <GoArchive />
       </p>
-      <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
+      <div className="flex sm:flex-row sm:gap-x-2 w-3/5   flex-col">
         <div className="flex w-full justify-evenly">
           <p> {`${horaSalida} - ${horaLlegada} `}</p>
           <div className="flex items-center">
@@ -57,7 +57,7 @@ const ProductCard = ({
           </div>
         </div>
 
-        <p className="truncate ">{`${desde.ciudad?.replaceAll(
+        <p className="truncate sm:w-2/5 ">{`${desde.ciudad?.replaceAll(
           "-",
           " "
         )} / ${hasta.ciudad?.replaceAll("-", " ")}`}</p>

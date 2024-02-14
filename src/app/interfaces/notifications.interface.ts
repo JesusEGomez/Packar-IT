@@ -5,11 +5,19 @@ export interface INotification {
   _id: string;
   type?: "solicitudServicio" | "respuestaServicio";
   estado?: "Pendiente" | "Aceptado" | "Rechazado";
-  subEstado?: "solicitud" | "cambios";
-  total: number;
+  subestado?: "solicitud" | "cambios";
+  total?: number;
   vistoDriver?: boolean;
   vistoUser?: boolean;
   usuario?: IUser;
+  estadoEnvio:
+    | "Pendiente"
+    | "Aceptado"
+    | "Cancelado"
+    | "En Curso"
+    | "Entregado"
+    | "Finalizado";
+
   desde?: {
     calle?: string;
     pais?: string;
@@ -45,7 +53,7 @@ export interface INotification {
     horaLlegada?: string;
     eresFlexible?: boolean;
     estado?: string;
-    precio?: {_id: string, price: number ,quantity: number}[];
+    precio?: { _id: string; price: number; quantity: number }[];
     envios?: Array<any>[];
     special?: boolean;
     como?: string;
