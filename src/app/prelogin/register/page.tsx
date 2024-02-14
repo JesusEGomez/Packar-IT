@@ -1,6 +1,5 @@
 "use client"
 
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowBigLeft, ArrowLeft, Loader2 } from "lucide-react";
@@ -140,7 +139,7 @@ export default function Register() {
         />
 
         {errors.fullname && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle /> {errors.fullname.message}
           </span>
         )}
@@ -160,7 +159,7 @@ export default function Register() {
         />
 
         {errors.email && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle />
             {errors.email.message}
           </span>
@@ -199,7 +198,7 @@ export default function Register() {
           </div>
         </div>
         {errors.password && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle />
             {errors.password.message}
           </span>

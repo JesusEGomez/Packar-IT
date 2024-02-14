@@ -12,7 +12,6 @@ require("dotenv").config();
 export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
   const backFileInputRef = useRef<HTMLInputElement>(null);
-
   const [img2, setImg2] = useState<string | null>(null);
   const [img3, setImg3] = useState<string | null>(null);
   const [type, setType] = useState<string | null>("");
