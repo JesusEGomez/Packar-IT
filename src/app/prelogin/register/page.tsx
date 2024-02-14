@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -19,7 +20,6 @@ interface FormInputs {
   password: string;
   //confirmPassword: string;
 }
-
 const sendEmailConfirmation = async (email: string) => {
   try {
     const response = await fetch("/api/auth/nodemailer", {
@@ -134,16 +134,16 @@ export default function Register() {
           className="p-3 rounded block mb-2 bg-slate-100 text-black"
           type="text"
           {...register("fullname", {
-            /* required: { value: true, message: "Campo requerido" },
-            minLength: { value: 3, message: "Mínimo 3 caracteres" }, */
+            required: { value: true, message: "Campo requerido" },
+            minLength: { value: 3, message: "Mínimo 3 caracteres" },
           })}
         />
 
-        {/* {errors.fullname && (
+        {errors.fullname && (
           <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle /> {errors.fullname.message}
           </span>
-        )} */}
+        )}
         <label htmlFor="email" className="text-defaultButton">
           Email:
         </label>
@@ -151,20 +151,20 @@ export default function Register() {
           className="p-3 rounded block mb-2 bg-slate-100 text-black"
           type="email"
           {...register("email", {
-            /* required: { value: true, message: "Campo requerido" },
+            required: { value: true, message: "Campo requerido" },
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
               message: "Formato de email inválido",
-            }, */
+            },
           })}
         />
 
-        {/* {errors.email && (
+        {errors.email && (
           <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle />
             {errors.email.message}
           </span>
-        )} */}
+        )}
         <div className="flex flex-col w-full">
           <label htmlFor="password" className="text-defaultButton">
             Contraseña:
@@ -174,13 +174,13 @@ export default function Register() {
               className="p-3 rounded block mb-2 bg-slate-100 text-black w-full"
               type={showPassword ? "text" : "password"}
               {...register("password", {
-                /* required: { value: true, message: "Campo requerido" },
+                required: { value: true, message: "Campo requerido" },
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
                 pattern: {
                   value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
                   message:
                     "La contraseña debe tener al menos 8 caracteres, un número y un carácter especial.",
-                }, */
+                },
               })}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -198,12 +198,12 @@ export default function Register() {
             </div>
           </div>
         </div>
-        {/* {errors.password && (
+        {errors.password && (
           <span className="text-defaultButton flex gap-x-3">
             <FaExclamationCircle />
             {errors.password.message}
           </span>
-        )} */}
+        )}
         <div className="flex w-full justify-center">
           {loading ? (
             <Button
