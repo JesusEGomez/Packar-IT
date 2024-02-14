@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import CountryCode from "./CountryCode";
 import { Button } from "@/components/ui/button";
 import { useSession } from 'next-auth/react';
+import Swal from 'sweetalert2'
 
 const MobilePhoneNumber = () => {
   const { data: session } = useSession();
@@ -31,6 +32,11 @@ const MobilePhoneNumber = () => {
     try {
       if (!countryCode.trim() || !phoneNumber.trim()) {
         console.error('Por favor, ingresa un número de teléfono válido.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Por favor, ingresa un número de teléfono válido.',
+        });  
         return;
       }
       
@@ -38,6 +44,11 @@ const MobilePhoneNumber = () => {
 
       if (!email) {
         console.error('No se encontró el email del usuario en la sesión.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se encontró el email del usuario en la sesión.',
+        });  
         return;
       }
 
@@ -55,10 +66,20 @@ const MobilePhoneNumber = () => {
   
       if (response.ok) {
         console.log('Mensaje enviado con éxito');
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Mensaje enviado con éxito.',
+        });  
         setVerificationCode(data.verificationCode); 
         router.push('/verification-code');
       } else {
         console.error('Error al enviar el mensaje:', data.error || 'Error desconocido');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Error al enviar el mensaje: ${data.error || 'Error desconocido'}`,
+        });  
       }
     } catch (error) {
       console.error('Error al enviar el mensaje:', error);
