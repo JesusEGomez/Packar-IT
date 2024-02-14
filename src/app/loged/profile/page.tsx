@@ -99,43 +99,57 @@ function Profile() {
             </dd>
           </div>
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-700">Ciudad</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {cityEditMode ? (
-                <input
-                  type="text"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  onBlur={() => setCityEditMode(false)}
-                />
-              ) : (
-                <>
-                  <span>{city}</span>
-                  <AiOutlineEdit onClick={() => setCityEditMode(true)} />
-                </>
-              )}
-            </dd>
-          </div>
-          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt className="text-sm font-medium text-gray-700">Teléfono</dt>
-            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {phoneNumberEditMode ? (
-                <input
-                  type="text"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  onBlur={() => setPhoneNumberEditMode(false)}
-                />
-              ) : (
-                <>
-                  <span>{phoneNumber}</span>
-                  <AiOutlineEdit
-                    onClick={() => setPhoneNumberEditMode(true)}
-                  />
-                </>
-              )}
-            </dd>
-          </div>
+  <dt className="text-sm font-medium text-gray-700">Ciudad</dt>
+  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 relative">
+    {cityEditMode ? (
+      <input
+        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        onBlur={() => setCityEditMode(false)}
+        className="w-full border rounded-md px-2 py-1"
+        autoFocus
+      />
+    ) : (
+      <>
+        <span>{city}</span>
+        <button
+          onClick={() => setCityEditMode(true)}
+          className="absolute top-0 right-0 p-1"
+        >
+          <AiOutlineEdit />
+          <span className="sr-only">Editar Ciudad</span>
+        </button>
+      </>
+    )}
+  </dd>
+</div>
+<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+  <dt className="text-sm font-medium text-gray-700">Teléfono</dt>
+  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 relative">
+    {phoneNumberEditMode ? (
+      <input
+        type="text"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+        onBlur={() => setPhoneNumberEditMode(false)}
+        className="w-full border rounded-md px-2 py-1"
+        autoFocus
+      />
+    ) : (
+      <>
+        <span>{phoneNumber}</span>
+        <button
+          onClick={() => setPhoneNumberEditMode(true)}
+          className="absolute top-0 right-0 p-1"
+        >
+          <AiOutlineEdit />
+          <span className="sr-only">Editar Teléfono</span>
+        </button>
+      </>
+    )}
+  </dd>
+</div>
         </div>
       </dl>
 
