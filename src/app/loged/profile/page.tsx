@@ -16,7 +16,8 @@ function Profile() {
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
-
+  
+  
   useEffect(() => {
 async function fetchProfileData() {
   try {
