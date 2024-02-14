@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Profile() {
   const [profileData, setProfileData] = useState<any | null>(null);
-  const { fetchUser } = useUserState((state) => state);
+  const { fetchUser , user } = useUserState((state) => state);
   const { data: session } = useSession();
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -16,22 +16,14 @@ function Profile() {
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
-
+  
+  
   useEffect(() => {
 async function fetchProfileData() {
   try {
-    const userData = await (await fetch(
-      `/api/auth/myid/?email=${session?.user?.email}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )).json();
-    setUserId(userData);
+    setUserId(userId);
     const data = await (await fetch(
-      `/api/auth/getProfileById/?id=${userData._id}`
+      `/api/auth/getProfileById/?id=${user._id}`
     )).json();
     console.log("Profile data:", data);
     setProfileData(data);
@@ -53,12 +45,7 @@ async function fetchProfileData() {
           Mi perfil
         </h1>
       </div>
-      <div className="flex justify-center items-center m-3">
-        <Avatar className="w-40 h-40">
-          <AvatarImage src={session?.user?.image!} alt="@shadcn" />
-          <AvatarFallback>?</AvatarFallback>
-        </Avatar>
-      </div>
+      
       <dl className="border-t border-gray-200 px-4 py-5 sm:p-0 m-5">
         <div className="sm:divide-y sm:divide-gray-200">
           <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -92,3 +79,13 @@ async function fetchProfileData() {
 }
 
 export default Profile;
+
+
+{/* 
+<div className="flex justify-center items-center m-3">
+  <Avatar className="w-40 h-40">
+    <AvatarImage src={session?.user?.image!} alt="@shadcn" />
+    <AvatarFallback>?</AvatarFallback>
+  </Avatar>
+</div>
+*/}
