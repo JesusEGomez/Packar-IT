@@ -8,7 +8,7 @@ import useUserState from "../store/sotre";
 import { useRouter } from "next/navigation";
 import ably from "@/app/api/ably/ably";
 import { IoMdCloseCircleOutline } from "react-icons/io";
-import { pushNotification } from "../api/auth/addNotification/pushNotification";
+// import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 function layout({ children }: React.PropsWithChildren) {
   const { data: session } = useSession();
