@@ -37,7 +37,7 @@ function layout({ children }: React.PropsWithChildren) {
       const channel = ably.channels.get(notificationChannelName);
       channel.subscribe((message) => {
         alert(`Mensaje recibido: ${message.data.content}`);
-        pushNotification(message.data.content);
+        //pushNotification(message.data.content);
       });
       setIsSubscribed(true);
     }
