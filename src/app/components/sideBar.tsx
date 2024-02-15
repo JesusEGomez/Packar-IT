@@ -94,7 +94,7 @@ const Sidebar = () => {
   return (
     <div className={isOpen ? "sideBarClose" : "sideBarOpen"}>
       <Command>
-        <div className="mx-2 flex justify-evenly items-center my-3">
+        <div className="mx-2 flex justify-center items-center my-3">
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
@@ -109,7 +109,10 @@ const Sidebar = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger
                     className="w-full flex"
-                    onClick={() => navigation.push("/loged/profile")}
+                    onClick={() => {
+                      sideBarControl(); 
+                      navigation.push("/loged/profile");
+                    }}
                   >
                     <UserRoundCog className="sideBarIcon" />
                     Mi Perfil
