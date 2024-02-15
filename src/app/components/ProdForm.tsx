@@ -22,7 +22,7 @@ function ProdForm(props: any) {
   const [img, setImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [disabled, setDisable] = useState<boolean>(true);
-  
+
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
 
@@ -102,7 +102,7 @@ function ProdForm(props: any) {
   };
 
   return (
-    <div className="m-8 px-4 h-screen">
+    <div className="m-8 px-4 h-screen overflow-y-auto">
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -141,7 +141,7 @@ function ProdForm(props: any) {
           </select>
         </div>
         <div className="flex items-center border-b m-auto w-80">
-          <BsBoxSeam className="text-slate-400"  />
+          <BsBoxSeam className="text-slate-400" />
           <input
             placeholder="Producto"
             className="p-2 rounded bg-white text-slate-400 w-full"
@@ -153,25 +153,9 @@ function ProdForm(props: any) {
           />
           <IoIosArrowDown className="text-slate-400" />
         </div>
+
         <div className="flex items-center border-b m-auto w-80">
-          <SlSizeFullscreen className="text-slate-400" size={20} />
-          <select
-            className="p-2 rounded bg-white text-slate-400 w-full"
-            id="size"
-            {...register("size", {
-              required: { value: true, message: "Campo requerido" },
-            })}
-          >
-            <option value="" disabled selected>
-              Tamaño
-            </option>
-            <option value="Pequeño">Pequeño</option>
-            <option value="Mediano">Mediano</option>
-            <option value="Grande">Grande</option>
-          </select>
-        </div>
-        <div className="flex items-center border-b m-auto w-80">
-          <GiWeight className="text-slate-400" size={20}/>
+          <GiWeight className="text-slate-400" size={20} />
           <select
             className="p-2 rounded bg-white text-slate-400 w-full"
             id="weight"
@@ -189,25 +173,29 @@ function ProdForm(props: any) {
         </div>
 
         <div className="flex flex-col justify-center items-center p-4 gap-y-5">
-          <h1 className="text-2xl">Añade una imagen de tu envío</h1>
+          <h3 className="text-xl">Añade una imagen de tu envío</h3>
           <section
-             className="border rounded-xl cursor-pointer"
-             style={{
-               width: "300px",
-               height: "200px",
-               borderColor: "gray",
-               display: "flex",
-               alignItems: "center",
-               justifyContent: "center",
-             }}
-             onClick={() => handleDivClick()}
-             
-           >
-           {img ? (
+            className="border rounded-xl cursor-pointer"
+            style={{
+              width: "300px",
+              height: "200px",
+              borderColor: "gray",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onClick={() => handleDivClick()}
+          >
+            {img ? (
               <img
                 src={img}
                 alt="Product Preview"
-                style={{ maxWidth: "100%", maxHeight: "100%" , backgroundRepeat: "no-repeat" , backgroundSize: "cover" }}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                }}
               />
             ) : (
               <LuFolderInput size={70} />

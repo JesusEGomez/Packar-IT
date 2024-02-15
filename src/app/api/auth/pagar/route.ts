@@ -11,11 +11,10 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
 export async function POST(req : Request) {
     try {
         await connectDB();
-        const { userId, total } = await req.json();
-        console.log(userId, 'soy el userId', total)             
+        const { userId, total } = await req.json();            
         const user = await Profile.find({ userId: userId });
-        
         const customerId = user[0].customerId;
+        
         const customer = await stripe.customers.retrieve(customerId) as any;
         const paymentMethodId = customer.default_source;
         // Crear un PaymentIntent para realizar el pago
@@ -25,7 +24,11 @@ export async function POST(req : Request) {
             payment_method: paymentMethodId,
             customer: customerId,
             confirm: true,
-            return_url: 'http://localhost:3000/respuestapago'
+            return_url: 'http://localhost:3000/respuestapago',
+            transfer_data: {
+                destination: 'acct_1OjWSfIPT3NWX9vQ',
+            },
+            application_fee_amount: total*100
         });
         return NextResponse.json({ user, paymentIntent }, { status: 200 });
     } catch (error) {

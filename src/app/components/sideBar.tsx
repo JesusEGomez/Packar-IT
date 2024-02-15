@@ -40,6 +40,7 @@ import {
 import { AccordionItem } from "@/components/ui/accordion";
 import useUserState from "../store/sotre";
 import Monedero from "./Monedero";
+import BankAccount from "./BankAccount";
 
 const Sidebar = () => {
   const { data: session } = useSession();
@@ -48,6 +49,11 @@ const Sidebar = () => {
   const [isCityModalOpen, setIsCityModalOpen] = useState<boolean>(false);
   const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
+  const [ingresarCuenta, setIngresarCuenta] = useState<boolean>(false);
+
+  const closeAccount = () => {
+    setIngresarCuenta(false);
+  }
 
   const closeMonedero = () => {
     setIsMonederoOpen(false);
@@ -92,11 +98,7 @@ const Sidebar = () => {
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
-          <h3>{session?.user?.name!}</h3>
-          <ArrowRightToLine
-            className="cursor-pointer"
-            onClick={() => navigation.push("/loged/profile")}
-          />
+          <h3>{session?.user?.name!}</h3>       
         </div>
         <CommandSeparator className="my-3	" />
         <CommandList className="overflow-visible ">
@@ -106,33 +108,14 @@ const Sidebar = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger
                     className="w-full flex"
-                    onClick={() => {
-                      setIsCityModalOpen(true);
-                      console.log("isLicenseModalOpen", isCityModalOpen);
-                    }}
+                    onClick={() => navigation.push("/loged/profile")}
                   >
                     <Building className="sideBarIcon" />
-                    Ciudad
+                    Mi Perfil
                   </AccordionTrigger>
                 </AccordionItem>
               </Accordion>
-            </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => {
-                      setIsPhoneNumber(true);
-                      console.log("isPhoneNumber", isPhoneNumber);
-                    }}
-                  >
-                    <Phone className="sideBarIcon" />
-                    Teléfono
-                  </AccordionTrigger>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
+            </CommandItem>          
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
@@ -176,6 +159,20 @@ const Sidebar = () => {
               </AccordionItem>
             </Accordion>
           </CommandItem>
+          <CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIngresarCuenta(true)}
+                >
+                  <Banknote className="sideBarIcon" />
+                  Ingresa tu cuenta
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
           </CommandGroup>
           <CommandGroup>
             <CommandItem>
@@ -195,6 +192,13 @@ const Sidebar = () => {
           </CommandGroup>
         </CommandList>
       </Command>
+      {ingresarCuenta && (
+        <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-xl">
+            <BankAccount closeAccount={closeAccount} />
+          </div>
+        </div>
+      )}
       {isIdModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-4 rounded-xl">
