@@ -109,6 +109,18 @@ const Page = ({ params }: { params: { id: string } }) => {
                   <p className="text-gray-500">
                     Paquete {product.producto.type.toLowerCase()}
                   </p>
+                  <div className="flex  items-center">
+                    <p
+                      className={
+                        stateClasses[
+                          product.estado as keyof typeof stateClasses
+                        ]
+                      }
+                    >
+                      <GoDotFill />
+                    </p>
+                    <p>{product.estado}</p>
+                  </div>
                 </div>
 
                 {product.producto.size === "Pequeño" && (
@@ -125,23 +137,22 @@ const Page = ({ params }: { params: { id: string } }) => {
                 )}
               </div>
 
-              <div className="flex flex-col sm:flex-row w-80 h-2/5 p-3  sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
+              <div className="flex flex-col sm:flex-row w-96 h-2/5 p-3  sm:w-2/3 justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
                 <div className=" flex   flex-col gap-y-3 ">
                   <div className="flex  flex-wrap gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
-                      {product.desde.ciudad?.replaceAll("-", " ") + ""}
-                    </p>
-                    <p className="font-bold sm:text-xl ">
                       {product.driverFinded.horaSalida}
                     </p>
-                    s{" "}
+                    <p className="font-bold sm:text-xl ">
+                      {product.desde.ciudad?.replaceAll("-", " ") + ""}
+                    </p>{" "}
                   </div>
                   <div className="flex  gap-4">
                     <p className="font-bold sm:text-xl truncate sm:uppercase">
-                      {product.hasta.ciudad?.replaceAll("-", " ")}
+                      {product.driverFinded.horaLlegada}
                     </p>
                     <p className="font-bold  sm:text-xl">
-                      {product.driverFinded.horaLlegada}
+                      {product.hasta.ciudad?.replaceAll("-", " ")}
                     </p>
                   </div>
                 </div>
@@ -162,13 +173,13 @@ const Page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          <div className="flex sm:gap-x-3 sm:flex-row flex-col gap-y-4  sm:justify-between sm:w-2/3">
-            <div className="w-80 sm:w-1/2 flex p-2 items-center flex-col rounded-xl bg-gray-50 gap-y-2  shadow-md  ">
+          <div className="flex sm:gap-x-3 p-3 sm:flex-row flex-col gap-y-4  sm:justify-between sm:w-2/3">
+            <div className="w-96 sm:w-1/2 flex p-2 items-center flex-col rounded-xl bg-gray-50 gap-y-2  shadow-md  ">
               <div className="flex text-lg  justify-start w-full">
                 <p className=" sm:text-xl">Destinatario</p>
               </div>
 
-              <div className="flex justify-evenly  sm:flex-col sm:gap-y-2  sm:justify-between  p-2 w-80 ">
+              <div className="flex justify-evenly  flex-col gap-y-2  sm:justify-between  p-2 w-80 ">
                 <div className="flex gap-x-2 text-sm ">
                   <User size={20} />{" "}
                   <p className=" sm:text-xl">{`${product.driverUser.fullname}`}</p>{" "}
@@ -179,38 +190,27 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
             </div>
-            <div className="w-80 sm:w-1/2 flex p-2 items-center flex-col rounded-xl bg-gray-50 gap-y-2  shadow-md  ">
+            <div className="w-96 sm:w-1/2 flex p-5 items-center flex-col rounded-xl bg-gray-50 gap-y-2  shadow-md  ">
               <div className="flex justify-start w-full">
                 <h3 className="text-lg sm:text-xl">Datos del Conductor</h3>
               </div>
               <div className="flex gap-4 flex-col">
                 <div className="flex gap-x-2  ">
                   <User />{" "}
-                  <p className=" sm:text-xl">{` Nombre: ${product.driverUser.fullname}`}</p>{" "}
+                  <p className=" sm:text-xl">{`${product.driverUser.fullname}`}</p>{" "}
                 </div>
                 <div className="flex  gap-x-2 ">
                   <Phone />{" "}
-                  <p className=" sm:text-xl">{`Teléfono: ${product.driverProfile.phoneNumber}`}</p>
+                  <p className=" sm:text-xl">{`${product.driverProfile.phoneNumber}`}</p>
                 </div>
                 <div className="flex gap-x-2  ">
                   <MailIcon />{" "}
-                  <p className=" sm:text-xl">{`Mail: ${product.driverUser.email}`}</p>
+                  <p className=" sm:text-xl">{`${product.driverUser.email}`}</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="flex flex-col justify-start  w-80">
-            <h3 className="font-bold">Estado</h3>
-            <div className="flex  items-center">
-              <p
-                className={
-                  stateClasses[product.estado as keyof typeof stateClasses]
-                }
-              >
-                <GoDotFill />
-              </p>
-              <p>{product.estado}</p>
-            </div>
             {product.estado === "Entregado" ? (
               <p className="text-center text-sm">
                 El conductor ha entregado tu pedido. Confirma que todo ha ido
