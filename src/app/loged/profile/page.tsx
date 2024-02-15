@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState, useEffect } from "react";
 import loading from "../../../app/loading";
 import useUserState from "../../../app/store/sotre";
@@ -12,9 +12,11 @@ function Profile() {
   const [userId, setUserId] = useState<string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [phoneNumberEditMode, setPhoneNumberEditMode] =
-    useState<boolean>(false);
+  const [phoneNumberEditMode, setPhoneNumberEditMode] = useState<boolean>(false);
   const [cityEditMode, setCityEditMode] = useState<boolean>(false);
+  const [phoneNumberError, setPhoneNumberError] = useState<string>("");
+  const [cityError, setCityError] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -40,20 +42,33 @@ function Profile() {
     }
     fetchProfileData();
   }, [user]);
-  const handlePhoneNumberChange = (e : any) => {
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputPhoneNumber = e.target.value;
     if (/^\d+$/.test(inputPhoneNumber) || inputPhoneNumber === "") {
       setPhoneNumber(inputPhoneNumber);
+      setPhoneNumberError("");
+    } else {
+      setPhoneNumberError("El teléfono solo puede contener números.");
     }
   };
+
   const handleUpdateProfile = async () => {
     try {
-      if (!phoneNumber || !city) {
-        console.error("El teléfono y la ciudad no pueden estar vacíos.");
+      if (!phoneNumber) {
+        setPhoneNumberError("El teléfono no puede estar vacío.");
         return;
+      } else {
+        setPhoneNumberError("");
+      }
+      if (!city) {
+        setCityError("La ciudad no puede estar vacía.");
+        return;
+      } else {
+        setCityError("");
       }
 
-      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
+      const response = await fetch(`/api/auth/getProfileById/?id=${user?._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,6 +87,10 @@ function Profile() {
           phoneNumber,
           city,
         });
+        setSuccessMessage("El perfil se ha actualizado correctamente.");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
       } else {
         console.error("Error al actualizar el perfil");
       }
@@ -111,14 +130,19 @@ function Profile() {
               <dt className="text-sm font-medium text-gray-700">Ciudad</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 relative">
                 {cityEditMode ? (
-                  <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    onBlur={() => setCityEditMode(false)}
-                    className="w-full border rounded-md px-2 py-1"
-                    autoFocus
-                  />
+                  <>
+                    <input
+                      type="text"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      onBlur={() => setCityEditMode(false)}
+                      className={"w-full border rounded-md px-2 py-1 focus:border-pink-500"}
+                      autoFocus
+                    />
+                    {cityError && (
+                      <p className="text-red-500">{cityError}</p>
+                    )}
+                  </>
                 ) : (
                   <>
                     <span>{city}</span>
@@ -137,14 +161,19 @@ function Profile() {
               <dt className="text-sm font-medium text-gray-700">Teléfono</dt>
               <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 relative">
                 {phoneNumberEditMode ? (
-                  <input
-                    type="text"
-                    value={phoneNumber || ""}
-                    onChange={handlePhoneNumberChange}
-                    onBlur={() => setPhoneNumberEditMode(false)}
-                    className="w-full border rounded-md px-2 py-1"
-                    autoFocus
-                  />
+                  <>
+                    <input
+                      type="text"
+                      value={phoneNumber || ""}
+                      onChange={handlePhoneNumberChange}
+                      onBlur={() => setPhoneNumberEditMode(false)}
+                      className={"w-full border rounded-md px-2 py-1 focus:border-pink-500"}
+                      autoFocus
+                    />
+                    {phoneNumberError && (
+                      <p className="text-red-500">{phoneNumberError}</p>
+                    )}
+                  </>
                 ) : (
                   <>
                     <span>{phoneNumber}</span>
@@ -161,6 +190,13 @@ function Profile() {
             </div>
           </div>
         </dl>
+
+        {/* Mensaje de éxito */}
+        {successMessage && (
+          <div className="text-green-500 text-center">
+            {successMessage}
+          </div>
+        )}
 
         {/* Botón para guardar los cambios */}
       </div>
