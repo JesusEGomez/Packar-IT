@@ -30,7 +30,7 @@ type FormData = {
     phonecode:string
 }
 
-const BankAccount = () => {
+const BankAccount = (props:any) => {
     const [countries, setCountries] = useState<Countryes | null>(null);
     const localUser = localStorage.getItem("user");
     const parsedUser = JSON.parse(localUser!);
@@ -69,6 +69,7 @@ const BankAccount = () => {
                     method: "POST",
                     body: JSON.stringify(accountData)
                 })
+                props.closeAccount();
             } catch (error) {
                 console.log(error);
                 
