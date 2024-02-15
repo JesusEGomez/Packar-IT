@@ -160,7 +160,7 @@ export default function Register() {
         />
 
         {errors.email && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle />
             {errors.email.message}
           </span>
