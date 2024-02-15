@@ -85,7 +85,7 @@ const BankAccount = (props:any) => {
         fetchCountries();
     },[])
     return(
-        <form className="flex flex-col items-center p-2 my-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col items-center p-2 my-4 overflow-y-scroll" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-xl">Ingresa los datos de tu cuenta para recibir tus pagos</h1>
             <select {...register("countries", {
               required: { value: true, message: "Campo requerido" },
