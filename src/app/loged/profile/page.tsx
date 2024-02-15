@@ -12,10 +12,9 @@ function Profile() {
   const [userId, setUserId] = useState<string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [city, setCity] = useState<string>("");
-  const [phoneNumberEditMode, setPhoneNumberEditMode] = useState<boolean>(
-    false
-  );
+  const [phoneNumberEditMode, setPhoneNumberEditMode] = useState<boolean>(false);
   const [cityEditMode, setCityEditMode] = useState<boolean>(false);
+ 
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -130,7 +129,7 @@ function Profile() {
     {phoneNumberEditMode ? (
       <input
         type="text"
-        value={phoneNumber}
+        value={phoneNumber || ""}
         onChange={(e) => setPhoneNumber(e.target.value)}
         onBlur={() => setPhoneNumberEditMode(false)}
         className="w-full border rounded-md px-2 py-1"
