@@ -10,7 +10,7 @@ const CountryCode: React.FC<CountryCodeProps> = (props) => {
   };
 
   return (
-  <select className="border border-gray-300 p-2 rounded-md focus:outline-none w-1/2 lg:w-full"
+  <select className="border border-gray-300 p-2 rounded-md focus:outline-none w-1/2 lg:w-full lg:mr-6"
     onChange={handleCountryCodeChange}>
     <option value="">País</option>
     <option value="93">Afghanistan +93</option>
