@@ -44,7 +44,7 @@ const options: NextAuthOptions = {
             profile = new Profile({
               userId: userFound._id,
               city: "no definido",
-              phoneNumber: 0,
+              phoneNumber: "no definido",
               driverLicense: {
                 frontPhoto: "ruta/de/tu/imagDen/front.jpg",
                 backPhoto: "",
@@ -99,7 +99,7 @@ const options: NextAuthOptions = {
           profile = new Profile({
             userId: newUser._id,
             city: "no definido",
-            phoneNumber: 0,
+            phoneNumber: "no definido",
             driverLicense: {
               frontPhoto: "ruta/de/tu/imagDen/front.jpg",
               backPhoto: "",

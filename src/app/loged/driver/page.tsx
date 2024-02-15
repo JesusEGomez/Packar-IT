@@ -122,7 +122,7 @@ const Driver = () => {
     estado: "Pendiente",
     envios: [],
     special: false,
-    como: '',
+    como: "",
   });
   const [selectedProductData, setSelectedProductData] = useState<prod>({
     pequeño: {
@@ -267,14 +267,14 @@ const Driver = () => {
       estado: "Pendiente",
       envios: [],
       special: selectedProductData.special,
-      como: data.como
+      como: data.como,
     };
     search && setTravel(newTravel);
     console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col w-full max-h-screen	items-center bg-pink">
+    <div className="flex flex-col w-full max-h-screen  	items-center bg-pink">
       <Image
         className="my-8 rounded-full"
         src={"/step-3.svg"}
@@ -290,61 +290,64 @@ const Driver = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className=" fixed  flex top-32 bg-white border rounded-xl max-h-lvh	">
-          <div className="flex flex-col  h-1/2 items-center md:gap-y-2">
+          <div className="flex flex-col   h-1/2 items-center 3 xl:gap-y-5">
             <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col text-center items-center gap-y-2 ">
-                <button
-                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
-                  onClick={fromHandler}
-                  title={from || undefined}
-                >
-                  {<RiMapPinAddLine size={30} />}
-                  {from === null
-                    ? "Dirección Origen"
-                    : from.length > 20
-                    ? `${from.slice(0, 15)}.....`
-                    : `${from}`}
-                </button>
+              <button
+                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+                onClick={fromHandler}
+                title={from || undefined}
+              >
+                {<RiMapPinAddLine size={30} />}
+                {from === null
+                  ? "Dirección Origen"
+                  : from.length > 20
+                  ? `${from.slice(0, 15)}.....`
+                  : `${from}`}
+              </button>
 
-                <button
-                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
-                  onClick={toHandler}
-                  title={to || undefined}
-                >
-                  <RiMapPin2Fill size={30} />
-                  {to === null
-                    ? "Dirección Origen"
-                    : to.length > 20
-                    ? `${to.slice(0, 15)}.....`
-                    : `${to}`}
-                </button>
-                <button
-                  onClick={() => dateModalClose()}
-                  className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
-                >
-                  <FaRegCalendarAlt size={30} />
-                  {date
-                    ? `${date.toLocaleDateString("es-AR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}`
-                    : "Cuando"}
-                </button>
+              <button
+                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+                onClick={toHandler}
+                title={to || undefined}
+              >
+                <RiMapPin2Fill size={30} />
+                {to === null
+                  ? "Dirección Origen"
+                  : to.length > 20
+                  ? `${to.slice(0, 15)}.....`
+                  : `${to}`}
+              </button>
+              <button
+                onClick={() => dateModalClose()}
+                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+              >
+                <FaRegCalendarAlt size={30} />
+                {date
+                  ? `${date.toLocaleDateString("es-AR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}`
+                  : "Cuando"}
+              </button>
 
-                <button
-                  onClick={() => timeHandler()}
-                  className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64"
-                >
-                  <IoTime size={30} />
-                  {time === null ? (
-                    "Hora "
-                  ) : (
-                    <div className="flex flex-col">
-                      <p>{`Salida ${time?.salida ? time.salida : ""}`} - {`Llegada ${time?.llegada ? time.llegada : ""}`}</p>
-                    </div>
-                  )}
-                </button>
+              <button
+                onClick={() => timeHandler()}
+                className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64"
+              >
+                <IoTime size={30} />
+                {time === null ? (
+                  "Hora "
+                ) : (
+                  <div className="flex flex-col">
+                    <p>
+                      {`Salida ${time?.salida ? time.salida : ""}`} -{" "}
+                      {`Llegada ${time?.llegada ? time.llegada : ""}`}
+                    </p>
+                  </div>
+                )}
+              </button>
             </div>
             <button
               onClick={() => productsHandler()}
@@ -356,13 +359,15 @@ const Driver = () => {
 
             <div className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64">
               <select
-              className="p-1 rounded bg-white text-slate-400 w-full"
-              id="como"
-              {...register("como", {
-                required: { value: true, message: "Campo requerido" },
-              })}
+                className="p-1 rounded bg-white text-slate-400 w-full"
+                id="como"
+                {...register("como", {
+                  required: { value: true, message: "Campo requerido" },
+                })}
               >
-                <option value="" disabled selected>¿Como viajas?</option>
+                <option value="" disabled selected>
+                  ¿Como viajas?
+                </option>
                 <option value="auto">Auto</option>
                 <option value="avion">Avión</option>
                 <option value="bus">Bus</option>
@@ -435,7 +440,7 @@ const Driver = () => {
       )}
       {finalStep && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl">
+          <div className="bg-white  p-4 rounded-xl">
             <FinalDriverModal
               travel={travel}
               flexHandle={felxhandler}

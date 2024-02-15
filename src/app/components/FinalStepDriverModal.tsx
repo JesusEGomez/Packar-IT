@@ -53,9 +53,9 @@ function FinalDriverModal({
       });
     }
   };
-
+  console.log(travel);
   return (
-    <div className="w-80 p-2">
+    <>
       <Button onClick={() => closeModal()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
@@ -63,26 +63,32 @@ function FinalDriverModal({
         <h1 className="text-xl font-bold mb-4">Tu trayecto</h1>
         <FaExclamationCircle className="text-slate-400" />
       </div>
-      <div className="p-2 flex items-center flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
-        <div>
-          <div className="flex gap-5 mb-2">
-            <GiPathDistance className={"text-pink"} size={50} />
-            <div>
-              <p>
-                {`Desde: ${travel.desde.pais}, ${travel.desde.calle} / ${travel.horaSalida}`}
+      <div className=" flex   flex-col rounded-xl bg-gray-50 shadow-md justify-around ">
+        <div className="flex flex-col w-full   h-2/5 p-3   justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
+          <div className=" flex     flex-col gap-y-2 ">
+            <div className="flex  flex-wrap gap-4">
+              <p className="font-bold w-full sm:text-lg  sm:uppercase">
+                {`Desde: ${travel.desde.pais}, ${
+                  travel.desde.ciudad?.replaceAll("-", " ") + ""
+                } / ${travel.horaSalida}hs`}
               </p>
-              <p>
-                {`Hasta: ${travel.hasta.pais}, ${travel.hasta.calle} / ${travel.horaLlegada}`}
+            </div>
+            <div className="flex  gap-4">
+              <p className="font-bold sm:text-lg truncate sm:uppercase">
+                {`Hasta: ${travel.hasta.ciudad?.replaceAll("-", " ")} / ${
+                  travel.horaLlegada
+                }hs`}
               </p>
             </div>
           </div>
-          <div className="flex my-2">
+          <div className="flex justify-center  w-full my-2">
             <CalendarDays />
             {travel.cuando}
           </div>
         </div>
-        <div className="flex gap-2 flex-wrap w-full justify-center">
-          <div className="border-2 mb-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
+
+        <div className="flex gap-2 p-5 flex-wrap w-full justify-center">
+          <div className="border-2 mb-2  relative h-[28px] w-[125px] border-slate-300 rounded p-5">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Pequeño
             </div>
@@ -97,7 +103,7 @@ function FinalDriverModal({
               </div>
             </div>
           </div>
-          <div className="border-2 relative mb-2   h-[28px] w-[125px] border-slate-300 rounded p-4">
+          <div className="border-2 relative mb-2   h-[28px] w-[125px] border-slate-300 rounded p-5">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Mediano
             </div>
@@ -112,7 +118,7 @@ function FinalDriverModal({
               </div>
             </div>
           </div>
-          <div className="border-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
+          <div className="border-2 relative h-[28px] w-[125px] border-slate-300 rounded p-5">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Grande
             </div>
@@ -127,7 +133,7 @@ function FinalDriverModal({
               </div>
             </div>
           </div>
-          <div className="border-2 relative h-[28px] w-[125px] border-slate-300 rounded p-4">
+          <div className="border-2 relative h-[28px] w-[125px] border-slate-300 rounded p-5">
             <div className="bg-pink top-[-1px] left-[-10px] w-12 h-4 text-white absolute  text-center text-[10px] font-bold justify-center rounded">
               Especial
             </div>
@@ -145,6 +151,12 @@ function FinalDriverModal({
         </div>
       </div>
       <div className="w-full h-[50px] my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md">
+        <p className="text-pink mr-2 ">
+          Como viajaras:{" "}
+          <span className="font-bold">{travel.como.toUpperCase()}</span>
+        </p>
+      </div>
+      <div className="w-full p-5 h-[50px] my-5 flex justify-evenly items-center rounded-xl bg-gray-50 shadow-md">
         <div className="flex justify-stretch w-1/2">
           <p className="text-pink mr-2 ">Eres flexible</p>
           {flex ? <CheckCircle2 className="text-green-400" /> : null}
@@ -156,10 +168,10 @@ function FinalDriverModal({
           Editar
         </Button>
       </div>
-      <Button className="w-full bg-pink text-white" onClick={sendTravel}>
+      <Button className="w-full bg-pink  text-white" onClick={sendTravel}>
         Enviar
       </Button>{" "}
-    </div>
+    </>
   );
 }
 

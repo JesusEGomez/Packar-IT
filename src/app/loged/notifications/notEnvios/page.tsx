@@ -1,5 +1,6 @@
 "use client";
 import CardNotification from "@/app/components/CardNotification";
+import CardStatusNotification from "@/app/components/CardStatusNotification";
 import { INotification } from "@/app/interfaces/notifications.interface";
 import useUserState from "@/app/store/sotre";
 
@@ -8,6 +9,22 @@ import { useEffect, useState } from "react";
 const NotViajes = () => {
   const [notifications, setNotification] = useState<INotification[] | null>();
   const { user } = useUserState((state) => state);
+  const [visto, setVisto] = useState(true);
+  const [update, setUpdate] = useState(false);
+
+  const filter = (notifications: INotification[]) => {
+    console.log(notifications);
+    if (notifications) {
+      const found = notifications.find((n) => n.vistoUser === false);
+
+      console.log(found);
+      if (found) setVisto(false);
+    }
+  };
+
+  const updateCards = () => {
+    setUpdate(true);
+  };
 
   const fetchNotifications = async () => {
     try {
@@ -18,6 +35,7 @@ const NotViajes = () => {
       console.log(newNotifications);
       if (response.ok && newNotifications) {
         setNotification(newNotifications);
+        filter(newNotifications);
       }
     } catch (err) {
       console.error(err);
@@ -25,29 +43,43 @@ const NotViajes = () => {
   };
 
   useEffect(() => {
+    setUpdate(false);
     fetchNotifications();
-  }, []);
+  }, [update]);
 
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {notifications ? (
-        <>
-          {notifications.reverse().map((n) => {
-            return (
-              <>
-                {n.vistoUser ? (<>No tienes nuevas Notificaciones</>) : (
-                  <CardNotification
-                    id={n._id}
-                    name={n.usuario?.fullname!}
-                    type={n.type!}
-                    visto={n.vistoUser!}
-                    detail="notEnvios"
-                  />
-                )}
-              </>
-            );
-          })}
-        </>
+
+        !visto ? (
+          <>
+            {notifications?.reverse().map((n) => {
+              return (
+                <>
+                  {n.vistoUser ? null : n.subestado === "solicitud" ? (
+                    <CardNotification
+                      id={n._id}
+                      name={n.usuario?.fullname!}
+                      type={n.type!}
+                      visto={n.vistoUser!}
+                      detail="notEnvios"
+                    />
+                  ) : (
+                    <CardStatusNotification
+                      estadoEnvio={n.estadoEnvio}
+                      name={n.producto?.name!}
+                      id={n._id}
+                      updateCards={updateCards}
+                      type={n.type!}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </>
+        ) : (
+          <>No tienes Notificaciones</>
+        )
       ) : (
         <div>No tienes Notificaciones</div>
       )}

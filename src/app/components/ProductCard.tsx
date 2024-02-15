@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GoArchive, GoDotFill } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { IProductDB } from "../interfaces/productDB.interface";
+import { toDate } from "date-fns";
 
 interface IProductCardProps {
   desde: {
@@ -23,11 +24,11 @@ interface IProductCardProps {
   _id: string;
 }
 const stateClasses = {
-  Cancelado: "text-red-500",
-  Pendiente: "text-yellow-500",
-  "En Curso": "text-green-500",
-  Entregado: "text-blue-500",
-  Finalizado: "text-blue-500",
+  Cancelado: "text-red-500 ",
+  Aceptado: "text-yellow-500 ",
+  "En Curso": "text-green-500 ",
+  Entregado: "text-blue-500 ",
+  Finalizado: "text-blue-500 text-2xl  ",
 };
 
 const ProductCard = ({
@@ -40,30 +41,40 @@ const ProductCard = ({
   producto,
   _id,
 }: IProductCardProps) => {
-  console.log(producto.name);
+  console.log();
   return (
-    <div className="w-full h-[110px] rounded-xl  shadow-md  hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
-      <p className="text-5xl  w-1/5 text-pink">
+    <div className="w-full  h-[110px] rounded-xl  shadow-md  hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
+      <p className="text-5xl w-1/5 text-pink">
         <GoArchive />
       </p>
-      <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        <div className="flex w-full justify-evenly">
-          <p> {`${horaSalida} - ${horaLlegada} `}</p>
-          <div className="flex items-center">
-            <p className={stateClasses[estado as keyof typeof stateClasses]}>
-              <GoDotFill />
+      <div className="flex sm:flex-row sm:gap-x-2 w-3/5   flex-col">
+        <div className="flex w-full flex-col sm:flex-row  ">
+          <div className="flex w-full   justify-evenly  sm:flex-row">
+            <p className=""> {`${horaSalida} - ${horaLlegada} `}</p>
+            <p className="">
+              {" "}
+              {toDate(cuando).toLocaleDateString("es-AR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
             </p>
-            <p>{estado}</p>
           </div>
+          <p className="truncate sm:w-2/3 ">{`${desde.ciudad?.replaceAll(
+            "-",
+            " "
+          )} / ${hasta.ciudad?.replaceAll("-", " ")}`}</p>
+          <h3 className="font-bold ">{producto.name}</h3>
         </div>
 
-        <p className="truncate ">{`${desde.ciudad?.replaceAll(
-          "-",
-          " "
-        )} / ${hasta.ciudad?.replaceAll("-", " ")}`}</p>
-        <h3 className="font-bold ">{producto.name}</h3>
+        <div className="flex items-center">
+          <p className={stateClasses[estado as keyof typeof stateClasses]}>
+            <GoDotFill />
+          </p>
+          <p>{estado}</p>
+        </div>
       </div>
-      <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
+      <p className="text-3xl hover:text-pink  cursor-pointer w-1/12 text-gray-500">
         <Link href={`misenvios/envios/${_id}`}>
           <MdKeyboardArrowRight />
         </Link>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import InputCode from "./InputCode";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import Swal from 'sweetalert2';
 
 const VerificationCode = () => {
   const { data: session } = useSession();
@@ -50,9 +51,19 @@ const VerificationCode = () => {
 
       if (response.ok) {
         console.log('Código verificado con éxito');
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Codigo ingresado con éxito.',
+        });  
         router.push('/loged');
       } else {
         console.error('Error al verificar el código:', data.error || 'Error desconocido');
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Error al validar el codigo`,
+        });    
       }
     } catch (error) {
       console.error('Error al verificar el código:', error);
