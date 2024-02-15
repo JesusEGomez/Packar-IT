@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -116,6 +115,7 @@ export default function Register() {
       <form
         className="flex flex-col p-4 gap-y-1"
         onSubmit={handleSubmit(onSubmit)}
+        style={{ maxWidth: "400px", width: "100%" }}
       >
         <Link href={"/prelogin"}>
           <ArrowLeft />
@@ -140,7 +140,7 @@ export default function Register() {
         />
 
         {errors.fullname && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle /> {errors.fullname.message}
           </span>
         )}
@@ -177,12 +177,14 @@ export default function Register() {
                 required: { value: true, message: "Campo requerido" },
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
                 pattern: {
-                  value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/,
+                  value:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*,.-])[a-zA-Z0-9!@#$%^&*,.-]{8,}$/,
                   message:
-                    "La contraseña debe tener al menos 8 caracteres, un número y un carácter especial.",
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula , una minúscula, un número y un carácter especial.",
                 },
               })}
             />
+
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
               {showPassword ? (
                 <FaEyeSlash
@@ -199,7 +201,7 @@ export default function Register() {
           </div>
         </div>
         {errors.password && (
-          <span className="text-defaultButton flex gap-x-3">
+          <span className="text-red-500 flex gap-x-3">
             <FaExclamationCircle />
             {errors.password.message}
           </span>
