@@ -274,7 +274,7 @@ const Driver = () => {
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col w-full max-h-screen items-center bg-pink overscroll-y-auto 2xl:min-h-48">
+    <div className="flex flex-col w-full max-h-screen items-center bg-pink overflow-y-auto 2xl:min-h-48">
       <Image
         className="my-8 rounded-full 2xl:my-12 2xl:w-[200px] 2xl:h-[200px]"
         src={"/step-3.svg"}
@@ -294,7 +294,7 @@ const Driver = () => {
             <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col text-center items-center gap-y-2 ">
               <button
-                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
                 onClick={fromHandler}
                 title={from || undefined}
               >
@@ -307,7 +307,7 @@ const Driver = () => {
               </button>
 
               <button
-                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
                 onClick={toHandler}
                 title={to || undefined}
               >
@@ -320,7 +320,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
               >
                 <FaRegCalendarAlt size={30} />
                 {date
@@ -334,7 +334,7 @@ const Driver = () => {
 
               <button
                 onClick={() => timeHandler()}
-                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
               >
                 <IoTime size={30} />
                 {time === null ? (
@@ -350,7 +350,7 @@ const Driver = () => {
               </button>
             <button
               onClick={() => productsHandler()}
-              className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+              className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
               >
               <BsBoxSeam size={30} />
               {productSelected ? "Elección Cargada" : "Producto"}
@@ -358,7 +358,7 @@ const Driver = () => {
 
             <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
               <select
-                className="p-0.6 rounded bg-white text-slate-400 text-center w-full"
+                className="p-1 rounded bg-white text-slate-400 text-center w-full"
                 id="como"
                 {...register("como", {
                   required: { value: true, message: "Campo requerido" },
