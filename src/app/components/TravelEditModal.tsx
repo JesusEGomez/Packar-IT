@@ -50,6 +50,7 @@ const TravelEditModal = ({
         if (response.ok) {
           setLoading(false);
           updateData();
+          //aqui pago al conductor
         }
       } else {
         Swal.fire({

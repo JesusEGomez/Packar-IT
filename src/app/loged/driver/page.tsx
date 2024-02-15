@@ -274,9 +274,9 @@ const Driver = () => {
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col w-full max-h-screen  	items-center bg-pink">
+    <div className="flex flex-col w-full max-h-screen items-center bg-pink overscroll-y-auto 2xl:min-h-48">
       <Image
-        className="my-8 rounded-full"
+        className="my-8 rounded-full 2xl:my-12 2xl:w-[200px] 2xl:h-[200px]"
         src={"/step-3.svg"}
         alt="logo"
         width={150}
@@ -286,15 +286,15 @@ const Driver = () => {
         {/* Contenido del segundo div */}
       </div>
       <form
-        className="flex w-full justify-center"
+        className="flex w-full justify-center "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" fixed  flex top-32 bg-white border rounded-xl max-h-lvh	">
+        <div className=" fixed  flex top-32 bg-white border rounded-xl max-h-lvh 2xl:top-64 2xl:w-auto 2xl:min-h-80	">
           <div className="flex flex-col   h-1/2 items-center 3 xl:gap-y-5">
             <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col text-center items-center gap-y-2 ">
               <button
-                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
                 onClick={fromHandler}
                 title={from || undefined}
               >
@@ -307,7 +307,7 @@ const Driver = () => {
               </button>
 
               <button
-                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
                 onClick={toHandler}
                 title={to || undefined}
               >
@@ -320,7 +320,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
               >
                 <FaRegCalendarAlt size={30} />
                 {date
@@ -334,7 +334,7 @@ const Driver = () => {
 
               <button
                 onClick={() => timeHandler()}
-                className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64"
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
               >
                 <IoTime size={30} />
                 {time === null ? (
@@ -348,18 +348,17 @@ const Driver = () => {
                   </div>
                 )}
               </button>
-            </div>
             <button
               onClick={() => productsHandler()}
-              className="flex text-slate-400 gap-x-4 border-b p-1 mx-4 w-64"
-            >
+              className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+              >
               <BsBoxSeam size={30} />
               {productSelected ? "Elección Cargada" : "Producto"}
             </button>
 
-            <div className="flex text-slate-400 gap-x-4 border-b items-center p-1 mx-4 w-64">
+            <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
               <select
-                className="p-1 rounded bg-white text-slate-400 w-full"
+                className="p-0.6 rounded bg-white text-slate-400 text-center w-full"
                 id="como"
                 {...register("como", {
                   required: { value: true, message: "Campo requerido" },
@@ -375,8 +374,8 @@ const Driver = () => {
                 <option value="tren">Tren</option>
               </select>
             </div>
-
-            <div className="flex text-slate-400 gap-x-4 justify-center p-2 mx-4 w-64">
+            </div>
+            <div className="flex text-slate-400 gap-x-4 justify-center p-1 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />
               <label
                 htmlFor="terms"
@@ -390,7 +389,7 @@ const Driver = () => {
               onMouseEnter={() => setHoverButton(true)}
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
-              className="bg-pink w-full disabled:opacity-70  text-white font-bold rounded-b-xl p-2"
+              className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
               disabled={!search}
             >
               Crear

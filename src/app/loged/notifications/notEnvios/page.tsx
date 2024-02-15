@@ -50,9 +50,10 @@ const NotViajes = () => {
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {notifications ? (
+
         !visto ? (
           <>
-            {notifications?.map((n) => {
+            {notifications?.reverse().map((n) => {
               return (
                 <>
                   {n.vistoUser ? null : n.subestado === "solicitud" ? (

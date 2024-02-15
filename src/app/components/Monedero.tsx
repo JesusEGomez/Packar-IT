@@ -58,7 +58,7 @@ type Card = {
   
 
 const Monedero = (props:any) => {
-    const pkStripe = 'pk_test_51ODUn1GnCrWyfIPCv8uKFeWbjiiKxaaBd7rdpADhIaBreTX3DhQgL5Xs9aBZuj3nrFQAwE1RGprvkPJWkqfQJh0w00ROye3xiI';
+    const pkStripe = 'pk_test_51OjWQTIYUHJezeI6CcvDBG7pyFX3ZQQfn892aefrXpvupTOoGESSsp2BUXsENIR00LAVQyi3Eunk4ap27kMqAtzE00hQStEwt5';
     const {data: session} = useSession();
     const stripePromise = loadStripe(pkStripe);
     const [myCard, setMyCard] = useState<Card | null>(null);
