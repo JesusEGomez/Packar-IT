@@ -22,18 +22,15 @@ const BottmBar = () => {
     <div className="w-screen fixed bottom-0 bg-white">
       <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
-          <Link href={"/loged"}>
-            <button
-              className={`flex ${
-                pathName === "/loged" && !isOpen
-                  ? "text-pink"
-                  : "text-slate-600"
-              } flex-col items-center text-xs`}
-            >
-              <IoSendOutline size={30} />
-              Enviar
-            </button>
-          </Link>
+          <button
+            onClick={() => closeSideBar("/loged")}
+            className={`flex ${
+              pathName === "/loged" && !isOpen ? "text-pink" : "text-slate-600"
+            } flex-col items-center text-xs`}
+          >
+            <IoSendOutline size={30} />
+            Enviar
+          </button>
         </li>
         <li>
           <button
