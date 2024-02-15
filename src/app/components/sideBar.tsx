@@ -92,11 +92,7 @@ const Sidebar = () => {
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
-          <h3>{session?.user?.name!}</h3>
-          <ArrowRightToLine
-            className="cursor-pointer"
-            onClick={() => navigation.push("/loged/profile")}
-          />
+          <h3>{session?.user?.name!}</h3>       
         </div>
         <CommandSeparator className="my-3	" />
         <CommandList className="overflow-visible ">
@@ -106,33 +102,14 @@ const Sidebar = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger
                     className="w-full flex"
-                    onClick={() => {
-                      setIsCityModalOpen(true);
-                      console.log("isLicenseModalOpen", isCityModalOpen);
-                    }}
+                    onClick={() => navigation.push("/loged/profile")}
                   >
                     <Building className="sideBarIcon" />
-                    Ciudad
+                    Mi Perfil
                   </AccordionTrigger>
                 </AccordionItem>
               </Accordion>
-            </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => {
-                      setIsPhoneNumber(true);
-                      console.log("isPhoneNumber", isPhoneNumber);
-                    }}
-                  >
-                    <Phone className="sideBarIcon" />
-                    Teléfono
-                  </AccordionTrigger>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
+            </CommandItem>          
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
