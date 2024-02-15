@@ -12,7 +12,7 @@ import Link from "next/link";
 import useUserState from "../store/sotre"; // <-- ¿Hay un error tipográfico aquí? Debería ser "store" en lugar de "sotre".
 
 const BottmBar = () => {
-  const { sideBarControl, isOpen } = useContext(SidebarContext);
+  const { sideBarControl, isOpen, closeSideBar } = useContext(SidebarContext);
   const { sendLocationNotification } = useLocationNotification();
   const { user } = useUserState((state) => state);
   const pathName = usePathname();
@@ -25,7 +25,9 @@ const BottmBar = () => {
           <Link href={"/loged"}>
             <button
               className={`flex ${
-                pathName === "/loged" ? "text-pink" : "text-slate-600"
+                pathName === "/loged" && !isOpen
+                  ? "text-pink"
+                  : "text-slate-600"
               } flex-col items-center text-xs`}
             >
               <IoSendOutline size={30} />
@@ -35,9 +37,9 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            onClick={() => navigate.push("/loged/misenvios")}
+            onClick={() => closeSideBar("/loged/misenvios")}
             className={`flex ${
-              pathName.startsWith("/loged/misenvios")
+              pathName.startsWith("/loged/misenvios") && !isOpen
                 ? "text-pink"
                 : "text-slate-600"
             } flex-col items-center text-xs`}
@@ -48,9 +50,11 @@ const BottmBar = () => {
         </li>
         <li>
           <button
-            onClick={() => navigate.push("/loged/driver")}
+            onClick={() => closeSideBar("/loged/driver")}
             className={`flex ${
-              pathName === "/loged/driver" ? "text-pink" : "text-slate-600"
+              pathName === "/loged/driver" && !isOpen
+                ? "text-pink"
+                : "text-slate-600"
             } flex-col items-center text-xs`}
           >
             <IoMdAddCircleOutline size={30} />
@@ -59,11 +63,11 @@ const BottmBar = () => {
         </li>
         <button
           className={`flex ${
-            pathName.startsWith("/loged/notifications")
+            pathName.startsWith("/loged/notifications") && !isOpen
               ? "text-pink"
               : "text-slate-600"
           } flex-col items-center text-xs`}
-          onClick={() => navigate.push("/loged/notifications")}
+          onClick={() => closeSideBar("/loged/notifications")}
         >
           <MdOutlineNotificationsNone size={30} />
           Notificaciones
