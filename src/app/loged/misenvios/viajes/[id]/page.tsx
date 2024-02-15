@@ -11,6 +11,7 @@ import { IoTime } from "react-icons/io5";
 import { SendModal } from "@/app/components/sendModal";
 import { Button } from "@/components/ui/button";
 import TravelEditModal from "@/app/components/TravelEditModal";
+import { GoDotFill } from "react-icons/go";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [travel, setTravel] = useState<ITravelEnvioDB | null>(null);
@@ -38,6 +39,14 @@ const Page = ({ params }: { params: { id: string } }) => {
       console.error(error);
     }
   };
+  const stateClasses = {
+    Cancelado: "text-red-500 text-2xl ",
+    Pendiente: "text-gray-500 text-2xl ",
+    Aceptado: "text-yellow-500 text-2xl ",
+    "En Curso": "text-green-500 text-2xl ",
+    Entregado: "text-blue-500 text-2xl",
+    Finalizado: "text-blue-500 text-2xl  ",
+  };
 
   useEffect(() => {
     fetTravelById(params.id);
@@ -45,9 +54,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     setUpdate(false);
   }, [params.id, update]);
   return (
-    <div className="w-screen flex flex-col justify-center items-center">
+    <div className="w-screen flex  flex-col h-full mb-20 justify-center items-center">
       {travel ? (
-        <div className=" flex gap-y-5  flex-col items-center">
+        <div className=" flex gap-y-5   flex-col items-center">
           <div className="w-full flex flex-col p-5 justify-start h-20">
             <button className="text-3xl" onClick={navigate.back}>
               <MdKeyboardArrowLeft />
@@ -97,8 +106,20 @@ const Page = ({ params }: { params: { id: string } }) => {
                 </div>
               </div>
               <div className="flex gap-2 items-center justify-center ">
-                <CalendarDays />
-                {travel.cuando}
+                <div className="flex">
+                  <p
+                    className={
+                      stateClasses[travel.estado as keyof typeof stateClasses]
+                    }
+                  >
+                    <GoDotFill />
+                  </p>
+                  <p>{travel.estado}</p>
+                </div>
+                <>
+                  <CalendarDays />
+                  <p>{travel.cuando}</p>
+                </>
               </div>
             </div>
             <div className="sm:w-2/5 ">
@@ -158,7 +179,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               )}
             </div>
           </div>
-          <div className="flex justify-center gap-x-4 w-full">
+          <div className="flex justify-center  gap-x-4 w-full">
             <Button
               className="bg-pink text-white"
               onClick={() => setOpen(true)}
