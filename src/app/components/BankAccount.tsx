@@ -85,46 +85,46 @@ const BankAccount = (props:any) => {
         fetchCountries();
     },[])
     return(
-        <form className="flex flex-col items-center p-2 mb-10" onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col items-center p-2 my-4" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-xl">Ingresa los datos de tu cuenta para recibir tus pagos</h1>
             <select {...register("countries", {
               required: { value: true, message: "Campo requerido" },
-                })} id="countries" className="p-2 rounded bg-white w-full">
+                })} id="countries" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                 <option value="" disabled selected>Selecciona tu país</option>
                 {
-                    countries && countries.map((country) => (<option value={country.cca2}>{`(${country.name.common}) ${country.cca2}`}</option>))
+                    countries && countries.map((country) => (<option value={country.cca2}>{`${country.name.common} (${country.cca2})`}</option>))
                 }
             </select>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu banco:</label>
                 <input {...register("bank", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="bank" placeholder="Banco de bilbao" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="bank" placeholder="Banco de bilbao" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu nro de cuenta:</label>
                 <input {...register("accountNumber", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="accountNumber" placeholder="12345678" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="accountNumber" placeholder="12345678" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu nombre:</label>
                 <input {...register("name", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="name" placeholder="John" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="name" placeholder="John" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu apellido:</label>
                 <input {...register("lastName", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="lastName" placeholder="Doe" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="lastName" placeholder="Doe" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu teléfono:</label>
                 <div>
                     <select id="phonecode" {...register("phonecode", {
                         required: { value: true, message: "Campo requerido" },
-                    })} className="p-2 rounded bg-white w-full">
+                    })} className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                         <option value="" disabled selected>Selecciona el código de tu país</option>
                         {
                             countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag}${country.idd.root}${country.idd.suffixes[0]} (${country.name.common})`}</option>))
@@ -132,39 +132,39 @@ const BankAccount = (props:any) => {
                     </select>
                     <input {...register("phone", {
                         required: { value: true, message: "Campo requerido" },
-                    })} type="text" id="phone" placeholder="12345678" className="p-2 rounded bg-white w-full" />
+                    })} type="text" id="phone" placeholder="12345678" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu ciudad:</label>
                 <input {...register("city", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="city" placeholder="Barcelona" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="city" placeholder="Barcelona" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu dirección:</label>
                 <input {...register("address", {
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="address" placeholder="Carrer de la Ciutat" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="address" placeholder="Carrer de la Ciutat" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div>
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu codigo postal:</label>
                 <input {...register("zipCode", { minLength: 5,
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="zipCode" placeholder="12345" className="p-2 rounded bg-white w-full" />
+                })} type="text" id="zipCode" placeholder="12345" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`} />
             </div>
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-2">
                 <label htmlFor="">Ingresa tu fecha de nacimiento:</label>
                 <div className="flex gap-x-3">
                     <input {...register("dd", { min: 1, max: 31,
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="dd" placeholder="DD" className="p-2 rounded bg-white w-20" />
+                })} type="text" id="dd" placeholder="DD" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
                     <input {...register("mm", { min: 1, max: 12,
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="mm" placeholder="MM" className="p-2 rounded bg-white w-20" />
+                })} type="text" id="mm" placeholder="MM" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
                     <input {...register("aaaa", { min: 1990, max: new Date().getFullYear() - 18,
                 required: { value: true, message: "Campo requerido" },
-                })} type="text" id="aaaa" placeholder="AAAA" className="p-2 rounded bg-white w-20" />
+                })} type="text" id="aaaa" placeholder="AAAA" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
                 </div>
             </div>
             
