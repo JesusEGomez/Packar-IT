@@ -11,8 +11,8 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 // import { pushNotification } from "../api/auth/addNotification/pushNotification";
 
 function layout({ children }: React.PropsWithChildren) {
-  const { data: session } = useSession();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+
   const { fetchUser, user } = useUserState((state) => state);
   const notificationChannelName = `notifications-${user._id}`;
   const [isSubscribed, setIsSubscribed] = useState(false);
