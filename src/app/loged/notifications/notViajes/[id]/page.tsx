@@ -221,9 +221,9 @@ const Page = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          <div className=" flex flex-col gap-y-4  rounded-xl bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[500px] sm:p-0   w-[380px]">
+          <div className=" flex flex-col gap-y-4   rounded-xl h-fit bg-gray-50  shadow-md  items-center sm:h-60 p-5 sm:w-[450px] sm:p-0   w-[380px]">
             <p>Información del producto</p>
-            <div className="flex flex-col sm:flex-row w-full justify-evenly items-center gap-x-2 ">
+            <div className="flex flex-row w-full   justify-evenly items-center gap-x-2 ">
               <div className="sm:flex flex-col gap-y-3">
                 <h3>
                   <b>Nombre:</b> {notification.producto?.name}
@@ -239,15 +239,13 @@ const Page = ({ params }: { params: { id: string } }) => {
                 onClick={() =>
                   window.open(notification.producto?.photoProduct, "_blank")
                 }
-                className="p-1 rounded-md shadow-sm cursor-pointer shadow-gray-500 "
-                width={180}
-                height={180}
+                className="p-1 rounded-md shadow-sm  cursor-pointer w-40 h-44 object-contain  shadow-gray-500 "
                 src={notification.producto?.photoProduct}
                 alt={notification.producto?.name}
               />
             </div>
           </div>
-          <div className="flex flex-col gap-y-3"></div>
+
           <div className="flex justify-center gap-x-4 w-full">
             <Button
               onClick={() => response("Aceptado", notification._id!)}
