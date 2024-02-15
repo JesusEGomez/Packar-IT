@@ -32,10 +32,10 @@ const NotViajes = () => {
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {notifications ? (
         <>
-          {notifications.map((n) => {
+          {notifications.reverse().map((n) => {
             return (
               <>
-                {n.vistoDriver && n.estado !== "Pendiente" ? null : (
+                {n.vistoDriver && n.estado !== "Pendiente" ? (<>No tienes nuevas Notificaciones</>) : (
                   <CardNotification
                     id={n._id}
                     name={n.usuario?.fullname!}
