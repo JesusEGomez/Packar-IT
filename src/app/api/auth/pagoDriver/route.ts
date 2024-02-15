@@ -15,7 +15,6 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
       const info = await request.json();
       console.log(info, 'soy info')
       const profile = await Profile.findOne({ userId: info.userId });
-      const user = await User.findOne({ _id: info.userId });
       
       //const customerId = user.customerId;
       const day = parseInt(info.dd);
@@ -104,7 +103,8 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             },
           }
         );
-
+        profile.account = account.id;
+        const newProfile = await profile.save();
 
         //const payment = await stripe.transfers.create({
         //   amount: 1,
@@ -114,7 +114,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
         // {
         //   stripeAccount: 'acct_1OjWSfIPT3NWX9vQ',
         // })
-        console.log(account)
+        console.log(profile)
         return NextResponse.json(account, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
