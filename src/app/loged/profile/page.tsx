@@ -24,101 +24,82 @@ function Profile() {
   }, []);
 
   useEffect(() => {
-    async function fetchProfileData() {
-      try {
-        if (!user?._id) {
-          console.error("El ID del usuario no está definido.");
-          return;
-        }
-        const data = await (
-          await fetch(`/api/auth/getProfileById/?id=${user._id}`)
-        ).json();
-        console.log("Profile data:", data);
-        setProfileData(data);
-        setPhoneNumber(data?.phoneNumber || "");
-        setCity(data?.city || "");
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    }
+async function fetchProfileData() {
+  if (!user?._id) {
+    console.error("El ID del usuario no está definido.");
+    return;
+  }
+  try {
+    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
+    const data = await response.json();
+    console.log("Profile data:", data);
+    const { phoneNumber = "", city = "" } = data;
+    setProfileData(data);
+    setPhoneNumber(phoneNumber);
+    setCity(city);
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+  }
+}
     fetchProfileData();
   }, [user]);
 
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputPhoneNumber = e.target.value;
-    if (/^[0-9+]*$/.test(inputPhoneNumber)) {
-      setPhoneNumber(inputPhoneNumber);
-      setPhoneNumberError("");
-    } else {
-      setPhoneNumberError(
-        "El teléfono solo puede contener números y el símbolo +"
-      );
-    }
-    if (!inputPhoneNumber.trim()) {
-      setPhoneNumberError("El teléfono no puede estar vacío.");
-    } else {
-      setPhoneNumberError("");
-    }
-  };
+const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputPhoneNumber = e.target.value;
+  if (/^[0-9+]*$/.test(inputPhoneNumber)) {
+    setPhoneNumber(inputPhoneNumber);
+    setPhoneNumberError("");
+  } else if (!inputPhoneNumber.trim()) {
+    setPhoneNumberError("El teléfono no puede estar vacío.");
+  } else {
+    setPhoneNumberError("El teléfono solo puede contener números y el símbolo +");
+  }
+};
 
-  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputCity = e.target.value;
-    setCity(inputCity);
-    if (!inputCity.trim()) {
-      setCityError("La ciudad no puede estar vacía.");
-    } else {
-      setCityError("");
-    }
-  };
+const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputCity = e.target.value;
+  setCity(inputCity);
+  setCityError(inputCity.trim() ? "" : "La ciudad no puede estar vacía.");
+};
 
-  const handleUpdateProfile = async () => {
-    try {
-      if (!phoneNumber) {
-        setPhoneNumberError("El teléfono no puede estar vacío.");
-      } else {
-        setPhoneNumberError("");
-      }
-      if (!city) {
-        setCityError("La ciudad no puede estar vacía.");
-      } else {
-        setCityError("");
-      }
+const handleUpdateProfile = async () => {
+  if (!phoneNumber || !city) {
+    setPhoneNumberError(!phoneNumber ? "El teléfono no puede estar vacío." : "");
+    setCityError(!city ? "La ciudad no puede estar vacía." : "");
+    return;
+  }
 
-      if (!phoneNumber || !city) {
-        console.error("El teléfono y la ciudad no pueden estar vacíos.");
-        return;
-      }
+  try {
+    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user?._id,
+        phoneNumber,
+        city,
+      }),
+    });
 
-      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user?._id,
-          phoneNumber,
-          city,
-        }),
+    if (response.ok) {
+      console.log("Perfil actualizado con éxito");
+      setProfileData({
+        ...profileData,
+        phoneNumber,
+        city,
       });
-
-      if (response.ok) {
-        console.log("Perfil actualizado con éxito");
-        setProfileData({
-          ...profileData,
-          phoneNumber,
-          city,
-        });
-        setSuccessMessage("Perfil actualizado con éxito");
-        setTimeout(() => {
-          setSuccessMessage("");
-        }, 3000);
-      } else {
-        console.error("Error al actualizar el perfil");
-      }
-    } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
+      setSuccessMessage("Perfil actualizado con éxito");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } else {
+      console.error("Error al actualizar el perfil");
     }
-  };
+  } catch (error) {
+    console.error("Error al actualizar el perfil:", error);
+  }
+};
 
   if (!session || !profileData) {
     return loading();
