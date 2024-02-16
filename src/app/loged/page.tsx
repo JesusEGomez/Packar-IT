@@ -48,7 +48,9 @@ const Loged = () => {
   const [to, setTo] = useState<string | null>(null);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
+    null
+  );
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -70,8 +72,8 @@ const Loged = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
+    console.log(fromLocation);
     const fromArray = fromLocation.split(",");
-    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
     const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
     setPaisOrigen(fromArray[fromArray.length - 1]);
@@ -90,6 +92,7 @@ const Loged = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
+    console.log(toLocation);
     const toArray = toLocation.split(",");
     const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
     const city = toArray[1].trim().replaceAll(" ", "-");
@@ -173,56 +176,56 @@ const Loged = () => {
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-2 ">
           <form
-            className="flex flex-col items-center gap-y-4 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center 2xl:min-h-96" 
+            className="flex flex-col items-center gap-y-4 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center 2xl:min-h-96"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col items-center overflow-y-auto ">
-                <button
-                  className="flex items-center text-slate-400 p-3 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-6"
-                  onClick={fromHandler}
-                  title={from || undefined}
-                >
-                  {<RiMapPinAddLine size={30} />}
-                  {from === null
-                    ? "Dirección Origen"
-                    : from.length > 20
-                    ? `${from.slice(0, 15)}.....`
-                    : `${from}`}
-                </button>
-                <button
-                  className="flex items-center text-slate-400 p-3 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-6"
-                  onClick={toHandler}
-                  title={to || undefined}
-                >
-                  <RiMapPin2Fill size={30} />
-                  {to === null
-                    ? "Dirección Origen"
-                    : to.length > 20
-                    ? `${to.slice(0, 15)}.....`
-                    : `${to}`}
-                </button>
-                <button
-                  onClick={() => dateModalClose()}
-                  className="flex items-center text-slate-400 p-3 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-6"
-                >
-                  <FaRegCalendarAlt size={30} />
-                  {date
-                    ? `${date.toLocaleDateString("es-AR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}`
-                    : "Cuando"}
-                </button>
-                <button
-                  onClick={() => productsHandler()}
-                  className="flex items-center text-slate-400 p-3 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-6"
-                >
-                  <BsBoxSeam size={30} />
-                  {selectedProductData
-                    ? `${selectedProductData.name}`
-                    : "Producto"}
-                </button>
+              <button
+                className="flex items-center text-slate-400 p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6"
+                onClick={fromHandler}
+                title={from || undefined}
+              >
+                {<RiMapPinAddLine size={30} />}
+                {from === null
+                  ? "Dirección Origen"
+                  : from.length > 20
+                  ? `${from.slice(0, 15)}.....`
+                  : `${from}`}
+              </button>
+              <button
+                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+                onClick={toHandler}
+                title={to || undefined}
+              >
+                <RiMapPin2Fill size={30} />
+                {to === null
+                  ? "Dirección Destino"
+                  : to.length > 20
+                  ? `${to.slice(0, 15)}.....`
+                  : `${to}`}
+              </button>
+              <button
+                onClick={() => dateModalClose()}
+                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+              >
+                <FaRegCalendarAlt size={30} />
+                {date
+                  ? `${date.toLocaleDateString("es-AR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}`
+                  : "Cuando"}
+              </button>
+              <button
+                onClick={() => productsHandler()}
+                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+              >
+                <BsBoxSeam size={30} />
+                {selectedProductData
+                  ? `${selectedProductData.name}`
+                  : "Producto"}
+              </button>
             </div>
             <div>
               <div className="flex flex-row items-center justify-center">

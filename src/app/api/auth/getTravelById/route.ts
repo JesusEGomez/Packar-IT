@@ -1,8 +1,14 @@
 export const dynamic = "force-dynamic";
 import { ITravelDB } from "@/app/interfaces/TravelDB.interface";
+import { IProfile } from "@/app/interfaces/profile.interface";
+import {
+  IUserProduct,
+  IUsuarioProduct,
+} from "@/app/interfaces/userProduct.interface";
 
 import { connectDB } from "@/libs/mongodb";
 import Envio from "@/models/envios";
+import Profile from "@/models/perfil";
 import Viaje from "@/models/viajes";
 
 import { NextResponse } from "next/server";
@@ -17,14 +23,32 @@ export async function GET(request: Request) {
     console.log(user);
     if (user) {
       for (let product of user.envios) {
-        const response = await Envio.findOne({
+        const response: IUsuarioProduct | null = await Envio.findOne({
           producto: product.productos._id,
+        })
+          .populate("usuario")
+          .lean();
+
+        const userPhone: IProfile | null = await Profile.findOne({
+          userId: {
+            _id: response?.usuario._id,
+          },
         }).lean();
-        const finalTravel = { ...product.productos, EnvioInfo: response };
+        console.log(userPhone);
+        const envioWithUser = {
+          ...response,
+          usuario: {
+            ...response?.usuario,
+            phoneNumber: userPhone?.phoneNumber,
+          },
+        };
+
+        const finalTravel = { ...product.productos, EnvioInfo: envioWithUser };
         product.productos = finalTravel;
         console.log({ ...product.productos, EnvioInfo: response });
       }
     }
+    console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);

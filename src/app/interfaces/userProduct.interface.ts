@@ -25,3 +25,20 @@ export interface IUserProductFull extends IUserProduct {
   driverProfile: IProfile;
   driverUser: IUser;
 }
+export interface IUsuarioProduct {
+  desde: { calle: string | null; pais: string | null; ciudad: string | null };
+  hasta: { calle: string | null; pais: string | null; ciudad: string | null };
+  _id: string;
+  usuario: IUser;
+  cuando: string | undefined;
+  especial: boolean;
+  recibe: {
+    nombreApellidos: string;
+    telefono: string;
+    email: string;
+  };
+  producto: IProductDB;
+  estado: string;
+  driver: string;
+  findedDriver: ITravelDB;
+}
