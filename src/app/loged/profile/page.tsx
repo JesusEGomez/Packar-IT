@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import loading from "../../../app/loading";
 import useUserState from "../../../app/store/sotre";
 import { useSession } from "next-auth/react";
@@ -18,6 +18,8 @@ function Profile() {
   const [phoneNumberError, setPhoneNumberError] = useState<string>("");
   const [cityError, setCityError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
+
+const memorizedUserId = useMemo(() => user?._id, [user?._id]); 
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -42,7 +44,7 @@ async function fetchProfileData() {
   }
 }
     fetchProfileData();
-  }, [user]);
+  }, [memorizedUserId])
 
 const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const inputPhoneNumber = e.target.value;
