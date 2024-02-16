@@ -23,6 +23,20 @@ function Confirmacion(props: any) {
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
   const [reload, setReload] = useState<boolean>(false);
 
+  const packarPrice = (price:number) => {
+    if (price < 10) {
+      return (price * 1.35).toFixed(2); // Sumar un 35%
+    } else if (price >= 10 && price <= 19) {
+      return (price * 1.37).toFixed(2); // Sumar un 37%
+    } else if (price >= 20 && price <= 39) {
+      return (price * 1.40).toFixed(2); // Sumar un 40%
+    } else if (price >= 40 && price <= 59) {
+      return (price * 1.45).toFixed(2); // Sumar un 45%
+    } else {
+      return (price * 1.35).toFixed(2); // Sumar un 35% (para precios >= 60)
+    }
+  }
+
   const closeMonedero = () => {
     setIsMonederoOpen(false);
     setReload(!reload);
@@ -102,7 +116,7 @@ function Confirmacion(props: any) {
             Paquete {envio.producto.size.toLowerCase()}
           </p>
         </div>
-        <div>{`${total}€`}</div>
+        <div>{`${total && packarPrice(total)}`}</div>
         <div className="border rounded-lg m-2 p-3">
           <div className="flex gap-y-4">
             <p className="font-bold">{driver.desde.ciudad}</p>
