@@ -46,7 +46,14 @@ function Profile() {
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputPhoneNumber = e.target.value;
-    setPhoneNumber(inputPhoneNumber);
+    if (/^[0-9+]*$/.test(inputPhoneNumber)) {
+      setPhoneNumber(inputPhoneNumber);
+      setPhoneNumberError("");
+    } else {
+      setPhoneNumberError(
+        "El teléfono solo puede contener números y el símbolo +"
+      );
+    }
     if (!inputPhoneNumber.trim()) {
       setPhoneNumberError("El teléfono no puede estar vacío.");
     } else {
@@ -189,9 +196,9 @@ function Profile() {
                   </>
                 ) : (
                   <>
-                  {phoneNumberError && (
-                    <p className="text-red-500">{phoneNumberError}</p>
-                  )}
+                    {phoneNumberError && (
+                      <p className="text-red-500">{phoneNumberError}</p>
+                    )}
                     <button
                       onClick={() => setPhoneNumberEditMode(true)}
                       className="absolute top-0 right-0 p-1"
