@@ -8,6 +8,7 @@ import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
 import City from "../components/City";
 import PhoneNumber from "../components/PhoneNumber";
+import { CiBank } from "react-icons/ci";
 
 import {
   Command,
@@ -149,34 +150,34 @@ const Sidebar = () => {
                 </AccordionItem>
               </Accordion>
             </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => setIsMonederoOpen(true)}
-                  >
-                    <Banknote className="sideBarIcon" />
-                    Monedero
-                  </AccordionTrigger>
-                  <AccordionContent></AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => setIngresarCuenta(true)}
-                  >
-                    <Banknote className="sideBarIcon" />
-                    Ingresa tu cuenta
-                  </AccordionTrigger>
-                  <AccordionContent></AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
+          <CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIsMonederoOpen(true)}
+                >
+                  <Banknote className="sideBarIcon" />
+                  Monedero
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
+          <CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIngresarCuenta(true)}
+                >
+                  <CiBank className="sideBarIcon" />
+                  Ingresa tu cuenta
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
           </CommandGroup>
           <CommandGroup>
             <CommandItem>

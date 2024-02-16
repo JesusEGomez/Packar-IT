@@ -2,8 +2,6 @@ import { connectDB } from "@/libs/mongodb";
 import Stripe from "stripe";
 import Profile from '@/models/perfil';
 import { NextResponse } from "next/server";
-import User from "@/models/user";
-import { log } from "console";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
     apiVersion: '2023-10-16',
@@ -13,10 +11,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
     try {
       await connectDB();
       const info = await request.json();
-      console.log(info, 'soy info')
       const profile = await Profile.findOne({ userId: info.userId });
-      
-      //const customerId = user.customerId;
       const day = parseInt(info.dd);
       const month = parseInt(info.mm);
       const year = parseInt(info.aaaa);
@@ -39,7 +34,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             address: {
               city: info.city,
               line1: info.address,
-              postal_code: info.zipCode,
+              //postal_code: info.zipCode,
               state: info.city,
               country: info.country,
             },
@@ -78,7 +73,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             address: {
               city: info.city,
               line1: info.address,
-              postal_code: info.zipCode,
+              //postal_code: info.zipCode,
               state: 'NY',
             },
             dob: {
@@ -87,7 +82,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
               year,
             },
             ssn_last_4: '0000',
-            phone: info.phone,
+            //phone: info.phone,
             email: info.email,
             relationship: {
               owner: true,
@@ -114,7 +109,7 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
         // {
         //   stripeAccount: 'acct_1OjWSfIPT3NWX9vQ',
         // })
-        console.log(profile)
+        console.log(profile, 'soy el profile')
         return NextResponse.json(account, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
