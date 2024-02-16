@@ -53,7 +53,9 @@ const Envios: React.FC = () => {
           );
         })
       ) : (
-        <div>No Tienes viajes</div>
+        <div className="flez justify-center items-center">
+          <h3>No Tienes viajes</h3>
+        </div>
       )}
     </div>
   );
