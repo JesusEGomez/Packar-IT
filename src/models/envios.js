@@ -1,6 +1,6 @@
 import { Schema, models, model } from "mongoose";
 
-export const EnvioSchema = new Schema({
+const EnvioSchema = new Schema({
   usuario: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -47,6 +47,7 @@ export const EnvioSchema = new Schema({
     enum: ["Aceptado", "Recibido", "Entregado"],
     default: "Aceptado",
   },
+  payment: { type: String, required: false, default: '' },
 });
 
 const Envio = models.Envio || model("Envio", EnvioSchema);

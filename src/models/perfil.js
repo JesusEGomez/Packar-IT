@@ -48,9 +48,10 @@ const ProfileSchema = new Schema({
     type: String,
     required: false,
   },
-
-
-
+  account: {
+    type: String,
+    required: false,
+  },
   notifications: [{
     type: Schema.Types.ObjectId,
     ref: "Notification",
