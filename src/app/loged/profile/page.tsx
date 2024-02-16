@@ -54,7 +54,7 @@ const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   } else if (!inputPhoneNumber.trim()) {
     setPhoneNumberError("El teléfono no puede estar vacío.");
   } else {
-    setPhoneNumberError("El teléfono solo puede contener números y el símbolo +");
+    setPhoneNumberError("El teléfono solo puede contener números");
   }
 };
 
