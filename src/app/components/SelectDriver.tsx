@@ -47,6 +47,19 @@ function Page(props: any) {
   const clickHandler = (viaje: any) => {
     props.close(viaje);
   };
+  const showPrice = (price:number) => {
+    if (price < 10) {
+      return `${(price * 1.35).toFixed(2)}€`; // Sumar un 35%
+    } else if (price >= 10 && price <= 19) {
+      return `${(price * 1.37).toFixed(2)}€`; // Sumar un 37%
+    } else if (price >= 20 && price <= 39) {
+      return `${(price * 1.40).toFixed(2)}€`; // Sumar un 40%
+    } else if (price >= 40 && price <= 59) {
+      return `${(price * 1.45).toFixed(2)}€`; // Sumar un 45%
+    } else {
+      return `${(price * 1.35).toFixed(2)}€`; // Sumar un 35% (para precios >= 60)
+    }
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -113,15 +126,17 @@ function Page(props: any) {
                   <FaUser size={40} />
                   <p className="text-xl">{viaje.usuario.fullname}</p>
                 </div>
-                <p>{`${
+                <p>
+                  {`${
                   props.open.size === "Grande"
-                    ? `${viaje.precio[2].price}€`
+                    ? `${showPrice(viaje.precio[2].price)}`
                     : props.open.size === "Pequeño"
-                    ? `${viaje.precio[0].price}€`
+                    ? `${showPrice(viaje.precio[0].price)}€`
                     : props.open.size === "Mediano"
-                    ? `${viaje.precio[1].price}€`
-                    : `${viaje.precio[3].price}€`
-                }`}</p>
+                    ? `${showPrice(viaje.precio[1].price)}€`
+                    : `${showPrice(viaje.precio[3].price)}€`
+                  }`}
+                </p>
               </div>
               <div>
                 <div className="flex">
