@@ -1,34 +1,45 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 type Countryes = {
-    cca2: string,
-    idd: {
-        root: string,
-        suffixes: [string]
-    },
-    flag: any,
-    name: any
+  cca2: string;
+  idd: {
+    root: string;
+    suffixes: [string];
+  };
+  flag: any;
+  name: any;
 }[];
 
 type FormData = {
-    countries: string,
-    bank: string,
-    name: string,
-    lastName: string,
-    phone: string,
-    address: string,
-    city: string,
-    zipCode: string,
-    dd: string,
-    mm: string,
-    aaaa: string,
-    accountNumber: string
-    phonecode:string
-}
+  countries: string;
+  bank: string;
+  name: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  dd: string;
+  mm: string;
+  aaaa: string;
+  accountNumber: string;
+  phonecode: string;
+};
+
+const BankAccount = (props: any) => {
+  const [countries, setCountries] = useState<Countryes | null>(null);
+  const localUser = localStorage.getItem("user");
+  const parsedUser = JSON.parse(localUser!);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>();
 
 const BankAccount = (props:any) => {
     const [countries, setCountries] = useState<Countryes | null>(null);
@@ -174,8 +185,15 @@ const BankAccount = (props:any) => {
               Enviar
             </Button>
 
-        </form>
-    )
+
+      <Button
+        variant={"ghost"}
+        className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
+      >
+        Enviar
+      </Button>
+    </form>
+  );
 };
 
 export default BankAccount;

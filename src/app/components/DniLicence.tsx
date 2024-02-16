@@ -147,17 +147,19 @@ export default function PassportId(props: any) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-h-screen overflow-y-auto  m-4">
-      <div className="overflow-y-auto max-h-full">
-        <div className=" flex flex-wrap mt-5 ">
+    <div className="flex flex-col items-center justify-center w-full h-screen mb-10 overflow-y-auto ">
+      <div className="overflow-y-auto h-full p-6">
+        <div className=" flex flex-wrap mt-10 ">
           <Button onClick={props.closeIdModal} variant={"ghost"}>
             <IoMdArrowRoundBack />
           </Button>
-          <h1 className="text-3xl font-black text-left">DNI o Pasaporte</h1>
+          <h1 className="text-3xl font-black text-left w-full py-3">
+            DNI o Pasaporte
+          </h1>
         </div>
-        <form className="flex flex-col justify-center items-center mr-10">
-          <div className="flex flex-col justify-center items-center p-4">
-          <div className="mb-4">
+        <form className="flex flex-col justify-center items-center mr-5">
+          <div className="flex flex-col justify-center items-center ">
+            <div className="mb-4">
               <label htmlFor="numeroDni" className="text-left block mb-2">
                 Numero de DNI o Pasaporte
               </label>
@@ -198,7 +200,7 @@ export default function PassportId(props: any) {
                 </option>
               </select>
             </div>
-            
+
             <div className="mb-4">
               <label className="text-left block mb-2">
                 Foto para la parte delantera

@@ -30,6 +30,7 @@ import {
   Building,
   ArrowRightToLine,
   Check,
+  UserRoundCog,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
@@ -54,7 +55,7 @@ const Sidebar = () => {
 
   const closeAccount = () => {
     setIngresarCuenta(false);
-  }
+  };
 
   const closeMonedero = () => {
     setIsMonederoOpen(false);
@@ -99,7 +100,7 @@ const Sidebar = () => {
             <AvatarImage src={session?.user?.image!} alt="@shadcn" />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
-          <h3>{session?.user?.name!}</h3>       
+          <h3>{session?.user?.name!}</h3>
         </div>
         <CommandSeparator className="my-3	" />
         <CommandList className="overflow-visible ">
@@ -111,12 +112,12 @@ const Sidebar = () => {
                     className="w-full flex"
                     onClick={() => navigation.push("/loged/profile")}
                   >
-                    <Building className="sideBarIcon" />
+                    <UserRoundCog className="sideBarIcon" />
                     Mi Perfil
                   </AccordionTrigger>
                 </AccordionItem>
               </Accordion>
-            </CommandItem>          
+            </CommandItem>
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
