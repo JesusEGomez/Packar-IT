@@ -81,14 +81,14 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col m-6 p-4 max-h-screen overflow-y-auto">
+    <div className="flex flex-col m-6 p-4 max-h-screen overflow-y-auto scrollbar-hidden">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className="text-2xl font-bold mb-4">¿Qué puedes enviar?</h1>
-          <div className="flex gap-x-4 m-4">
+          <div className="grid grid-cols-1 gap-2 md:flex gap-x-4 m-4">
             <div className="border-2 relative border-slate-300 rounded p-3">
               <div
                 style={{ top: "-1px", left: "-10px" }}
@@ -108,7 +108,7 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -120,7 +120,7 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Precio $</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -146,7 +146,7 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -158,7 +158,7 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Precio $</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -183,7 +183,7 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Cantidad</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -196,15 +196,15 @@ export const SendProduct = (props: any) => {
                   <FormItem>
                     <FormLabel>Precio $ </FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} />
+                      <Input type="number" min="0" {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               ></FormField>
             </div>
           </div>
-          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md max-h-screen">
-            <div className="flex flex-col my-6 justify-center items-center w-full">
+          <div className="w-full flex-col my-5 flex justify-around items-center rounded-xl bg-gray-50 shadow-md max-h-screen p-2">
+            <div className="flex flex-col my-6 justify-center items-center w-full m-2">
               <h3 className="font-bold">
                 Además, ¿Puedes transportar artículos especiales?
               </h3>
@@ -213,7 +213,7 @@ export const SendProduct = (props: any) => {
                 presiona el botón
               </p>
             </div>
-            <div className="pb-4 ">
+            <div className="pb-4 flex justify-center items-center">
               <Button
                 onClick={specialsHandler}
                 className="bg-rose-200 text-pink text-sm m-2 w-[70px] h-[24px] "
@@ -223,15 +223,15 @@ export const SendProduct = (props: any) => {
               {specials ? <CheckCircle2 className="text-green-400" /> : null}
             </div>
             {specials && (
-              <div className="flex flex-col">
+              <div className="flex flex-col text-left md:flex-row justify-center items-center p-2 m-3 md:text-center">
                 <FormField
                   name="especial.quantity"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem style={{ margin: '10px' }}>
                       <FormLabel>Cantidad</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" min="0" {...field} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -241,10 +241,10 @@ export const SendProduct = (props: any) => {
                   name="especial.price"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem style={{ margin: '10px' }}>
                       <FormLabel>Precio $ </FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input type="number" min="0" {...field} />
                       </FormControl>
                     </FormItem>
                   )}
