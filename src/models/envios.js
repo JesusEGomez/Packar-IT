@@ -1,5 +1,4 @@
 import { Schema, models, model } from "mongoose";
-import { string } from "zod";
 
 const EnvioSchema = new Schema({
   usuario: {
@@ -48,7 +47,7 @@ const EnvioSchema = new Schema({
     enum: ["Aceptado", "Recibido", "Entregado"],
     default: "Aceptado",
   },
-  payment: { type: string, required: false, default: '' },
+  payment: { type: String, required: false, default: '' },
 });
 
 const Envio = models.Envio || model("Envio", EnvioSchema);
