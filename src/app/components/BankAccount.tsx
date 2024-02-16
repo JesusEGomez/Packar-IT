@@ -168,7 +168,7 @@ const BankAccount = (props:any) => {
                     <input {...register("mm", { min: 1, max: 12,
                 required: { value: true, message: "Campo requerido" },
                 })} type="text" id="mm" placeholder="MM" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
-                    <input {...register("aaaa", { min: 1990, max: new Date().getFullYear() - 18,
+                    <input {...register("aaaa", { min: 1990, max: 2024,
                 required: { value: true, message: "Campo requerido" },
                 })} type="text" id="aaaa" placeholder="AAAA" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
                 </div>
