@@ -149,6 +149,12 @@ const Driver = () => {
     setFromModalOpen(true);
   };
 
+  const isFromSelected = from !== null;
+
+  const buttonClassName = `flex items-center p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+    isFromSelected ? 'text-black-500' : 'text-slate-400'
+  }`;
+
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
@@ -294,7 +300,7 @@ const Driver = () => {
             <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
             <div className="flex flex-col text-center items-center gap-y-2 ">
               <button
-                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className={buttonClassName}
                 onClick={fromHandler}
                 title={from || undefined}
               >
@@ -307,7 +313,9 @@ const Driver = () => {
               </button>
 
               <button
-                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                  to === null ? "text-slate-400" : "text-black-500"
+                }`}
                 onClick={toHandler}
                 title={to || undefined}
               >
@@ -320,7 +328,9 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                  date ? "text-black-500" : "text-slate-400"
+                }`}
               >
                 <FaRegCalendarAlt size={30} />
                 {date
@@ -334,46 +344,41 @@ const Driver = () => {
 
               <button
                 onClick={() => timeHandler()}
-                className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                  time.salida === null || time.llegada === null ? "text-slate-400" : "text-black-500"
+                }`}
               >
                 <IoTime size={30} />
-                {time === null ? (
-                  "Hora "
-                ) : (
-                  <div className="flex flex-col">
-                    <p>
-                      {`Salida ${time?.salida ? time.salida : ""}`} -{" "}
-                      {`Llegada ${time?.llegada ? time.llegada : ""}`}
-                    </p>
-                  </div>
-                )}
+                {time === null ? "Hora " : <p>{`Salida ${time?.salida ? time.salida : ""}`} - {`Llegada ${time?.llegada ? time.llegada : ""}`}</p>}
               </button>
-            <button
-              onClick={() => productsHandler()}
-              className="flex items-center text-slate-400 p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4"
+              <button
+                onClick={() => productsHandler()}
+                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                  productSelected ? "text-black-500" : "text-slate-400"
+                }`}
               >
-              <BsBoxSeam size={30} />
-              {productSelected ? "Elección Cargada" : "Producto"}
-            </button>
+                <BsBoxSeam size={30} />
+                {productSelected ? "Elección Cargada" : "Producto"}
+              </button>
 
-            <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
-              <select
-                className="p-1 rounded bg-white text-slate-400 text-center w-full"
-                id="como"
-                {...register("como", {
-                  required: { value: true, message: "Campo requerido" },
-                })}
-              >
-                <option value="" disabled selected>
-                  ¿Como viajas?
-                </option>
-                <option value="auto">Auto</option>
-                <option value="avion">Avión</option>
-                <option value="bus">Bus</option>
-                <option value="motocicleta">Motocicleta</option>
-                <option value="tren">Tren</option>
-              </select>
-            </div>
+              <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
+                <select
+                  className="p-1 rounded bg-white text-slate-400 text-center w-full"
+                  id="como"
+                  {...register("como", {
+                    required: { value: true, message: "Campo requerido" },
+                  })}
+                >
+                  <option value="" disabled selected>
+                    ¿Como viajas?
+                  </option>
+                  <option value="auto">Auto</option>
+                  <option value="avion">Avión</option>
+                  <option value="bus">Bus</option>
+                  <option value="motocicleta">Motocicleta</option>
+                  <option value="tren">Tren</option>
+                </select>
+              </div>
             </div>
             <div className="flex text-slate-400 gap-x-4 justify-center p-1 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />

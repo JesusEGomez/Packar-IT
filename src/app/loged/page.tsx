@@ -181,7 +181,9 @@ const Loged = () => {
           >
             <div className="flex flex-col items-center overflow-y-auto ">
               <button
-                className="flex items-center text-slate-400 p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6"
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                  from ? "text-black-500" : "text-slate-400"
+                }`}
                 onClick={fromHandler}
                 title={from || undefined}
               >
@@ -193,7 +195,9 @@ const Loged = () => {
                   : `${from}`}
               </button>
               <button
-                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                  to ? "text-black-500" : "text-slate-400"
+                }`}
                 onClick={toHandler}
                 title={to || undefined}
               >
@@ -206,7 +210,9 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                  date ? "text-black-500" : "text-slate-400"
+                }`}
               >
                 <FaRegCalendarAlt size={30} />
                 {date
@@ -219,7 +225,9 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className="flex items-center text-slate-400 p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6"
+                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                  selectedProductData ? "text-black-500" : "text-slate-400"
+                }`}
               >
                 <BsBoxSeam size={30} />
                 {selectedProductData
