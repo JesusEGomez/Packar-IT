@@ -22,20 +22,20 @@ export async function POST(req : Request) {
 
         const packarPrice = (price:number) => {
           if (price < 10) {
-            return (price * 0.35).toFixed(2); // Sumar un 35%
+            return (price * 1.35).toFixed(2); // Sumar un 35%
           } else if (price >= 10 && price <= 19) {
-            return (price * 0.37).toFixed(2); // Sumar un 37%
+            return (price * 1.37).toFixed(2); // Sumar un 37%
           } else if (price >= 20 && price <= 39) {
-            return (price * 0.40).toFixed(2); // Sumar un 40%
+            return (price * 1.40).toFixed(2); // Sumar un 40%
           } else if (price >= 40 && price <= 59) {
-            return (price * 0.45).toFixed(2); // Sumar un 45%
+            return (price * 1.45).toFixed(2); // Sumar un 45%
           } else {
-            return (price * 0.35).toFixed(2); // Sumar un 35% (para precios >= 60)
+            return (price * 1.35).toFixed(2); // Sumar un 35% (para precios >= 60)
           }
         }
         // Crear un PaymentIntent para realizar el pago
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: total * 100, 
+            amount: Number(packarPrice(total)) * 100, 
             currency: 'eur',  // La moneda del pago
             payment_method: paymentMethodId,
             customer: customerId,
@@ -44,7 +44,7 @@ export async function POST(req : Request) {
             transfer_data: {
                 destination: user2.account,
             },
-            application_fee_amount: Number(packarPrice(total)) * 100
+            application_fee_amount: (Number(packarPrice(total)) - total )* 100
         });
         dely.payment = paymentIntent.id;
         const savedDely = await dely.save();
