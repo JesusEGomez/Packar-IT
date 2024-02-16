@@ -19,6 +19,8 @@ import Confirmacion from "../components/Confirmacion";
 import FormEnvio from "../components/FormEnvio";
 import DateModal from "../components/DateModal";
 import { pushNotification } from "../api/auth/addNotification/pushNotification";
+import useUserState from "../store/sotre";
+import { IProfile } from "../interfaces/profile.interface";
 
 type prod = {
   type: string;
@@ -64,6 +66,8 @@ const Loged = () => {
   const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [envio, setEnvio] = useState<any | null>(null);
   const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
+  const [profile, setProfile] = useState<IProfile | null>();
+  const { user, fetchUser } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -94,13 +98,16 @@ const Loged = () => {
     const toLocation = await getFormattedAddress(toSelected);
     console.log(toLocation);
     const toArray = toLocation.split(",");
-    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+
     const city = toArray[1].trim().replaceAll(" ", "-");
     setCiudadDestino(city);
     setPaisDestino(toArray[toArray.length - 1]);
     setTo(toArray[0]);
   };
 
+  const justCloseSelectDriver = () => {
+    setSelectdriverOpen(false);
+  };
   const confrmacionHandler = () => {
     console.log("hola");
   };
@@ -141,8 +148,17 @@ const Loged = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
   };
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `/api/auth/getProfileById/?id=${user._id}`
+    ).then((response) => response.json());
+    setProfile(response);
+  };
+
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
+    fetchUser(session?.user?.email!);
+    fetchProfile();
 
     from &&
       to &&
@@ -210,7 +226,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -225,7 +241,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
                   selectedProductData ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -236,14 +252,16 @@ const Loged = () => {
               </button>
             </div>
             <div>
-              <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-col items-center justify-center">
                 {receptorInfo ? (
                   <button
                     onClick={() => searchHandler()}
                     className={`bg-pink ${
                       search ? "w-full" : "w-auto"
                     } m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
-                    disabled={!search}
+                    disabled={
+                      !search || profile?.phoneNumber.length! < 9 || !profile
+                    }
                   >
                     Buscar
                   </button>
@@ -257,6 +275,11 @@ const Loged = () => {
                 )}
               </div>
             </div>
+            {profile && profile.phoneNumber.length < 9 && (
+              <p>
+                Deber tener un Numero de telefono valido para crear un envio
+              </p>
+            )}
           </form>
         </div>
       </div>
@@ -315,6 +338,7 @@ const Loged = () => {
                 open={selectedProductData}
                 ciudadOrigen={ciudadOrigen}
                 ciudadDestino={ciudadDestino}
+                justClose={justCloseSelectDriver}
               />
             </div>
           </div>

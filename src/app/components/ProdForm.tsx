@@ -9,7 +9,6 @@ import { IoIosArrowDown } from "react-icons/io";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LuFolderInput } from "react-icons/lu";
 import { GiWeight } from "react-icons/gi";
-import { SlSizeFullscreen } from "react-icons/sl";
 
 interface FormInputs {
   types: string;
@@ -66,7 +65,7 @@ function ProdForm(props: any) {
     props.closeFirstModal({
       type: data.types,
       name: data.name,
-      size: data.size,
+      size: props.size,
       weigth: data.weight,
       photoProduct: img,
       articulosEspeciales: "noSpecial",
@@ -74,7 +73,7 @@ function ProdForm(props: any) {
     props.closeModal({
       type: data.types,
       name: data.name,
-      size: data.size,
+      size: props.size,
       weigth: data.weight,
       photoProduct: img,
       articulosEspeciales: "noSpecial",
@@ -86,6 +85,7 @@ function ProdForm(props: any) {
 
   useEffect(() => {
     img && setDisable(false);
+    
   }, [img]);
 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -15,6 +15,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import FinalDriverModal from "@/app/components/FinalStepDriverModal";
 import useUserState from "@/app/store/sotre";
 import DateModal from "@/app/components/DateModal";
+import { useSession } from "next-auth/react";
+import { IProfile } from "@/app/interfaces/profile.interface";
 
 type prod = {
   pequeño: {
@@ -80,6 +82,8 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
+  const [profile, setProfile] = useState<IProfile | null>();
+  const { data: session } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -143,7 +147,7 @@ const Driver = () => {
     },
     special: false,
   });
-  const { user } = useUserState((state) => state);
+  const { user, fetchUser } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -152,7 +156,7 @@ const Driver = () => {
   const isFromSelected = from !== null;
 
   const buttonClassName = `flex items-center p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
-    isFromSelected ? 'text-black-500' : 'text-slate-400'
+    isFromSelected ? "text-black-500" : "text-slate-400"
   }`;
 
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
@@ -220,6 +224,8 @@ const Driver = () => {
   };
 
   useEffect(() => {
+    fetchUser(session?.user?.email!);
+    fetchProfile();
     if (
       productSelected &&
       time?.llegada &&
@@ -239,6 +245,13 @@ const Driver = () => {
     setFlex(!flex);
     const editFlex = { ...travel, eresFlexible: !flex };
     setTravel(editFlex);
+  };
+
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `/api/auth/getProfileById/?id=${user._id}`
+    ).then((response) => response.json());
+    setProfile(response);
   };
 
   const {
@@ -295,25 +308,24 @@ const Driver = () => {
         className="flex w-full justify-center "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" fixed  flex top-32 bg-white border rounded-xl max-h-lvh 2xl:top-64 2xl:w-auto 2xl:min-h-80	">
-          <div className="flex flex-col   h-1/2 items-center 3 xl:gap-y-5">
-            <h1 className="font-bold text-xl mt-2">¿A donde vas a viajar ?</h1>
-            <div className="flex flex-col text-center items-center gap-y-2 ">
+        <div className="fixed top-32   bg-white border rounded-xl max-h-lvh 2xl:top-64 2xl:w-auto 2xl:min-h-80">
+          <div className="flex flex-col  h-1/2 items-center xl:gap-y-5">
+            <h1 className="font-bold text-xl mt-2">¿A dónde vas a viajar?</h1>
+            <div className="flex flex-col text-center items-center gap-y-2">
               <button
                 className={buttonClassName}
                 onClick={fromHandler}
                 title={from || undefined}
               >
-                {<RiMapPinAddLine size={30} />}
+                <RiMapPinAddLine size={30} />
                 {from === null
                   ? "Dirección Origen"
                   : from.length > 20
                   ? `${from.slice(0, 15)}.....`
                   : `${from}`}
               </button>
-
               <button
-                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
                   to === null ? "text-slate-400" : "text-black-500"
                 }`}
                 onClick={toHandler}
@@ -328,7 +340,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -341,26 +353,33 @@ const Driver = () => {
                     })}`
                   : "Cuando"}
               </button>
-
               <button
                 onClick={() => timeHandler()}
-                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
-                  time.salida === null || time.llegada === null ? "text-slate-400" : "text-black-500"
+                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                  time.salida === null || time.llegada === null
+                    ? "text-slate-400"
+                    : "text-black-500"
                 }`}
               >
                 <IoTime size={30} />
-                {time === null ? "Hora " : <p>{`Salida ${time?.salida ? time.salida : ""}`} - {`Llegada ${time?.llegada ? time.llegada : ""}`}</p>}
+                {time === null ? (
+                  "Hora "
+                ) : (
+                  <p>
+                    {`Salida ${time?.salida ? time.salida : ""}`} -{" "}
+                    {`Llegada ${time?.llegada ? time.llegada : ""}`}
+                  </p>
+                )}
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-1 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center p-2 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-4 ${
                   productSelected ? "text-black-500" : "text-slate-400"
                 }`}
               >
                 <BsBoxSeam size={30} />
                 {productSelected ? "Elección Cargada" : "Producto"}
               </button>
-
               <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
                 <select
                   className="p-1 rounded bg-white text-slate-400 text-center w-full"
@@ -370,7 +389,7 @@ const Driver = () => {
                   })}
                 >
                   <option value="" disabled selected>
-                    ¿Como viajas?
+                    ¿Cómo viajas?
                   </option>
                   <option value="auto">Auto</option>
                   <option value="avion">Avión</option>
@@ -380,7 +399,7 @@ const Driver = () => {
                 </select>
               </div>
             </div>
-            <div className="flex text-slate-400 gap-x-4 justify-center p-1 mx-4 w-64">
+            <div className="flex text-slate-400 gap-x-4 justify-center p-2 mx-4 w-64">
               <Checkbox onClick={felxhandler} id="terms" />
               <label
                 htmlFor="terms"
@@ -395,10 +414,17 @@ const Driver = () => {
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
               className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
-              disabled={!search}
+              disabled={!search || !profile || profile.phoneNumber.length < 9}
             >
               Crear
             </button>
+          </div>
+          <div className="w-full  text-center p-1">
+            {profile && profile.phoneNumber.length < 9 && (
+              <p>
+                Deber tener un Numero de telefono valido para crear un envio
+              </p>
+            )}
           </div>
         </div>
       </form>

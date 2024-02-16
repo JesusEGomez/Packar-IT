@@ -54,9 +54,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     setUpdate(false);
   }, [params.id, update]);
   return (
-    <div className="w-screen flex  flex-col h-full mb-20 justify-center items-center">
+    <div className="w-screen flex  flex-col h-full mb-20 justify-center items-center ">
       {travel ? (
-        <div className=" flex gap-y-5   flex-col items-center">
+        <div className=" flex gap-y-5   flex-col items-center  md:flex-col">
           <div className="w-full flex flex-col p-5 justify-start h-20">
             <button className="text-3xl" onClick={navigate.back}>
               <MdKeyboardArrowLeft />
@@ -65,19 +65,19 @@ const Page = ({ params }: { params: { id: string } }) => {
               Tu viaje
             </h2>
           </div>
-          <div className=" flex flex-col gap-y-4 sm:justify-evenly  sm:flex-row sm:w-screen">
-            <div className=" flex sm:w-2/5 p-2 w-[350px] flex-col rounded-xl bg-gray-50  shadow-md justify-around ">
+          <div className=" flex flex-col gap-y-4 sm:justify-evenly  sm:flex-row sm:w-screen md:flex md:flex-col md:justify-center md:items-center">
+            <div className="flex sm:w-2/5 p-5 w-[350px] flex-col rounded-xl bg-gray-50 shadow-md justify-around">
               <div className="flex mb-2">
-                <div className="md:flex  items-center w-full">
-                  <div className="flex w-full sm:gap-y-2 flex-col">
-                    <div className="flex w-full  items-center gap-x-2">
+                <div className="md:flex items-center w-full">
+                  <div className="flex w-full mx-3 my-4 sm:gap-y-2 flex-col">
+                    <div className="flex w-full items-center gap-x-2">
                       <FiMapPin />
                       <p>
                         <span className="font-semibold">Desde:</span>{" "}
                         {`${travel.desde.pais}, ${travel.desde.calle}`}
                       </p>
                     </div>
-                    <div className="flex w-full   items-center gap-x-2">
+                    <div className="flex w-full items-center gap-x-2">
                       <IoTime />
                       <p>
                         <span className="font-semibold">Salida:</span>
@@ -85,8 +85,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col sm:gap-y-2  w-full ">
-                    <div className="flex w-full  items-center gap-x-2">
+                  <div className="flex flex-col mx-3 my-4 sm:gap-y-2 w-full">
+                    <div className="flex w-full items-center gap-x-2">
                       <FiMapPin />
                       <p>
                         {" "}
@@ -94,7 +94,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         {` ${travel.hasta.pais}, ${travel.hasta.calle}`}
                       </p>
                     </div>
-                    <div className="flex w-full  items-center gap-x-2">
+                    <div className="flex w-full items-center gap-x-2">
                       <IoTime />
                       <p>
                         {" "}
@@ -105,7 +105,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-2 items-center justify-center ">
+              <div className="flex gap-2 flex-col-reverse items-center justify-center">
                 <div className="flex">
                   <p
                     className={
@@ -116,14 +116,15 @@ const Page = ({ params }: { params: { id: string } }) => {
                   </p>
                   <p>{travel.estado}</p>
                 </div>
-                <>
+                <div className="flex p-2 items-center justify-center gap-1">
                   <CalendarDays />
-                  <p>{travel.cuando}</p>
-                </>
+                  <p className="font-bold">{travel.cuando}</p>
+                </div>
               </div>
             </div>
+
             <div className="sm:w-2/5 ">
-              <div className="flex flex-col gap-2 w-full justify-center">
+              <div className="flex flex-col gap-2 w-full justify-center ">
                 {travel.precio.map((travel, i) => {
                   return (
                     <div
