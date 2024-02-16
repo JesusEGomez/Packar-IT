@@ -47,8 +47,6 @@ export async function POST(req : Request) {
         });
         dely.payment = paymentIntent.id;
         const savedDely = await dely.save();
-        
-          const packarComision = packarPrice(total);
 
         // const paymentPackar = await stripe.paymentIntents.create({
         //     amount: Number(packarComision) * 100, 

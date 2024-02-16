@@ -1,7 +1,7 @@
 import { Schema, models, model } from "mongoose";
 import { string } from "zod";
 
-export const EnvioSchema = new Schema({
+const EnvioSchema = new Schema({
   usuario: {
     type: Schema.Types.ObjectId,
     ref: "User",
