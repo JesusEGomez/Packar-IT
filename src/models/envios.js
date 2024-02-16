@@ -48,7 +48,7 @@ const EnvioSchema = new Schema({
     enum: ["Aceptado", "Recibido", "Entregado"],
     default: "Aceptado",
   },
-  payment: { type: string, required: false },
+  payment: { type: string, required: false, default: '' },
 });
 
 const Envio = models.Envio || model("Envio", EnvioSchema);
