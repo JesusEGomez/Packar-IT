@@ -48,8 +48,7 @@ export const EnvioSchema = new Schema({
     enum: ["Aceptado", "Recibido", "Entregado"],
     default: "Aceptado",
   },
-  driverPayment: { type: string, required: false },
-  packarPayment: { type: string, required: false },
+  payment: { type: string, required: false },
 });
 
 const Envio = models.Envio || model("Envio", EnvioSchema);

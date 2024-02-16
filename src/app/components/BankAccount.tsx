@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import CuentaEnviada from "./CuentaEnviada";
 
 type Countryes = {
     cca2: string,
@@ -34,6 +35,11 @@ const BankAccount = (props:any) => {
     const [countries, setCountries] = useState<Countryes | null>(null);
     const localUser = localStorage.getItem("user");
     const parsedUser = JSON.parse(localUser!);
+    const [cuentaEnviada, setCuentaEnviada] = useState<boolean>(false);
+    const close = () => {
+        setCuentaEnviada(false);
+        props.closeAccount();
+    }
     const {
         register,
         handleSubmit,
@@ -66,7 +72,7 @@ const BankAccount = (props:any) => {
                     method: "POST",
                     body: JSON.stringify(accountData)
                 })
-                props.closeAccount();
+                createAccount.ok && setCuentaEnviada(true);
             } catch (error) {
                 console.log(error);
                 
@@ -173,7 +179,15 @@ const BankAccount = (props:any) => {
             >
               Enviar
             </Button>
-
+            {cuentaEnviada && (
+                <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-4 rounded-xl">
+                        <CuentaEnviada
+                        close={close}
+                        />
+                    </div>
+                </div>
+            )}
         </form>
     )
 };
