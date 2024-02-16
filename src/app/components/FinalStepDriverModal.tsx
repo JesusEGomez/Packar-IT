@@ -59,32 +59,37 @@ function FinalDriverModal({
       <Button onClick={() => closeModal()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex">
+      <div className="flex ">
         <h1 className="text-xl font-bold mb-4">Tu trayecto</h1>
         <FaExclamationCircle className="text-slate-400" />
       </div>
-      <div className=" flex   flex-col rounded-xl bg-gray-50 shadow-md justify-around ">
-        <div className="flex flex-col w-full   h-2/5 p-3   justify-between sm:justify-around  rounded-xl bg-gray-50 gap-y-2  shadow-md">
-          <div className=" flex     flex-col gap-y-2 ">
+      <div className=" flex   flex-col rounded-xl  justify-around ">
+        <div className="flex flex-col w-full   h-2/5 p-3   justify-between sm:justify-around  rounded-xl gap-y-2  ">
+          <div className=" flex  flex-col gap-y-2 ">
             <div className="flex  flex-wrap gap-4">
-              <p className="font-bold w-full sm:text-lg  sm:uppercase">
+              <p className="font-bold w-full sm:text-lg p-1 bg-gray-50 shadow-md m-2 sm:uppercase">
                 {`Desde: ${travel.desde.pais}, ${
                   travel.desde.ciudad?.replaceAll("-", " ") + ""
-                } / ${travel.horaSalida}hs`}
+                } `}
+                <br />
+                <span>Hora de Salida: {travel.horaSalida}hs</span>
               </p>
             </div>
-            <div className="flex  gap-4">
-              <p className="font-bold sm:text-lg truncate sm:uppercase">
-                {`Hasta: ${travel.hasta.ciudad?.replaceAll("-", " ")} / ${
-                  travel.horaLlegada
-                }hs`}
-              </p>
+
+            <div className=" flex  flex-col gap-y-2 ">
+              <div className="flex  gap-4">
+                <p className="font-bold w-full sm:text-lg  p-1  sm:uppercase  bg-gray-50 shadow-md m-2">
+                  {`Hasta: ${travel.hasta.ciudad?.replaceAll("-", " ") + ""} `}
+                  <br />
+                  <span>Hora de llegada: {travel.horaLlegada}hs</span>
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex justify-center  w-full my-2">
-            <CalendarDays />
-            {travel.cuando}
-          </div>
+        </div>
+        <div className="flex justify-center  w-full my-4">
+          <CalendarDays />
+          {travel.cuando}
         </div>
 
         <div className="flex gap-2 p-5 flex-wrap w-full justify-center">
