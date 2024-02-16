@@ -18,6 +18,7 @@ export async function POST(req : Request) {
         const customerId = user.customerId;
         const customer = await stripe.customers.retrieve(customerId) as any;
         const paymentMethodId = customer.default_source;
+        
 
         const packarPrice = (price:number) => {
           if (price < 10) {

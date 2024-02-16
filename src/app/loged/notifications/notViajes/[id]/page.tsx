@@ -141,7 +141,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           body: JSON.stringify({
             userId: notification.usuario?._id,
             total: notification?.total,
-            driver: notification.driver?._id,
+            driver: notification.driver?.usuario,
             envio: shipmentData._id,
           }),
         });

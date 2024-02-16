@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import img from "../../img/undraw_Happy_feeling_re_e76r.png";
-import { FaArrowLeft } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GiPathDistance } from "react-icons/gi";
@@ -61,6 +60,8 @@ function Page(props: any) {
     }
   }
   useEffect(() => {
+    console.log(props);
+    
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -87,11 +88,6 @@ function Page(props: any) {
 
   return (
     <div className="flex flex-col">
-      {/* <div className="m-10">
-        <button onClick={props.close}>
-          <FaArrowLeft />
-        </button>
-      </div> */}
       <div className="flex flex-col p-4 items-center">
         <h1 className="text-2xl font-bold">Solicita tu envío a un viajero</h1>
         <div className="border p-5">box</div>
