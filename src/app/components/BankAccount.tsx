@@ -1,35 +1,49 @@
-'use client'
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+<<<<<<< HEAD
 import CuentaEnviada from "./CuentaEnviada";
+=======
+import { IoMdArrowRoundBack } from "react-icons/io";
+>>>>>>> 8985ae1355b7d8c033e12d3942f5450d007cc953
 
 type Countryes = {
-    cca2: string,
-    idd: {
-        root: string,
-        suffixes: [string]
-    },
-    flag: any,
-    name: any
+  cca2: string;
+  idd: {
+    root: string;
+    suffixes: [string];
+  };
+  flag: any;
+  name: any;
 }[];
 
 type FormData = {
-    countries: string,
-    bank: string,
-    name: string,
-    lastName: string,
-    phone: string,
-    address: string,
-    city: string,
-    zipCode: string,
-    dd: string,
-    mm: string,
-    aaaa: string,
-    accountNumber: string
-    phonecode:string
-}
+  countries: string;
+  bank: string;
+  name: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  dd: string;
+  mm: string;
+  aaaa: string;
+  accountNumber: string;
+  phonecode: string;
+};
+
+const BankAccount = (props: any) => {
+  const [countries, setCountries] = useState<Countryes | null>(null);
+  const localUser = localStorage.getItem("user");
+  const parsedUser = JSON.parse(localUser!);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FormData>();
 
 const BankAccount = (props:any) => {
     const [countries, setCountries] = useState<Countryes | null>(null);
@@ -179,6 +193,7 @@ const BankAccount = (props:any) => {
             >
               Enviar
             </Button>
+<<<<<<< HEAD
             {cuentaEnviada && (
                 <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-4 rounded-xl">
@@ -190,6 +205,18 @@ const BankAccount = (props:any) => {
             )}
         </form>
     )
+=======
+
+
+      <Button
+        variant={"ghost"}
+        className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
+      >
+        Enviar
+      </Button>
+    </form>
+  );
+>>>>>>> 8985ae1355b7d8c033e12d3942f5450d007cc953
 };
 
 export default BankAccount;

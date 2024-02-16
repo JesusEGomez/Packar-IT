@@ -24,10 +24,10 @@ interface IProductCardProps {
   _id: string;
 }
 const stateClasses = {
-  Cancelado: "text-red-500 ",
-  Aceptado: "text-yellow-500 ",
-  "En Curso": "text-green-500 ",
-  Entregado: "text-blue-500 ",
+  Cancelado: "text-red-500 text-2xl",
+  Aceptado: "text-yellow-500 text-2xl",
+  "En Curso": "text-green-500 text-2xl",
+  Entregado: "text-blue-500 text-2xl ",
   Finalizado: "text-blue-500 text-2xl  ",
 };
 
