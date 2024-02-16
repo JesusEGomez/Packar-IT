@@ -8,6 +8,7 @@ import DriveLicense from "../components/DriveLicence";
 import PassportId from "../components/DniLicence";
 import City from "../components/City";
 import PhoneNumber from "../components/PhoneNumber";
+import { CiBank } from "react-icons/ci";
 
 import {
   Command,
@@ -166,7 +167,7 @@ const Sidebar = () => {
                   className="w-full flex"
                   onClick={() => setIngresarCuenta(true)}
                 >
-                  <Banknote className="sideBarIcon" />
+                  <CiBank className="sideBarIcon" />
                   Ingresa tu cuenta
                 </AccordionTrigger>
                 <AccordionContent></AccordionContent>
