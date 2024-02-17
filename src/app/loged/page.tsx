@@ -19,6 +19,8 @@ import Confirmacion from "../components/Confirmacion";
 import FormEnvio from "../components/FormEnvio";
 import DateModal from "../components/DateModal";
 import { pushNotification } from "../api/auth/addNotification/pushNotification";
+import useUserState from "../store/sotre";
+import { IProfile } from "../interfaces/profile.interface";
 
 type prod = {
   type: string;
@@ -48,7 +50,9 @@ const Loged = () => {
   const [to, setTo] = useState<string | null>(null);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
   const [prodModal, setProdModal] = React.useState(false);
-  const [selectedProductData, setSelectedProductData] = useState<prod | null>(null);
+  const [selectedProductData, setSelectedProductData] = useState<prod | null>(
+    null
+  );
   const [paisOrigen, setPaisOrigen] = React.useState<string | null>(null);
   const [paisDestino, setPaisDestino] = React.useState<string | null>(null);
   const [search, setSearch] = useState(false);
@@ -62,6 +66,8 @@ const Loged = () => {
   const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [envio, setEnvio] = useState<any | null>(null);
   const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
+  const [profile, setProfile] = useState<IProfile | null>();
+  const { user, fetchUser } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -70,8 +76,8 @@ const Loged = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
+    console.log(fromLocation);
     const fromArray = fromLocation.split(",");
-    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
     const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
     setPaisOrigen(fromArray[fromArray.length - 1]);
@@ -90,8 +96,9 @@ const Loged = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
+    console.log(toLocation);
     const toArray = toLocation.split(",");
-    const extractCity = (str: string) => str.replace(/[\d\s\W]+/g, "").trim();
+
     const city = toArray[1].trim().replaceAll(" ", "-");
     setCiudadDestino(city);
     setPaisDestino(toArray[toArray.length - 1]);
@@ -100,7 +107,7 @@ const Loged = () => {
 
   const justCloseSelectDriver = () => {
     setSelectdriverOpen(false);
-  }
+  };
   const confrmacionHandler = () => {
     console.log("hola");
   };
@@ -141,8 +148,17 @@ const Loged = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     console.log(data);
   };
+  const fetchProfile = async () => {
+    const response = await fetch(
+      `/api/auth/getProfileById/?id=${user._id}`
+    ).then((response) => response.json());
+    setProfile(response);
+  };
+
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
+    fetchUser(session?.user?.email!);
+    fetchProfile();
 
     from &&
       to &&
@@ -203,7 +219,7 @@ const Loged = () => {
               >
                 <RiMapPin2Fill size={30} />
                 {to === null
-                  ? "Dirección Origen"
+                  ? "Dirección Destino"
                   : to.length > 20
                   ? `${to.slice(0, 15)}.....`
                   : `${to}`}
@@ -236,14 +252,16 @@ const Loged = () => {
               </button>
             </div>
             <div>
-              <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-col items-center justify-center">
                 {receptorInfo ? (
                   <button
                     onClick={() => searchHandler()}
                     className={`bg-pink ${
                       search ? "w-full" : "w-auto"
                     } m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
-                    disabled={!search}
+                    disabled={
+                      !search || profile?.phoneNumber.length! < 9 || !profile
+                    }
                   >
                     Buscar
                   </button>
@@ -257,6 +275,11 @@ const Loged = () => {
                 )}
               </div>
             </div>
+            {profile && profile.phoneNumber.length < 9 && (
+              <p>
+                Deber tener un Numero de telefono valido para crear un envio
+              </p>
+            )}
           </form>
         </div>
       </div>
