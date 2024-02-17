@@ -56,7 +56,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   return (
     <div className="w-screen flex  flex-col h-full mb-20 justify-center items-center ">
       {travel ? (
-        <div className=" flex gap-y-5   flex-col items-center md:flex md:flex-col">
+        <div className=" flex gap-y-5   flex-col items-center  md:flex-col">
           <div className="w-full flex flex-col p-5 justify-start h-20">
             <button className="text-3xl" onClick={navigate.back}>
               <MdKeyboardArrowLeft />

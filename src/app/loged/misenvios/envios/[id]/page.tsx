@@ -92,18 +92,17 @@ const Page = ({ params }: { params: { id: string } }) => {
     console.log(product);
   }, [params.id, loading]);
   return (
-    <div className="w-screen flex flex-col justify-center">
+    <div className="w-screen flex flex-col sm:h-screen    justify-center">
       {product ? (
-        <div className="flex w-screen items-center gap-y-2 h-screen flex-col p-4">
+        <div className="flex w-screen items-center gap-y-2 h-screen overflow-y-auto mb-10 sm:h-full flex-col p-10">
           <div className="flex justify-start w-full">
             <Button className="w-14" onClick={navigate.back} variant={"ghost"}>
               <IoMdArrowRoundBack />
             </Button>
           </div>
-
           <div className=" flex    items-center ">
             <div className="sm:flex flex-col items-center">
-              <div className="flex  sm:w-screen sm:p-5 sm:justify-around justify-between">
+              <div className="flex  sm:w-screen p-5 sm:justify-around justify-between">
                 <div>
                   <h1 className="text-xl font-bold">{product.producto.name}</h1>
                   <p className="text-gray-500">
@@ -182,11 +181,11 @@ const Page = ({ params }: { params: { id: string } }) => {
               <div className="flex justify-evenly  flex-col gap-y-2  sm:justify-between  p-2 w-80 ">
                 <div className="flex gap-x-2 text-sm ">
                   <User size={20} />{" "}
-                  <p className=" sm:text-xl">{`${product.driverUser.fullname}`}</p>{" "}
+                  <p className=" sm:text-xl">{`${product.recibe.nombreApellidos}`}</p>{" "}
                 </div>
                 <div className="flex gap-x-2  text-sm ">
                   <Phone size={20} />{" "}
-                  <p className=" sm:text-xl">{`${product.driverProfile.phoneNumber}`}</p>
+                  <p className=" sm:text-xl">{`${product.recibe.telefono}`}</p>
                 </div>
               </div>
             </div>
