@@ -2,6 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Stripe from "stripe";
 import Profile from '@/models/perfil';
 import { NextResponse } from "next/server";
+import User from "@/models/user";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
     apiVersion: '2023-10-16',
@@ -110,11 +111,9 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
         return NextResponse.json(account, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
-    
         if (error instanceof Error) {
             return NextResponse.json({ message: error.message }, { status: 500 });
         }
-    
         return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
   }
@@ -122,10 +121,18 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
   export async function PUT(request: Request) {
     try {
       const { id, state } = await request.json();
-      const profile = await Profile.findOne({ userId: id});
+      const profile = await Profile.findOne({ userId: id });
+      const user = await User.findOne({ _id: id });
       if(state === 'empty') profile.account.number = null;
       profile.account.state = state;
       const save = await profile.save();
+      const sendEmail = await fetch("/api/auth/changeAccountMail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user.email),
+      });
       return NextResponse.json(save, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
