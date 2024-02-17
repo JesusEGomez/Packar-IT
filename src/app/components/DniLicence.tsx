@@ -123,6 +123,7 @@ export default function PassportId(props: any) {
             number: numeroDni,
             frontPhoto: img2,
             backPhoto: img3,
+            isLoaded: true
           },
         }),
       });
@@ -192,6 +193,9 @@ export default function PassportId(props: any) {
                   width: "300px",
                 }}
               >
+                <option value="" disabled selected>
+                  Tipo de documento
+                </option>
                 <option className="text-black" value="dni">
                   DNI
                 </option>
