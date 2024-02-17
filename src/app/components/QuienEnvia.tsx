@@ -37,8 +37,8 @@ const RecipientForm = (props: any): JSX.Element => {
     if (!telefono) {
       setTelefonoError("El teléfono es obligatorio.");
       isValid = false;
-    } else if (telefono.length !== 10) {
-      setTelefonoError("El teléfono debe tener  10 dígitos.");
+    } else if (telefono.length <= 10) {
+      setTelefonoError("El teléfono debe tener mas de 10 dígitos.");
       isValid = false;
     } else {
       setTelefonoError(null);
