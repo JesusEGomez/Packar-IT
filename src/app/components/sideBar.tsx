@@ -172,7 +172,7 @@ const Sidebar = () => {
                   onClick={() => setIngresarCuenta(true)}
                 >
                   <CiBank className="sideBarIcon" />
-                  Ingresa tu cuenta
+                  Cuenta bancaria
                 </AccordionTrigger>
                 <AccordionContent></AccordionContent>
               </AccordionItem>
