@@ -41,15 +41,17 @@ const ProductCard = ({
   producto,
   _id,
 }: IProductCardProps) => {
+  const formatDesdeCiudad = desde.ciudad?.replaceAll("-", " ");
+  const formatHastaciudad = hasta.ciudad?.replaceAll("-", " ");
   console.log();
   return (
     <div className="w-full  h-[90px] rounded-xl  shadow-md  hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex sm:pl-48 sm:pr-24">
-      <p className="text-5xl w-1/5 text-pink">
+      <p className="text-5xl sm:w-1/12 w-1/5 text-pink">
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-2 w-3/5   flex-col">
         <div className="flex w-full flex-col sm:flex-row  ">
-          <div className="flex w-full   justify-evenly  sm:flex-row">
+          <div className="flex sm:w-1/2 w-full   justify-evenly  lg:flex-row">
             <p className=""> {`${horaSalida} - ${horaLlegada} `}</p>
             <p className="">
               {" "}
@@ -60,14 +62,14 @@ const ProductCard = ({
               })}
             </p>
           </div>
-          <p className="truncate sm:w-2/3 ">{`${desde.ciudad?.replaceAll(
-            "-",
-            " "
-          )} / ${hasta.ciudad?.replaceAll("-", " ")}`}</p>
-          <h3 className="font-bold ">{producto.name}</h3>
+          <p
+            title={`${formatDesdeCiudad} / ${formatHastaciudad}` || undefined}
+            className=" truncate cursor-pointer sm:w-2/3 lg:w-1/3 "
+          >{`${formatDesdeCiudad} / ${formatHastaciudad}`}</p>
+          <h3 className="font-bold sm:px-5 ">{producto.name}</h3>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center flex-row-reverse justify-end sm:flex-row sm:justify-normal">
           <p className={stateClasses[estado as keyof typeof stateClasses]}>
             <GoDotFill />
           </p>
