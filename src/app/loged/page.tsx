@@ -58,7 +58,7 @@ const Loged = () => {
   const [search, setSearch] = useState(false);
   const [selectdriverOpen, setSelectdriverOpen] = useState<boolean>(false);
   const [driver, setDriver] = useState(null);
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [ciudadOrigen, setCiudadOrigen] = useState<string | null>(null);
   const [ciudadDestino, setCiudadDestino] = useState<string | null>(null);
   const [receptor, setReceptor] = useState<boolean | null>(false);
@@ -149,6 +149,7 @@ const Loged = () => {
     console.log(data);
   };
   const fetchProfile = async () => {
+    console.log(user);
     const response = await fetch(
       `/api/auth/getProfileById/?id=${user._id}`
     ).then((response) => response.json());
@@ -157,6 +158,7 @@ const Loged = () => {
 
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
+
     fetchUser(session?.user?.email!);
     fetchProfile();
 
@@ -258,7 +260,7 @@ const Loged = () => {
                     onClick={() => searchHandler()}
                     className={`bg-pink ${
                       search ? "w-full" : "w-auto"
-                    } m-2 disabled:opacity-70 text-white font-bold rounded-xl p-3`}
+                    } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
                     disabled={
                       !search || profile?.phoneNumber.length! < 9 || !profile
                     }
@@ -275,11 +277,14 @@ const Loged = () => {
                 )}
               </div>
             </div>
-            {profile && profile.phoneNumber.length < 9 && (
-              <p>
-                Deber tener un Numero de telefono valido para crear un envio
-              </p>
-            )}
+
+            {status === "authenticated" &&
+              profile?.phoneNumber &&
+              profile.phoneNumber.length < 9 && (
+                <p>
+                  Deber tener un Numero de telefono valido para crear un envio
+                </p>
+              )}
           </form>
         </div>
       </div>
