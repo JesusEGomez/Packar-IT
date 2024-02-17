@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CuentaEnviada from "./CuentaEnviada";
+import PassportId from "./DniLicence";
 //import { IoMdArrowRoundBack } from "react-icons/io";
 
 type Countryes = {
@@ -37,6 +38,15 @@ const BankAccount = (props:any) => {
     const localUser = localStorage.getItem("user");
     const parsedUser = JSON.parse(localUser!);
     const [cuentaEnviada, setCuentaEnviada] = useState<boolean>(false);
+    const [profile, setProfile] = useState<any>(null);
+    const [idData, setIdData] = useState<any>(null);
+    const [noId, setNoId] = useState<boolean>(false);
+    const [isIdModalOpen, setIsIdModalOpen] = useState<boolean>(false);
+
+    const closeIdModal = () => {
+        setIsIdModalOpen(false);
+      };
+
     const close = () => {
         setCuentaEnviada(false);
         props.closeAccount();
@@ -62,7 +72,8 @@ const BankAccount = (props:any) => {
             aaaa: data.aaaa,
             accountNumber: data.accountNumber,
             userId: parsedUser._id,
-            email: parsedUser.email
+            email: parsedUser.email,
+            idDoc: idData
         }
         if(data){
             try {
@@ -75,13 +86,24 @@ const BankAccount = (props:any) => {
                 })
                 createAccount.ok && setCuentaEnviada(true);
             } catch (error) {
-                console.log(error);
-                
+                console.log(error);      
             }
         }
       }
     useEffect(() => {
-        console.log(parsedUser._id, 'hola');
+        profile?.idDocument &&
+        profile?.idDocument?.type &&
+        profile?.idDocument?.number &&
+        profile?.idDocument?.frontPhoto &&
+        profile?.idDocument?.backPhoto ?
+        setIdData(profile?.idDocument) :
+        setNoId(true);
+
+        const fetchProfile = async () => {
+            const response = await fetch(`/api/auth/getProfileById/?id=${parsedUser._id}`);
+            const data = await response.json();
+            setProfile(data);
+        }
         
         const fetchCountries = async () => {
             const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,name');
@@ -89,7 +111,8 @@ const BankAccount = (props:any) => {
             setCountries(info);
         }
         fetchCountries();
-    },[])
+        fetchProfile();
+    },[noId])
     return(
         <form className="flex flex-col items-center gap-y-3 p-2 my-4 h-[600px] overflow-y-scroll" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="text-xl my-4 pb-4 border-b">Ingresa los datos de tu cuenta para recibir tus pagos</h1>
@@ -173,6 +196,17 @@ const BankAccount = (props:any) => {
                 })} type="text" id="aaaa" placeholder="AAAA" className={`p-2 rounded bg-white w-20 ${errors.bank ? "border-red-500" : ""}`} />
                 </div>
             </div>
+
+            {
+                noId && 
+                <Button
+                variant={"ghost"}
+                className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
+                onClick={() => setIsIdModalOpen(true)}
+                >
+                    Carga tu documento de Identidad
+                </Button>
+            }
             
             <Button
               variant={"ghost"}
@@ -186,6 +220,13 @@ const BankAccount = (props:any) => {
                         <CuentaEnviada
                         close={close}
                         />
+                    </div>
+                </div>
+            )}
+            {isIdModalOpen && (
+                <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-4 rounded-xl">
+                        <PassportId closeIdModal={closeIdModal} />
                     </div>
                 </div>
             )}
