@@ -33,7 +33,7 @@ const TravelCard = ({
 }: ITravelCardProps) => {
   console.log(_id);
   return (
-    <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex sm:pl-48 pr-24">
+    <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex sm:pl-48 sm:pr-24">
       <p className="text-5xl  w-1/5 text-pink">
         <GoArchive />
       </p>
