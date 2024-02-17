@@ -2,6 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Stripe from "stripe";
 import Profile from '@/models/perfil';
 import { NextResponse } from "next/server";
+import User from "@/models/user";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
     apiVersion: '2023-10-16',
@@ -52,9 +53,6 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             },
           }
         );
-
-
-
         const person = await stripe.accounts.createPerson(
           account.id,
           {
@@ -98,19 +96,44 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             },
           }
         );
-        profile.account = account.id;
+        profile.account.number = account.id;
+        profile.account.state = 'loaded';
         const newProfile = await profile.save();
 
-        //const payment = await stripe.transfers.create({
-        //   amount: 1,
-        //   currency: 'eur',
-        //   destination: 'acct_1OjlSMIWMBiZ1hOJ'
-        // },
-        // {
-        //   stripeAccount: 'acct_1OjWSfIPT3NWX9vQ',
-        // })
-        console.log(profile, 'soy el profile')
+        const sendEmail = await fetch("/api/auth/newAccountMail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info),
+        });
+
         return NextResponse.json(account, { status: 200 })
+    } catch (error) {
+      console.error('Error en la función POST:', error);
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    }
+  }
+
+  export async function PUT(request: Request) {
+    try {
+      const { id, state } = await request.json();
+      const profile = await Profile.findOne({ userId: id });
+      const user = await User.findOne({ _id: id });
+      if(state === 'empty') profile.account.number = null;
+      profile.account.state = state;
+      const save = await profile.save();
+      const sendEmail = await fetch("/api/auth/changeAccountMail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user.email),
+      });
+      return NextResponse.json(save, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
     
