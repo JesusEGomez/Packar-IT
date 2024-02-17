@@ -1,12 +1,13 @@
 import transporter from '../../../../libs/nodemailer.config';
 import { NextResponse } from "next/server";
 
-
 export async function POST(request: Request) {
     try {
       const data = await request.json();
+      console.log(data);
+      
   
-      let subject = 'Bienvenido a Packar';
+      let subject = 'Nueva cuenta connect';
       let content = `    <html>
       <head>
           <style>
@@ -24,11 +25,24 @@ export async function POST(request: Request) {
           </style>
       </head>
       <body>
-          <h1>Bienvenido a Packar</h1>
-          <p>¡Hola, estamos muy contentos de que te sumes a nosotros!</p>
-          <p>¡Se ha registrado exitosamente!</p>
+          <h1>Hola, ${data.name} ha solicitado crear una cuenta de stripe connect </h1>
+            <p>  country: ${data.countries},</p>
+            <p>  bank: ${data.bank},</p>
+            <p>  name: ${data.name},</p>
+            <p>  lastName: ${data.lastName},</p>
+            <p>  phone: ${data.phone},</p>
+            <p>  address: ${data.address},</p>
+            <p>  city: ${data.city},</p>
+            <p>  zipCode: ${data.zipCode},</p>
+            <p>  dd: ${data.dd},</p>
+            <p>  mm: ${data.mm},</p>
+            <p>  aaaa: ${data.aaaa},</p>
+            <p>  accountNumber: ${data.accountNumber},</p>
+            <p>  userId: ${data.userId},</p>
+            <p>  email: ${data.email},</p>
+            <p>  idDoc: ${data.idDoc}</p>
       </body>
-  </html>`;   
+      </html>`;   
   
       const mailOptions = {
         from: process.env.CORREO_GMAIL,

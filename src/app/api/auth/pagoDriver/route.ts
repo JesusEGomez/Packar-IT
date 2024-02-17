@@ -99,6 +99,14 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
         profile.account.state = 'loaded';
         const newProfile = await profile.save();
 
+        const sendEmail = await fetch("/api/auth/newAccountMail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(info),
+        });
+
         return NextResponse.json(account, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
