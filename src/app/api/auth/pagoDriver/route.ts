@@ -52,9 +52,6 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             },
           }
         );
-
-
-
         const person = await stripe.accounts.createPerson(
           account.id,
           {
@@ -98,19 +95,30 @@ const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
             },
           }
         );
-        profile.account = account.id;
+        profile.account.number = account.id;
+        profile.account.state = 'loaded';
         const newProfile = await profile.save();
 
-        //const payment = await stripe.transfers.create({
-        //   amount: 1,
-        //   currency: 'eur',
-        //   destination: 'acct_1OjlSMIWMBiZ1hOJ'
-        // },
-        // {
-        //   stripeAccount: 'acct_1OjWSfIPT3NWX9vQ',
-        // })
-        console.log(profile, 'soy el profile')
         return NextResponse.json(account, { status: 200 })
+    } catch (error) {
+      console.error('Error en la función POST:', error);
+    
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: 500 });
+        }
+    
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    }
+  }
+
+  export async function PUT(request: Request) {
+    try {
+      const { id, state } = await request.json();
+      const profile = await Profile.findOne({ userId: id});
+      if(state === 'empty') profile.account.number = null;
+      profile.account.state = state;
+      const save = await profile.save();
+      return NextResponse.json(save, { status: 200 })
     } catch (error) {
       console.error('Error en la función POST:', error);
     
