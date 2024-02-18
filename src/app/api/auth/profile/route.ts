@@ -2,48 +2,52 @@
 import { NextResponse } from "next/server";
 import Profile from "@/models/perfil";
 import { connectDB } from "@/libs/mongodb";
-import User from "@/models/user";
+//import User from "@/models/user";
 
 
 export async function PUT(request: Request) {
   await connectDB();
   const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications , location } =
     await request.json();
-
-    if (!userId || !location) {
-      return NextResponse.json({ message: "Se requiere ID de usuario y datos de ubicación" });
-    }
+  console.log(userId, idDocument, 'holanda');
+  
+    // if (!userId || !location) {
+    //   return NextResponse.json({ message: "Se requiere ID de usuario y datos de ubicación" });
+    // }
 
   try {
     // Obtén el email del usuario utilizando la referencia al modelo de usuario
-    const user = await User.findById(userId);
-    if (!user) {
-      return NextResponse.json(
-        { message: "Usuario no encontrado" },
-        { status: 404 }
-      );
-    }
+    // const user = await User.findById(userId);
+    // if (!user) {
+    //   return NextResponse.json(
+    //     { message: "Usuario no encontrado" },
+    //     { status: 404 }
+    //   );
+    // }
 
-    const userEmail = user.email || "CorreoNoDefinido";
+    //const userEmail = user.email || "CorreoNoDefinido";
 
   
     let profile = await Profile.findOne({ userId });
+    console.log(profile, idDocument, 'hola soy el idDoc para actualizar');
+    
 
-    if (!profile) {
-      // Si no existe, crea un nuevo perfil
-      profile = new Profile({
-        userId,
-        email: userEmail,
-        driverLicense,
-        idDocument,
-        city,
-        phoneNumber,
-        notifications,
-        location,
-      });
+    // if (!profile) {
+    //   // Si no existe, crea un nuevo perfil
+    //   profile = new Profile({
+    //     userId,
+    //     email: userEmail,
+    //     driverLicense,
+    //     idDocument,
+    //     city,
+    //     phoneNumber,
+    //     notifications,
+    //     location,
+    //   });
 
-      await profile.save();
-    } else {
+    //   await profile.save();
+    // } 
+    // else {
       // Si existe, actualiza los campos individualmente
       if (driverLicense) profile.driverLicense = driverLicense;
       if (idDocument) profile.idDocument = idDocument;
@@ -53,14 +57,14 @@ export async function PUT(request: Request) {
       if (location) profile.location = location;
 
       await profile.save();
-    }
+    //}
 
     // Obtén el perfil actualizado con los detalles del usuario
     profile = await Profile.findById(profile._id).populate(
       "userId",
       "fullname email"
     );
-    console.log(profile);
+    console.log(profile, 'y yo ysoy el profile antes de retornar');
     return NextResponse.json({ profile, userId });
   } catch (error) {
     console.error(error);
