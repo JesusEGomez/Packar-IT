@@ -119,7 +119,7 @@ const BankAccount = (props:any) => {
         fetchCountries();
     },[noId])
     return(
-        <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full ${profile?.account.state === 'empty' && `h-[600px]`} overflow-y-scroll`} onSubmit={handleSubmit(onSubmit)}>
+        <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full `} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-start w-full">
                 <Button className="mx-3" onClick={props.closeAccount} variant={"ghost"}>
                     <IoMdArrowRoundBack />
