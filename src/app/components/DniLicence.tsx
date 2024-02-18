@@ -187,7 +187,6 @@ export default function PassportId(props: any) {
               <select
                 id="documentType"
                 onChange={handleTypeChange}
-                defaultValue="dni"
                 className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
                 style={{
                   width: "300px",
@@ -279,7 +278,7 @@ export default function PassportId(props: any) {
         </form>
         <div className="flex justify-center m-2">
           <button
-            className="bg-pink disabled:opacity-70 text-white font-bold rounded-b-sm p-3"
+            className="bg-pink disabled:opacity-70 text-white font-bold rounded-lg p-3"
             disabled={disable}
             onClick={handleBotonPic}
           >
