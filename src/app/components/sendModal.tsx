@@ -17,7 +17,7 @@ export const SendModal = ({
   travel,
   updateData,
 }: ISendModalProps) => {
-  console.log(travel);
+  //console.log(travel);
   const [open, setOpen] = useState(false);
   const [numberModal, setNumberModal] = useState<Number>();
 
@@ -29,7 +29,7 @@ export const SendModal = ({
     setNumberModal(i);
     setOpen(true);
   };
-  console.log(travel);
+  //console.log(travel);
   return (
     <div className="flex w-screen  h-screen flex-col p-4">
       <Button className="w-14" onClick={closeModal} variant={"ghost"}>
@@ -38,7 +38,7 @@ export const SendModal = ({
       <h2 className="text-2xl font-bold text-center">Envíos</h2>
       <div className=" h-screen gap-y-2 overflow-auto">
         {travel?.envios?.map((envio, i) => {
-          console.log(envio);
+          //console.log(envio);
           return (
             <div
               key={envio.productos._id}

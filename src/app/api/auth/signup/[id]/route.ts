@@ -12,9 +12,9 @@ type myParams = {
 export async function GET(request: NextRequest, params: myParams) {
   try {
     await connectDB();
-    console.log(params);
+    //console.log(params);
     const userId = params.params.id;
-    console.log(userId);
+    //console.log(userId);
 
     if (!userId) {
       return NextResponse.json(

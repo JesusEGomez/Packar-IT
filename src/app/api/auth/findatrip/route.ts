@@ -13,14 +13,14 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const cityOrigin = searchParams.get("cityOrigin");
     const cityFinal = searchParams.get("cityFinal");
-    console.log("city:" + cityOrigin, "cityFinal:" + cityFinal);
+    //console.log("city:" + cityOrigin, "cityFinal:" + cityFinal);
     // Filtra los viajes basándose en los criterios especificados
     const viajes = await Viaje.find({
       estado: "Pendiente",
     })
       .populate("usuario")
       .lean();
-    console.log(viajes);
+    //console.log(viajes);
     // Filtra por ciudad de origen y ciudad final
 
     const filter1Viajes = viajes.filter(

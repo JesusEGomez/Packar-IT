@@ -23,16 +23,16 @@ const MobilePhoneNumber = () => {
   useEffect(() => {
     if (session?.user) {
       const { name, email } = session.user;
-      console.log("Información del usuario en MobilePhone:", { name, email });
+      //console.log("Información del usuario en MobilePhone:", { name, email });
     } else {
-      console.error("No se encontró información del usuario en la sesión.");
+      //console.error("No se encontró información del usuario en la sesión.");
     }
   }, [session]);
 
   const sendVerificationCode = async () => {
     try {
       if (!countryCode.trim() || !phoneNumber.trim()) {
-        console.error("Por favor, ingresa un número de teléfono válido.");
+        //console.error("Por favor, ingresa un número de teléfono válido.");
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -44,7 +44,7 @@ const MobilePhoneNumber = () => {
       const email = session?.user?.email;
 
       if (!email) {
-        console.error("No se encontró el email del usuario en la sesión.");
+        //console.error("No se encontró el email del usuario en la sesión.");
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -70,7 +70,7 @@ const MobilePhoneNumber = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Mensaje enviado con éxito");
+        //console.log("Mensaje enviado con éxito");
         Swal.fire({
           icon: "success",
           title: "Éxito",

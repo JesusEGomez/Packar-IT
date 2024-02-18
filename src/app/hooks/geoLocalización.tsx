@@ -34,7 +34,7 @@ const useLocationNotification = () => {
                 `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
               );
               const data = await response.json();
-              console.log(data);
+              //console.log(data);
               setLocation({
                 latitude,
                 longitude,
@@ -75,8 +75,8 @@ const useLocationNotification = () => {
     if (location && recipientUserId) {
       const content = `Mensaje con Ubicación: ${location.latitude}, ${location.longitude}`;
       const locationInfo = `Ciudad: ${location.city}, Provincia: ${location.province}, País: ${location.country}`;
-      console.log("Notificación enviada:", content);
-      console.log("Información de ubicación:", locationInfo);
+      //console.log("Notificación enviada:", content);
+      //console.log("Información de ubicación:", locationInfo);
     } else {
       console.error(
         "No se pudo obtener la ubicación o el ID del destinatario."

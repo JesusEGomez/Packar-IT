@@ -20,7 +20,7 @@ export default function PassportId(props: any) {
   useEffect(() => {
     if (img2 && img3 && type && numeroDni) {
       setDisable(false);
-      console.log(img2, img3, type, numeroDni);
+      //console.log(img2, img3, type, numeroDni);
     } else {
       setDisable(true);
     }
@@ -53,16 +53,16 @@ export default function PassportId(props: any) {
           }
         );
         const ans = await response.json();
-        console.log("Cloudinary response:", ans);
+        //console.log("Cloudinary response:", ans);
         if (response.ok) {
 
           const fileName = ans.secure_url; // Extrae el nombre del archivo de la URL
           if (!img2) {
-            console.log("Setting img2:", fileName);
+            //console.log("Setting img2:", fileName);
             setImg2(fileName);
             
           } else {
-            console.log("Setting img3:", fileName);
+            //console.log("Setting img3:", fileName);
             setImg3(fileName);
           }
         }
@@ -78,7 +78,7 @@ export default function PassportId(props: any) {
       
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        console.log("Front file read:", imgDataUrl);
+        //console.log("Front file read:", imgDataUrl);
         setImg2(imgDataUrl);
       };
 
@@ -93,7 +93,7 @@ export default function PassportId(props: any) {
 
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        console.log("Back file read:", imgDataUrl);
+        //console.log("Back file read:", imgDataUrl);
         setImg3(imgDataUrl);
       };
 
@@ -112,7 +112,6 @@ export default function PassportId(props: any) {
         }
       );
       const userAns = await user.json();
-      console.log("User data:", userAns, type, numeroDni, img2,img3);
       const updatedProfile = await fetch("/api/auth/profile", {
         method: "PUT",
         headers: {
@@ -145,7 +144,7 @@ export default function PassportId(props: any) {
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = e.target.value.toLowerCase();
-    console.log("Selected Type:", selectedType);
+    //console.log("Selected Type:", selectedType);
     setType(selectedType);
   };
 

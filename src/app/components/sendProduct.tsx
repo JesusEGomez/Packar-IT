@@ -66,7 +66,7 @@ export const SendProduct = (props: any) => {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const fixedValues = { ...values, special: specials };
-    console.log(fixedValues);
+    //console.log(fixedValues);
     hoverButton && props.closeModal(fixedValues);
     if (
       values.pequeño.quantity ||

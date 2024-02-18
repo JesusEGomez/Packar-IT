@@ -13,13 +13,13 @@ export async function GET(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    console.log(id);
+    //console.log(id);
     const user = await Profile.findOne({
       userId: {
         _id: id,
       },
     });
-    console.log(user);
+    //console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);

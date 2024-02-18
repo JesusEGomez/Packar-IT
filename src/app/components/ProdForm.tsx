@@ -46,7 +46,7 @@ function ProdForm(props: any) {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          //console.log(ans);
 
           setImg(ans.secure_url);
         }

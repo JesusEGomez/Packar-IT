@@ -34,7 +34,7 @@ async function fetchProfileData() {
   try {
     const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
     const data = await response.json();
-    console.log("Profile data:", data);
+    //console.log("Profile data:", data);
     const { phoneNumber = "", city = "" } = data;
     setProfileData(data);
     setPhoneNumber(phoneNumber);
@@ -85,7 +85,7 @@ const handleUpdateProfile = async () => {
     });
 
     if (response.ok) {
-      console.log("Perfil actualizado con éxito");
+      //console.log("Perfil actualizado con éxito");
       setProfileData({
         ...profileData,
         phoneNumber,

@@ -48,7 +48,7 @@ export default function City(props: any) {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          //console.log(ans);
         }
       } catch (error) {
         console.error(error);

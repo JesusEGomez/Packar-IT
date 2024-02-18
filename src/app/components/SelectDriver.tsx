@@ -62,7 +62,7 @@ function Page(props: any) {
     }
   }
   useEffect(() => {
-    console.log(props);
+    //console.log(props);
     
     const fetchData = async () => {
       try {

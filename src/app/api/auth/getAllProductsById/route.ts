@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     } else {
       const { searchParams } = new URL(request.url);
       const id = searchParams.get("id");
-      console.log(id);
+      //console.log(id);
       const finalProducts = [];
 
       if (!id)
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       })
         .populate("producto")
         .lean();
-      console.log(envios);
+      //console.log(envios);
 
       if (envios) {
         for (let driver of envios) {
@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         }
       }
 
-      console.log();
+      //console.log();
       return NextResponse.json(finalProducts);
     }
   } catch (error) {

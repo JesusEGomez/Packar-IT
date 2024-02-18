@@ -24,9 +24,6 @@ interface Props {
 function Providers({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useRouter();
-
-  console.log("provider", isOpen);
-
   const sideBarControl = () => {
     setIsOpen(!isOpen);
   };
