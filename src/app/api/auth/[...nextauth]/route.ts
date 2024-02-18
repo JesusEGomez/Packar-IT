@@ -20,7 +20,7 @@ const options: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("credentials", credentials);
+        //console.log("credentials", credentials);
         const email = credentials?.email;
         const password = credentials?.password!;
 
@@ -70,7 +70,7 @@ const options: NextAuthOptions = {
             phoneNumber: profile.phoneNumber,
           };
         } catch (error) {
-          console.log(error);
+          //console.log(error);
           return null;
         }
       },
@@ -78,7 +78,7 @@ const options: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log(user);
+      //console.log(user);
 
       try {
         await connectDB();
@@ -114,9 +114,9 @@ const options: NextAuthOptions = {
           await profile.save();
         }
 
-        console.log(`Usuario: ${newUser} y Perfil: ${profile}`);
+        //console.log(`Usuario: ${newUser} y Perfil: ${profile}`);
       } catch (error) {
-        console.error(error);
+        //console.error(error);
       }
 
       const isAllowedToSignIn = true;

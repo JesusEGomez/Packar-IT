@@ -49,7 +49,7 @@ export default function PhoneNumber(props: any) {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          //console.log(ans);
         }
       } catch (error) {
         console.error(error);

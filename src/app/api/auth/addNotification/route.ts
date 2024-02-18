@@ -11,9 +11,9 @@ export async function POST(request: Request) {
     await connectDB();
     const notification = await request.json();
 
-    console.log(notification);
+    //console.log(notification);
     const newNotification = await new Notification(notification);
-    console.log(notification.driver.usuario._id);
+    //console.log(notification.driver.usuario._id);
 
     const driverId = notification.driver.usuario._id;
     await newNotification.save();
@@ -31,11 +31,11 @@ export async function POST(request: Request) {
 
     driver.notifications.push(newNotification);
     const saved = await driver.save();
-    console.log(saved);
+    //console.log(saved);
     sendNotification(driver._id, { content: newNotification.estado });
     return NextResponse.json(newNotification);
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
@@ -50,7 +50,7 @@ export async function PUT(request: Request) {
   try {
     await connectDB();
     const { id, estado } = await request.json();
-    console.log(`id: ${id}, estado: ${estado}`);
+    //console.log(`id: ${id}, estado: ${estado}`);
     const notification: INotification | null = await Notification.findById(id);
     if (!notification)
       return NextResponse.json(
@@ -63,7 +63,7 @@ export async function PUT(request: Request) {
     receptor.notifications.push(notification);
     const saved = await receptor.save();
 
-    console.log(receptor);
+    //console.log(receptor);
 
     return NextResponse.json(saved);
   } catch (error) {
@@ -82,13 +82,13 @@ export async function GET(request: NextRequest) {
     await connectDB();
     const id = request.nextUrl.searchParams.get("id");
     const type: string | null = request.nextUrl.searchParams.get("type");
-    console.log(`id: ${id}, type: ${type}`);
+    //console.log(`id: ${id}, type: ${type}`);
     if (!id || !type)
       return NextResponse.json({ message: "Faltan datos" }, { status: 400 });
     const notifications = await Notification.find({
       [type]: id,
     }).lean();
-    console.log(notifications);
+    //console.log(notifications);
     return NextResponse.json(notifications);
   } catch (error) {
     console.error(error);

@@ -10,11 +10,11 @@ export async function GET(request: NextRequest) {
     const id = request.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Invalid id" });
 
-    console.log(`id: ${id}`);
+    //console.log(`id: ${id}`);
     const notifications: INotification | null = await Notification.findById(
       id
     ).lean();
-    console.log(notifications);
+    //console.log(notifications);
     return NextResponse.json(notifications);
   } catch (error) {
     console.error(error);
@@ -31,7 +31,7 @@ export async function PATCH(request: NextRequest) {
   try {
     await connectDB();
     const response = await request.json();
-    console.log(response);
+    //console.log(response);
     if (!response)
       return NextResponse.json({ error: "missing data" }, { status: 400 });
 
@@ -50,7 +50,7 @@ export async function PATCH(request: NextRequest) {
       { _id: response._id },
       { [visto[1][0]]: visto[1][1] }
     ).lean();
-    console.log(notifications);
+    //console.log(notifications);
     return NextResponse.json(notifications);
   } catch (error) {
     console.error(error);
@@ -67,7 +67,7 @@ export async function PUT(request: NextRequest) {
   try {
     await connectDB();
     const response = await request.json();
-    console.log(response);
+    //console.log(response);
     if (!response)
       return NextResponse.json({ error: "missing data" }, { status: 400 });
 
@@ -97,7 +97,7 @@ export async function PUT(request: NextRequest) {
         },
       };
     }
-    console.log(update);
+    //console.log(update);
     const options = { new: true };
 
     const notificationUpdated = await Notification.findByIdAndUpdate(
@@ -112,7 +112,7 @@ export async function PUT(request: NextRequest) {
       );
     if (notificationUpdated)
       return NextResponse.json(notificationUpdated, { status: 200 });
-    console.log(notificationUpdated);
+    //console.log(notificationUpdated);
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {

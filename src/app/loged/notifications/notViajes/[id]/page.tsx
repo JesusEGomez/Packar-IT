@@ -30,7 +30,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         setNotification(newNotification);
 
         if (!newNotification?.vistoDriver) {
-          console.log(notification?.vistoDriver);
+          //console.log(notification?.vistoDriver);
           setVisto();
         }
       }

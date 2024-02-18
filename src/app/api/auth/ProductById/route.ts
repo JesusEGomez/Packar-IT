@@ -21,12 +21,12 @@ export async function GET(request: Request) {
     const envio: IUserProduct | null = await Envio.findById(id)
       .populate("producto")
       .lean();
-    console.log(envio);
+    //console.log(envio);
     if (envio) {
       const driverFinded: ITravelDB | null = await Viaje.findById(
         envio.driver
       ).lean();
-      console.log(driverFinded);
+      //console.log(driverFinded);
       let userFinded = await User.findOne({
         _id: driverFinded?.usuario,
       }).lean();
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
       return NextResponse.json(finalProduct, { status: 200 });
     }
 
-    console.log();
+    //console.log();
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {

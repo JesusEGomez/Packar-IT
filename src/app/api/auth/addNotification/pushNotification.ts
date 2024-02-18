@@ -1,6 +1,6 @@
 
 export const pushNotification = (estado: string) => {
-    console.log('estoy en el push Notificaciones');
+    //console.log('estoy en el push Notificaciones');
     
     if(Notification.permission === 'granted'){
         switch (estado) {

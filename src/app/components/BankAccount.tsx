@@ -104,8 +104,7 @@ const BankAccount = (props:any) => {
       }
     useEffect(() => {
         const fetchProfile = async () => {
-            console.log(parsedUser._id);
-            
+            //console.log(parsedUser._id);
             const response = await fetch(`/api/auth/getProfileById/?id=${parsedUser._id}`);
             const data = await response.json();
             setProfile(data);

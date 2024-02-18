@@ -18,7 +18,7 @@ export const getFormattedAddress = async (location: myLocation) => {
     const country = formatted_address[formatted_address.length - 1].trim();
     const results = `${number} ${street}, ${city}, ${country}`;
     if (results) {
-      console.log(results);
+      //console.log(results);
       return results;
     } else {
       return "No se encontró ninguna dirección para la geolocalización proporcionada.";

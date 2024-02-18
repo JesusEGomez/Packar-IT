@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       source: token,
     });
     user[0].customerId = customer.id;
-    console.log(customer);
+    //console.log(customer);
     
     await user[0].save();
 
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('idUser');
-    console.log(userId);
+    //console.log(userId);
 
     const searchUser = await Profile.findOne({userId: userId});
     

@@ -9,7 +9,7 @@ export async function PUT(request: Request) {
   await connectDB();
   const { userId, email, driverLicense, idDocument, city, phoneNumber, notifications , location } =
     await request.json();
-  console.log(userId, idDocument, 'holanda');
+  //(userId, idDocument, 'holanda');
   
     // if (!userId || !location) {
     //   return NextResponse.json({ message: "Se requiere ID de usuario y datos de ubicación" });
@@ -29,7 +29,6 @@ export async function PUT(request: Request) {
 
   
     let profile = await Profile.findOne({ userId });
-    console.log(profile, idDocument, 'hola soy el idDoc para actualizar');
     
 
     // if (!profile) {
@@ -64,7 +63,7 @@ export async function PUT(request: Request) {
       "userId",
       "fullname email"
     );
-    console.log(profile, 'y yo ysoy el profile antes de retornar');
+    //console.log(profile, 'y yo ysoy el profile antes de retornar');
     return NextResponse.json({ profile, userId });
   } catch (error) {
     console.error(error);

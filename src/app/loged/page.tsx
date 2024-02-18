@@ -76,7 +76,7 @@ const Loged = () => {
   const closeModal = async (fromSelected: google.maps.LatLngLiteral) => {
     setFromModalOpen(false);
     const fromLocation = await getFormattedAddress(fromSelected);
-    console.log(fromLocation);
+    //console.log(fromLocation);
     const fromArray = fromLocation.split(",");
     const city = fromArray[1].trim().replaceAll(" ", "-");
     setCiudadOrigen(city);
@@ -96,7 +96,7 @@ const Loged = () => {
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
     const toLocation = await getFormattedAddress(toSelected);
-    console.log(toLocation);
+    //console.log(toLocation);
     const toArray = toLocation.split(",");
 
     const city = toArray[1].trim().replaceAll(" ", "-");
@@ -109,7 +109,7 @@ const Loged = () => {
     setSelectdriverOpen(false);
   };
   const confrmacionHandler = () => {
-    console.log("hola");
+    //console.log("hola");
   };
   const closeLastModal = () => {
     setLastModalOpen(false);
@@ -146,7 +146,7 @@ const Loged = () => {
   };
   const { handleSubmit } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
+    //console.log(data);
   };
   const fetchProfile = async () => {
     const response = await fetch(

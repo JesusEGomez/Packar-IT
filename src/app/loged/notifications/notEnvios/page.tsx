@@ -13,11 +13,11 @@ const NotViajes = () => {
   const [update, setUpdate] = useState(false);
 
   const filter = (notifications: INotification[]) => {
-    console.log(notifications);
+    //console.log(notifications);
     if (notifications) {
       const found = notifications.find((n) => n.vistoUser === false);
 
-      console.log(found);
+      //console.log(found);
       if (found) setVisto(false);
     }
   };
@@ -32,7 +32,7 @@ const NotViajes = () => {
         `/api/auth/addNotification/?id=${user._id}&type=usuario._id`
       );
       const newNotifications: INotification[] = await response.json();
-      console.log(newNotifications);
+      //console.log(newNotifications);
       if (response.ok && newNotifications) {
         setNotification(newNotifications);
         filter(newNotifications);

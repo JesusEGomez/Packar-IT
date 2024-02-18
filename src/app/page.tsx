@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const HomePage = ({ socket }: any) => {
-  console.log("Socket in HomePage:", socket);
   const navigate = useRouter();
   return (
     <div className="page-pink items-center ">
