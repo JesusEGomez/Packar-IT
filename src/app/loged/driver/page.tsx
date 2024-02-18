@@ -191,7 +191,7 @@ const Driver = () => {
   };
 
   const TimeModelClose = async (timeSelected: any) => {
-    console.log("tiempo", timeSelected);
+    //console.log("tiempo", timeSelected);
     setTimeModalOpen(false);
     setTime(timeSelected);
   };
@@ -216,7 +216,7 @@ const Driver = () => {
     setProdModal(false);
     setSelectedProductData(selectedProductData);
 
-    console.log(selectedProductData);
+    //console.log(selectedProductData);
   };
 
   const closePropModalHandler = () => {
@@ -262,9 +262,9 @@ const Driver = () => {
   } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
+    //console.log(data);
 
-    console.log("Productos", selectedProductData);
+    //console.log("Productos", selectedProductData);
     const stringDate = date?.toLocaleDateString("es-AR", {
       day: "2-digit",
       month: "2-digit",
@@ -290,7 +290,7 @@ const Driver = () => {
       como: data.como,
     };
     search && setTravel(newTravel);
-    console.log("nuevoViaje", newTravel);
+    //console.log("nuevoViaje", newTravel);
     search && hoverButton && setFinalStep(true);
   };
   return (

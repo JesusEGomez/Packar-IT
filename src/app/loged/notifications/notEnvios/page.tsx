@@ -13,11 +13,11 @@ const NotViajes = () => {
   const [update, setUpdate] = useState(false);
 
   const filter = (notifications: INotification[]) => {
-    console.log(notifications);
+    //console.log(notifications);
     if (notifications) {
       const found = notifications.find((n) => n.vistoUser === false);
 
-      console.log(found);
+      //console.log(found);
       if (found) setVisto(false);
     }
   };
@@ -32,7 +32,7 @@ const NotViajes = () => {
         `/api/auth/addNotification/?id=${user._id}&type=usuario._id`
       );
       const newNotifications: INotification[] = await response.json();
-      console.log(newNotifications);
+      //console.log(newNotifications);
       if (response.ok && newNotifications) {
         setNotification(newNotifications);
         filter(newNotifications);
@@ -48,7 +48,7 @@ const NotViajes = () => {
   }, [update]);
 
   return (
-    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
+    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center md:pl-48 md:pr-24">
       {notifications ? (
 
         !visto ? (

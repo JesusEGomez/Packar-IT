@@ -31,7 +31,7 @@ export const useUserState = create<UserState>((set, get) => ({
   products: [],
   profile: null, // Inicializa el objeto de usuario
   fetchUser: async (email: string) => {
-    console.log("usuario", email);
+    //console.log("usuario", email);
     const localUser = localStorage.getItem("user");
     const parsedUser = JSON.parse(localUser!);
     if (localUser) {
@@ -46,11 +46,11 @@ export const useUserState = create<UserState>((set, get) => ({
         });
 
         const userData = await responseUser.json();
-        console.log(userData);
+        //console.log(userData);
         if (userData) {
           set({ user: userData });
           localStorage.setItem("user", JSON.stringify(userData));
-          console.log("usuario encontrado", userData);
+          //console.log("usuario encontrado", userData);
 
 
 
@@ -63,7 +63,7 @@ export const useUserState = create<UserState>((set, get) => ({
     }
   },
   postTravel: async (travel: ITravel) => {
-    console.log("travel store", travel);
+    //console.log("travel store", travel);
     set({ travel: travel });
     try {
       const response = await fetch("/api/auth/viajes", {
@@ -71,7 +71,7 @@ export const useUserState = create<UserState>((set, get) => ({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(travel),
       });
-      console.log(response);
+      //console.log(response);
       return response.ok;
     } catch (error) {
       console.error(error);
@@ -82,14 +82,14 @@ export const useUserState = create<UserState>((set, get) => ({
       const response = await fetch(`/api/auth/getAllTravelsById/?id=${id}`);
       const newTravels = await response.json();
 
-      console.log("viajes", newTravels);
+      //console.log("viajes", newTravels);
       set({ travels: newTravels });
     } catch (error) {
       console.error(error);
     }
   },
   fetchUserProducts: async (id: string) => {
-    console.log(id);
+    //console.log(id);
     try {
       const response = await fetch(`/api/auth/getAllProductsById/?id=${id}`);
       // const response = await fetch(
@@ -97,7 +97,7 @@ export const useUserState = create<UserState>((set, get) => ({
       // );
       const newProducts = await response.json();
 
-      console.log("productos", newProducts);
+      //console.log("productos", newProducts);
       set({ products: newProducts });
     } catch (error) {
       console.error(error);

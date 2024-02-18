@@ -104,11 +104,9 @@ const BankAccount = (props:any) => {
       }
     useEffect(() => {
         const fetchProfile = async () => {
-            console.log(parsedUser._id);
-            
+            //console.log(parsedUser._id);
             const response = await fetch(`/api/auth/getProfileById/?id=${parsedUser._id}`);
             const data = await response.json();
-            console.log(data,'soydata');
             setProfile(data);
         }
         
@@ -121,10 +119,12 @@ const BankAccount = (props:any) => {
         fetchCountries();
     },[noId])
     return(
-        <form className="flex flex-col justify-start items-center gap-y-3 p-2 my-4 h-[600px] overflow-y-scroll" onSubmit={handleSubmit(onSubmit)}>
-            <Button onClick={props.closeAccount} variant={"ghost"}>
-                <IoMdArrowRoundBack />
-            </Button>
+        <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full ${profile?.account.state === 'empty' && `h-[600px]`} overflow-y-scroll`} onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex justify-start w-full">
+                <Button className="mx-3" onClick={props.closeAccount} variant={"ghost"}>
+                    <IoMdArrowRoundBack />
+                </Button>
+            </div>
             {
              profile?.account.state === 'loaded' ?
                 <div>

@@ -19,7 +19,7 @@ const ProductInfoModal = ({
   product,
   updateData,
 }: IProductInfoProps) => {
-  console.log(estado);
+  //console.log(estado);
   const [state, setState] = useState<string>();
   const [loading, setLoading] = useState(false);
 
@@ -74,7 +74,7 @@ const ProductInfoModal = ({
   };
 
   const stateHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setState(event.target.value);
   };
   return (

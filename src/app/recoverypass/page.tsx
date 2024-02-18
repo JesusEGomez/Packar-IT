@@ -14,7 +14,7 @@ function Page() {
     formState: { errors },
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log(data);
+    //console.log(data);
   };
   return (
     <div className="user-managment-styles items-center justify-center  flex-col">

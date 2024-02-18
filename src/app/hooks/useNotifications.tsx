@@ -38,11 +38,11 @@ const useNotifications = (): NotificationsHook => {
     const initializeSocket = async () => {
       // Manejar el evento de conexión
       socket.on("connect", async () => {
-        console.log("Conectado al servidor de sockets");
+        //console.log("Conectado al servidor de sockets");
 
         // Obtener la información de sesión y emitir el evento "session"
         const session = await getSession();
-        console.log("Sending session information:", session);
+        //console.log("Sending session information:", session);
         socket.emit("session", { session });
 
         // Suscribirse a las notificaciones
@@ -58,26 +58,26 @@ const useNotifications = (): NotificationsHook => {
 
       socket.on("receive_message", (data: Message) => {
         setReceivedMessages((prevMessages) => [...prevMessages, data]);
-        console.log("Mensaje recibido en el cliente:" + data);
+        //console.log("Mensaje recibido en el cliente:" + data);
        // alert("Nuevo mensaje recibido "  + data);
       });
 
       socket.on("notification_accepted", ({ notificationId, acceptingUser }) => {
         // Aquí puedes actualizar el estado del cliente según la notificación aceptada
-        console.log(`Notificación ${notificationId} aceptada por:`, acceptingUser);
+        //console.log(`Notificación ${notificationId} aceptada por:`, acceptingUser);
         
         // Puedes realizar la lógica que necesites para actualizar el estado del cliente
         // Por ejemplo, podrías marcar la notificación como aceptada en tu estado local
       });
 
       socket.on("notification_canceled", (data: NotificationData) => {
-        console.log(
-          `Notificación ${data.notificationId} cancelada por el usuario`
-        );
+        //console.log(
+        //  `Notificación ${data.notificationId} cancelada por el usuario`
+        //);
         // Puedes manejar la lógica adicional aquí si es necesario
 
         socket.on("alert_new_message", (data: any) => {
-          console.log("Mostrar alerta:", data);
+          //console.log("Mostrar alerta:", data);
           alert(data.message);
         });
       });
@@ -104,7 +104,7 @@ const useNotifications = (): NotificationsHook => {
     try {
       const userSession = await getSession();
       const user = userSession ? userSession : null;
-      console.log("Mensaje enviado por", user);
+      //console.log("Mensaje enviado por", user);
 
       if (user) {
         const notificationData = {
@@ -115,9 +115,9 @@ const useNotifications = (): NotificationsHook => {
         socket.emit("send_message", notificationData);
 
         sendNotification(notificationData);
-        console.log(notificationData);
+        //console.log(notificationData);
       } else {
-        console.log("El usuario no está autenticado");
+        //console.log("El usuario no está autenticado");
         // Manejar la lógica para usuarios no autenticados según sea necesario
       }
     } catch (error) {
@@ -128,16 +128,16 @@ const useNotifications = (): NotificationsHook => {
   const handleAcceptNotification = (
     notificationData: NotificationData
   ): void => {
-    console.log("Handler de aceptar notificación:", notificationData);
-    console.log("Valor de notificationData:", notificationData);
-    console.log(
-      "Valor de notificationData.notificationId:",
-      notificationData.notificationId
-    );
+    //console.log("Handler de aceptar notificación:", notificationData);
+    //console.log("Valor de notificationData:", notificationData);
+    //console.log(
+    //  "Valor de notificationData.notificationId:",
+    //  notificationData.notificationId
+    //);
     const confirmAccept: boolean = window.confirm("¿Aceptar la notificación?");
-    console.log("Confirmación:", confirmAccept);
+    //console.log("Confirmación:", confirmAccept);
     if (confirmAccept && notificationData) {
-      console.log("Notificación aceptada");
+      //console.log("Notificación aceptada");
       acceptNotification(notificationData.notificationId);
     }
   };

@@ -21,13 +21,13 @@ const TravelEditModal = ({
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState<number>(0);
   const statusFinder = () => {
-    console.log(travel);
+    //console.log(travel);
     let newProductsArray = travel.envios.filter((envio) => {
       return envio.productos.EnvioInfo.estado !== "Cancelado";
     });
-    console.log(newProductsArray);
+    //console.log(newProductsArray);
     const travelFiltered = { ...travel, envios: newProductsArray };
-    console.log(travelFiltered);
+    //console.log(travelFiltered);
     travelFiltered.envios.forEach((envio) => {
       if (envio.productos.EnvioInfo.estado !== "Finalizado") {
         setFinalizado(false);
@@ -57,7 +57,7 @@ const TravelEditModal = ({
   const changeState = async () => {
     setLoading(true);
     try {
-      console.log({ _id: travel._id, estado: state });
+      //console.log({ _id: travel._id, estado: state });
       if (state) {
         const response = await fetch(`/api/auth/getTravelById`, {
           method: "PATCH",
@@ -94,13 +94,13 @@ const TravelEditModal = ({
   };
 
   useEffect(() => {
-    console.log(travel);
+    //console.log(travel);
     statusFinder();
     totalEarned();
   }, []);
 
   const stateHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setState(event.target.value);
   };
   return (

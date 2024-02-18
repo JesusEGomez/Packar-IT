@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const user = await User.findOne({
       email: email,
     });
-    console.log(user);
+    //console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);

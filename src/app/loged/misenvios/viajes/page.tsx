@@ -10,7 +10,7 @@ const Viajes = () => {
   useEffect(() => {
     fetchTravels(user._id);
   }, []);
-  console.log(travels);
+  //console.log(travels);
   return (
     <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
       {travels.length ? (

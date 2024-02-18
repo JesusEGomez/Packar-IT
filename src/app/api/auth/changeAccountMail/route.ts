@@ -41,10 +41,10 @@ export async function POST(request: Request) {
       const sendMailPromise = new Promise((resolve, reject) => {
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            console.error('Error sending email:', error);
+            //console.error('Error sending email:', error);
             reject(error);
           } else {
-            console.log('Email sent:', info.response);
+            //console.log('Email sent:', info.response);
             resolve(info);
           }
         });
@@ -52,7 +52,7 @@ export async function POST(request: Request) {
   
       await sendMailPromise;
   
-      console.log("send");
+      //console.log("send");
   
       return NextResponse.json("message send");
     } catch (error) {

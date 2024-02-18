@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 export async function POST(request: Request) {
   await connectDB();
   const { fullname, email, password } = await request.json();
-  console.log(fullname, email, password);
+  //console.log(fullname, email, password);
 
   if (!fullname || !email || !password) {
     return NextResponse.json({ message: "Todos los campos son obligatorios" });
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     const user = new User({ fullname, email, password: hashedPassword });
     const saveUser = await user.save();
 
-    console.log(saveUser);
+    //console.log(saveUser);
 
     return NextResponse.json(saveUser);
   } catch (error) {

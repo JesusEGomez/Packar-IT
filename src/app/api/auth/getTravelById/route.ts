@@ -18,9 +18,9 @@ export async function GET(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    console.log(id);
+    //console.log(id);
     const user: ITravelDB | null = await Viaje.findById(id).lean();
-    console.log(user);
+    //console.log(user);
     if (user) {
       for (let product of user.envios) {
         const response: IUsuarioProduct | null = await Envio.findOne({
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
             _id: response?.usuario._id,
           },
         }).lean();
-        console.log(userPhone);
+        //console.log(userPhone);
         const envioWithUser = {
           ...response,
           usuario: {
@@ -45,10 +45,10 @@ export async function GET(request: Request) {
 
         const finalTravel = { ...product.productos, EnvioInfo: envioWithUser };
         product.productos = finalTravel;
-        console.log({ ...product.productos, EnvioInfo: response });
+        //console.log({ ...product.productos, EnvioInfo: response });
       }
     }
-    console.log(user);
+    //console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);
@@ -66,7 +66,7 @@ export async function PATCH(request: Request) {
     await connectDB();
 
     const response: { _id: string; estado: string } = await request.json();
-    console.log(response);
+    //console.log(response);
     if (!response) return NextResponse.json({ message: "Faltan datos" });
 
     const envio = await Viaje.updateOne(
@@ -74,7 +74,7 @@ export async function PATCH(request: Request) {
       { estado: response.estado }
     );
 
-    console.log(envio);
+    //console.log(envio);
     return NextResponse.json(envio, { status: 200 });
   } catch (error) {
     console.error(error);

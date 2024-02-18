@@ -20,6 +20,7 @@ export default function PassportId(props: any) {
   useEffect(() => {
     if (img2 && img3 && type && numeroDni) {
       setDisable(false);
+      //console.log(img2, img3, type, numeroDni);
     } else {
       setDisable(true);
     }
@@ -51,16 +52,17 @@ export default function PassportId(props: any) {
             body: formData,
           }
         );
+        const ans = await response.json();
+        //console.log("Cloudinary response:", ans);
         if (response.ok) {
-          const ans = await response.json();
-          console.log("Cloudinary response:", ans);
 
-          const fileName = ans.secure_url.split("/").pop(); // Extrae el nombre del archivo de la URL
+          const fileName = ans.secure_url; // Extrae el nombre del archivo de la URL
           if (!img2) {
-            console.log("Setting img2:", fileName);
+            //console.log("Setting img2:", fileName);
             setImg2(fileName);
+            
           } else {
-            console.log("Setting img3:", fileName);
+            //console.log("Setting img3:", fileName);
             setImg3(fileName);
           }
         }
@@ -73,10 +75,10 @@ export default function PassportId(props: any) {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const reader = new FileReader();
-
+      
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        console.log("Front file read:", imgDataUrl);
+        //console.log("Front file read:", imgDataUrl);
         setImg2(imgDataUrl);
       };
 
@@ -91,7 +93,7 @@ export default function PassportId(props: any) {
 
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        console.log("Back file read:", imgDataUrl);
+        //console.log("Back file read:", imgDataUrl);
         setImg3(imgDataUrl);
       };
 
@@ -110,14 +112,13 @@ export default function PassportId(props: any) {
         }
       );
       const userAns = await user.json();
-      console.log("User data:", userAns);
       const updatedProfile = await fetch("/api/auth/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: userAns,
+          userId: userAns._id,
           idDocument: {
             type: type === "dni" ? "DNI" : "Pasaporte",
             number: numeroDni,
@@ -127,7 +128,7 @@ export default function PassportId(props: any) {
           },
         }),
       });
-
+      const updated = await updatedProfile.json()
       // Mostrar mensaje de éxito
       setShowSuccessMessage(true);
 
@@ -143,7 +144,7 @@ export default function PassportId(props: any) {
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedType = e.target.value.toLowerCase();
-    console.log("Selected Type:", selectedType);
+    //console.log("Selected Type:", selectedType);
     setType(selectedType);
   };
 
@@ -187,7 +188,6 @@ export default function PassportId(props: any) {
               <select
                 id="documentType"
                 onChange={handleTypeChange}
-                defaultValue="dni"
                 className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
                 style={{
                   width: "300px",
@@ -236,7 +236,8 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={frontFileInputRef}
-                onChange={handleFrontFileChange}
+                //onChange={handleFrontFileChange}
+                onChange={handleFileChange}
                 style={{ display: "none" }}
               />
             </div>
@@ -271,7 +272,8 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={backFileInputRef}
-                onChange={handleBackFileChange}
+                //onChange={handleBackFileChange}
+                onChange={handleFileChange}
                 style={{ display: "none" }}
               />
             </div>
@@ -279,7 +281,7 @@ export default function PassportId(props: any) {
         </form>
         <div className="flex justify-center m-2">
           <button
-            className="bg-pink disabled:opacity-70 text-white font-bold rounded-b-sm p-3"
+            className="bg-pink disabled:opacity-70 text-white font-bold rounded-lg p-3"
             disabled={disable}
             onClick={handleBotonPic}
           >

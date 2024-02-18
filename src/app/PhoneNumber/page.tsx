@@ -45,7 +45,7 @@ export default function PhoneNumber() {
         );
         if (response.ok) {
           const ans = await response.json();
-          console.log(ans);
+          //console.log(ans);
         }
       } catch (error) {
         console.error(error);

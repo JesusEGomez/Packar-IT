@@ -7,7 +7,7 @@ import { useEffect } from "react";
 function layout({ children }: React.PropsWithChildren) {
   const navigation = useRouter();
   const { data: session } = useSession();
-  console.log(session);
+  //console.log(session);
   useEffect(() => {
     if (session) {
       navigation.push("/loged");

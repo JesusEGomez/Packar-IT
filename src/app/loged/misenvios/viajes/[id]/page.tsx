@@ -51,7 +51,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     fetTravelById(params.id);
-    console.log(travel);
+    //console.log(travel);
     setUpdate(false);
   }, [params.id, update]);
   return (

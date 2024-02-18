@@ -35,7 +35,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     try {
       const response = await fetch(`/api/auth/ProductById/?id=${id}`);
       const newProduct = await response.json();
-      console.log(newProduct);
+      //console.log(newProduct);
       setProduct(newProduct);
     } catch (error) {
       console.error(error);
@@ -89,7 +89,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     fetProductById(params.id);
-    console.log(product);
+    //console.log(product);
   }, [params.id, loading]);
   return (
     <div className="w-screen flex flex-col sm:h-screen    justify-center">

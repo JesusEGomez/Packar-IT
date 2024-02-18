@@ -16,9 +16,9 @@ const VerificationCode = () => {
   useEffect(() => {
     if (session?.user) {
       const { name, email } = session.user;
-      console.log('Información del usuario en VerificationCode:', { name, email });
+      //console.log('Información del usuario en VerificationCode:', { name, email });
     } else {
-      console.error('No se encontró información del usuario en la sesión.');
+      //console.error('No se encontró información del usuario en la sesión.');
     }
   }, [session]); 
 
@@ -27,15 +27,15 @@ const VerificationCode = () => {
   };
 
   const verifyCode = async () => {
-    console.log('Tipo de dato del código:', typeof verificationCode);
-    console.log('Valor de verificationCode:', verificationCode);
+    //console.log('Tipo de dato del código:', typeof verificationCode);
+    //console.log('Valor de verificationCode:', verificationCode);
 
     try {
       const email = session?.user?.email;
-      console.log(email)
+      //console.log(email)
 
       if (!email) {
-        console.error('No se encontró el email del usuario en la sesión.');
+        //console.error('No se encontró el email del usuario en la sesión.');
         return;
       }
     
@@ -50,7 +50,7 @@ const VerificationCode = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Código verificado con éxito');
+        //console.log('Código verificado con éxito');
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
@@ -58,7 +58,7 @@ const VerificationCode = () => {
         });  
         router.push('/loged');
       } else {
-        console.error('Error al verificar el código:', data.error || 'Error desconocido');
+        //console.error('Error al verificar el código:', data.error || 'Error desconocido');
         Swal.fire({
           icon: 'error',
           title: 'Error',

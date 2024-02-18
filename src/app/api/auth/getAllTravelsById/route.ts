@@ -9,11 +9,11 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ message: "Id no encontrado" });
-    console.log(id);
+    //console.log(id);
     const user = await Viaje.find({
       usuario: id,
     }).lean();
-    console.log(user);
+    //console.log(user);
     return NextResponse.json(user);
   } catch (error) {
     console.error(error);

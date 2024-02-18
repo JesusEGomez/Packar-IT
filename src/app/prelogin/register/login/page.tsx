@@ -45,7 +45,7 @@ export default function LoginPage() {
         });
         setLoading(false);
       }
-      console.log(res, data);
+      //console.log(res, data);
     } catch (error) {
       console.log(error);
     }

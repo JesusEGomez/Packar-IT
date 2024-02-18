@@ -5,6 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GiPathDistance } from "react-icons/gi";
 import { FaUser } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 type Viajes = [
   {
@@ -60,7 +62,7 @@ function Page(props: any) {
     }
   }
   useEffect(() => {
-    console.log(props);
+    //console.log(props);
     
     const fetchData = async () => {
       try {
@@ -89,6 +91,9 @@ function Page(props: any) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col p-4 items-center">
+          <Button onClick={props.closeIdModal} variant={"ghost"}>
+            <IoMdArrowRoundBack />
+          </Button>
         <h1 className="text-2xl font-bold">Solicita tu envío a un viajero</h1>
         <div className="border p-5">box</div>
         <div>

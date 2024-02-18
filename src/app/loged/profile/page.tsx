@@ -34,7 +34,7 @@ async function fetchProfileData() {
   try {
     const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
     const data = await response.json();
-    console.log("Profile data:", data);
+    //console.log("Profile data:", data);
     const { phoneNumber = "", city = "" } = data;
     setProfileData(data);
     setPhoneNumber(phoneNumber);
@@ -85,7 +85,7 @@ const handleUpdateProfile = async () => {
     });
 
     if (response.ok) {
-      console.log("Perfil actualizado con éxito");
+      //console.log("Perfil actualizado con éxito");
       setProfileData({
         ...profileData,
         phoneNumber,
@@ -109,7 +109,7 @@ const handleUpdateProfile = async () => {
 
   return (
     <>
-      <div className="rounded-lg shadow overflow-hidden bg-pink-50">
+      <div className="rounded-lg shadow overflow-hidden bg-pink-50 md:pl-48 md:pr-48">
         <div className="px-4 py-5 sm:px-6 text-white">
           <h1 className="text-4xl leading-6 font-bold text-gray-900 text-center">
             Mi perfil
@@ -167,7 +167,7 @@ const handleUpdateProfile = async () => {
                 {phoneNumberEditMode ? (
                   <>
                     <input
-                      type="text"
+                      type="number"
                       value={phoneNumber}
                       onChange={handlePhoneNumberChange}
                       onBlur={() => setPhoneNumberEditMode(false)}

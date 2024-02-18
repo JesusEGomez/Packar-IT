@@ -105,7 +105,7 @@ export async function POST(request: RequestWithJson<ViajeRequest>) {
     });
     const savedViaje = await nuevoViaje.save();
 
-    console.log(savedViaje);
+    //console.log(savedViaje);
 
     return NextResponse.json(savedViaje);
   } catch (error) {
@@ -150,7 +150,7 @@ export async function PUT(request: RequestWithJson<PutRequest>) {
       // Guardar los cambios en la base de datos
       await viajeActualizado.save();
 
-      console.log(viajeActualizado);
+     // console.log(viajeActualizado);
 
       // Devolver la respuesta con el viaje actualizado
       return NextResponse.json(viajeActualizado);

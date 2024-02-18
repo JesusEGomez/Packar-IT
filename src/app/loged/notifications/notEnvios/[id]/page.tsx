@@ -30,7 +30,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   const confrmacionHandler = () => {
-    console.log("hola");
+    //console.log("hola");
   };
 
   const fetchNotification = async () => {

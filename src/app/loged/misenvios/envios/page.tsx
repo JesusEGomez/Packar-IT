@@ -31,7 +31,7 @@ const Envios: React.FC = () => {
 
   useEffect(() => {
     fetchUserProducts(user._id);
-    console.log(products);
+    //console.log(products);
   }, []);
 
   return (

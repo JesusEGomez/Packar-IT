@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     });
 
     const savedEnvio = await envio.save();
-    console.log(savedEnvio);
+    //console.log(savedEnvio);
 
     return NextResponse.json(savedEnvio);
   } catch (error) {

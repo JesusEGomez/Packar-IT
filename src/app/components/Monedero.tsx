@@ -102,7 +102,7 @@ const Monedero = (props:any) => {
                 if(getCardInfo.ok){
                     const card = await getCardInfo.json();
                     setMyCard(card.paymentMethod);
-                    console.log(card.paymentMethod);
+                    //console.log(card.paymentMethod);
                     
                     setLoadFetch(false);
                 }

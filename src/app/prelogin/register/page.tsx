@@ -33,7 +33,7 @@ const sendEmailConfirmation = async (email: string) => {
       throw new Error("Error al enviar el correo electrónico de confirmación");
     }
 
-    console.log("Correo electrónico de confirmación enviado con éxito");
+    //console.log("Correo electrónico de confirmación enviado con éxito");
   } catch (error) {
     console.error((error as Error).message);
     throw error;
@@ -102,7 +102,7 @@ export default function Register() {
   };
 
   const googleBtn = async () => {
-    console.log("estoy en el pinche btn");
+    //console.log("estoy en el pinche btn");
 
     const res = await signIn("google", {
       redirect: false,
