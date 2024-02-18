@@ -31,18 +31,20 @@ const TravelCard = ({
   _id,
   eresFlexible,
 }: ITravelCardProps) => {
+  const formatDesdeCiudad = desde.ciudad?.replaceAll("-", " ");
+  const formatHastaCiudad = hasta.ciudad?.replaceAll("-", " ");
   console.log(_id);
   return (
-    <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex">
+    <div className="w-full h-[90px] rounded-xl  shadow-md hover:bg-gray-100 bg-white justify-around sm:justify-evenly items-center flex md:pl-48 md:pr-24">
       <p className="text-5xl  w-1/5 text-pink">
         <GoArchive />
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
         <p className="text-gray-500">{`${horaSalida} - ${horaLlegada}`}</p>
-        <h3 className="font-bold truncate ">{`${desde.ciudad?.replaceAll(
-          "-",
-          " "
-        )} - ${hasta.ciudad?.replaceAll("-", " ")}`}</h3>
+        <h3
+          title={`${formatDesdeCiudad} / ${formatHastaCiudad}` || undefined}
+          className="font-bold cursor-pointer truncate "
+        >{`${formatDesdeCiudad} / ${formatHastaCiudad}`}</h3>
 
         <p className="">{`${cuando}`}</p>
       </div>

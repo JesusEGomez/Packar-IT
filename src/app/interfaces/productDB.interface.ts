@@ -1,3 +1,5 @@
+import { IUser } from "./user.interface";
+
 export interface IProductDB {
   _id: string;
   type: string;
@@ -12,7 +14,13 @@ export interface IProductEnvio extends IProductDB {
     desde: { calle: string | null; pais: string | null; ciudad: string | null };
     hasta: { calle: string | null; pais: string | null; ciudad: string | null };
     _id: string;
-    usuario: string;
+    usuario: {
+      _id: string;
+      email: string;
+      fullname: string;
+      smsCode: string;
+      phoneNumber: string;
+    };
     cuando: string | undefined;
     recibe: {
       nombreApellidos: string;

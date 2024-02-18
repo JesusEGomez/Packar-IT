@@ -121,7 +121,7 @@ const TravelEditModal = ({
           Modificar
         </Button>
       )}
-      {!enCruso && (
+      {!enCruso && travel.estado === "Aceptado" && (
         <p>
           Para cambiar al estado <b>En Curso</b> todos tus viajes deben estar
           aceptados o cancelados.

@@ -48,7 +48,7 @@ const NotViajes = () => {
   }, [update]);
 
   return (
-    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center">
+    <div className="w-full flex  flex-col overflow-auto gap-2 justify-center items-center md:pl-48 md:pr-24">
       {notifications ? (
 
         !visto ? (

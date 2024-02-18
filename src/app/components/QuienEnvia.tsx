@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useState, ChangeEvent, useCallback, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { IoMdArrowBack } from "react-icons/io";
 interface RecipientData {
   nombreApellidos: string;
   telefono: string;
@@ -35,8 +37,8 @@ const RecipientForm = (props: any): JSX.Element => {
     if (!telefono) {
       setTelefonoError("El teléfono es obligatorio.");
       isValid = false;
-    } else if (telefono.length !== 10) {
-      setTelefonoError("El teléfono debe tener  10 dígitos.");
+    } else if (telefono.length <= 10) {
+      setTelefonoError("El teléfono debe tener mas de 10 dígitos.");
       isValid = false;
     } else {
       setTelefonoError(null);
@@ -99,9 +101,9 @@ const RecipientForm = (props: any): JSX.Element => {
   return (
     <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
-        <div className="mb-8 cursor-pointer" onClick={props.closeModal}>
-          <FaArrowLeft className="absolute left-4 " />
-        </div>
+          <Button onClick={props.closeModal} variant={"ghost"}>
+            <IoMdArrowBack />
+          </Button>
         <h1 className="text-3xl font-bold text-center mb-8">
           ¿A quién se lo envías?
         </h1>
