@@ -83,7 +83,7 @@ const Driver = () => {
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
   const [profile, setProfile] = useState<IProfile | null>();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -226,6 +226,7 @@ const Driver = () => {
   useEffect(() => {
     fetchUser(session?.user?.email!);
     fetchProfile();
+
     if (
       productSelected &&
       time?.llegada &&
@@ -419,13 +420,15 @@ const Driver = () => {
               Crear
             </button>
           </div>
-          <div className="w-full  text-center p-1">
-            {profile && profile.phoneNumber.length < 9 && (
-              <p>
-                Deber tener un Numero de telefono valido para crear un envio
-              </p>
+          {status === "authenticated" &&
+            profile?.phoneNumber &&
+            profile.phoneNumber.length < 9 && (
+              <div className="w-full  text-center p-1">
+                <p>
+                  Deber tener un Numero de Telefono valido para crear un envio
+                </p>
+              </div>
             )}
-          </div>
         </div>
       </form>
 

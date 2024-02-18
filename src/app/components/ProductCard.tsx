@@ -68,7 +68,7 @@ const ProductCard = ({
           <h3 className="font-bold sm:px-5 ">{producto.name}</h3>
         </div>
 
-        <div className="flex items-center flex-row-reverse justify-end sm:flex-row sm:justify-normal">
+        <div className="flex items-center flex-row-reverse justify-end w-full lg:w-2/12 sm:flex-row sm:justify-normal">
           <p className={stateClasses[estado as keyof typeof stateClasses]}>
             <GoDotFill />
           </p>
