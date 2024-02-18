@@ -9,6 +9,7 @@ export interface ITravelDB {
   precio: [
     { quantity: number | null; price: number | null; _id: string | null },
     { quantity: number | null; price: number | null; _id: string | null },
+    { quantity: number | null; price: number | null; _id: string | null },
     { quantity: number | null; price: number | null; _id: string | null }
   ];
   horaSalida: string | null;
@@ -30,6 +31,7 @@ export interface ITravelEnvioDB {
   _id: string;
   usuario: string;
   precio: [
+    { quantity: number | null; price: number | null; _id: string | null },
     { quantity: number | null; price: number | null; _id: string | null },
     { quantity: number | null; price: number | null; _id: string | null },
     { quantity: number | null; price: number | null; _id: string | null }
