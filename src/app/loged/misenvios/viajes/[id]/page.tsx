@@ -34,6 +34,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     try {
       const response = await fetch(`/api/auth/getTravelById/?id=${id}`);
       const newTravel: ITravelEnvioDB = await response.json();
+
       setTravel(newTravel);
     } catch (error) {
       console.error(error);
@@ -137,12 +138,12 @@ const Page = ({ params }: { params: { id: string } }) => {
                       <div className="flex justify-evenly    ">
                         <div className="flex   items-center ">
                           <p className="text-sm font-bold">
-                            <span>Cantidad:</span> {travel.quantity}
+                            <span>Disponibles:</span> {travel.quantity}
                           </p>
                         </div>
                         <div className="flex   items-center ">
-                          <p className="text-sm font-bold ">$</p>
                           <p className="text-sm font-bold">{travel.price}</p>
+                          <p className="text-sm font-bold ">€</p>
                         </div>
                       </div>
                     </div>

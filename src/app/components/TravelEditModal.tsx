@@ -19,6 +19,7 @@ const TravelEditModal = ({
   const [finalizado, setFinalizado] = useState<boolean>(true);
   const [enCruso, setenCruso] = useState<boolean>(true);
   const [loading, setLoading] = useState(false);
+  const [total, setTotal] = useState<number>(0);
   const statusFinder = () => {
     console.log(travel);
     let newProductsArray = travel.envios.filter((envio) => {
@@ -37,6 +38,22 @@ const TravelEditModal = ({
     });
   };
 
+  const totalEarned = () => {
+    let total = 0;
+    const price = {
+      Pequeño: travel.precio[0],
+      Mediano: travel.precio[1],
+      Grande: travel.precio[2],
+      Especial: travel.precio[3],
+    };
+    travel.envios.forEach((e) => {
+      const size = e.productos.size as keyof typeof price;
+      total += price[size].price!;
+    });
+    console.log(total);
+    setTotal(total);
+  };
+
   const changeState = async () => {
     setLoading(true);
     try {
@@ -51,6 +68,16 @@ const TravelEditModal = ({
           setLoading(false);
           updateData();
           //aqui pago al conductor
+
+          state === "Finalizado" &&
+            Swal.fire({
+              icon: "success",
+              title: "Felicidades",
+              text: `Generaste ${total}€ en este viaje `,
+              confirmButtonText: "Aceptar",
+            }).then((response) => {
+              if (response.isConfirmed) closeEditModal();
+            });
         }
       } else {
         Swal.fire({
@@ -69,6 +96,7 @@ const TravelEditModal = ({
   useEffect(() => {
     console.log(travel);
     statusFinder();
+    totalEarned();
   }, []);
 
   const stateHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -113,9 +141,7 @@ const TravelEditModal = ({
       ) : (
         <Button
           className="bg-pink text-white rounded-lg"
-          disabled={
-            travel.estado === "Cancelado" || travel.estado === "Finalizado"
-          }
+          disabled={travel.estado === "Cancelado"}
           onClick={changeState}
         >
           Modificar

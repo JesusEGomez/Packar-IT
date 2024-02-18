@@ -6,6 +6,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { useState } from "react";
 import ProductInfoModal from "./ProductInfoModal";
 import { ITravelEnvioDB } from "../interfaces/TravelDB.interface";
+import { GoDotFill } from "react-icons/go";
 
 interface ISendModalProps {
   closeModal: () => void;
@@ -28,6 +29,14 @@ export const SendModal = ({
   const openModal = (i: number) => {
     setNumberModal(i);
     setOpen(true);
+  };
+
+  const stateClasses = {
+    Cancelado: "text-red-500 text-2xl",
+    Aceptado: "text-yellow-500 text-2xl",
+    "En Curso": "text-green-500 text-2xl",
+    Entregado: "text-blue-500 text-2xl ",
+    Finalizado: "text-blue-500 text-2xl  ",
   };
   console.log(travel);
   return (
@@ -52,7 +61,19 @@ export const SendModal = ({
                   {`Producto: ${envio.productos.name}`}
                 </h3>
 
-                <p>{`Estado: ${envio.productos.EnvioInfo.estado}`}</p>
+                <div className="flex items-center flex-row-reverse justify-end w-full lg:w-2/12 sm:flex-row sm:justify-normal">
+                  <p
+                    className={
+                      stateClasses[
+                        envio.productos.EnvioInfo
+                          .estado as keyof typeof stateClasses
+                      ]
+                    }
+                  >
+                    <GoDotFill />
+                  </p>
+                  <p>{envio.productos.EnvioInfo.estado}</p>
+                </div>
               </div>
 
               <button
