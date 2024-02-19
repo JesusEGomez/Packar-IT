@@ -31,10 +31,10 @@ function TimeForm(props: any) {
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex w-64">
+      <div className="flex w-64 justify-center">
         <h1 className="text-xl font-bold mb-4">Hora de Envió</h1>
-        <FaExclamationCircle className="text-slate-400" />
-      </div>
+{/*         <FaExclamationCircle className="text-slate-400" />
+ */}      </div>
 
       <form
         className="flex flex-col items-center p-2 mb-10"
