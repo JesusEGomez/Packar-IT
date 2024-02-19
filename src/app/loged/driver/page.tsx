@@ -82,7 +82,7 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
-  const [profile, setProfile] = useState<IProfile | null>();
+  // const [profile, setProfile] = useState<IProfile | null>();
   const { data: session, status } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
@@ -225,7 +225,7 @@ const Driver = () => {
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
-    fetchProfile();
+    // fetchProfile();
 
     if (
       productSelected &&
@@ -248,12 +248,12 @@ const Driver = () => {
     setTravel(editFlex);
   };
 
-  const fetchProfile = async () => {
-    const response = await fetch(
-      `/api/auth/getProfileById/?id=${user._id}`
-    ).then((response) => response.json());
-    setProfile(response);
-  };
+  // const fetchProfile = async () => {
+  //   const response = await fetch(
+  //     `/api/auth/getProfileById/?id=${user._id}`
+  //   ).then((response) => response.json());
+  //   setProfile(response);
+  // };
 
   const {
     register,
@@ -415,12 +415,12 @@ const Driver = () => {
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
               className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
-              disabled={!search || !profile || profile.phoneNumber.length < 9}
+              disabled={!search}
             >
               Crear
             </button>
           </div>
-          {status === "authenticated" &&
+          {/* {status === "authenticated" &&
             profile?.phoneNumber &&
             profile.phoneNumber.length < 9 && (
               <div className="w-full  text-center p-1">
@@ -428,7 +428,7 @@ const Driver = () => {
                   Deber tener un Numero de Telefono valido para crear un envio
                 </p>
               </div>
-            )}
+            )} */}
         </div>
       </form>
 

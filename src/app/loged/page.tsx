@@ -66,7 +66,7 @@ const Loged = () => {
   const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [envio, setEnvio] = useState<any | null>(null);
   const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
-  const [profile, setProfile] = useState<IProfile | null>();
+  // const [profile, setProfile] = useState<IProfile | null>();
   const { user, fetchUser } = useUserState((state) => state);
 
   const fromHandler = () => {
@@ -148,19 +148,19 @@ const Loged = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     //console.log(data);
   };
-  const fetchProfile = async () => {
-    console.log(user);
-    const response = await fetch(
-      `/api/auth/getProfileById/?id=${user._id}`
-    ).then((response) => response.json());
-    setProfile(response);
-  };
+  // const fetchProfile = async () => {
+  //   console.log(user);
+  //   const response = await fetch(
+  //     `/api/auth/getProfileById/?id=${user._id}`
+  //   ).then((response) => response.json());
+  //   setProfile(response);
+  // };
 
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
     fetchUser(session?.user?.email!);
-    fetchProfile();
+    // fetchProfile();
 
     from &&
       to &&
@@ -261,9 +261,7 @@ const Loged = () => {
                     className={`bg-pink ${
                       search ? "w-full" : "w-auto"
                     } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
-                    disabled={
-                      !search || profile?.phoneNumber.length! < 9 || !profile
-                    }
+                    disabled={!search}
                   >
                     Buscar
                   </button>
@@ -278,13 +276,13 @@ const Loged = () => {
               </div>
             </div>
 
-            {status === "authenticated" &&
+            {/* {status === "authenticated" &&
               profile?.phoneNumber &&
               profile.phoneNumber.length < 9 && (
                 <p>
                   Deber tener un Numero de telefono valido para crear un envio
                 </p>
-              )}
+              )} */}
           </form>
         </div>
       </div>
