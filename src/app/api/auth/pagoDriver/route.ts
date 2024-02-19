@@ -41,10 +41,10 @@ export async function POST(request: Request) {
         },
         tax_id: "000000000",
         name: info.name,
-        // phone: info.phone,
+        phone: info.phone,
       },
     });
-    await stripe.accounts.update(account.id, {
+    const account1 = await stripe.accounts.update(account.id, {
       tos_acceptance: {
         date: 1609798905,
         ip: "8.8.8.8",
@@ -58,42 +58,38 @@ export async function POST(request: Request) {
         title: "CEO",
       },
     });
-    await stripe.accounts.updatePerson(account.id, person.id, {
-      address: {
-        city: info.city,
-        line1: info.address,
-        //postal_code: info.zipCode,
-        state: "NY",
-      },
-      dob: {
-        day,
-        month,
-        year,
-      },
-      ssn_last_4: "0000",
-      //phone: info.phone,
-      email: info.email,
-      relationship: {
-        owner: true,
-        percent_ownership: 100,
-      },
-    });
-    await stripe.accounts.update(account.id, {
+    const updatePerson = await stripe.accounts.updatePerson(
+      account.id,
+      person.id,
+      {
+        address: {
+          city: info.city,
+          line1: info.address,
+          //postal_code: info.zipCode,
+          state: "NY",
+        },
+        dob: {
+          day,
+          month,
+          year,
+        },
+        ssn_last_4: "0000",
+        //phone: info.phone,
+        email: info.email,
+        relationship: {
+          owner: true,
+          percent_ownership: 100,
+        },
+      }
+    );
+    const lastAccount = await stripe.accounts.update(account.id, {
       company: {
         owners_provided: true,
       },
     });
     profile.account.number = account.id;
     profile.account.state = "loaded";
-    await profile.save();
-
-    // const sendEmail = await fetch("/api/auth/newAccountMail", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(info),
-    // });
+    const newProfile = await profile.save();
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {

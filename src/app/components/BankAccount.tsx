@@ -14,7 +14,7 @@ type Countryes = {
     suffixes: [string];
   };
   flag: any;
-  name: any;
+  translations: any;
 }[];
 
 type FormData = {
@@ -97,6 +97,13 @@ const BankAccount = (props:any) => {
                     body: JSON.stringify(accountData)
                 })
                 createAccount.ok && setCuentaEnviada(true);
+                await fetch("/api/auth/newAccountMail", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                  });
             } catch (error) {
                 console.log(error);      
             }
@@ -111,7 +118,7 @@ const BankAccount = (props:any) => {
         }
         
         const fetchCountries = async () => {
-            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,name');
+            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,translations');
             const info = await data.json();
             setCountries(info);
         }
@@ -152,7 +159,7 @@ const BankAccount = (props:any) => {
                     })} id="countries" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                     <option value="" disabled selected>Selecciona tu país</option>
                     {
-                        countries && countries.map((country) => (<option value={country.cca2}>{`${country.name.common} (${country.cca2})`}</option>))
+                        countries && countries.map((country) => (<option value={country.cca2}>{`${country.translations.spa.common} (${country.cca2})`}</option>))
                     }
                 </select>
                 <div className="flex flex-col w-full gap-y-2">
@@ -187,7 +194,7 @@ const BankAccount = (props:any) => {
                         })} className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                             <option value="" disabled selected>Selecciona el código de tu país</option>
                             {
-                                countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag}${country.idd.root}${country.idd.suffixes[0]} (${country.name.common})`}</option>))
+                                countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag}${country.translations.spa.common}${country.idd.root} (${country.idd.suffixes[0]})`}</option>))
                             }
                         </select>
                         <input {...register("phone", {
