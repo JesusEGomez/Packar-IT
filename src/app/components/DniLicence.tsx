@@ -18,10 +18,12 @@ export default function PassportId(props: any) {
   const [disable, setDisable] = useState(true);
 
   useEffect(() => {
+    console.log("Efecto 1: Verificar condiciones para habilitar el botón");
     if (img2 && img3 && type && numeroDni) {
+      console.log("Condiciones cumplidas, habilitando botón");
       setDisable(false);
-      //console.log(img2, img3, type, numeroDni);
     } else {
+      console.log("Condiciones no cumplidas, deshabilitando botón");
       setDisable(true);
     }
   }, [img2, img3, type, numeroDni]);
@@ -39,6 +41,7 @@ export default function PassportId(props: any) {
   const { data: session } = useSession();
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de archivo...");
     const file = e.target.files?.[0];
     if (file) {
       const formData = new FormData();
@@ -53,32 +56,32 @@ export default function PassportId(props: any) {
           }
         );
         const ans = await response.json();
-        //console.log("Cloudinary response:", ans);
+        console.log("Respuesta de Cloudinary:", ans);
         if (response.ok) {
-
-          const fileName = ans.secure_url; // Extrae el nombre del archivo de la URL
+          const fileName = ans.secure_url;
           if (!img2) {
-            //console.log("Setting img2:", fileName);
+            console.log("Configurando img2:", fileName);
             setImg2(fileName);
-            
           } else {
-            //console.log("Setting img3:", fileName);
+            console.log("Configurando img3:", fileName);
             setImg3(fileName);
           }
         }
       } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error al subir el archivo:", error);
       }
     }
   };
+
   const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de archivo frontal...");
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       const reader = new FileReader();
-      
+
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        //console.log("Front file read:", imgDataUrl);
+        console.log("Archivo frontal leído:", imgDataUrl);
         setImg2(imgDataUrl);
       };
 
@@ -87,13 +90,14 @@ export default function PassportId(props: any) {
   };
 
   const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de archivo trasero...");
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
 
       reader.onload = () => {
         const imgDataUrl = reader.result as string;
-        //console.log("Back file read:", imgDataUrl);
+        console.log("Archivo trasero leído:", imgDataUrl);
         setImg3(imgDataUrl);
       };
 
@@ -101,7 +105,16 @@ export default function PassportId(props: any) {
     }
   };
 
+  const handleModalClose = () => {
+    console.log("Cerrando modal...");
+    localStorage.setItem("frontImage", img2 ?? "");
+    localStorage.setItem("backImage", img3 ?? "");
+
+    props.closeIdModal();
+  };
+
   const handleBotonPic = async () => {
+    console.log("Manejando clic en el botón para cargar documentación...");
     try {
       const user = await fetch(
         `/api/auth/myid/?email=${session?.user?.email}`,
@@ -124,15 +137,12 @@ export default function PassportId(props: any) {
             number: numeroDni,
             frontPhoto: img2,
             backPhoto: img3,
-            isLoaded: true
+            isLoaded: true,
           },
         }),
       });
-      const updated = await updatedProfile.json()
-      // Mostrar mensaje de éxito
+      const updated = await updatedProfile.json();
       setShowSuccessMessage(true);
-
-      // Cerrar el modal después de 3 segundos
       setTimeout(() => {
         setShowSuccessMessage(false);
         props.closeIdModal();
@@ -142,11 +152,63 @@ export default function PassportId(props: any) {
     }
   };
 
-  const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedType = e.target.value.toLowerCase();
-    //console.log("Selected Type:", selectedType);
-    setType(selectedType);
+  useEffect(() => {
+    console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
+    if (typeof window !== "undefined") {
+      console.log("Window está definido");
+      const frontImage = localStorage.getItem("frontImage");
+      const backImage = localStorage.getItem("backImage");
+
+      if (frontImage !== null) {
+        console.log(
+          "Imagen frontal recibida en el almacenamiento local:",
+          frontImage
+        );
+        setImg2(frontImage);
+      }
+      if (backImage !== null) {
+        console.log(
+          "Imagen trasera recibida en el almacenamiento local:",
+          backImage
+        );
+        setImg3(backImage);
+      }
+    } else {
+      console.log("Window no está definido");
+    }
+  }, []);
+  const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de número de DNI o pasaporte...");
+    const inputValue = e.target.value;
+    const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
+    setNumeroDni(onlyNumbers);
+    localStorage.setItem("numeroDni", onlyNumbers); // Guardar en localStorage
   };
+
+  useEffect(() => {
+    console.log(
+      "Cargando número de DNI o pasaporte desde el almacenamiento local..."
+    );
+    const storedNumeroDni = localStorage.getItem("numeroDni");
+    if (storedNumeroDni) {
+      setNumeroDni(storedNumeroDni);
+    }
+  }, []); // Cargar al inicio del componente
+
+  const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    console.log("Manejando cambio de tipo de documento...");
+    const selectedType = e.target.value.toLowerCase();
+    setType(selectedType);
+    localStorage.setItem("documentType", selectedType);
+  };
+
+  useEffect(() => {
+    console.log("Cargando tipo de documento desde el almacenamiento local...");
+    const storedType = localStorage.getItem("documentType");
+    if (storedType) {
+      setType(storedType);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center w-full  h-screen   ">
@@ -188,10 +250,13 @@ export default function PassportId(props: any) {
               <select
                 id="documentType"
                 onChange={handleTypeChange}
-                className="p-4 border rounded-sm cursor-pointer bg-white text-slate-400"
+                className={`p-4 border rounded-sm cursor-pointer bg-white ${
+                  type ? "text-black" : "text-slate-400"
+                }`}
                 style={{
                   width: "300px",
                 }}
+                value={type || ""}
               >
                 <option value="" disabled selected>
                   Tipo de documento
