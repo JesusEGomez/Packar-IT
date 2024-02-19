@@ -39,8 +39,8 @@ type prod = {
 };
 
 type time = {
-  salida: string | null;
-  llegada: string | null;
+  salida: string | null | undefined;
+  llegada: string | null | undefined;
 };
 
 export interface ITravel {
@@ -53,8 +53,8 @@ export interface ITravel {
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
   ];
-  horaSalida: string | null;
-  horaLlegada: string | null;
+  horaSalida: string | null | undefined;
+  horaLlegada: string | null | undefined;
   cuando: string | undefined;
   eresFlexible: boolean;
   estado: string;
@@ -191,9 +191,13 @@ const Driver = () => {
   };
 
   const TimeModelClose = async (timeSelected: any) => {
-    //console.log("tiempo", timeSelected);
+    if (timeSelected && timeSelected.salida !== undefined && timeSelected.llegada !== undefined) {
+      setTime({
+        salida: timeSelected.salida ?? null,
+        llegada: timeSelected.llegada ?? null,
+      });
+    }
     setTimeModalOpen(false);
-    setTime(timeSelected);
   };
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
@@ -355,13 +359,13 @@ const Driver = () => {
                   : "Cuando"}
               </button>
               <button
-                onClick={() => timeHandler()}
-                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
-                  time.salida === null || time.llegada === null
-                    ? "text-slate-400"
-                    : "text-black-500"
-                }`}
-              >
+                  className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
+                    time !== null && time.salida !== null && time.llegada !== null
+                    ? "text-black-500"
+                    : "text-slate-400"
+                  }`}
+                  onClick={() => timeHandler()}
+                >
                 <IoTime size={30} />
                 {time === null ? (
                   "Hora "
