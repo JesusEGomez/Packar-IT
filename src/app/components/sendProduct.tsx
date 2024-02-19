@@ -81,13 +81,13 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col m-6 p-4 max-h-screen overflow-y-auto scrollbar-hidden">
+    <div className="flex flex-col items-start	m-6 p-4 max-h-screen overflow-y-auto scrollbar-hidden ">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className="text-2xl font-bold mb-4">¿Qué puedes enviar?</h1>
+          <h1 className="text-2xl font-bold mb-4 text-center">¿Qué puedes enviar?</h1>
           <div className="grid grid-cols-1 gap-2 md:flex gap-x-4 m-4">
             <div className="border-2 relative border-slate-300 rounded p-3">
               <div
