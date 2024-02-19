@@ -14,9 +14,9 @@ export async function POST(request: Request) {
 
     const { token, userId } = await request.json();    
 
-    if (!token) {
-      return NextResponse.json({ message: 'Token no válido' }, { status: 400 });
-    }
+    // if (!token) {
+    //   return NextResponse.json({ message: 'Token no válido' }, { status: 400 });
+    // }
 
     const user = await Profile.find({userId: userId._id});
     
