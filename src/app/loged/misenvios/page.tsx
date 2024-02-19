@@ -8,7 +8,8 @@ import { FiMapPin } from "react-icons/fi";
 
 export default function page() {
   return (
-    <div className="w-full mb-20 h-full flex justify-center items-center">
+    <div className="w-full mb-20 h-full flex flex-col justify-center items-center">
+      <h2 className="p-2 font-semibold text-2xl">Mis Servicios</h2>
       <Tabs defaultValue="paquetes" className="w-full">
         <TabsList className="flex w-full h-[70px]  justify-around">
           <TabsTrigger

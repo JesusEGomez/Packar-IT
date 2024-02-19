@@ -82,8 +82,7 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
-  // const [profile, setProfile] = useState<IProfile | null>();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -147,7 +146,7 @@ const Driver = () => {
     },
     special: false,
   });
-  const { user, fetchUser } = useUserState((state) => state);
+  const { user, fetchUser, profile } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -191,7 +190,11 @@ const Driver = () => {
   };
 
   const TimeModelClose = async (timeSelected: any) => {
-    if (timeSelected && timeSelected.salida !== undefined && timeSelected.llegada !== undefined) {
+    if (
+      timeSelected &&
+      timeSelected.salida !== undefined &&
+      timeSelected.llegada !== undefined
+    ) {
       setTime({
         salida: timeSelected.salida ?? null,
         llegada: timeSelected.llegada ?? null,
@@ -229,7 +232,6 @@ const Driver = () => {
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
-    // fetchProfile();
 
     if (
       productSelected &&
@@ -251,13 +253,6 @@ const Driver = () => {
     const editFlex = { ...travel, eresFlexible: !flex };
     setTravel(editFlex);
   };
-
-  // const fetchProfile = async () => {
-  //   const response = await fetch(
-  //     `/api/auth/getProfileById/?id=${user._id}`
-  //   ).then((response) => response.json());
-  //   setProfile(response);
-  // };
 
   const {
     register,
@@ -359,13 +354,13 @@ const Driver = () => {
                   : "Cuando"}
               </button>
               <button
-                  className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
-                    time !== null && time.salida !== null && time.llegada !== null
+                className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
+                  time !== null && time.salida !== null && time.llegada !== null
                     ? "text-black-500"
                     : "text-slate-400"
-                  }`}
-                  onClick={() => timeHandler()}
-                >
+                }`}
+                onClick={() => timeHandler()}
+              >
                 <IoTime size={30} />
                 {time === null ? (
                   "Hora "
@@ -419,20 +414,18 @@ const Driver = () => {
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
               className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
-              disabled={!search}
+              disabled={!search || !profile || profile.phoneNumber.length < 9}
             >
               Crear
             </button>
           </div>
-          {/* {status === "authenticated" &&
-            profile?.phoneNumber &&
-            profile.phoneNumber.length < 9 && (
-              <div className="w-full  text-center p-1">
-                <p>
-                  Deber tener un Numero de Telefono valido para crear un envio
-                </p>
-              </div>
-            )} */}
+          {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
+            <div className="w-full  text-center p-1">
+              <p>
+                Debes tener un Numero de Telefono valido para crear un envio
+              </p>
+            </div>
+          )}
         </div>
       </form>
 

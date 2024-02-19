@@ -33,9 +33,12 @@ export const useUserState = create<UserState>((set, get) => ({
   fetchUser: async (email: string) => {
     //console.log("usuario", email);
     const localUser = localStorage.getItem("user");
+    const localProfile = localStorage.getItem("profile");
     const parsedUser = JSON.parse(localUser!);
-    if (localUser) {
+    const parsedProfile = JSON.parse(localProfile!);
+    if (localUser && localProfile) {
       set({ user: parsedUser });
+      set({ profile: parsedProfile });
     } else {
       try {
         const responseUser = await fetch(`/api/auth/myid/?email=${email}`, {
@@ -50,9 +53,18 @@ export const useUserState = create<UserState>((set, get) => ({
         if (userData) {
           set({ user: userData });
           localStorage.setItem("user", JSON.stringify(userData));
+          try {
+            const responseProfile = await fetch(
+              `/api/auth/getProfileById/?id=${userData._id}`
+            ).then((response) => response.json());
+
+            responseProfile && set({ profile: responseProfile });
+
+            localStorage.setItem("profile", JSON.stringify(responseProfile));
+          } catch (error) {
+            console.error(error);
+          }
           //console.log("usuario encontrado", userData);
-
-
 
           // profile && set({ profile: profile });
           // console.log(profile);
