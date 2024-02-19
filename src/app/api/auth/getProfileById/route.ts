@@ -41,7 +41,7 @@ export async function PUT(request: Request) {
     await connectDB();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
-    const requestData = await request.json() as {
+    const requestData = (await request.json()) as {
       phoneNumber?: string;
       city?: string;
       idDocument?: {

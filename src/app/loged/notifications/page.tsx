@@ -1,12 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FiMapPin } from "react-icons/fi";
-import { GoArchive } from "react-icons/go";
+import { GrMapLocation } from "react-icons/gr";
+import { TfiPackage } from "react-icons/tfi";
 import NotEnvios from "./notEnvios/page";
 import NotViajes from "./notViajes/page";
 
 const Notifications = () => {
   return (
-    <div className="w-full mb-20 h-full flex justify-center items-center">
+    <div className="w-full mb-20 h-full flex flex-col justify-center items-center">
+      <h2 className="p-2 font-bold text-2xl">Notificaciones</h2>
       <Tabs defaultValue="paquetes" className="w-full">
         <TabsList className="flex w-full h-[70px]  justify-around">
           <TabsTrigger
@@ -14,16 +15,16 @@ const Notifications = () => {
             value="paquetes"
           >
             <p className="text-2xl text-pink">
-              <GoArchive />
+              <TfiPackage />
             </p>
-            <p className="font-semibold">Mis Paquetes</p>
+            <p className="font-semibold">Mis Envíos</p>
           </TabsTrigger>
           <TabsTrigger
             className="w-1/2 sm:justify-center sm:gap-x-3  h-[70px] flex justify-evenly"
             value="viajes"
           >
             <p className="text-2xl text-pink">
-              <FiMapPin />
+              <GrMapLocation />
             </p>
             <p className="font-semibold">Mis Viajes</p>
           </TabsTrigger>

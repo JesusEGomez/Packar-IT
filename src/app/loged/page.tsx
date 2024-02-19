@@ -67,7 +67,7 @@ const Loged = () => {
   const [envio, setEnvio] = useState<any | null>(null);
   const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
   // const [profile, setProfile] = useState<IProfile | null>();
-  const { user, fetchUser } = useUserState((state) => state);
+  const { user, fetchUser, profile } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -118,6 +118,7 @@ const Loged = () => {
     setProdModal(true);
   };
   const closeProdModal = (selectedProductData: any) => {
+    console.log(selectedProductData);
     setProdModal(false);
     setSelectedProductData(selectedProductData);
   };
@@ -148,19 +149,11 @@ const Loged = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     //console.log(data);
   };
-  // const fetchProfile = async () => {
-  //   console.log(user);
-  //   const response = await fetch(
-  //     `/api/auth/getProfileById/?id=${user._id}`
-  //   ).then((response) => response.json());
-  //   setProfile(response);
-  // };
 
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
     fetchUser(session?.user?.email!);
-    // fetchProfile();
 
     from &&
       to &&
@@ -261,7 +254,9 @@ const Loged = () => {
                     className={`bg-pink ${
                       search ? "w-full" : "w-auto"
                     } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
-                    disabled={!search}
+                    disabled={
+                      !search || !profile || profile.phoneNumber.length < 9
+                    }
                   >
                     Buscar
                   </button>
@@ -276,13 +271,11 @@ const Loged = () => {
               </div>
             </div>
 
-            {/* {status === "authenticated" &&
-              profile?.phoneNumber &&
-              profile.phoneNumber.length < 9 && (
-                <p>
-                  Deber tener un Numero de telefono valido para crear un envio
-                </p>
-              )} */}
+            {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
+              <p>
+                Debes tener un Numero de teléfono valido para crear un envió
+              </p>
+            )}
           </form>
         </div>
       </div>

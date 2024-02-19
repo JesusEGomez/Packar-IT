@@ -51,9 +51,9 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     fetTravelById(params.id);
-    //console.log(travel);
     setUpdate(false);
   }, [params.id, update]);
+  console.log(travel);
   return (
     <div className="w-screen flex  flex-col h-full mb-20 justify-center items-center ">
       {travel ? (
@@ -185,8 +185,9 @@ const Page = ({ params }: { params: { id: string } }) => {
             <Button
               className="bg-pink text-white"
               onClick={() => setOpen(true)}
+              disabled={!travel.envios.length}
             >
-              Administrar Envíos
+              {travel.envios.length ? "Administrar Envíos" : "No posees Envíos"}
             </Button>
             <Button
               className="bg-pink text-white"
