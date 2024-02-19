@@ -422,7 +422,7 @@ const Driver = () => {
           {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
             <div className="w-full  text-center p-1">
               <p>
-                Debes tener un Numero de Telefono valido para crear un envio
+                Debes tener un Numero de Teléfono valido para crear un envió
               </p>
             </div>
           )}

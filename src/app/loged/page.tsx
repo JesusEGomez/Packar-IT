@@ -118,6 +118,7 @@ const Loged = () => {
     setProdModal(true);
   };
   const closeProdModal = (selectedProductData: any) => {
+    console.log(selectedProductData);
     setProdModal(false);
     setSelectedProductData(selectedProductData);
   };
@@ -272,7 +273,7 @@ const Loged = () => {
 
             {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
               <p>
-                Debes tener un Numero de telefono valido para crear un envio
+                Debes tener un Numero de teléfono valido para crear un envió
               </p>
             )}
           </form>

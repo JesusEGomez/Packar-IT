@@ -1,14 +1,16 @@
 import { LuFolderInput } from "react-icons/lu";
 import { ChangeEvent, useRef } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import useUserState from "../../app/store/sotre";
 
 require("dotenv").config();
 
 export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
+  const { fetchUser, user } = useUserState((state) => state);
   const backFileInputRef = useRef<HTMLInputElement>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [img2, setImg2] = useState<string | null>(null);
@@ -16,6 +18,76 @@ export default function PassportId(props: any) {
   const [type, setType] = useState<string | null>("");
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
+  const [profileData, setProfileData] = useState<any | null>(null);
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]); 
+  const [idDocument, setIdDocument] = useState<string>("");
+
+  useEffect(() => {
+    fetchUser(session?.user?.email!);
+  }, []);
+
+
+  useEffect(() => {
+    // Llamar a la función para recuperar los datos del perfil cada vez que se monta el componente
+   fetchProfileData();
+}, []);
+
+const fetchProfileData = async () => {
+  try {
+    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
+    const data = await response.json();
+    setProfileData(data);
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+  }
+};
+  useEffect(() => {
+async function fetchProfileData() {
+  if (!user?._id) {
+    console.error("El ID del usuario no está definido.");
+    return;
+  }
+  try {
+    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
+    const data = await response.json();
+    //console.log("Profile data:", data);
+    const { idDocument = ""} = data;
+    setProfileData(data);
+    setIdDocument(idDocument); 
+  } catch (error) {
+    console.error("Error fetching profile data:", error);
+  }
+}
+    fetchProfileData();
+  }, [memorizedUserId])
+
+  const handleUpdateProfile = async () => {
+ 
+    try {
+      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?._id,
+          idDocument,
+        }),
+      });
+  
+      if (response.ok) {
+        //console.log("Perfil actualizado con éxito");
+        setProfileData({
+          ...profileData,
+          idDocument,
+        });   
+      } else {
+        console.error("Error al actualizar el perfil");
+      }
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+    }
+  };
 
   useEffect(() => {
     console.log("Efecto 1: Verificar condiciones para habilitar el botón");
@@ -117,14 +189,11 @@ export default function PassportId(props: any) {
   const handleBotonPic = async () => {
     console.log("Manejando clic en el botón para cargar documentación...");
     try {
-      const user = await fetch(
-        `/api/auth/myid/?email=${session?.user?.email}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const userAns = await user.json();
       const updatedProfile = await fetch("/api/auth/profile", {
         method: "PUT",
@@ -148,10 +217,16 @@ export default function PassportId(props: any) {
         setShowSuccessMessage(false);
         props.closeIdModal();
       }, 3000);
+  
+      // Llamar a handleUpdateProfile para actualizar el perfil nuevamente con el idDocument
+      await handleUpdateProfile();
+      console.log("Perfil actualizado correctamente en la base de datos.");
     } catch (error) {
       console.error("Error al cargar la documentación:", error);
     }
   };
+  
+  
 
   useEffect(() => {
     console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
