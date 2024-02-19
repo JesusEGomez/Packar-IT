@@ -66,7 +66,7 @@ const AuxMonedero = (props: any) => {
           }
         );
         const userAns = await user.json();
-        //console.log(userAns);
+        console.log(userAns);
 
         const response = await fetch("/api/auth/pago", {
           method: "POST",
@@ -77,7 +77,7 @@ const AuxMonedero = (props: any) => {
         });
 
         const data = await response.json();
-        //console.log(data);
+        console.log(data);
 
         if (data.user) {
           //console.log('Tarjeta guardada exitosamente');
