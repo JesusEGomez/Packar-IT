@@ -109,6 +109,7 @@ export default function PassportId(props: any) {
     console.log("Cerrando modal...");
     localStorage.setItem("frontImage", img2 ?? "");
     localStorage.setItem("backImage", img3 ?? "");
+    localStorage.setItem("numeroDni", numeroDni);
 
     props.closeIdModal();
   };
@@ -233,11 +234,7 @@ export default function PassportId(props: any) {
                 placeholder="123456789"
                 className="p-4 border rounded-sm cursor-pointer"
                 value={numeroDni}
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
-                  setNumeroDni(onlyNumbers);
-                }}
+                onChange={handleNumeroDniChange}
                 style={{
                   width: "300px",
                 }}
