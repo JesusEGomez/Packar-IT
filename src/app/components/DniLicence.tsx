@@ -53,13 +53,17 @@ export default function PassportId(props: any) {
         if (
           data.idDocument &&
           data.idDocument.frontPhoto &&
-          data.idDocument.backPhoto
+          data.idDocument.backPhoto &&
+          data.idDocument.type
+
         ) {
           console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
           console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
 
           setImg2(data.idDocument.frontPhoto);
           setImg3(data.idDocument.backPhoto);
+          setType(data.idDocument.type);
+          setNumeroDni(data.idDocument.number);
         } else {
           console.log(
             "Las URLs de las imágenes no están presentes en los datos del perfil."
