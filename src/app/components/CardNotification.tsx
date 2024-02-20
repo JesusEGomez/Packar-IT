@@ -46,18 +46,20 @@ const CardNotification = ({
           </>
         )}
       </p>
-      <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
-        {detail === "notViajes" ? (
-          <p>
-            Tienes una solicitud de envió de <b>{name.toUpperCase()}</b>
-          </p>
-        ) : (
-          <p>
-            Tienes una solicitud de envió en espera para{" "}
-            <b>{name.toUpperCase()}</b>
-          </p>
-        )}
-      </div>
+      <Link href={`notifications/${detail}/${id}`}>
+        <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
+          {detail === "notViajes" ? (
+            <p>
+              Tienes una solicitud de envió de <b>{name.toUpperCase()}</b>
+            </p>
+          ) : (
+            <p>
+              Tienes una solicitud de envió en espera para{" "}
+              <b>{name.toUpperCase()}</b>
+            </p>
+          )}
+        </div>
+      </Link>
 
       <p className="text-3xl hover:text-pink cursor-pointer w-1/12 text-gray-500">
         <Link href={`notifications/${detail}/${id}`}>

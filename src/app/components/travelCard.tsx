@@ -41,10 +41,12 @@ const TravelCard = ({
       </p>
       <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
         <p className="text-gray-500">{`${horaSalida} - ${horaLlegada}`}</p>
-        <h3
-          title={`${formatDesdeCiudad} / ${formatHastaCiudad}` || undefined}
-          className="font-bold cursor-pointer truncate "
-        >{`${formatDesdeCiudad} / ${formatHastaCiudad}`}</h3>
+        <Link href={`misenvios/viajes/${_id}`}>
+          <h3
+            title={`${formatDesdeCiudad} / ${formatHastaCiudad}` || undefined}
+            className="font-bold cursor-pointer truncate "
+          >{`${formatDesdeCiudad} / ${formatHastaCiudad}`}</h3>
+        </Link>
 
         <p className="">{`${cuando}`}</p>
       </div>

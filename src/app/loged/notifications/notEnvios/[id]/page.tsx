@@ -204,7 +204,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   onClick={() =>
                     window.open(notification.producto?.photoProduct, "_blank")
                   }
-                  className="p-1 rounded-md shadow-sm cursor-pointer shadow-gray-500 "
+                  className="p-1 rounded-md shadow-sm w-[180px] h-[180px] object-contain cursor-pointer shadow-gray-500 "
                   width={180}
                   height={180}
                   src={notification.producto?.photoProduct}
