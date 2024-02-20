@@ -53,17 +53,11 @@ export default function PassportId(props: any) {
         if (
           data.idDocument &&
           data.idDocument.frontPhoto &&
-          data.idDocument.backPhoto &&
-          data.type
-
+          data.idDocument.backPhoto
         ) {
           console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
           console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
-          console.log("Tipo de documento:", data.type);
-          console.log("Número de DNI o Pasporte" , data.idDocument)
 
-          setIdDocument (data.idDocument);
-          setType(data.type);
           setImg2(data.idDocument.frontPhoto);
           setImg3(data.idDocument.backPhoto);
         } else {
@@ -101,7 +95,7 @@ export default function PassportId(props: any) {
       if (response.ok) {
         //console.log("Perfil actualizado con éxito");
         const updatedProfileData = await response.json();
-        console.log("Perfil actualizado con éxito:", updatedProfileData); 
+        console.log("Perfil actualizado con éxito:", updatedProfileData); // Agregar un console.log para verificar el perfil actualizado
         setProfileData(updatedProfileData);
       } else {
         console.error("Error al actualizar el perfil");
@@ -277,18 +271,18 @@ export default function PassportId(props: any) {
     const inputValue = e.target.value;
     const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
     setNumeroDni(onlyNumbers);
-    localStorage.setItem("numeroDni", onlyNumbers); // Guardar en localStorag
+    localStorage.setItem("numeroDni", onlyNumbers); // Guardar en localStorage
   };
 
- // useEffect(() => {
- //   console.log(
-  //    "Cargando número de DNI o pasaporte desde el almacenamiento local..."
-  //  );
-  //  const storedNumeroDni = localStorage.getItem("numeroDni");
- //   if (storedNumeroDni) {
- //     setNumeroDni(storedNumeroDni);
- //   }
-//  }, []); // Cargar al inicio del componente
+  useEffect(() => {
+    console.log(
+      "Cargando número de DNI o pasaporte desde el almacenamiento local..."
+    );
+    const storedNumeroDni = localStorage.getItem("numeroDni");
+    if (storedNumeroDni) {
+      setNumeroDni(storedNumeroDni);
+    }
+  }, []); // Cargar al inicio del componente
 
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log("Manejando cambio de tipo de documento...");
