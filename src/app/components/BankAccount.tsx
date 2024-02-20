@@ -296,3 +296,4 @@ const BankAccount = (props:any) => {
 };
 
 export default BankAccount;
+

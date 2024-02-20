@@ -2,10 +2,11 @@ import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+export const dynamic = "force-dynamic";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
-    apiVersion: '2023-10-16',
-  });
+  apiVersion: "2023-10-16",
+});
 
 
   function getStartAndEndOfWeek() {
@@ -58,5 +59,11 @@ export async function GET(request: Request) {
         return NextResponse.json({ message: error.message }, { status: 500 });
       }
       return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+
     }
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
+}
