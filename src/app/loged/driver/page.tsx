@@ -154,7 +154,7 @@ const Driver = () => {
 
   const isFromSelected = from !== null;
 
-  const buttonClassName = `flex items-center p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+  const buttonClassName = `flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
     isFromSelected ? "text-black-500" : "text-slate-400"
   }`;
 
@@ -301,7 +301,7 @@ const Driver = () => {
         width={150}
         height={150}
       />
-      <div className="bg-white  rounded-t-3xl">
+      <div className="bg-white  rounded-t-3xl"> 
         {/* Contenido del segundo div */}
       </div>
       <form

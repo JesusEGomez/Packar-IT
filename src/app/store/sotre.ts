@@ -31,14 +31,15 @@ export const useUserState = create<UserState>((set, get) => ({
   products: [],
   profile: null, // Inicializa el objeto de usuario
   fetchUser: async (email: string) => {
+    const { user, profile } = get();
     //console.log("usuario", email);
     const localUser = localStorage.getItem("user");
     const localProfile = localStorage.getItem("profile");
     const parsedUser = JSON.parse(localUser!);
     const parsedProfile = JSON.parse(localProfile!);
-    if (localUser && localProfile) {
-      set({ user: parsedUser });
-      set({ profile: parsedProfile });
+    if (!user && !profile) {
+      localUser && set({ user: parsedUser });
+      localProfile && set({ profile: parsedProfile });
     } else {
       try {
         const responseUser = await fetch(`/api/auth/myid/?email=${email}`, {
@@ -49,7 +50,7 @@ export const useUserState = create<UserState>((set, get) => ({
         });
 
         const userData = await responseUser.json();
-        //console.log(userData);
+        console.log(userData);
         if (userData) {
           set({ user: userData });
           localStorage.setItem("user", JSON.stringify(userData));
@@ -67,7 +68,7 @@ export const useUserState = create<UserState>((set, get) => ({
           //console.log("usuario encontrado", userData);
 
           // profile && set({ profile: profile });
-          // console.log(profile);
+          console.log(profile);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
