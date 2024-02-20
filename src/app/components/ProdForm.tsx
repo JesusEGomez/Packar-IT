@@ -23,6 +23,7 @@ function ProdForm(props: any) {
   const [disabled, setDisable] = useState<boolean>(true);
   const [categorySelected, setCategorySelected] = useState(false);
   const [weightSelected, setWeightSelected] = useState(false);
+  const [detailSelected, setDetailSelected] = useState(false); 
 
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
@@ -110,9 +111,8 @@ function ProdForm(props: any) {
   };
 
   const handleDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setWeightSelected(!!e.target.value.trim());
+    setDetailSelected(!!e.target.value.trim());
   };
-
 
   return (
     <div className="m-8 px-4 pt-12 overflow-y-auto">
@@ -177,7 +177,7 @@ function ProdForm(props: any) {
           </select>
         </div>
         <div className="flex items-center border-b m-auto w-80">
-          <BsBoxSeam className={weightSelected ? "text-black-500" : "text-slate-400"} />
+          <BsBoxSeam className={detailSelected ? "text-black-500" : "text-slate-400"} />
           <input
             placeholder="Detalle"
             className={`p-2 rounded bg-white ${
