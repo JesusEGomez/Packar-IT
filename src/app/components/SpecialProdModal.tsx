@@ -69,7 +69,7 @@ const SpecialProdModal = (props: any) => {
       type: "Special",
       name: data.name,
       size: `${data.size1}x${data.size2}x${data.size3}`,
-      weight: data.weight,
+      weigth: data.weight,
       photoProduct: img,
       articulosEspeciales: data.name,
     });
@@ -77,7 +77,7 @@ const SpecialProdModal = (props: any) => {
       type: "Special",
       name: data.name,
       size: `${data.size1}x${data.size2}x${data.size3}`,
-      weight: data.weight,
+      weigth: data.weight,
       photoProduct: img,
       articulosEspeciales: data.name,
     });
@@ -96,10 +96,10 @@ const SpecialProdModal = (props: any) => {
       >
         <h1>Selecciona tu tipo de producto</h1>
         <div className="flex items-center border-b m-auto w-full gap-x-2">
-          <TbTriangleSquareCircle className="text-slate-400 ml-4" size={20} />
+          <TbTriangleSquareCircle className=" ml-4" size={20} />
           <input
             placeholder="Producto"
-            className="p-3 text-slate-300"
+            className="p-3 text-black"
             type="text"
             id="name"
             {...register("name", {
@@ -109,7 +109,7 @@ const SpecialProdModal = (props: any) => {
           />
         </div>
         <div className="flex items-center border-b m-auto w-full gap-x-2">
-          <SlSizeFullscreen className="text-slate-400 ml-4" size={20} />
+          <SlSizeFullscreen className="ml-4" size={20} />
           <input
             placeholder="cm"
             className="p-3 text-black w-16 rounded"
@@ -143,7 +143,7 @@ const SpecialProdModal = (props: any) => {
           />
         </div>
         <div className="flex items-center border-b m-auto w-full gap-x-2">
-          <GiWeight className="text-slate-400 ml-4" size={20} />
+          <GiWeight className=" ml-4" size={20} />
           <input
             placeholder="Peso(kg)"
             className="p-3 text-black"
