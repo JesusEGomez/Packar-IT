@@ -48,22 +48,22 @@ function Page(props: any) {
   const clickHandler = (viaje: any) => {
     props.close(viaje);
   };
-  const showPrice = (price:number) => {
+  const showPrice = (price: number) => {
     if (price < 10) {
       return `${(price * 1.35).toFixed(2)}`; // Sumar un 35%
     } else if (price >= 10 && price <= 19) {
       return `${(price * 1.37).toFixed(2)}`; // Sumar un 37%
     } else if (price >= 20 && price <= 39) {
-      return `${(price * 1.40).toFixed(2)}`; // Sumar un 40%
+      return `${(price * 1.4).toFixed(2)}`; // Sumar un 40%
     } else if (price >= 40 && price <= 59) {
       return `${(price * 1.45).toFixed(2)}`; // Sumar un 45%
     } else {
       return `${(price * 1.35).toFixed(2)}`; // Sumar un 35% (para precios >= 60)
     }
-  }
+  };
   useEffect(() => {
     //console.log(props);
-    
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -91,9 +91,9 @@ function Page(props: any) {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col p-4 items-center">
-          <Button onClick={props.closeIdModal} variant={"ghost"}>
-            <IoMdArrowRoundBack />
-          </Button>
+        <Button onClick={props.closeIdModal} variant={"ghost"}>
+          <IoMdArrowRoundBack />
+        </Button>
         <h1 className="text-2xl font-bold">Solicita tu envío a un viajero</h1>
         <div className="border p-5">box</div>
         <div>
@@ -129,13 +129,13 @@ function Page(props: any) {
                 </div>
                 <p>
                   {`${
-                  props.open.size === "Grande"
-                    ? `${showPrice(viaje.precio[2].price)}`
-                    : props.open.size === "Pequeño"
-                    ? `${showPrice(viaje.precio[0].price)}€`
-                    : props.open.size === "Mediano"
-                    ? `${showPrice(viaje.precio[1].price)}€`
-                    : `${showPrice(viaje.precio[3].price)}€`
+                    props.open.size === "Grande"
+                      ? `${showPrice(viaje.precio[2].price)}`
+                      : props.open.size === "Pequeño"
+                      ? `${showPrice(viaje.precio[0].price)}€`
+                      : props.open.size === "Mediano"
+                      ? `${showPrice(viaje.precio[1].price)}€`
+                      : `${showPrice(viaje.precio[3].price)}€`
                   }`}
                 </p>
               </div>
@@ -149,10 +149,12 @@ function Page(props: any) {
                   />
                   <div>
                     <p>
-                      Desde:{viaje.desde.ciudad} {viaje.horaSalida}
+                      Desde:{viaje.desde.ciudad.replaceAll("-", " ")}{" "}
+                      {viaje.horaSalida}
                     </p>
                     <p>
-                      Hasta:{viaje.hasta.ciudad} {viaje.horaLlegada}
+                      Hasta:{viaje.hasta.ciudad.replaceAll("-", " ")}{" "}
+                      {viaje.horaLlegada}
                     </p>
                   </div>
                 </div>

@@ -41,7 +41,7 @@ export const SendModal = ({
   console.log(travel);
   return (
     <div className="flex w-screen  h-screen flex-col p-4">
-      <Button className="w-14" onClick={closeModal} variant={"ghost"}>
+      <Button className="w-14 text-2xl" onClick={closeModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
       <h2 className="text-2xl font-bold text-center">Envíos</h2>
