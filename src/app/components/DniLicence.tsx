@@ -6,11 +6,8 @@ import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import useUserState from "../../app/store/sotre";
 
-require("dotenv").config();
-
 export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
-  const { fetchUser, user } = useUserState((state) => state);
   const backFileInputRef = useRef<HTMLInputElement>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [img2, setImg2] = useState<string | null>(null);
@@ -19,17 +16,23 @@ export default function PassportId(props: any) {
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
   const [profileData, setProfileData] = useState<any | null>(null);
-  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
-  const [idDocument, setIdDocument] = useState<string>("");
+  const { data: session } = useSession();
+
+  const { fetchUser, user } = useUserState((state) => state);
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
 
   useEffect(() => {
-    // Llamar a la función para recuperar los datos del perfil cada vez que se monta el componente
     fetchProfileData();
   }, []);
+
+  const cloudName = process.env.CLOUD_NAME;
+  const cloudPreset = process.env.CLOUD_PRESET;
+
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
+  const [idDocument, setIdDocument] = useState<string>("");
 
   const fetchProfileData = async () => {
     try {
@@ -37,53 +40,25 @@ export default function PassportId(props: any) {
       const data = await response.json();
       console.log("Datos del perfil:", data);
       setProfileData(data);
+
+      if (
+        data.idDocument &&
+        data.idDocument.frontPhoto &&
+        data.idDocument.backPhoto &&
+        data.idDocument.type
+      ) {
+        setImg2(data.idDocument.frontPhoto);
+        setImg3(data.idDocument.backPhoto);
+        setType(data.idDocument.type);
+        setNumeroDni(data.idDocument.number);
+      } else {
+        setImg2(null);
+        setImg3(null);
+      }
     } catch (error) {
       console.error("Error en traer la data de perfil:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const response = await fetch(
-          `/api/auth/getProfileById/?id=${user?._id}`
-        );
-        const data = await response.json();
-        console.log("Datos del perfil:", data);
-
-        if (
-          data.idDocument &&
-          data.idDocument.frontPhoto &&
-          data.idDocument.backPhoto &&
-          data.idDocument.type
-        ) {
-          console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
-          console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
-          console.log("Tipo de documento:", data.idDocument.type);
-          console.log("Número de documento:", data.idDocument.number);
-
-          setImg2(data.idDocument.frontPhoto);
-          setImg3(data.idDocument.backPhoto);
-          setType(data.idDocument.type);
-          setNumeroDni(data.idDocument.number);
-        } else {
-          console.log(
-            "Las URLs de las imágenes no están presentes en los datos del perfil."
-          );
-          setImg2(null);
-          setImg3(null);
-        }
-
-        setProfileData(data);
-      } catch (error) {
-        console.error("Error al recuperar los datos del perfil:", error);
-      }
-    };
-
-    if (user?._id) {
-      fetchProfileData();
-    }
-  }, [user?._id]);
 
   const handleUpdateProfile = async () => {
     try {
@@ -99,9 +74,8 @@ export default function PassportId(props: any) {
       });
 
       if (response.ok) {
-        //console.log("Perfil actualizado con éxito");
         const updatedProfileData = await response.json();
-        console.log("Perfil actualizado con éxito:", updatedProfileData); // Agregar un console.log para verificar el perfil actualizado
+        console.log("Perfil actualizado con éxito:", updatedProfileData);
         setProfileData(updatedProfileData);
       } else {
         console.error("Error al actualizar el perfil");
@@ -111,16 +85,53 @@ export default function PassportId(props: any) {
     }
   };
 
-  useEffect(() => {
-    console.log("Efecto 1: Verificar condiciones para habilitar el botón");
-    if (img2 && img3 && type && numeroDni) {
-      console.log("Condiciones cumplidas, habilitando botón");
-      setDisable(false);
-    } else {
-      console.log("Condiciones no cumplidas, deshabilitando botón");
-      setDisable(true);
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de archivo...");
+    const file = e.target.files?.[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        const ans = await response.json();
+        console.log("Respuesta de Cloudinary:", ans);
+        if (response.ok) {
+          const fileName = ans.secure_url;
+          console.log("Configurando img2:", fileName);
+          setImg2(fileName);
+          console.log("Configurando img3:", fileName);
+          setImg3(fileName);
+        }
+      } catch (error) {
+        console.error("Error al subir el archivo:", error);
+      }
     }
-  }, [img2, img3, type, numeroDni]);
+  };
+
+  const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de número de DNI o pasaporte...");
+    const inputValue = e.target.value;
+    const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
+    setNumeroDni(onlyNumbers);
+    localStorage.setItem("numeroDni", onlyNumbers);
+  };
+
+  useEffect(() => {
+    console.log(
+      "Cargando número de DNI o pasaporte desde el almacenamiento local..."
+    );
+    const storedNumeroDni = localStorage.getItem("numeroDni");
+    if (storedNumeroDni) {
+      setNumeroDni(storedNumeroDni);
+    }
+  }, []);
 
   const handleDivClick = async (
     fileInputRef: React.RefObject<HTMLInputElement>
@@ -128,61 +139,6 @@ export default function PassportId(props: any) {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
-  };
-
-  const cloudName = process.env.CLOUD_NAME;
-  const cloudPreset = process.env.CLOUD_PRESET;
-  const { data: session } = useSession();
-
-  // Manejar el cambio de archivo frontal
-  const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("Manejando cambio de archivo frontal...");
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      uploadImage(file, setImg2);
-    }
-  };
-
-  // Manejar el cambio de archivo trasero
-  const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("Manejando cambio de archivo trasero...");
-    const file = e.target.files?.[0];
-    if (file) {
-      uploadImage(file, setImg3);
-    }
-  };
-
-  // Función para subir una imagen a Cloudinary y actualizar el estado correspondiente
-  const uploadImage = async (file: File, setImage: Function) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      const ans = await response.json();
-      console.log("Respuesta de Cloudinary:", ans);
-      if (response.ok) {
-        const fileName = ans.secure_url;
-        setImage(fileName);
-      }
-    } catch (error) {
-      console.error("Error al subir el archivo:", error);
-    }
-  };
-
-  const handleModalClose = () => {
-    console.log("Cerrando modal...");
-    localStorage.setItem("frontImage", img2 ?? "");
-    localStorage.setItem("backImage", img3 ?? "");
-    localStorage.setItem("numeroDni", numeroDni);
-
-    props.closeIdModal();
   };
 
   const handleBotonPic = async () => {
@@ -229,30 +185,12 @@ export default function PassportId(props: any) {
     }
   };
 
-  const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("Manejando cambio de número de DNI o pasaporte...");
-    const inputValue = e.target.value;
-    const onlyNumbers = inputValue.replace(/[^0-9]/g, "");
-    setNumeroDni(onlyNumbers);
-    localStorage.setItem("numeroDni", onlyNumbers); // Guardar en localStorage
-  };
-
-  useEffect(() => {
-    console.log(
-      "Cargando número de DNI o pasaporte desde el almacenamiento local..."
-    );
-    const storedNumeroDni = localStorage.getItem("numeroDni");
-    if (storedNumeroDni) {
-      setNumeroDni(storedNumeroDni);
-    }
-  }, []); // Cargar al inicio del componente
-
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
-    setImg2(null); 
-    setImg3(null); 
+    setImg2(null);
+    setImg3(null);
     localStorage.setItem("documentType", selectedType);
   };
 
@@ -265,9 +203,9 @@ export default function PassportId(props: any) {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full  h-screen   ">
-      <div className="overflow-y-auto    py-10">
-        <div className=" flex flex-wrap mt-10 ">
+    <div className="flex flex-col items-center justify-center w-full h-screen">
+      <div className="overflow-y-auto py-10">
+        <div className="flex flex-wrap mt-10">
           <Button onClick={props.closeIdModal} variant={"ghost"}>
             <IoMdArrowRoundBack />
           </Button>
@@ -276,7 +214,7 @@ export default function PassportId(props: any) {
           </h1>
         </div>
         <form className="flex flex-col justify-center items-center mr-5">
-          <div className="flex flex-col justify-center items-center ">
+          <div className="flex flex-col justify-center items-center">
             <div className="mb-4">
               <label htmlFor="numeroDni" className="text-left block mb-2">
                 Numero de DNI o Pasaporte
@@ -347,7 +285,7 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={frontFileInputRef}
-                onChange={handleFrontFileChange}
+                onChange={handleFileChange}
                 style={{ display: "none" }}
               />
             </div>
@@ -382,7 +320,7 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={backFileInputRef}
-                onChange={handleBackFileChange}
+                onChange={handleFileChange}
                 style={{ display: "none" }}
               />
             </div>
