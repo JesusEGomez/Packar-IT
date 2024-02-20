@@ -140,7 +140,7 @@ export default function PassportId(props: any) {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-
+  
       try {
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
@@ -153,19 +153,17 @@ export default function PassportId(props: any) {
         console.log("Respuesta de Cloudinary:", ans);
         if (response.ok) {
           const fileName = ans.secure_url;
-          if (!img2) {
-            console.log("Configurando img2:", fileName);
-            setImg2(fileName);
-          } else {
-            console.log("Configurando img3:", fileName);
-            setImg3(fileName);
-          }
+          console.log("Configurando img2:", fileName);
+          setImg2(fileName);
+          console.log("Configurando img3:", fileName);
+          setImg3(fileName);
         }
       } catch (error) {
         console.error("Error al subir el archivo:", error);
       }
     }
   };
+  
 
   const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de archivo frontal...");
