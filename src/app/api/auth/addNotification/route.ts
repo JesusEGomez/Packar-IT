@@ -2,7 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
 import Notification from "@/models/notifications";
 import { NextResponse, NextRequest } from "next/server";
-
+export const dynamic = "force-dynamic";
 import { sendNotification } from "../../ably/Notifications";
 import { INotification } from "@/app/interfaces/notifications.interface";
 

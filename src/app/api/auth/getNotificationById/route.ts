@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Notification from "@/models/notifications";
 import { INotification } from "@/app/interfaces/notifications.interface";
 import { IProductEnvio } from "@/app/interfaces/productDB.interface";
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
