@@ -257,7 +257,7 @@ const Loged = () => {
                       search ? "w-full" : "w-auto"
                     } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
                     disabled={
-                      !search || !profile || profile.phoneNumber.length < 9
+                      !search || !profile || !profile?.customerId || profile.phoneNumber.length < 9
                     }
                   >
                     Buscar

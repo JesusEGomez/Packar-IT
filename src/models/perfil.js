@@ -49,9 +49,9 @@ const ProfileSchema = new Schema({
     required: false,
   },
   customerId: {
-    type: String,
+    type: String || null,
     required: false,
-    default: "",
+    default: null,
   },
   account: {
     state: {
