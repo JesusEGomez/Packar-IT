@@ -123,6 +123,7 @@ const BankAccount = (props:any) => {
             const response = await fetch(`/api/auth/getProfileById/?id=${parsedUser._id}`);
             const data = await response.json();
             setProfile(data);
+            setIdData(data.idDocument);
         }
         
         const fetchCountries = async () => {
@@ -141,7 +142,7 @@ const BankAccount = (props:any) => {
         }
         fetchProfile();
         fetchCountries();
-        profile?.account?.number && fetchAccount();
+        fetchAccount();
     },[noId, loadFetch])
     return(
         <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full `} onSubmit={handleSubmit(onSubmit)}>
@@ -158,11 +159,11 @@ const BankAccount = (props:any) => {
                 </div>
                 :
                 profile?.account.state === 'approved' ?
-                <div>
-                    <h1>Tu total acumulado para esta semana es de:</h1>
-                    <p>{transfers}€</p>
-                    <h1 className="text-xl">Tu cuenta está aprobada</h1>
-                    <p>deseas cambiarla?</p>
+                <div className="flex flex-col h-max p-3 gap-y-3 justify-center">
+                    <h1 className="text-xl mx-2 my-4">Tu total acumulado para esta semana es de:</h1>
+                    <p className="text-3xl mx-auto font-bold">{transfers/10} €</p>
+                    <h1 className="text-xl mt-8 mb-4">Tu cuenta está aprobada</h1>
+                    <p>¿deseas cambiarla?</p>
                     <Button
                     variant={"ghost"}
                     className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
