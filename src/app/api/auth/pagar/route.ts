@@ -42,26 +42,12 @@ export async function POST(req : Request) {
             confirm: true,
             return_url: 'http://localhost:3000/respuestapago',
             transfer_data: {
-                destination: user2.account,
+                destination: user2.account.number,
             },
             application_fee_amount: (Number(packarPrice(total)) - total )* 100
         });
         dely.payment = paymentIntent.id;
         const savedDely = await dely.save();
-
-        // const paymentPackar = await stripe.paymentIntents.create({
-        //     amount: Number(packarComision) * 100, 
-        //     currency: 'eur',  // La moneda del pago
-        //     payment_method: paymentMethodId,
-        //     customer: customerId,
-        //     confirm: true,
-        //     return_url: 'http://localhost:3000/respuestapago',
-        //     transfer_data: {
-        //         destination: 'acct_1OjWSfIPT3NWX9vQ',
-        //     },
-        // });
-        // dely.packarPayment = paymentPackar.id;
-        // const saved2Dely = await dely.save();
 
         return NextResponse.json({ user, paymentIntent }, { status: 200 });
     } catch (error) {

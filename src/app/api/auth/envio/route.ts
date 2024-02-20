@@ -17,7 +17,8 @@ export async function POST(request: Request) {
   await connectDB();
   try {
     const response = await request.json();
-
+    console.log(response);
+    
     const nuevoProducto = await new Producto(
       response.producto,
       response.driver
