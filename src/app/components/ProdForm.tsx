@@ -107,8 +107,7 @@ function ProdForm(props: any) {
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex">
-        <h1 className="text-xl font-bold mb-4">¿Qué vas a enviar?</h1>
-        <FaExclamationCircle className="text-slate-400" />
+        <h1 className="text-xl font-bold mb-4">¿Qué vas a enviar?</h1>   
       </div>
       <p className="text-sm text-slate-700">
         Para poder ofrecerte las mejores opciones, detallarnos información sobre
