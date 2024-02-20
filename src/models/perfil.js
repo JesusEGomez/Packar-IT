@@ -38,7 +38,7 @@ const ProfileSchema = new Schema({
     isLoaded: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   city: {
     type: String,
@@ -51,24 +51,27 @@ const ProfileSchema = new Schema({
   customerId: {
     type: String,
     required: false,
+    default: "",
   },
   account: {
     state: {
       type: String,
-      enum: ['loaded', 'empty', 'approved'],
+      enum: ["loaded", "empty", "approved"],
       required: false,
-      default: 'empty'
+      default: "empty",
     },
     number: {
       type: String || null,
       required: false,
-      default: null
+      default: null,
     },
   },
-  notifications: [{
-    type: Schema.Types.ObjectId,
-    ref: "Notification",
-  }],
+  notifications: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Notification",
+    },
+  ],
 
   location: {
     type: {

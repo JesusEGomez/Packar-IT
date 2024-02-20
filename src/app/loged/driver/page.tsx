@@ -39,8 +39,8 @@ type prod = {
 };
 
 type time = {
-  salida: string | null;
-  llegada: string | null;
+  salida: string | null | undefined;
+  llegada: string | null | undefined;
 };
 
 export interface ITravel {
@@ -53,8 +53,8 @@ export interface ITravel {
     { quantity: number | null; price: number | null },
     { quantity: number | null; price: number | null }
   ];
-  horaSalida: string | null;
-  horaLlegada: string | null;
+  horaSalida: string | null | undefined;
+  horaLlegada: string | null | undefined;
   cuando: string | undefined;
   eresFlexible: boolean;
   estado: string;
@@ -82,8 +82,7 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
-  const [profile, setProfile] = useState<IProfile | null>();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
     userId: "",
@@ -147,7 +146,7 @@ const Driver = () => {
     },
     special: false,
   });
-  const { user, fetchUser } = useUserState((state) => state);
+  const { user, fetchUser, profile } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -191,9 +190,17 @@ const Driver = () => {
   };
 
   const TimeModelClose = async (timeSelected: any) => {
-    //console.log("tiempo", timeSelected);
+    if (
+      timeSelected &&
+      timeSelected.salida !== undefined &&
+      timeSelected.llegada !== undefined
+    ) {
+      setTime({
+        salida: timeSelected.salida ?? null,
+        llegada: timeSelected.llegada ?? null,
+      });
+    }
     setTimeModalOpen(false);
-    setTime(timeSelected);
   };
   const toModelClose = async (toSelected: google.maps.LatLngLiteral) => {
     setToModalOpen(false);
@@ -225,7 +232,6 @@ const Driver = () => {
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
-    fetchProfile();
 
     if (
       productSelected &&
@@ -246,13 +252,6 @@ const Driver = () => {
     setFlex(!flex);
     const editFlex = { ...travel, eresFlexible: !flex };
     setTravel(editFlex);
-  };
-
-  const fetchProfile = async () => {
-    const response = await fetch(
-      `/api/auth/getProfileById/?id=${user._id}`
-    ).then((response) => response.json());
-    setProfile(response);
   };
 
   const {
@@ -294,9 +293,9 @@ const Driver = () => {
     search && hoverButton && setFinalStep(true);
   };
   return (
-    <div className="flex flex-col w-full max-h-screen items-center bg-pink overflow-y-auto 2xl:min-h-48">
+    <div className="flex flex-col w-full max-h-screen items-center bg-pink overflow-y-auto">
       <Image
-        className="my-8 rounded-full 2xl:my-12 2xl:w-[200px] 2xl:h-[200px]"
+        className="my-8 rounded-full 2xl:my-10 2xl:w-[150px] 2xl:h-[150px]"
         src={"/step-3.svg"}
         alt="logo"
         width={150}
@@ -309,10 +308,10 @@ const Driver = () => {
         className="flex w-full justify-center "
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="fixed top-32   bg-white border rounded-xl max-h-lvh 2xl:top-64 2xl:w-auto 2xl:min-h-80">
-          <div className="flex flex-col  h-1/2 items-center xl:gap-y-5">
+        <div className="fixed top-32   bg-white border rounded-xl max-h-lvh 2xl:top-48 2xl:w-auto">
+          <div className="flex flex-col items-center">
             <h1 className="font-bold text-xl mt-2">¿A dónde vas a viajar?</h1>
-            <div className="flex flex-col text-center items-center gap-y-2">
+            <div className="flex flex-col text-center items-center">
               <button
                 className={buttonClassName}
                 onClick={fromHandler}
@@ -326,7 +325,7 @@ const Driver = () => {
                   : `${from}`}
               </button>
               <button
-                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
                   to === null ? "text-slate-400" : "text-black-500"
                 }`}
                 onClick={toHandler}
@@ -341,7 +340,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -355,12 +354,12 @@ const Driver = () => {
                   : "Cuando"}
               </button>
               <button
-                onClick={() => timeHandler()}
-                className={`flex items-center  gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4 ${
-                  time.salida === null || time.llegada === null
-                    ? "text-slate-400"
-                    : "text-black-500"
+                className={`flex items-center gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3 ${
+                  time !== null && time.salida !== null && time.llegada !== null
+                    ? "text-black-500"
+                    : "text-slate-400"
                 }`}
+                onClick={() => timeHandler()}
               >
                 <IoTime size={30} />
                 {time === null ? (
@@ -374,14 +373,14 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-2 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-4 ${
+                className={`flex items-center p-2 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-3 ${
                   productSelected ? "text-black-500" : "text-slate-400"
                 }`}
               >
                 <BsBoxSeam size={30} />
                 {productSelected ? "Elección Cargada" : "Producto"}
               </button>
-              <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-4">
+              <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3">
                 <select
                   className="p-1 rounded bg-white text-slate-400 text-center w-full"
                   id="como"
@@ -420,15 +419,13 @@ const Driver = () => {
               Crear
             </button>
           </div>
-          {status === "authenticated" &&
-            profile?.phoneNumber &&
-            profile.phoneNumber.length < 9 && (
-              <div className="w-full  text-center p-1">
-                <p>
-                  Deber tener un Numero de Telefono valido para crear un envio
-                </p>
-              </div>
-            )}
+          {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
+            <div className="w-full  text-center p-1">
+              <p>
+                Debes tener un Numero de Teléfono valido para crear un envió
+              </p>
+            </div>
+          )}
         </div>
       </form>
 
