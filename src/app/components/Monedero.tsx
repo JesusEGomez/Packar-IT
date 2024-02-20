@@ -65,6 +65,7 @@ const Monedero = (props:any) => {
     const [loadFetch, setLoadFetch] = useState<boolean>(true);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [userId, setUserId] = useState<string | null>(null);
+
     const closeModal = () => {
         setModalOpen(false);
     }

@@ -135,8 +135,10 @@ export default function PassportId(props: any) {
       // Cerrar el modal después de 3 segundos
       setTimeout(() => {
         setShowSuccessMessage(false);
+        props.closeWithChange && props.closeWithChange()
         props.closeIdModal();
-      }, 3000);
+      }, 1500);
+
     } catch (error) {
       console.error("Error al cargar la documentación:", error);
     }
