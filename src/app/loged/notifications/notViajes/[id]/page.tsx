@@ -74,7 +74,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           }
         });
       }
-
+      //console.log(notification?.producto, 'soy el prod');
+      
       if (notification && estado === "Aceptado") {
         const shipmentResponse = await fetch("/api/auth/envio", {
           headers: {
@@ -108,7 +109,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         }
 
         const shipmentData = await shipmentResponse.json();
-        // console.log('shipment creado',shipmentData);
+         //console.log('shipment creado',shipmentData);
         //crear el envio
         // Create shipment
         // Add shipment to the trip
@@ -130,7 +131,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         }
 
         const updated = await updateResponse.json();
-        // console.log(updated, "soy updated");
+        console.log(updated, "soy updated");
 
         //pagar
         const pago = await fetch("/api/auth/pagar", {
