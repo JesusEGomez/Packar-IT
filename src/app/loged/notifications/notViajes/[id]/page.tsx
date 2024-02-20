@@ -75,7 +75,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         });
       }
       //console.log(notification?.producto, 'soy el prod');
-      
+
       if (notification && estado === "Aceptado") {
         const shipmentResponse = await fetch("/api/auth/envio", {
           headers: {
@@ -109,7 +109,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         }
 
         const shipmentData = await shipmentResponse.json();
-         //console.log('shipment creado',shipmentData);
+        //console.log('shipment creado',shipmentData);
         //crear el envio
         // Create shipment
         // Add shipment to the trip
@@ -168,9 +168,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     fetchNotification();
   }, []);
   return (
-    <div className="w-screen flex flex-col    justify-center items-center">
+    <div className="w-screen flex flex-col  overflow-auto mb-20   justify-center items-center">
       {notification ? (
-        <div className=" flex gap-y-5 h-screen  flex-col items-center">
+        <div className=" flex gap-y-5 h-full  flex-col items-center">
           <div className="w-full flex flex-col p-5 justify-start h-20">
             <button className="text-3xl" onClick={navigate.back}>
               <MdKeyboardArrowLeft />
@@ -249,7 +249,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
 
-          <div className="flex justify-center gap-x-4 w-full">
+          <div className="flex justify-center p-5 gap-x-4 w-full">
             <Button
               onClick={() => response("Aceptado", notification._id!)}
               className="bg-pink text-white disabled:opacity-50 disabled:cursor-not-allowed"

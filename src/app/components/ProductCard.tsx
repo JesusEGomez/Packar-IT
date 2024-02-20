@@ -61,10 +61,13 @@ const ProductCard = ({
               })}
             </p>
           </div>
-          <p
-            title={`${formatDesdeCiudad} / ${formatHastaciudad}` || undefined}
-            className=" truncate cursor-pointer sm:w-2/3 lg:w-1/3 "
-          >{`${formatDesdeCiudad} / ${formatHastaciudad}`}</p>
+          <Link href={`misenvios/envios/${_id}`}>
+            {" "}
+            <p
+              title={`${formatDesdeCiudad} / ${formatHastaciudad}` || undefined}
+              className=" truncate cursor-pointer sm:w-2/3 lg:w-1/3 "
+            >{`${formatDesdeCiudad} / ${formatHastaciudad}`}</p>
+          </Link>
           <h3 className="font-bold sm:px-5 ">{producto.name}</h3>
         </div>
 

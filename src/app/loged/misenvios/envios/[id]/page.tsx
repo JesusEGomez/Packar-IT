@@ -93,13 +93,17 @@ const Page = ({ params }: { params: { id: string } }) => {
   }, [params.id, loading]);
   return (
     <div className="w-screen flex flex-col sm:h-screen    justify-center">
+      <div className="w-screen">
+        <Button
+          className=" w-14 justify-start text-2xl"
+          onClick={navigate.back}
+          variant={"ghost"}
+        >
+          <IoMdArrowRoundBack />
+        </Button>
+      </div>
       {product ? (
-        <div className="flex w-screen items-center gap-y-2 h-screen overflow-y-auto mb-10 sm:h-full flex-col p-10">
-          <div className="flex justify-start w-full">
-            <Button className="w-14" onClick={navigate.back} variant={"ghost"}>
-              <IoMdArrowRoundBack />
-            </Button>
-          </div>
+        <div className="flex w-full items-center gap-y-2 h-screen overflow-y-auto mb-10   flex-col p-3">
           <div className=" flex    items-center ">
             <div className="sm:flex flex-col items-center">
               <div className="flex  sm:w-screen p-5 sm:justify-around justify-between">

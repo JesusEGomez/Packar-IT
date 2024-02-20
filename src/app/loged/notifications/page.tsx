@@ -7,7 +7,7 @@ import NotViajes from "./notViajes/page";
 const Notifications = () => {
   return (
     <div className="w-full mb-20 h-full flex flex-col justify-center items-center">
-      <h2 className="p-2 font-bold text-2xl">Notificaciones</h2>
+      <h2 className="p-2 font-bold m-3 text-2xl">Notificaciones</h2>
       <Tabs defaultValue="paquetes" className="w-full">
         <TabsList className="flex w-full h-[70px]  justify-around">
           <TabsTrigger
