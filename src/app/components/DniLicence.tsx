@@ -5,9 +5,13 @@ import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import useUserState from "../../app/store/sotre";
+const { data: session } = useSession();
+
+require("dotenv").config();
 
 export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
+  const { fetchUser, user } = useUserState((state) => state);
   const backFileInputRef = useRef<HTMLInputElement>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [img2, setImg2] = useState<string | null>(null);
@@ -16,9 +20,8 @@ export default function PassportId(props: any) {
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
   const [profileData, setProfileData] = useState<any | null>(null);
-  const { data: session } = useSession();
-
-  const { fetchUser, user } = useUserState((state) => state);
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
+  const [idDocument, setIdDocument] = useState<string>("");
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -30,9 +33,6 @@ export default function PassportId(props: any) {
 
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
-
-  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
-  const [idDocument, setIdDocument] = useState<string>("");
 
   const fetchProfileData = async () => {
     try {
@@ -132,7 +132,6 @@ export default function PassportId(props: any) {
       setNumeroDni(storedNumeroDni);
     }
   }, []);
-
   const handleDivClick = async (
     fileInputRef: React.RefObject<HTMLInputElement>
   ) => {
@@ -353,4 +352,3 @@ export default function PassportId(props: any) {
     </div>
   );
 }
-
