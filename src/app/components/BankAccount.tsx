@@ -45,6 +45,7 @@ const BankAccount = (props:any) => {
     const [isIdModalOpen, setIsIdModalOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [loadFetch, setLoadFetch] = useState<boolean>(true);
+    const [transfers, setTransfers] = useState<number>(0);
 
     const clearAccount = async () => {
         const response = await fetch('/api/auth/pagoDriver',{
@@ -130,9 +131,13 @@ const BankAccount = (props:any) => {
             setCountries(info);
         }
         const fetchAccount = async () => {
-            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,translations');
+            const data = await fetch(`/api/auth/dataAccount/?id=${parsedUser._id}`);
             const info = await data.json();
-            setCountries(info);
+            const totalDifference = info.reduce((total: number, transfer:{amount: number, application_fee_amount: number}) => {
+                const difference = transfer.amount - transfer.application_fee_amount;
+                return total + difference;
+            }, 0);
+            setTransfers(totalDifference);
         }
         fetchProfile();
         fetchCountries();
@@ -154,7 +159,9 @@ const BankAccount = (props:any) => {
                 :
                 profile?.account.state === 'approved' ?
                 <div>
-                    <h1>Tu cuenta está aprobada</h1>
+                    <h1>Tu total acumulado para esta semana es de:</h1>
+                    <p>{transfers}€</p>
+                    <h1 className="text-xl">Tu cuenta está aprobada</h1>
                     <p>deseas cambiarla?</p>
                     <Button
                     variant={"ghost"}
@@ -253,7 +260,7 @@ const BankAccount = (props:any) => {
                 variant={"ghost"}
                 className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
                 >
-                  `${loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Enviar'}`
+                  {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Enviar'}
                 </Button>
                 :
                 <Button
