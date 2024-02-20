@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 import { connectDB } from "@/libs/mongodb";
 import Profile from "@/models/perfil";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 interface UpdatedFields {
   phoneNumber?: string;
@@ -15,11 +15,10 @@ interface UpdatedFields {
   };
 }
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     await connectDB();
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get("id");
+    const id = request.nextUrl.searchParams.get("id");
     const user = await Profile.findOne({
       userId: id,
     });
