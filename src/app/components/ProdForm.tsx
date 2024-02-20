@@ -106,8 +106,8 @@ function ProdForm(props: any) {
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex">
-        <h1 className="text-xl font-bold mb-4 text-center">¿Qué vas a enviar?</h1>   
+      <div className="flex items-center justify-center">
+        <h1 className="text-xl font-bold mb-4 ">¿Qué vas a enviar?</h1>   
       </div>
       <p className="text-sm text-slate-700">
         Para poder ofrecerte las mejores opciones, detallarnos información sobre
