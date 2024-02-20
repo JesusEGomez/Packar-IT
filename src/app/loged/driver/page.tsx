@@ -414,18 +414,27 @@ const Driver = () => {
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
               className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
-              disabled={!search || !profile || profile.phoneNumber.length < 9}
+              disabled={!search || !profile || profile.account.state !== 'approved' || profile.phoneNumber.length < 9}
             >
               Crear
             </button>
           </div>
           {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
-            <div className="w-full  text-center p-1">
+            <div className="w-full  text-center p-1 text-red-600">
               <p>
                 Debes tener un Numero de Teléfono valido para crear un envió
               </p>
             </div>
           )}
+          {
+            profile?.account.state !== 'approved' && (
+              <div className="w-full  text-center p-1 text-red-600">
+              <p>
+                Debes tener una cuenta aprobada para poder crear un viaje
+              </p>
+            </div>
+            )
+          }
         </div>
       </form>
 
