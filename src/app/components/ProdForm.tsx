@@ -21,6 +21,8 @@ function ProdForm(props: any) {
   const [img, setImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [disabled, setDisable] = useState<boolean>(true);
+  const [categorySelected, setCategorySelected] = useState(false);
+  const [weightSelected, setWeightSelected] = useState(false);
 
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
@@ -100,6 +102,14 @@ function ProdForm(props: any) {
       reader.readAsDataURL(file);
     }
   };
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setCategorySelected(true);
+  };
+  
+  const handleWeightChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setWeightSelected(true);
+  };
+  
 
   return (
     <div className="m-8 px-4 pt-12 overflow-y-auto">
@@ -125,6 +135,7 @@ function ProdForm(props: any) {
             {...register("types", {
               required: { value: true, message: "Campo requerido" },
             })}
+            onChange={handleCategoryChange}
           >
             <option value="" disabled selected>
               Categoría de tu producto
@@ -161,6 +172,7 @@ function ProdForm(props: any) {
             {...register("weight", {
               required: { value: true, message: "Campo requerido" },
             })}
+            onChange={handleWeightChange}
           >
             <option value="" disabled selected>
               Peso
