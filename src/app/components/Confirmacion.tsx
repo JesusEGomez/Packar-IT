@@ -93,7 +93,7 @@ function Confirmacion(props: any) {
       userProps.customerId && setUserHaveCard(true);
     };
 
-    envio.producto.type == "especial"
+    envio.producto.type == "especial" || 'Special'
       ? setTotal(driver.precio[3].price)
       : envio.producto.size == "Pequeño"
       ? setTotal(driver.precio[0].price)
