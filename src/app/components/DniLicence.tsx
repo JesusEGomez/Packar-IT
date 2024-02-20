@@ -42,33 +42,35 @@ const fetchProfileData = async () => {
     console.error("Error en traer la data de perfil:", error);
   }
 };
-  useEffect(() => {
-// Función para recuperar los datos del perfil
-const fetchProfileData = async () => {
-  try {
-      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
+useEffect(() => {
+  const fetchProfileData = async () => {
+    try {
+      const response = await fetch(`/api/auth/getProfileById/?id=${user?._id}`);
       const data = await response.json();
       console.log("Datos del perfil:", data);
-      
-      // Verificar si las URLs de las imágenes están presentes en los datos del perfil
-      if (data.idDocument && data.idDocument.frontPhoto && data.idDocument.backPhoto) {
-          console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
-          console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
+
+      if (data.idDocument && data.idDocument.frontPhoto && data.idDocument.backPhoto ) {
+        console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
+        console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
+
+        setImg2(data.idDocument.frontPhoto);
+        setImg3(data.idDocument.backPhoto);
       } else {
-          console.log("Las URLs de las imágenes no están presentes en los datos del perfil.");
+        console.log("Las URLs de las imágenes no están presentes en los datos del perfil.");
+        setImg2(null);
+        setImg3(null);
       }
 
       setProfileData(data);
-      const { idDocument = ""} = data;
-      setProfileData(data);
-      setIdDocument(idDocument); 
-  } catch (error) {
+    } catch (error) {
       console.error("Error al recuperar los datos del perfil:", error);
-  }
-};
+    }
+  };
 
+  if (user?._id) {
     fetchProfileData();
-  }, [memorizedUserId])
+  }
+}, [user?._id]);
 
   const handleUpdateProfile = async () => {
  
@@ -240,31 +242,25 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
   
   
 
-  useEffect(() => {
-    console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
-    if (typeof window !== "undefined") {
-      console.log("Window está definido");
-      const frontImage = localStorage.getItem("frontImage");
-      const backImage = localStorage.getItem("backImage");
+// useEffect(() => {
+//   console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
+//   if (typeof window !== "undefined") {
+//     console.log("Window está definido");
+//     const img2 = localStorage.getItem("img2");
+//     const img3 = localStorage.getItem("img3");
 
-      if (frontImage !== null) {
-        console.log(
-          "Imagen frontal recibida en el almacenamiento local:",
-          frontImage
-        );
-        setImg2(frontImage);
-      }
-      if (backImage !== null) {
-        console.log(
-          "Imagen trasera recibida en el almacenamiento local:",
-          backImage
-        );
-        setImg3(backImage);
-      }
-    } else {
-      console.log("Window no está definido");
-    }
-  }, []);
+//     if (img2 !== null) {
+//       console.log("Imagen frontal recibida en el almacenamiento local:", img2);
+//       setImg2(img2);
+//     }
+//     if (img3 !== null) {
+//       console.log("Imagen trasera recibida en el almacenamiento local:", img3);
+//       setImg3(img3);
+//     }
+//   } else {
+//     console.log("Window no está definido");
+//   }
+// }, []);
   const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de número de DNI o pasaporte...");
     const inputValue = e.target.value;
