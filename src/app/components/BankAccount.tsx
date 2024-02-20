@@ -153,9 +153,9 @@ const BankAccount = (props:any) => {
             </div>
             {
              profile?.account.state === 'loaded' ?
-                <div>
-                    <h1>Tu cuenta está en proceso de revision</h1>
-                    <p>nuestro equipo está revisando tu cuenta te informaremos apenas esté aprovada</p> 
+                <div className="flex flex-col h-max p-3 gap-y-3 justify-center">
+                    <h1 className="text-xl mx-2 my-4">Tu cuenta está en proceso de revision</h1>
+                    <p className="text-xl mt-8 mb-4">Nuestro equipo está revisando tu cuenta te informaremos apenas esté aprovada</p> 
                 </div>
                 :
                 profile?.account.state === 'approved' ?
@@ -163,7 +163,7 @@ const BankAccount = (props:any) => {
                     <h1 className="text-xl mx-2 my-4">Tu total acumulado para esta semana es de:</h1>
                     <p className="text-3xl mx-auto font-bold">{transfers/10} €</p>
                     <h1 className="text-xl mt-8 mb-4">Tu cuenta está aprobada</h1>
-                    <p>¿deseas cambiarla?</p>
+                    <p>¿Deseas cambiarla?</p>
                     <Button
                     variant={"ghost"}
                     className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
