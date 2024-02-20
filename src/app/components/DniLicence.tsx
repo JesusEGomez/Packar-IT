@@ -36,28 +36,37 @@ const fetchProfileData = async () => {
   try {
     const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
     const data = await response.json();
+    console.log("Datos del perfil:", data);
     setProfileData(data);
   } catch (error) {
-    console.error("Error fetching profile data:", error);
+    console.error("Error en traer la data de perfil:", error);
   }
 };
   useEffect(() => {
-async function fetchProfileData() {
-  if (!user?._id) {
-    console.error("El ID del usuario no está definido.");
-    return;
-  }
+// Función para recuperar los datos del perfil
+const fetchProfileData = async () => {
   try {
-    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
-    const data = await response.json();
-    //console.log("Profile data:", data);
-    const { idDocument = ""} = data;
-    setProfileData(data);
-    setIdDocument(idDocument); 
+      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
+      const data = await response.json();
+      console.log("Datos del perfil:", data);
+      
+      // Verificar si las URLs de las imágenes están presentes en los datos del perfil
+      if (data.idDocument && data.idDocument.frontPhoto && data.idDocument.backPhoto) {
+          console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
+          console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
+      } else {
+          console.log("Las URLs de las imágenes no están presentes en los datos del perfil.");
+      }
+
+      setProfileData(data);
+      const { idDocument = ""} = data;
+      setProfileData(data);
+      setIdDocument(idDocument); 
   } catch (error) {
-    console.error("Error fetching profile data:", error);
+      console.error("Error al recuperar los datos del perfil:", error);
   }
-}
+};
+
     fetchProfileData();
   }, [memorizedUserId])
 
@@ -77,10 +86,10 @@ async function fetchProfileData() {
   
       if (response.ok) {
         //console.log("Perfil actualizado con éxito");
-        setProfileData({
-          ...profileData,
-          idDocument,
-        });   
+        const updatedProfileData = await response.json();
+        console.log("Perfil actualizado con éxito:", updatedProfileData); // Agregar un console.log para verificar el perfil actualizado
+        setProfileData(updatedProfileData);
+           
       } else {
         console.error("Error al actualizar el perfil");
       }
@@ -112,38 +121,40 @@ async function fetchProfileData() {
   const cloudPreset = process.env.CLOUD_PRESET;
   const { data: session } = useSession();
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("Manejando cambio de archivo...");
-    const file = e.target.files?.[0];
-    if (file) {
+  // Modifica la función handleFileChange para agregar un parámetro de tiempo aleatorio a la URL de la imagen
+const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  console.log("Manejando cambio de archivo...");
+  const file = e.target.files?.[0];
+  if (file) {
       const formData = new FormData();
       formData.append("file", file);
 
       try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}`,
-          {
-            method: "POST",
-            body: formData,
+          const response = await fetch(
+              `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`, 
+              {
+                  method: "POST",
+                  body: formData,
+              }
+          );
+          const ans = await response.json();
+          console.log("Respuesta de Cloudinary:", ans);
+          if (response.ok) {
+              const fileName = ans.secure_url;
+              if (!img2) {
+                  console.log("Configurando img2:", fileName);
+                  setImg2(fileName);
+              } else {
+                  console.log("Configurando img3:", fileName);
+                  setImg3(fileName);
+              }
           }
-        );
-        const ans = await response.json();
-        console.log("Respuesta de Cloudinary:", ans);
-        if (response.ok) {
-          const fileName = ans.secure_url;
-          if (!img2) {
-            console.log("Configurando img2:", fileName);
-            setImg2(fileName);
-          } else {
-            console.log("Configurando img3:", fileName);
-            setImg3(fileName);
-          }
-        }
       } catch (error) {
-        console.error("Error al subir el archivo:", error);
+          console.error("Error al subir el archivo:", error);
       }
-    }
-  };
+  }
+};
+
 
   const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de archivo frontal...");
