@@ -162,7 +162,7 @@ const Loged = () => {
       date &&
       selectedProductData &&
       receptorInfo &&
-      profile?.account?.state === 'approved'
+      profile?.account?.state === 'approved' &&
       setSearch(true);
 
     setEnvio({
