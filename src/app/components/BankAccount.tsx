@@ -127,7 +127,7 @@ const BankAccount = (props:any) => {
         }
         
         const fetchCountries = async () => {
-            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,translations');
+            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,name,translations');
             const info = await data.json();
             setCountries(info);
         }
