@@ -87,9 +87,8 @@ function ProdForm(props: any) {
 
   useEffect(() => {
     img && setDisable(false);
-    
   }, [img]);
- 
+
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -105,11 +104,15 @@ function ProdForm(props: any) {
   const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setCategorySelected(true);
   };
-  
+
   const handleWeightChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setWeightSelected(true);
   };
-  
+
+  const handleDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setWeightSelected(!!e.target.value.trim());
+  };
+
 
   return (
     <div className="m-8 px-4 pt-12 overflow-y-auto">
@@ -117,7 +120,7 @@ function ProdForm(props: any) {
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex items-center justify-center">
-        <h1 className="text-xl font-bold mb-4 ">¿Qué vas a enviar?</h1>   
+        <h1 className="text-xl font-bold mb-4 ">¿Qué vas a enviar?</h1>
       </div>
       <p className="text-sm text-slate-700">
         Para poder ofrecerte las mejores opciones, detallarnos información sobre
@@ -128,9 +131,32 @@ function ProdForm(props: any) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex items-center border-b m-auto w-80">
+          <GiWeight className="text-slate-400" size={20} />
+          <select
+            className={`p-2 rounded bg-white ${
+              weightSelected ? "text-black-500" : "text-slate-400"
+            } w-full`}
+            id="weight"
+            {...register("weight", {
+              required: { value: true, message: "Campo requerido" },
+            })}
+            onChange={handleWeightChange}
+          >
+            <option value="" disabled selected>
+              Peso
+            </option>
+            <option value="<5kg">{`<5kg`}</option>
+            <option value="5-10kg">5-10kg</option>
+            <option value="15-30kg">15-30kg</option>
+          </select>
+        </div>
+
+        <div className="flex items-center border-b m-auto w-80">
           <TbTriangleSquareCircle className="text-slate-400" size={20} />
           <select
-            className={`p-2 rounded bg-white ${categorySelected ? "text-black-500" : "text-slate-400"} w-full`}
+            className={`p-2 rounded bg-white ${
+              categorySelected ? "text-black-500" : "text-slate-400"
+            } w-full`}
             id="types"
             {...register("types", {
               required: { value: true, message: "Campo requerido" },
@@ -151,36 +177,19 @@ function ProdForm(props: any) {
           </select>
         </div>
         <div className="flex items-center border-b m-auto w-80">
-          <BsBoxSeam className="text-slate-400" />
+          <BsBoxSeam className={weightSelected ? "text-black-500" : "text-slate-400"} />
           <input
-            placeholder="Producto"
-            className="p-2 rounded bg-white text-slate-400 w-full pl-4"
+            placeholder="Detalle"
+            className={`p-2 rounded bg-white ${
+              weightSelected ? "text-black-500" : "text-slate-400"
+            } w-full pl-4`}
             type="text"
             id="name"
             {...register("name", {
               required: { value: true, message: "Campo requerido" },
             })}
+            onChange={handleDetailChange}
           />
-          
-        </div>
-
-        <div className="flex items-center border-b m-auto w-80">
-          <GiWeight className="text-slate-400" size={20} />
-          <select
-            className={`p-2 rounded bg-white ${weightSelected ? "text-black-500" : "text-slate-400"} w-full`}
-            id="weight"
-            {...register("weight", {
-              required: { value: true, message: "Campo requerido" },
-            })}
-            onChange={handleWeightChange}
-          >
-            <option value="" disabled selected>
-              Peso
-            </option>
-            <option value="<5kg">{`<5kg`}</option>
-            <option value="5-10kg">5-10kg</option>
-            <option value="15-30kg">15-30kg</option>
-          </select>
         </div>
 
         <div className="flex flex-col justify-center items-center p-4 gap-y-5">
