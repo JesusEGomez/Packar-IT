@@ -19,59 +19,72 @@ export default function PassportId(props: any) {
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
   const [profileData, setProfileData] = useState<any | null>(null);
-  const memorizedUserId = useMemo(() => user?._id, [user?._id]); 
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
   const [idDocument, setIdDocument] = useState<string>("");
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
 
-
   useEffect(() => {
     // Llamar a la función para recuperar los datos del perfil cada vez que se monta el componente
-   fetchProfileData();
-}, []);
+    fetchProfileData();
+  }, []);
 
-const fetchProfileData = async () => {
-  try {
-    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
-    const data = await response.json();
-    console.log("Datos del perfil:", data);
-    setProfileData(data);
-  } catch (error) {
-    console.error("Error en traer la data de perfil:", error);
-  }
-};
-  useEffect(() => {
-// Función para recuperar los datos del perfil
-const fetchProfileData = async () => {
-  try {
+  const fetchProfileData = async () => {
+    try {
       const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
       const data = await response.json();
       console.log("Datos del perfil:", data);
-      
-      // Verificar si las URLs de las imágenes están presentes en los datos del perfil
-      if (data.idDocument && data.idDocument.frontPhoto && data.idDocument.backPhoto) {
+      setProfileData(data);
+    } catch (error) {
+      console.error("Error en traer la data de perfil:", error);
+    }
+  };
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch(
+          `/api/auth/getProfileById/?id=${user?._id}`
+        );
+        const data = await response.json();
+        console.log("Datos del perfil:", data);
+
+        if (
+          data.idDocument &&
+          data.idDocument.frontPhoto &&
+          data.idDocument.backPhoto &&
+          data.idDocument.type
+        ) {
           console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
           console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
-      } else {
-          console.log("Las URLs de las imágenes no están presentes en los datos del perfil.");
+          console.log("Tipo de documento:", data.idDocument.type);
+          console.log("Número de documento:", data.idDocument.number);
+
+          setImg2(data.idDocument.frontPhoto);
+          setImg3(data.idDocument.backPhoto);
+          setType(data.idDocument.type);
+          setNumeroDni(data.idDocument.number);
+        } else {
+          console.log(
+            "Las URLs de las imágenes no están presentes en los datos del perfil."
+          );
+          setImg2(null);
+          setImg3(null);
+        }
+
+        setProfileData(data);
+      } catch (error) {
+        console.error("Error al recuperar los datos del perfil:", error);
       }
+    };
 
-      setProfileData(data);
-      const { idDocument = ""} = data;
-      setProfileData(data);
-      setIdDocument(idDocument); 
-  } catch (error) {
-      console.error("Error al recuperar los datos del perfil:", error);
-  }
-};
-
-    fetchProfileData();
-  }, [memorizedUserId])
+    if (user?._id) {
+      fetchProfileData();
+    }
+  }, [user?._id]);
 
   const handleUpdateProfile = async () => {
- 
     try {
       const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
         method: "PUT",
@@ -83,13 +96,12 @@ const fetchProfileData = async () => {
           idDocument,
         }),
       });
-  
+
       if (response.ok) {
         //console.log("Perfil actualizado con éxito");
         const updatedProfileData = await response.json();
         console.log("Perfil actualizado con éxito:", updatedProfileData); // Agregar un console.log para verificar el perfil actualizado
         setProfileData(updatedProfileData);
-           
       } else {
         console.error("Error al actualizar el perfil");
       }
@@ -122,39 +134,38 @@ const fetchProfileData = async () => {
   const { data: session } = useSession();
 
   // Modifica la función handleFileChange para agregar un parámetro de tiempo aleatorio a la URL de la imagen
-const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-  console.log("Manejando cambio de archivo...");
-  const file = e.target.files?.[0];
-  if (file) {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    console.log("Manejando cambio de archivo...");
+    const file = e.target.files?.[0];
+    if (file) {
       const formData = new FormData();
       formData.append("file", file);
 
       try {
-          const response = await fetch(
-              `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`, 
-              {
-                  method: "POST",
-                  body: formData,
-              }
-          );
-          const ans = await response.json();
-          console.log("Respuesta de Cloudinary:", ans);
-          if (response.ok) {
-              const fileName = ans.secure_url;
-              if (!img2) {
-                  console.log("Configurando img2:", fileName);
-                  setImg2(fileName);
-              } else {
-                  console.log("Configurando img3:", fileName);
-                  setImg3(fileName);
-              }
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
+          {
+            method: "POST",
+            body: formData,
           }
+        );
+        const ans = await response.json();
+        console.log("Respuesta de Cloudinary:", ans);
+        if (response.ok) {
+          const fileName = ans.secure_url;
+          if (!img2) {
+            console.log("Configurando img2:", fileName);
+            setImg2(fileName);
+          } else {
+            console.log("Configurando img3:", fileName);
+            setImg3(fileName);
+          }
+        }
       } catch (error) {
-          console.error("Error al subir el archivo:", error);
+        console.error("Error al subir el archivo:", error);
       }
-  }
-};
-
+    }
+  };
 
   const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de archivo frontal...");
@@ -200,11 +211,14 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
   const handleBotonPic = async () => {
     console.log("Manejando clic en el botón para cargar documentación...");
     try {
-      const user = await fetch(`/api/auth/myid/?email=${session?.user?.email}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const user = await fetch(
+        `/api/auth/myid/?email=${session?.user?.email}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const userAns = await user.json();
       const updatedProfile = await fetch("/api/auth/profile", {
         method: "PUT",
@@ -226,10 +240,10 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
-        props.closeWithChange && props.closeWithChange()
+        props.closeWithChange && props.closeWithChange();
         props.closeIdModal();
       }, 1500);
-  
+
       // Llamar a handleUpdateProfile para actualizar el perfil nuevamente con el idDocument
       await handleUpdateProfile();
       console.log("Perfil actualizado correctamente en la base de datos.");
@@ -237,34 +251,26 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
       console.error("Error al cargar la documentación:", error);
     }
   };
-  
-  
 
-  useEffect(() => {
-    console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
-    if (typeof window !== "undefined") {
-      console.log("Window está definido");
-      const frontImage = localStorage.getItem("frontImage");
-      const backImage = localStorage.getItem("backImage");
+  // useEffect(() => {
+  //   console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
+  //   if (typeof window !== "undefined") {
+  //     console.log("Window está definido");
+  //     const img2 = localStorage.getItem("img2");
+  //     const img3 = localStorage.getItem("img3");
 
-      if (frontImage !== null) {
-        console.log(
-          "Imagen frontal recibida en el almacenamiento local:",
-          frontImage
-        );
-        setImg2(frontImage);
-      }
-      if (backImage !== null) {
-        console.log(
-          "Imagen trasera recibida en el almacenamiento local:",
-          backImage
-        );
-        setImg3(backImage);
-      }
-    } else {
-      console.log("Window no está definido");
-    }
-  }, []);
+  //     if (img2 !== null) {
+  //       console.log("Imagen frontal recibida en el almacenamiento local:", img2);
+  //       setImg2(img2);
+  //     }
+  //     if (img3 !== null) {
+  //       console.log("Imagen trasera recibida en el almacenamiento local:", img3);
+  //       setImg3(img3);
+  //     }
+  //   } else {
+  //     console.log("Window no está definido");
+  //   }
+  // }, []);
   const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de número de DNI o pasaporte...");
     const inputValue = e.target.value;
@@ -287,8 +293,11 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
+    setImg2(null); 
+    setImg3(null); 
     localStorage.setItem("documentType", selectedType);
   };
+  
 
   useEffect(() => {
     console.log("Cargando tipo de documento desde el almacenamiento local...");
@@ -342,15 +351,11 @@ const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
                 }}
                 value={type || ""}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Tipo de documento
                 </option>
-                <option className="text-black" value="dni">
-                  DNI
-                </option>
-                <option className="text-black" value="pasaporte">
-                  Pasaporte
-                </option>
+                <option value="dni">DNI</option>
+                <option value="pasaporte">Pasaporte</option>
               </select>
             </div>
 

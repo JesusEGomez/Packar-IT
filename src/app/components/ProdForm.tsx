@@ -21,6 +21,9 @@ function ProdForm(props: any) {
   const [img, setImg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [disabled, setDisable] = useState<boolean>(true);
+  const [categorySelected, setCategorySelected] = useState(false);
+  const [weightSelected, setWeightSelected] = useState(false);
+  const [detailSelected, setDetailSelected] = useState(false); 
 
   const cloudName = process.env.CLOUD_NAME;
   const cloudPreset = process.env.CLOUD_PRESET;
@@ -85,7 +88,6 @@ function ProdForm(props: any) {
 
   useEffect(() => {
     img && setDisable(false);
-    
   }, [img]);
 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -100,15 +102,25 @@ function ProdForm(props: any) {
       reader.readAsDataURL(file);
     }
   };
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setCategorySelected(true);
+  };
+
+  const handleWeightChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setWeightSelected(true);
+  };
+
+  const handleDetailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setDetailSelected(!!e.target.value.trim());
+  };
 
   return (
-    <div className="m-8 px-4 h-screen overflow-y-auto">
+    <div className="m-8 px-4 pt-12 overflow-y-auto">
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="flex">
-        <h1 className="text-xl font-bold mb-4">¿Qué vas a enviar?</h1>
-        <FaExclamationCircle className="text-slate-400" />
+      <div className="flex items-center justify-center">
+        <h1 className="text-xl font-bold mb-4 ">¿Qué vas a enviar?</h1>
       </div>
       <p className="text-sm text-slate-700">
         Para poder ofrecerte las mejores opciones, detallarnos información sobre
@@ -119,13 +131,37 @@ function ProdForm(props: any) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex items-center border-b m-auto w-80">
+          <GiWeight className="text-slate-400" size={20} />
+          <select
+            className={`p-2 rounded bg-white ${
+              weightSelected ? "text-black-500" : "text-slate-400"
+            } w-full`}
+            id="weight"
+            {...register("weight", {
+              required: { value: true, message: "Campo requerido" },
+            })}
+            onChange={handleWeightChange}
+          >
+            <option value="" disabled selected>
+              Peso
+            </option>
+            <option value="<5kg">{`<5kg`}</option>
+            <option value="5-10kg">5-10kg</option>
+            <option value="15-30kg">15-30kg</option>
+          </select>
+        </div>
+
+        <div className="flex items-center border-b m-auto w-80">
           <TbTriangleSquareCircle className="text-slate-400" size={20} />
           <select
-            className="p-2 rounded bg-white text-slate-400 w-full"
+            className={`p-2 rounded bg-white ${
+              categorySelected ? "text-black-500" : "text-slate-400"
+            } w-full`}
             id="types"
             {...register("types", {
               required: { value: true, message: "Campo requerido" },
             })}
+            onChange={handleCategoryChange}
           >
             <option value="" disabled selected>
               Categoría de tu producto
@@ -141,35 +177,19 @@ function ProdForm(props: any) {
           </select>
         </div>
         <div className="flex items-center border-b m-auto w-80">
-          <BsBoxSeam className="text-slate-400" />
+          <BsBoxSeam className={detailSelected ? "text-black-500" : "text-slate-400"} />
           <input
-            placeholder="Producto"
-            className="p-2 rounded bg-white text-slate-400 w-full"
+            placeholder="Detalle"
+            className={`p-2 rounded bg-white ${
+              weightSelected ? "text-black-500" : "text-slate-400"
+            } w-full pl-4`}
             type="text"
             id="name"
             {...register("name", {
               required: { value: true, message: "Campo requerido" },
             })}
+            onChange={handleDetailChange}
           />
-          <IoIosArrowDown className="text-slate-400" />
-        </div>
-
-        <div className="flex items-center border-b m-auto w-80">
-          <GiWeight className="text-slate-400" size={20} />
-          <select
-            className="p-2 rounded bg-white text-slate-400 w-full"
-            id="weight"
-            {...register("weight", {
-              required: { value: true, message: "Campo requerido" },
-            })}
-          >
-            <option value="" disabled selected>
-              Peso
-            </option>
-            <option value="<5kg">{`<5kg`}</option>
-            <option value="5-10kg">5-10kg</option>
-            <option value="15-30kg">15-30kg</option>
-          </select>
         </div>
 
         <div className="flex flex-col justify-center items-center p-4 gap-y-5">

@@ -155,11 +155,14 @@ const Loged = () => {
 
     fetchUser(session?.user?.email!);
 
+    
+
     from &&
       to &&
       date &&
       selectedProductData &&
       receptorInfo &&
+      profile?.account?.state === 'approved' &&
       setSearch(true);
 
     setEnvio({
@@ -172,10 +175,10 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible 2xl:min-h-56 ">
+    <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible ">
       <div>
         <Image
-          className="my-8 rounded-full 2xl:my-12 2xl:w-[150px] 2xl:h-[150px]"
+          className="my-8 rounded-full "
           src={logo}
           alt="logo"
           width={150}
@@ -187,12 +190,12 @@ const Loged = () => {
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-1 ">
           <form
-            className="flex flex-col items-center gap-y-3 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center 2xl:min-h-80"
+            className="flex flex-col items-center gap-y-3 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col items-center overflow-y-auto ">
               <button
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 ${
                   from ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={fromHandler}
