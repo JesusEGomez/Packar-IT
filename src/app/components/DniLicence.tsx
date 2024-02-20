@@ -55,10 +55,11 @@ export default function PassportId(props: any) {
           data.idDocument.frontPhoto &&
           data.idDocument.backPhoto &&
           data.idDocument.type
-
         ) {
           console.log("URL de la imagen frontal:", data.idDocument.frontPhoto);
           console.log("URL de la imagen trasera:", data.idDocument.backPhoto);
+          console.log("Tipo de documento:", data.idDocument.type);
+          console.log("Número de documento:", data.idDocument.number);
 
           setImg2(data.idDocument.frontPhoto);
           setImg3(data.idDocument.backPhoto);
@@ -292,8 +293,11 @@ export default function PassportId(props: any) {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
+    setImg2(null); 
+    setImg3(null); 
     localStorage.setItem("documentType", selectedType);
   };
+  
 
   useEffect(() => {
     console.log("Cargando tipo de documento desde el almacenamiento local...");
@@ -347,15 +351,11 @@ export default function PassportId(props: any) {
                 }}
                 value={type || ""}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Tipo de documento
                 </option>
-                <option className="text-black" value="dni">
-                  DNI
-                </option>
-                <option className="text-black" value="pasaporte">
-                  Pasaporte
-                </option>
+                <option value="dni">DNI</option>
+                <option value="pasaporte">Pasaporte</option>
               </select>
             </div>
 
