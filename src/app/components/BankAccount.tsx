@@ -179,7 +179,7 @@ const BankAccount = (props:any) => {
                     })} id="countries" className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                     <option value="" disabled selected>Selecciona tu país</option>
                     {
-                        countries && countries.map((country) => (<option value={country.cca2}>{`${country.translations.spa.common} (${country.cca2})`}</option>))
+                        countries && countries.map((country, i) => (<option value={country.cca2} key={i}>{`${country.translations.spa.common} (${country.cca2})`}</option>))
                     }
                 </select>
                 <div className="flex flex-col w-full gap-y-2">
@@ -214,7 +214,7 @@ const BankAccount = (props:any) => {
                         })} className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                             <option value="" disabled selected>Selecciona el código de tu país</option>
                             {
-                                countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag} ${country.translations.spa.common} (${country.idd.root}${country.idd.suffixes[0]})`}</option>))
+                                countries && countries.map((country, i) => (<option key={i} value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag} ${country.translations.spa.common} (${country.idd.root}${country.idd.suffixes[0]})`}</option>))
                             }
                         </select>
                         <input {...register("phone", {
