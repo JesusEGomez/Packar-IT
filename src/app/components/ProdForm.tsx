@@ -87,7 +87,7 @@ function ProdForm(props: any) {
     img && setDisable(false);
     
   }, [img]);
-
+ 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -120,7 +120,7 @@ function ProdForm(props: any) {
         <div className="flex items-center border-b m-auto w-80">
           <TbTriangleSquareCircle className="text-slate-400" size={20} />
           <select
-            className="p-2 rounded bg-white text-slate-400 w-full"
+            className={`p-2 rounded bg-white ${errors.types ? "text-slate-400" : "text-black-500"} w-full`}
             id="types"
             {...register("types", {
               required: { value: true, message: "Campo requerido" },
@@ -156,8 +156,8 @@ function ProdForm(props: any) {
         <div className="flex items-center border-b m-auto w-80">
           <GiWeight className="text-slate-400" size={20} />
           <select
-            className="p-2 rounded bg-white text-slate-400 w-full"
-            id="weight"
+              className={`p-2 rounded bg-white ${errors.weight ? "text-slate-400" : "text-black-500"} w-full`}
+              id="weight"
             {...register("weight", {
               required: { value: true, message: "Campo requerido" },
             })}
