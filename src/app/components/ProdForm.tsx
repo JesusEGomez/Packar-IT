@@ -143,7 +143,7 @@ function ProdForm(props: any) {
           <BsBoxSeam className="text-slate-400" />
           <input
             placeholder="Producto"
-            className="p-2 rounded bg-white text-slate-400 w-full"
+            className="p-2 rounded bg-white text-slate-400 w-full pl-4"
             type="text"
             id="name"
             {...register("name", {
