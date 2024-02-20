@@ -107,7 +107,7 @@ function ProdForm(props: any) {
         <IoMdArrowRoundBack />
       </Button>
       <div className="flex">
-        <h1 className="text-xl font-bold mb-4">¿Qué vas a enviar?</h1>   
+        <h1 className="text-xl font-bold mb-4 text-center">¿Qué vas a enviar?</h1>   
       </div>
       <p className="text-sm text-slate-700">
         Para poder ofrecerte las mejores opciones, detallarnos información sobre
@@ -150,7 +150,7 @@ function ProdForm(props: any) {
               required: { value: true, message: "Campo requerido" },
             })}
           />
-          <IoIosArrowDown className="text-slate-400" />
+          
         </div>
 
         <div className="flex items-center border-b m-auto w-80">
