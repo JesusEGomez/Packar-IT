@@ -50,7 +50,6 @@ export default function PassportId(props: any) {
         );
         const data = await response.json();
         console.log("Datos del perfil:", data);
-
         if (
           data.idDocument &&
           data.idDocument.frontPhoto &&
