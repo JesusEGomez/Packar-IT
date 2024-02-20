@@ -16,6 +16,7 @@ export interface IProfile {
   userId: IUser;
   driverLicense: IdriverLicense;
   idDocument: IIdDocument;
+  customerId: string | null;
   city: string;
   phoneNumber: string;
   account: {
