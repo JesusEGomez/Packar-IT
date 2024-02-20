@@ -293,8 +293,11 @@ export default function PassportId(props: any) {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
+    setImg2(null); 
+    setImg3(null); 
     localStorage.setItem("documentType", selectedType);
   };
+  
 
   useEffect(() => {
     console.log("Cargando tipo de documento desde el almacenamiento local...");
