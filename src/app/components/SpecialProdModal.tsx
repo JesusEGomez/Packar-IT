@@ -85,15 +85,15 @@ const SpecialProdModal = (props: any) => {
 
   return (
     <div className="px-4">
+      <div>
+        <Button onClick={props.justClose} variant={"ghost"}>
+          <IoMdArrowRoundBack />
+        </Button>
+      </div>
       <form
         className="flex flex-col items-center p-2 mb-10"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div>
-          <Button onClick={props.justClose} variant={"ghost"}>
-            <IoMdArrowRoundBack />
-          </Button>
-        </div>
         <h1>Selecciona tu tipo de producto</h1>
         <div className="flex items-center border-b m-auto w-full gap-x-2">
           <TbTriangleSquareCircle className=" ml-4" size={20} />
@@ -152,7 +152,7 @@ const SpecialProdModal = (props: any) => {
             {...register("weight", {
               required: { value: false, message: "Campo requerido" },
               pattern: {
-                value: /^[0-9]*$/, 
+                value: /^[0-9]*$/,
                 message: "Solo se permiten números",
               },
             })}

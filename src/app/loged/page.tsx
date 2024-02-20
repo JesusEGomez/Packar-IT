@@ -66,8 +66,8 @@ const Loged = () => {
   const [lastModalOpen, setLastModalOpen] = useState<boolean>(false);
   const [envio, setEnvio] = useState<any | null>(null);
   const [dateModalOpen, setDateModalOpen] = useState<boolean>(false);
-  const [profile, setProfile] = useState<IProfile | null>();
-  const { user, fetchUser } = useUserState((state) => state);
+  // const [profile, setProfile] = useState<IProfile | null>();
+  const { user, fetchUser, profile } = useUserState((state) => state);
 
   const fromHandler = () => {
     setFromModalOpen(true);
@@ -118,6 +118,7 @@ const Loged = () => {
     setProdModal(true);
   };
   const closeProdModal = (selectedProductData: any) => {
+    console.log(selectedProductData);
     setProdModal(false);
     setSelectedProductData(selectedProductData);
   };
@@ -148,19 +149,11 @@ const Loged = () => {
   const onSubmit: SubmitHandler<FormInputs> = (data) => {
     //console.log(data);
   };
-  const fetchProfile = async () => {
-    console.log(user);
-    const response = await fetch(
-      `/api/auth/getProfileById/?id=${user._id}`
-    ).then((response) => response.json());
-    setProfile(response);
-  };
 
   useEffect(() => {
     !session && navigate.push("/prelogin/register/login");
 
     fetchUser(session?.user?.email!);
-    fetchProfile();
 
     from &&
       to &&
@@ -182,7 +175,7 @@ const Loged = () => {
     <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible 2xl:min-h-56 ">
       <div>
         <Image
-          className="my-8 rounded-full 2xl:my-12 2xl:w-[200px] 2xl:h-[200px]"
+          className="my-8 rounded-full 2xl:my-12 2xl:w-[150px] 2xl:h-[150px]"
           src={logo}
           alt="logo"
           width={150}
@@ -190,16 +183,16 @@ const Loged = () => {
         />
       </div>
       {/* hola */}
-      <div className="flex flex-col w-fit mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed max-h-lvh top-40 left-5 right-5 bg-white border rounded-xl 2xl:top-64 2xl:w-2/5 2xl:min-h-80">
+      <div className="flex flex-col mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed max-h-lvh top-40 left-5 right-5 bg-white border rounded-xl 2xl:top-52 2xl:w-1/3 2xl:min-h-80">
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
-        <div className="flex flex-col text-center items-center gap-y-2 ">
+        <div className="flex flex-col text-center items-center gap-y-1 ">
           <form
-            className="flex flex-col items-center gap-y-4 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center 2xl:min-h-96"
+            className="flex flex-col items-center gap-y-3 p-2.5 h-3/4 sm:z-10 sm:overflow-y-auto sm:flex-wrap sm:align-content-center 2xl:min-h-80"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col items-center overflow-y-auto ">
               <button
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
                   from ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={fromHandler}
@@ -213,7 +206,7 @@ const Loged = () => {
                   : `${from}`}
               </button>
               <button
-                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-5 ${
                   to ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={toHandler}
@@ -228,7 +221,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -243,7 +236,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-6 ${
+                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
                   selectedProductData ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -262,7 +255,7 @@ const Loged = () => {
                       search ? "w-full" : "w-auto"
                     } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
                     disabled={
-                      !search || profile?.phoneNumber.length! < 9 || !profile
+                      !search || !profile || profile.phoneNumber.length < 9
                     }
                   >
                     Buscar
@@ -278,13 +271,11 @@ const Loged = () => {
               </div>
             </div>
 
-            {status === "authenticated" &&
-              profile?.phoneNumber &&
-              profile.phoneNumber.length < 9 && (
-                <p>
-                  Deber tener un Numero de telefono valido para crear un envio
-                </p>
-              )}
+            {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
+              <p>
+                Debes tener un Numero de teléfono valido para crear un envió
+              </p>
+            )}
           </form>
         </div>
       </div>

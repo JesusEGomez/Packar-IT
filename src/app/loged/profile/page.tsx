@@ -19,89 +19,101 @@ function Profile() {
   const [cityError, setCityError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
-const memorizedUserId = useMemo(() => user?._id, [user?._id]); 
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
   }, []);
 
   useEffect(() => {
-async function fetchProfileData() {
-  if (!user?._id) {
-    console.error("El ID del usuario no está definido.");
-    return;
-  }
-  try {
-    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`);
-    const data = await response.json();
-    //console.log("Profile data:", data);
-    const { phoneNumber = "", city = "" } = data;
-    setProfileData(data);
-    setPhoneNumber(phoneNumber);
-    setCity(city);
-  } catch (error) {
-    console.error("Error fetching profile data:", error);
-  }
-}
-    fetchProfileData();
-  }, [memorizedUserId])
-
-const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const inputPhoneNumber = e.target.value;
-  if (/^[0-9+]*$/.test(inputPhoneNumber)) {
-    setPhoneNumber(inputPhoneNumber);
-    setPhoneNumberError("");
-  } else if (!inputPhoneNumber.trim()) {
-    setPhoneNumberError("El teléfono no puede estar vacío.");
-  } else {
-    setPhoneNumberError("El teléfono solo puede contener números");
-  }
-};
-
-const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const inputCity = e.target.value;
-  setCity(inputCity);
-  setCityError(inputCity.trim() ? "" : "La ciudad no puede estar vacía.");
-};
-
-const handleUpdateProfile = async () => {
-  if (!phoneNumber || !city) {
-    setPhoneNumberError(!phoneNumber ? "El teléfono no puede estar vacío." : "");
-    setCityError(!city ? "La ciudad no puede estar vacía." : "");
-    return;
-  }
-
-  try {
-    const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: user?._id,
-        phoneNumber,
-        city,
-      }),
-    });
-
-    if (response.ok) {
-      //console.log("Perfil actualizado con éxito");
-      setProfileData({
-        ...profileData,
-        phoneNumber,
-        city,
-      });
-      setSuccessMessage("Perfil actualizado con éxito");
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
-    } else {
-      console.error("Error al actualizar el perfil");
+    async function fetchProfileData() {
+      if (!user?._id) {
+        console.error("El ID del usuario no está definido.");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `/api/auth/getProfileById/?id=${user._id}`
+        );
+        const data = await response.json();
+        //console.log("Profile data:", data);
+        const { phoneNumber = "", city = "" } = data;
+        setProfileData(data);
+        setPhoneNumber(phoneNumber);
+        setCity(city);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
     }
-  } catch (error) {
-    console.error("Error al actualizar el perfil:", error);
-  }
-};
+    fetchProfileData();
+  }, [memorizedUserId]);
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputPhoneNumber = e.target.value;
+    if (/^[0-9+]*$/.test(inputPhoneNumber)) {
+      setPhoneNumber(inputPhoneNumber);
+      setPhoneNumberError("");
+    } else if (!inputPhoneNumber.trim()) {
+      setPhoneNumberError("El teléfono no puede estar vacío.");
+    } else {
+      setPhoneNumberError("El teléfono solo puede contener números");
+    }
+  };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputCity = e.target.value;
+    setCity(inputCity);
+    setCityError(inputCity.trim() ? "" : "La ciudad no puede estar vacía.");
+  };
+
+  const handleUpdateProfile = async () => {
+    if (!phoneNumber || !city) {
+      setPhoneNumberError(
+        !phoneNumber ? "El teléfono no puede estar vacío." : ""
+      );
+      setCityError(!city ? "La ciudad no puede estar vacía." : "");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/auth/getProfileById/?id=${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user?._id,
+          phoneNumber,
+          city,
+        }),
+      });
+
+      if (response.ok) {
+        //console.log("Perfil actualizado con éxito");
+        localStorage.setItem(
+          "profile",
+          JSON.stringify({
+            ...profileData,
+            phoneNumber,
+            city,
+          })
+        );
+        setProfileData({
+          ...profileData,
+          phoneNumber,
+          city,
+        });
+        setSuccessMessage("Perfil actualizado con éxito");
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      } else {
+        console.error("Error al actualizar el perfil");
+      }
+    } catch (error) {
+      console.error("Error al actualizar el perfil:", error);
+    }
+  };
 
   if (!session || !profileData) {
     return loading();

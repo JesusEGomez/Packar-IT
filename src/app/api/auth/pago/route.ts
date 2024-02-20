@@ -1,11 +1,11 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from 'next/server';
-import { connectDB } from '@/libs/mongodb';
-import { Stripe } from 'stripe';
-import Profile from '@/models/perfil';
+import { NextResponse } from "next/server";
+import { connectDB } from "@/libs/mongodb";
+import { Stripe } from "stripe";
+import Profile from "@/models/perfil";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
-  apiVersion: '2023-10-16',
+  apiVersion: "2023-10-16",
 });
 
 export async function POST(request: Request) {
@@ -44,23 +44,31 @@ export async function GET(request: Request) {
     await connectDB();
 
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('idUser');
+    const userId = searchParams.get("idUser");
     //console.log(userId);
 
-    const searchUser = await Profile.findOne({userId: userId});
-    
+    const searchUser = await Profile.findOne({ userId: userId });
+
     if (!searchUser) {
-      return NextResponse.json({ message: 'ID de cliente no válido' }, { status: 400 });
+      return NextResponse.json(
+        { message: "ID de cliente no válido" },
+        { status: 400 }
+      );
     }
 
     // Obtener información del cliente en Stripe
-    const customer = await stripe.customers.retrieve(searchUser.customerId) as any;   
+    const customer = (await stripe.customers.retrieve(
+      searchUser.customerId
+    )) as any;
 
     // Obtener la información de la tarjeta
     const paymentMethodId = customer.default_source;
-    
+
     if (!paymentMethodId) {
-      return NextResponse.json({ message: 'No se encontró información de la tarjeta' }, { status: 404 });
+      return NextResponse.json(
+        { message: "No se encontró información de la tarjeta" },
+        { status: 404 }
+      );
     }
 
     // Obtener detalles del método de pago (incluyendo los últimos 4 dígitos)
@@ -72,23 +80,29 @@ export async function GET(request: Request) {
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
 
 export async function PUT(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const userId = searchParams.get('idUser');
-    const searchUser = await Profile.findOne({userId: userId});
+    const userId = searchParams.get("idUser");
+    const searchUser = await Profile.findOne({ userId: userId });
     searchUser.customerId = null;
     await searchUser.save();
-    return NextResponse.json('Success', { status: 200 });
+    return NextResponse.json("Success", { status: 200 });
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
