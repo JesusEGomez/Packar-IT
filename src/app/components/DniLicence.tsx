@@ -6,11 +6,8 @@ import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import useUserState from "../../app/store/sotre";
 
-require("dotenv").config();
-
 export default function PassportId(props: any) {
   const frontFileInputRef = useRef<HTMLInputElement>(null);
-  const { fetchUser, user } = useUserState((state) => state);
   const backFileInputRef = useRef<HTMLInputElement>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [img2, setImg2] = useState<string | null>(null);
@@ -19,8 +16,9 @@ export default function PassportId(props: any) {
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
   const [profileData, setProfileData] = useState<any | null>(null);
-  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
-  const [idDocument, setIdDocument] = useState<string>("");
+  const { data: session } = useSession();
+
+  const { fetchUser, user } = useUserState((state) => state);
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -29,6 +27,12 @@ export default function PassportId(props: any) {
   useEffect(() => {
     fetchProfileData();
   }, []);
+
+  const cloudName = process.env.CLOUD_NAME;
+  const cloudPreset = process.env.CLOUD_PRESET;
+
+  const memorizedUserId = useMemo(() => user?._id, [user?._id]);
+  const [idDocument, setIdDocument] = useState<string>("");
 
   const fetchProfileData = async () => {
     try {
@@ -55,8 +59,6 @@ export default function PassportId(props: any) {
       console.error("Error en traer la data de perfil:", error);
     }
   };
-
-
 
   const handleUpdateProfile = async () => {
     try {
@@ -130,7 +132,8 @@ export default function PassportId(props: any) {
       setNumeroDni(storedNumeroDni);
     }
   }, []);
-const handleDivClick = async (
+
+  const handleDivClick = async (
     fileInputRef: React.RefObject<HTMLInputElement>
   ) => {
     if (fileInputRef.current) {
@@ -138,7 +141,7 @@ const handleDivClick = async (
     }
   };
 
-const handleBotonPic = async () => {
+  const handleBotonPic = async () => {
     console.log("Manejando clic en el botón para cargar documentación...");
     try {
       const user = await fetch(
@@ -186,8 +189,8 @@ const handleBotonPic = async () => {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
-    setImg2(null); 
-    setImg3(null); 
+    setImg2(null);
+    setImg3(null);
     localStorage.setItem("documentType", selectedType);
   };
 
