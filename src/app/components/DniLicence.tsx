@@ -41,6 +41,7 @@ export default function PassportId(props: any) {
       console.error("Error en traer la data de perfil:", error);
     }
   };
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -133,67 +134,45 @@ export default function PassportId(props: any) {
   const cloudPreset = process.env.CLOUD_PRESET;
   const { data: session } = useSession();
 
-  // Modifica la función handleFileChange para agregar un parámetro de tiempo aleatorio a la URL de la imagen
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log("Manejando cambio de archivo...");
-    const file = e.target.files?.[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file);
-  
-      try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-        const ans = await response.json();
-        console.log("Respuesta de Cloudinary:", ans);
-        if (response.ok) {
-          const fileName = ans.secure_url;
-          console.log("Configurando img2:", fileName);
-          setImg2(fileName);
-          console.log("Configurando img3:", fileName);
-          setImg3(fileName);
-        }
-      } catch (error) {
-        console.error("Error al subir el archivo:", error);
-      }
-    }
-  };
-  
-
+  // Manejar el cambio de archivo frontal
   const handleFrontFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de archivo frontal...");
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const imgDataUrl = reader.result as string;
-        console.log("Archivo frontal leído:", imgDataUrl);
-        setImg2(imgDataUrl);
-      };
-
-      reader.readAsDataURL(file);
+      uploadImage(file, setImg2);
     }
   };
 
+  // Manejar el cambio de archivo trasero
   const handleBackFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de archivo trasero...");
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
+      uploadImage(file, setImg3);
+    }
+  };
 
-      reader.onload = () => {
-        const imgDataUrl = reader.result as string;
-        console.log("Archivo trasero leído:", imgDataUrl);
-        setImg3(imgDataUrl);
-      };
+  // Función para subir una imagen a Cloudinary y actualizar el estado correspondiente
+  const uploadImage = async (file: File, setImage: Function) => {
+    const formData = new FormData();
+    formData.append("file", file);
 
-      reader.readAsDataURL(file);
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${cloudPreset}&timestamp=${Date.now()}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const ans = await response.json();
+      console.log("Respuesta de Cloudinary:", ans);
+      if (response.ok) {
+        const fileName = ans.secure_url;
+        setImage(fileName);
+      }
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
     }
   };
 
@@ -250,25 +229,6 @@ export default function PassportId(props: any) {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("Efecto 2: Cargando imágenes desde el almacenamiento local...");
-  //   if (typeof window !== "undefined") {
-  //     console.log("Window está definido");
-  //     const img2 = localStorage.getItem("img2");
-  //     const img3 = localStorage.getItem("img3");
-
-  //     if (img2 !== null) {
-  //       console.log("Imagen frontal recibida en el almacenamiento local:", img2);
-  //       setImg2(img2);
-  //     }
-  //     if (img3 !== null) {
-  //       console.log("Imagen trasera recibida en el almacenamiento local:", img3);
-  //       setImg3(img3);
-  //     }
-  //   } else {
-  //     console.log("Window no está definido");
-  //   }
-  // }, []);
   const handleNumeroDniChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("Manejando cambio de número de DNI o pasaporte...");
     const inputValue = e.target.value;
@@ -295,7 +255,6 @@ export default function PassportId(props: any) {
     setImg3(null); 
     localStorage.setItem("documentType", selectedType);
   };
-  
 
   useEffect(() => {
     console.log("Cargando tipo de documento desde el almacenamiento local...");
@@ -388,8 +347,7 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={frontFileInputRef}
-                //onChange={handleFrontFileChange}
-                onChange={handleFileChange}
+                onChange={handleFrontFileChange}
                 style={{ display: "none" }}
               />
             </div>
@@ -424,8 +382,7 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={backFileInputRef}
-                //onChange={handleBackFileChange}
-                onChange={handleFileChange}
+                onChange={handleBackFileChange}
                 style={{ display: "none" }}
               />
             </div>
