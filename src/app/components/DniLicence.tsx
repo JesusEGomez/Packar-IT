@@ -215,8 +215,9 @@ async function fetchProfileData() {
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
+        props.closeWithChange && props.closeWithChange()
         props.closeIdModal();
-      }, 3000);
+      }, 1500);
   
       // Llamar a handleUpdateProfile para actualizar el perfil nuevamente con el idDocument
       await handleUpdateProfile();

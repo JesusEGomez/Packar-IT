@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CuentaEnviada from "./CuentaEnviada";
 import PassportId from "./DniLicence";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Loader2 } from "lucide-react";
 
 type Countryes = {
   cca2: string;
@@ -42,6 +43,8 @@ const BankAccount = (props:any) => {
     const [idData, setIdData] = useState<any>(null);
     const [noId, setNoId] = useState<boolean>(false);
     const [isIdModalOpen, setIsIdModalOpen] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loadFetch, setLoadFetch] = useState<boolean>(true);
 
     const clearAccount = async () => {
         const response = await fetch('/api/auth/pagoDriver',{
@@ -57,6 +60,7 @@ const BankAccount = (props:any) => {
 
     const closeIdModal = () => {
         setIsIdModalOpen(false);
+        setLoadFetch(!loadFetch);
       };
 
     const close = () => {
@@ -88,6 +92,7 @@ const BankAccount = (props:any) => {
             idDoc: idData
         }
         if(data){
+            setLoading(true);
             try {
                 const createAccount = await fetch('/api/auth/pagoDriver',{
                     headers: {
@@ -102,13 +107,15 @@ const BankAccount = (props:any) => {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(data),
+                    body: JSON.stringify(accountData),
                   });
+                  setLoading(false);
             } catch (error) {
                 console.log(error);      
             }
         }
-      }
+    };
+
     useEffect(() => {
         const fetchProfile = async () => {
             //console.log(parsedUser._id);
@@ -122,9 +129,15 @@ const BankAccount = (props:any) => {
             const info = await data.json();
             setCountries(info);
         }
+        const fetchAccount = async () => {
+            const data = await fetch('https://restcountries.com/v3.1/region/europe?fields=cca2,idd,flag,translations');
+            const info = await data.json();
+            setCountries(info);
+        }
         fetchProfile();
         fetchCountries();
-    },[noId])
+        profile?.account?.number && fetchAccount();
+    },[noId, loadFetch])
     return(
         <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full `} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-start w-full">
@@ -194,7 +207,7 @@ const BankAccount = (props:any) => {
                         })} className={`p-2 rounded bg-white w-full ${errors.bank ? "border-red-500" : ""}`}>
                             <option value="" disabled selected>Selecciona el código de tu país</option>
                             {
-                                countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag}${country.translations.spa.common}${country.idd.root} (${country.idd.suffixes[0]})`}</option>))
+                                countries && countries.map((country) => (<option value={`${country.idd.root}${country.idd.suffixes[0]}`}>{`${country.flag} ${country.translations.spa.common} (${country.idd.root}${country.idd.suffixes[0]})`}</option>))
                             }
                         </select>
                         <input {...register("phone", {
@@ -240,7 +253,7 @@ const BankAccount = (props:any) => {
                 variant={"ghost"}
                 className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
                 >
-                  Enviar
+                  `${loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Enviar'}`
                 </Button>
                 :
                 <Button
