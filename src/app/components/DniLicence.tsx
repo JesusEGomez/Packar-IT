@@ -151,7 +151,7 @@ export default function PassportId(props: any) {
             "Content-Type": "application/json",
           },
         }
-      );
+      ); 
       const userAns = await user.json();
       const updatedProfile = await fetch("/api/auth/profile", {
         method: "PUT",
