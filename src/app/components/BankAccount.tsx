@@ -7,6 +7,7 @@ import CuentaEnviada from "./CuentaEnviada";
 import PassportId from "./DniLicence";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Loader2 } from "lucide-react";
+import ErrorCuenta from "./ErrorCuenta";
 
 type Countryes = {
   cca2: string;
@@ -46,6 +47,7 @@ const BankAccount = (props:any) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [loadFetch, setLoadFetch] = useState<boolean>(true);
     const [transfers, setTransfers] = useState<number>(0);
+    const [cuentaError, setCuentaError] = useState<boolean>(false);
 
     const clearAccount = async () => {
         const response = await fetch('/api/auth/pagoDriver',{
@@ -90,7 +92,7 @@ const BankAccount = (props:any) => {
             accountNumber: data.accountNumber,
             userId: parsedUser._id,
             email: parsedUser.email,
-            idDoc: idData
+            idDoc:`${idData.frontPhoto}, ${idData.backPhoto}, ${idData.number}, ${idData.type}`
         }
         if(data){
             setLoading(true);
@@ -102,16 +104,21 @@ const BankAccount = (props:any) => {
                     method: "POST",
                     body: JSON.stringify(accountData)
                 })
-              console.log(createAccount);
+                
                 createAccount.ok || createAccount.status === 504 && setCuentaEnviada(true);
-                await fetch("/api/auth/newAccountMail", {
+                createAccount.ok || createAccount.status === 504 && await fetch("/api/auth/newAccountMail", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify(accountData),
                   });
-                  setLoading(false);
+                if(createAccount.status !== 200){
+                    if(createAccount.status !== 504){
+                        setCuentaError(true)
+                    }
+                }
+                setLoading(false);
             } catch (error) {
                 console.log(error);      
             }
@@ -283,6 +290,15 @@ const BankAccount = (props:any) => {
                 <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-4 rounded-xl">
                         <CuentaEnviada
+                        close={close}
+                        />
+                    </div>
+                </div>
+            )}
+            {cuentaError && (
+                <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-4 rounded-xl">
+                        <ErrorCuenta
                         close={close}
                         />
                     </div>
