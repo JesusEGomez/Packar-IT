@@ -90,6 +90,7 @@ export async function POST(request: Request) {
     profile.account.number = account.id;
     profile.account.state = "loaded";
     const newProfile = await profile.save();
+    
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {
