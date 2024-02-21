@@ -52,6 +52,7 @@ const Sidebar = () => {
   const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
   const [ingresarCuenta, setIngresarCuenta] = useState<boolean>(false);
+  const [type , setIsTypeModalOpen ] = useState<boolean>(false);
 
   const closeAccount = () => {
     setIngresarCuenta(false);
@@ -72,6 +73,10 @@ const Sidebar = () => {
   const closePhoneNumber = () => {
     setIsPhoneNumber(false);
   };
+
+  const closeType =() =>{
+    setIsTypeModalOpen(false);
+  }
 
   const navigation = useRouter();
 
@@ -138,10 +143,11 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger
+                  
+                    <AccordionTrigger
                     className="w-full flex"
                     onClick={() => {
-                      setIsIdModalOpen(true);
+                      setIsTypeModalOpen(true);
                     }}
                   >
                     <Fingerprint className="sideBarIcon" />
