@@ -174,10 +174,10 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible ">
+    <div className="flex flex-col w-full max-h-screen items-center bg-pink overflow-y-auto">
       <div>
         <Image
-          className="my-8 rounded-full "
+          className="my-8 rounded-full 2xl:my-10 2xl:w-[150px] 2xl:h-[150px]"
           src={logo}
           alt="logo"
           width={150}
