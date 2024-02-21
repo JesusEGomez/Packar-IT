@@ -141,12 +141,12 @@ const RecipientForm = (props: any): JSX.Element => {
               Teléfono
             </label>
             <input
-              type="tel"
+              type="number"
+              inputMode="numeric"
               id="telefono"
               value={telefono}
               onChange={handleTelefonoChange}
               placeholder="Teléfono"
-              inputMode="numeric"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
             {telefonoError && (
