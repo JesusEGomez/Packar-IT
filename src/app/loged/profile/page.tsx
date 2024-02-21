@@ -179,7 +179,8 @@ function Profile() {
                 {phoneNumberEditMode ? (
                   <>
                     <input
-                      type="number"
+                      type="tel"
+                      pattern="[0-9]*"
                       inputMode="numeric"
                       value={phoneNumber}
                       onChange={handlePhoneNumberChange}
