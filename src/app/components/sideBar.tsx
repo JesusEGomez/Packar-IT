@@ -52,6 +52,7 @@ const Sidebar = () => {
   const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
   const [ingresarCuenta, setIngresarCuenta] = useState<boolean>(false);
+  const [type , setIsTypeModalOpen ] = useState<boolean>(false);
 
   const closeAccount = () => {
     setIngresarCuenta(false);
@@ -72,6 +73,10 @@ const Sidebar = () => {
   const closePhoneNumber = () => {
     setIsPhoneNumber(false);
   };
+
+  const closeType =() =>{
+    setIsTypeModalOpen(false);
+  }
 
   const navigation = useRouter();
 
@@ -111,7 +116,7 @@ const Sidebar = () => {
                   <AccordionTrigger
                     className="w-full flex"
                     onClick={() => {
-                      sideBarControl();
+                      sideBarControl(); 
                       navigation.push("/loged/profile");
                     }}
                   >
@@ -138,11 +143,11 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger
+                  
+                    <AccordionTrigger
                     className="w-full flex"
                     onClick={() => {
-                      sideBarControl();
-                      navigation.push("/loged/profile");
+                      setIsTypeModalOpen(true);
                     }}
                   >
                     <Fingerprint className="sideBarIcon" />
@@ -151,34 +156,34 @@ const Sidebar = () => {
                 </AccordionItem>
               </Accordion>
             </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => setIsMonederoOpen(true)}
-                  >
-                    <Banknote className="sideBarIcon" />
-                    Monedero
-                  </AccordionTrigger>
-                  <AccordionContent></AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
-            <CommandItem>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="item-1">
-                  <AccordionTrigger
-                    className="w-full flex"
-                    onClick={() => setIngresarCuenta(true)}
-                  >
-                    <CiBank className="sideBarIcon" />
-                    Cuenta bancaria
-                  </AccordionTrigger>
-                  <AccordionContent></AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CommandItem>
+          <CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIsMonederoOpen(true)}
+                >
+                  <Banknote className="sideBarIcon" />
+                  Monedero
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
+          <CommandItem>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger
+                  className="w-full flex"
+                  onClick={() => setIngresarCuenta(true)}
+                >
+                  <CiBank className="sideBarIcon" />
+                  Cuenta bancaria
+                </AccordionTrigger>
+                <AccordionContent></AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </CommandItem>
           </CommandGroup>
           <CommandGroup>
             <CommandItem>
