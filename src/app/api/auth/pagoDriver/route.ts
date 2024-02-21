@@ -82,11 +82,11 @@ export async function POST(request: Request) {
         },
       }
     );
-    //const lastAccount = await stripe.accounts.update(account.id, {
-    //  company: {
-    //    owners_provided: true,
-    //  },
-    //});
+    const lastAccount = await stripe.accounts.update(account.id, {
+       company: {
+       owners_provided: true,
+      },
+    });
     profile.account.number = account.id;
     profile.account.state = "loaded";
     const newProfile = await profile.save();
