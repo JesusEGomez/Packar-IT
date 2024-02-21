@@ -115,7 +115,7 @@ const BankAccount = (props:any) => {
                     })
                 })
               console.log(createAccount);
-                createAccount.ok && setCuentaEnviada(true);
+                createAccount.ok || createAccount.status === 504 && setCuentaEnviada(true);
                 await fetch("/api/auth/newAccountMail", {
                     method: "POST",
                     headers: {
