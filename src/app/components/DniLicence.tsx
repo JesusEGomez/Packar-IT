@@ -250,8 +250,8 @@ export default function PassportId(props: any) {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
     setType(selectedType);
-    setImg2(null); 
-    setImg3(null); 
+    setImg2(null);
+    setImg3(null);
     localStorage.setItem("documentType", selectedType);
   };
 
@@ -264,7 +264,7 @@ export default function PassportId(props: any) {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center pt-12   ">
+    <div className="flex flex-col items-center justify-center pt-12">
       <div className="overflow-y-auto    py-10">
         <div className=" flex flex-wrap mt-10 ">
           <Button onClick={props.closeIdModal} variant={"ghost"}>
