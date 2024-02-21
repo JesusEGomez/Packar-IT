@@ -142,7 +142,9 @@ const BankAccount = (props:any) => {
         }
         fetchProfile();
         fetchCountries();
-        fetchAccount();
+        if(profile?.account.number){
+            fetchAccount();
+        }
     },[noId, loadFetch])
     return(
         <form className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full `} onSubmit={handleSubmit(onSubmit)}>
