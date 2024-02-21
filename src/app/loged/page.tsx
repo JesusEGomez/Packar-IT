@@ -174,10 +174,10 @@ const Loged = () => {
   }, [from, to, date, selectedProductData, receptorInfo]);
 
   return (
-    <div className="flex flex-col items-center max-h-screen bg-pink overflow-y-auto overflow-visible ">
+    <div className="flex flex-col w-full max-h-screen items-center bg-pink overflow-y-auto">
       <div>
         <Image
-          className="my-8 rounded-full "
+          className="my-8 rounded-full 2xl:my-10 2xl:w-[150px] 2xl:h-[150px]"
           src={logo}
           alt="logo"
           width={150}
@@ -185,7 +185,7 @@ const Loged = () => {
         />
       </div>
       {/* hola */}
-      <div className="flex flex-col mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed max-h-lvh top-40 left-5 right-5 bg-white border rounded-xl 2xl:top-52 2xl:w-1/3 2xl:min-h-80">
+      <div className="flex flex-col mx-auto items-center flex-wrap align-content-center overflow-y-auto fixed max-h-lvh top-40 left-5 right-5 bg-white border rounded-xl 2xl:top-48 2xl:w-1/3 2xl:min-h-80">
         <h1 className="font-bold text-xl m-4">¿Que quieres enviar?</h1>
         <div className="flex flex-col text-center items-center gap-y-1 ">
           <form
@@ -194,7 +194,7 @@ const Loged = () => {
           >
             <div className="flex flex-col items-center overflow-y-auto ">
               <button
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 ${
+                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-5 ${
                   from ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={fromHandler}
@@ -253,9 +253,7 @@ const Loged = () => {
                 {receptorInfo ? (
                   <button
                     onClick={() => searchHandler()}
-                    className={`bg-pink ${
-                      search ? "w-full" : "w-auto"
-                    } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
+                    className={`bg-pink ${search ? "w-full" : "w-auto" } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
                     disabled={
                       !search || !profile || !profile?.customerId || profile.phoneNumber.length < 9
                     }

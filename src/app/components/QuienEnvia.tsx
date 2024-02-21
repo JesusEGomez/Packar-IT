@@ -99,7 +99,7 @@ const RecipientForm = (props: any): JSX.Element => {
   }, [nombreApellidos, telefono, email]);
 
   return (
-    <div className="flex items-center justify-center h-screen md:justify-start md:items-center">
+    <div className="flex items-center justify-center md:justify-start md:items-center">
       <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
           <Button onClick={props.closeModal} variant={"ghost"}>
             <IoMdArrowBack />
@@ -142,11 +142,12 @@ const RecipientForm = (props: any): JSX.Element => {
             </label>
             <input
               type="tel"
+              pattern="[0-9]*"
+              inputMode="numeric"
               id="telefono"
               value={telefono}
               onChange={handleTelefonoChange}
               placeholder="Teléfono"
-              inputMode="numeric"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-pink-500 focus:border-pink-500"
             />
             {telefonoError && (

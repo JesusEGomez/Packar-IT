@@ -52,6 +52,7 @@ const Sidebar = () => {
   const [isPhoneNumber, setIsPhoneNumber] = useState<boolean>(false);
   const [isMonederoOpen, setIsMonederoOpen] = useState<boolean>(false);
   const [ingresarCuenta, setIngresarCuenta] = useState<boolean>(false);
+  const [type , setIsTypeModalOpen ] = useState<boolean>(false);
 
   const closeAccount = () => {
     setIngresarCuenta(false);
@@ -72,6 +73,10 @@ const Sidebar = () => {
   const closePhoneNumber = () => {
     setIsPhoneNumber(false);
   };
+
+  const closeType =() =>{
+    setIsTypeModalOpen(false);
+  }
 
   const navigation = useRouter();
 
@@ -138,7 +143,8 @@ const Sidebar = () => {
             <CommandItem>
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger
+                  
+                    <AccordionTrigger
                     className="w-full flex"
                     onClick={() => {
                       setIsIdModalOpen(true);
@@ -206,7 +212,7 @@ const Sidebar = () => {
       )}
       {isIdModalOpen && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 mb-20 rounded-xl">
+          <div className="bg-white p-4 mb-20 rounded-xl ">
             <PassportId closeIdModal={closeIdModal} />
           </div>
         </div>
