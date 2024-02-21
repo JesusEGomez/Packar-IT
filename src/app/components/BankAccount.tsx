@@ -100,19 +100,7 @@ const BankAccount = (props:any) => {
                         "Content-Type": "application/json",
                     },
                     method: "POST",
-                    body: JSON.stringify({
-                      country: data.countries,
-                      bank: data.bank,
-                      name: data.name,
-                      lastName: data.lastName,
-                      phone: data.phonecode+data.phone,
-                      address: data.address,
-                      city: data.city,
-                      zipCode: data.zipCode,
-                      dd: data.dd,
-                      mm: data.mm,
-                      aaaa: data.aaaa,
-                    })
+                    body: JSON.stringify(accountData)
                 })
               console.log(createAccount);
                 createAccount.ok || createAccount.status === 504 && setCuentaEnviada(true);
