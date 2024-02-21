@@ -179,7 +179,7 @@ const BankAccount = (props:any) => {
                     className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
                     onClick={clearAccount}
                     >
-                      Cambiar
+                      Eliminar cuenta
                     </Button>
                 </div>
                  :  
