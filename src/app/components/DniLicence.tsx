@@ -16,9 +16,18 @@ export default function PassportId(props: any) {
   const [numeroDni, setNumeroDni] = useState("");
   const [disable, setDisable] = useState(true);
   const [profileData, setProfileData] = useState<any | null>(null);
+  const [alturaBarraNavegacion, setAlturaBarraNavegacion] = useState(0);
   const { data: session } = useSession();
 
   const { fetchUser, user } = useUserState((state) => state);
+
+  useEffect(() => {
+    // Asume que tienes un elemento con un ID específico o una referencia a tu barra de navegación
+    const barraNav = document.getElementById("idBarraNavegacion");
+    if (barraNav) {
+      setAlturaBarraNavegacion(barraNav.offsetHeight);
+    }
+  }, []);
 
   useEffect(() => {
     fetchUser(session?.user?.email!);
@@ -215,8 +224,16 @@ export default function PassportId(props: any) {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-[calc(100%-63px)] pt-8">
-      <div className="overflow-y-auto py-10">
+    <div
+      className="flex flex-col items-center justify-center w-full pt-8"
+      style={{ paddingBottom: `${alturaBarraNavegacion}px` }}
+    >
+      <div
+        className="overflow-y-auto py-10"
+        style={{
+          maxHeight: `calc(100vh - ${alturaBarraNavegacion}px - padding_extra)`,
+        }}
+      >
         <div className="flex flex-wrap mt-10">
           <Button onClick={props.closeIdModal} variant={"ghost"}>
             <IoMdArrowRoundBack />
