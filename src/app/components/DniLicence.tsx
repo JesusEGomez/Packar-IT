@@ -85,7 +85,10 @@ export default function PassportId(props: any) {
     }
   };
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    e: ChangeEvent<HTMLInputElement>,
+    inputType: string
+  ) => {
     console.log("Manejando cambio de archivo...");
     const file = e.target.files?.[0];
     if (file) {
@@ -104,10 +107,11 @@ export default function PassportId(props: any) {
         console.log("Respuesta de Cloudinary:", ans);
         if (response.ok) {
           const fileName = ans.secure_url;
-          console.log("Configurando img2:", fileName);
-          setImg2(fileName);
-          console.log("Configurando img3:", fileName);
-          setImg3(fileName);
+          if (inputType === "front") {
+            setImg2(fileName);
+          } else if (inputType === "back") {
+            setImg3(fileName);
+          }
         }
       } catch (error) {
         console.error("Error al subir el archivo:", error);
@@ -293,8 +297,9 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={frontFileInputRef}
-                onChange={handleFileChange}
+                onChange={(e) => handleFileChange(e, "front")}
                 style={{ display: "none" }}
+                data-type="front"
               />
             </div>
             <div className="mb-4">
@@ -328,8 +333,9 @@ export default function PassportId(props: any) {
               <input
                 type="file"
                 ref={backFileInputRef}
-                onChange={handleFileChange}
+                onChange={(e) => handleFileChange(e, "back")}
                 style={{ display: "none" }}
+                data-type="back"
               />
             </div>
           </div>
