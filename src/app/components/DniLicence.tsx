@@ -185,6 +185,14 @@ export default function PassportId(props: any) {
     }
   };
 
+  useEffect(() => {
+    if (numeroDni && type && img2 && img3) {
+      setDisable(false); // Habilita el botón si todos los campos están completos
+    } else {
+      setDisable(true); // Deshabilita el botón si algún campo está incompleto
+    }
+  }, [numeroDni, type, img2, img3]);
+
   const handleTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
     console.log("Manejando cambio de tipo de documento...");
     const selectedType = e.target.value.toLowerCase();
