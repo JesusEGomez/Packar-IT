@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: error.message }, { status: 500 });
     }
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: "Internal Server Errorr" },
       { status: 500 }
     );
   }
