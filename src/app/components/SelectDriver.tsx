@@ -115,17 +115,17 @@ function Page(props: any) {
       </div>
       {viajes && viajes.length > 0 && (
         <div className="flex flex-col fixed top-0 left-0 right-0 bottom-0 z-20 w-full h-full m-2 p-4 bg-white gap-y-3">
-          <h1 className="text-xl">Viajeros disponibles</h1>
+          <h1 className="ml-8 text-xl">Viajeros disponibles</h1>
           {viajes?.map((viaje: any, index: any) => (
             <div
               onClick={() => clickHandler(viaje)}
-              className="flex flex-col border rounded cursor-pointer shadow-lg p-4"
+              className="flex flex-col border rounded cursor-pointer shadow-lg p-4 mr-8 ml-8"
               key={index}
             >
               <div className="flex w-full justify-between px-4">
                 <div className="flex">
                   <FaUser size={40} />
-                  <p className="text-xl">{viaje.usuario.fullname}</p>
+                  <p className="text-xl mr-8">{viaje.usuario.fullname}</p>
                 </div>
                 <p>
                   {`${
@@ -144,7 +144,7 @@ function Page(props: any) {
                   <GiPathDistance
                     className={`${
                       viaje.eresFlexible ? "text-pink" : "text-black"
-                    }`}
+                    } mr-8 ml-8`}
                     size={50}
                   />
                   <div>
