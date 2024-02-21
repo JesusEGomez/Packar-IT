@@ -102,6 +102,7 @@ const BankAccount = (props:any) => {
                     method: "POST",
                     body: JSON.stringify(accountData)
                 })
+              console.log(createAccount);
                 createAccount.ok && setCuentaEnviada(true);
                 await fetch("/api/auth/newAccountMail", {
                     method: "POST",
