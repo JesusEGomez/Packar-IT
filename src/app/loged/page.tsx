@@ -253,9 +253,7 @@ const Loged = () => {
                 {receptorInfo ? (
                   <button
                     onClick={() => searchHandler()}
-                    className={`bg-pink ${
-                      search ? "w-full" : "w-auto"
-                    } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
+                    className={`bg-pink ${search ? "w-full" : "w-auto" } m-1 disabled:opacity-70 text-white font-bold rounded-xl p-2`}
                     disabled={
                       !search || !profile || !profile?.customerId || profile.phoneNumber.length < 9
                     }

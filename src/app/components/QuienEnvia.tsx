@@ -141,7 +141,8 @@ const RecipientForm = (props: any): JSX.Element => {
               Teléfono
             </label>
             <input
-              type="number"
+              type="tel"
+              pattern="[0-9]*"
               inputMode="numeric"
               id="telefono"
               value={telefono}
