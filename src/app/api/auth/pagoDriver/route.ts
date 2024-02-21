@@ -4,6 +4,8 @@ import Profile from "@/models/perfil";
 import { NextResponse } from "next/server";
 import User from "@/models/user";
 
+export const maxDuration = 25
+
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
   apiVersion: "2023-10-16",
 });
