@@ -2,9 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Stripe from "stripe";
 import Profile from "@/models/perfil";
 import { NextResponse } from "next/server";
-import User from "@/models/user";
-
-export const maxDuration = 25
+import User from "@/models/user"
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
   apiVersion: "2023-10-16",
