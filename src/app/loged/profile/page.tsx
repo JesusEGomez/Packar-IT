@@ -180,6 +180,7 @@ function Profile() {
                   <>
                     <input
                       type="number"
+                      inputMode="numeric"
                       value={phoneNumber}
                       onChange={handlePhoneNumberChange}
                       onBlur={() => setPhoneNumberEditMode(false)}
