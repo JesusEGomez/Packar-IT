@@ -39,7 +39,7 @@ function layout({ children }: React.PropsWithChildren) {
     <div>
       <Sidebar />
       {children}
-      <div className="  bottom-0">
+      <div className="fixed z-50 bottom-0">
         <BottmBar />
       </div>
     </div>
