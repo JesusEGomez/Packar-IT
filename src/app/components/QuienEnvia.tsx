@@ -99,7 +99,7 @@ const RecipientForm = (props: any): JSX.Element => {
   }, [nombreApellidos, telefono, email]);
 
   return (
-    <div className="flex items-center justify-center max-h-screen md:justify-start md:items-center">
+    <div className="flex items-center justify-center mb-6 h-screen md:justify-start md:items-center">
       <div className="p-8 pt-16 top-0">
           <Button onClick={props.closeModal} variant={"ghost"}>
             <IoMdArrowBack />
