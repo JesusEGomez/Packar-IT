@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     const day = parseInt(info.dd);
     const month = parseInt(info.mm);
     const year = parseInt(info.aaaa);
+    console.log(`${info.userId}, ${month}, ${year}, Profile ${profile}`);
 
     const account = await stripe.accounts.create({
       country: info.country,
@@ -44,6 +45,11 @@ export async function POST(request: Request) {
         phone: info.phone,
       },
     });
+
+    profile.account.number = account.id;
+    profile.account.state = "loaded";
+    const newProfile = await profile.save();
+
     const account1 = await stripe.accounts.update(account.id, {
       tos_acceptance: {
         date: 1609798905,
@@ -87,9 +93,6 @@ export async function POST(request: Request) {
         owners_provided: true,
       },
     });
-    profile.account.number = account.id;
-    profile.account.state = "loaded";
-    const newProfile = await profile.save();
 
     return NextResponse.json(account, { status: 200 });
   } catch (error) {
