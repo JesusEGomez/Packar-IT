@@ -169,7 +169,7 @@ const BankAccount = (props: any) => {
   }, [noId, loadFetch]);
   return (
     <form
-      className={`flex flex-col justify-center items-center gap-y-3 p-2 my-4 w-full `}
+      className={`flex flex-col justify-center items-center gap-y-3 p-2 pt-8 my-4 w-full `}
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex justify-start w-full">
