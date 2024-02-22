@@ -184,7 +184,7 @@ const BankAccount = (props: any) => {
           </h1>
           <p className="text-xl mt-8 mb-4">
             Nuestro equipo está revisando tu cuenta te informaremos apenas esté
-            aprovada
+            aprobada
           </p>
         </div>
       ) : profile?.account.state === "approved" ? (
@@ -237,7 +237,7 @@ const BankAccount = (props: any) => {
               })}
               type="text"
               id="bank"
-              placeholder="Banco de bilbao"
+              placeholder="Banco de Madrid"
               className={`p-2 rounded bg-white w-full ${
                 errors.bank ? "border-red-500" : ""
               }`}
@@ -350,7 +350,7 @@ const BankAccount = (props: any) => {
             />
           </div>
           <div className="flex flex-col w-full gap-y-2">
-            <label htmlFor="">Ingresa tu codigo postal:</label>
+            <label htmlFor="">Ingresa tu código postal:</label>
             <input
               {...register("zipCode", {
                 minLength: 5,
