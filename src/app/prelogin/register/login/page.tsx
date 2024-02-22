@@ -120,11 +120,7 @@ export default function LoginPage() {
           )}
         </div>
       </form>
-      <button onClick={() => navigate.push("/recoverypass")}>
-        <p className="text-blue-700 text-sm underline mx-auto">
-          ¿Has olvidado tu contraseña?
-        </p>
-      </button>
+      
       <Separator orientation="horizontal" className="m-5 w-2/3 " />
 
       <Button
@@ -150,4 +146,9 @@ export default function LoginPage() {
                 "Debe incluir al menos una minúscula, una mayúscula y un número",
             },
           })}
+          <button onClick={() => navigate.push("/recoverypass")}>
+        <p className="text-blue-700 text-sm underline mx-auto">
+          ¿Has olvidado tu contraseña?
+        </p>
+      </button>
 */
