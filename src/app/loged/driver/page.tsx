@@ -155,7 +155,7 @@ const Driver = () => {
 
   const isFromSelected = from !== null;
 
-  const buttonClassName = `flex items-center  gap-x-4 border-b p-1 mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2 ${
+  const buttonClassName = `flex items-center  gap-x-4 border-b p-1 md:p-2 mx-4 w-72 2xl:w-96 2xl:p-3  ${
     isFromSelected ? "text-black-500" : "text-slate-400"
   }`;
 
@@ -326,7 +326,7 @@ const Driver = () => {
                   : `${from}`}
               </button>
               <button
-                className={`flex items-center  gap-x-4 border-b p-1 mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2${
+                className={`flex items-center  gap-x-4 border-b p-1 mx-4 w-72 md:p-2 2xl:w-96 2xl:p-3  ${
                   to === null ? "text-slate-400" : "text-black-500"
                 }`}
                 onClick={toHandler}
@@ -341,7 +341,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center gap-x-4 border-b p-1 mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2 ${
+                className={`flex items-center gap-x-4 border-b p-1 mx-4 w-72 md:p-2 2xl:w-96 2xl:p-3 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -355,7 +355,7 @@ const Driver = () => {
                   : "Cuando"}
               </button>
               <button
-                className={`flex items-center gap-x-4 border-b p-1 mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2${
+                className={`flex items-center gap-x-4 border-b p-1 mx-4 w-72 md:p-2 2xl:w-96 2xl:p-3 ${
                   time !== null && time.salida !== null && time.llegada !== null
                     ? "text-black-500"
                     : "text-slate-400"
@@ -374,7 +374,7 @@ const Driver = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-1 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2 ${
+                className={`flex items-center p-1 gap-x-4 border-b  mx-4 w-72 md:p-2 2xl:w-96 2xl:p-3 ${
                   productSelected ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -384,7 +384,7 @@ const Driver = () => {
               <div
                 onMouseEnter={() => setHoverSelectButton(true)}
                 onMouseLeave={() => setHoverSelectButton(false)}
-                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-1 mx-4 w-72 2xl:w-96 2xl:p-3 md:p-2"
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-1 mx-4 w-72 md:p-2 2xl:w-96 2xl:p-3"
               >
                 <select
                   className="p-1 rounded bg-white text-slate-400 text-center w-full"
