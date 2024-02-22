@@ -282,8 +282,8 @@ const Loged = () => {
       <div></div>
       <div className="flex flex-col items-center bg-pink sm:w-auto s:z-10">
         {fromModalOpen && (
-          <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-xl">
+          <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-4 rounded-xl h-[550px] overflow-y-scroll">
               <MapComponent
                 closeMapModal={closeMapModal}
                 closeModal={closeModal}
@@ -293,7 +293,7 @@ const Loged = () => {
         )}
         {toModalOpen && (
           <div className="fixed top-0 z-10 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded-xl h-[600px] overflow-y-scroll">
+            <div className="bg-white p-4 rounded-xl h-[550px] overflow-y-scroll">
               <MapComponent
                 closeModal={toModelClose}
                 closeMapModal={closeMapModal}
