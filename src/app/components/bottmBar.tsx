@@ -19,7 +19,7 @@ const BottmBar = () => {
   const navigate = useRouter();
 
   return (
-    <div className="w-screen fixed bottom-0 bg-white">
+    <div className="w-screen fixed bottom-0 bg-white" style={{ height: '63px' }}>
       <ul className="flex justify-around px-2 border-t mb-2 pt-2">
         <li>
           <button
