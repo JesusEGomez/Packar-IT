@@ -214,9 +214,9 @@ export default function PassportId(props: any) {
     }
   }, []);
 
-  return (
-    <div className="flex flex-col items-center justify-center w-full h-screen pt-8">
-      <div className="overflow-y-auto py-10">
+  return (  
+     <div className="flex flex-col items-center justify-center w-full h-88vh pt-8 overflow-y-auto">
+      <div className="overflow-y-auto py-10 h-full">
         <div className="flex flex-wrap mt-10">
           <Button onClick={props.closeIdModal} variant={"ghost"}>
             <IoMdArrowRoundBack />
