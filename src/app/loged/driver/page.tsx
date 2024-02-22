@@ -82,6 +82,7 @@ const Driver = () => {
   const [search, setSearch] = useState(false);
   const [productSelected, setProductSelected] = useState(false);
   const [hoverButton, setHoverButton] = useState(false);
+  const [hoverSelectButton, setHoverSelectButton] = useState(false);
   const { data: session } = useSession();
 
   const [travel, setTravel] = useState<ITravel>({
@@ -301,7 +302,7 @@ const Driver = () => {
         width={150}
         height={150}
       />
-      <div className="bg-white  rounded-t-3xl"> 
+      <div className="bg-white  rounded-t-3xl">
         {/* Contenido del segundo div */}
       </div>
       <form
@@ -380,9 +381,14 @@ const Driver = () => {
                 <BsBoxSeam size={30} />
                 {productSelected ? "Elección Cargada" : "Producto"}
               </button>
-              <div className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3">
+              <div
+                onMouseEnter={() => setHoverSelectButton(true)}
+                onMouseLeave={() => setHoverSelectButton(false)}
+                className="flex items-center text-slate-400 p-0.6 gap-x-4 border-b p-2 mx-4 w-72 2xl:w-96 2xl:p-3"
+              >
                 <select
                   className="p-1 rounded bg-white text-slate-400 text-center w-full"
+                  disabled={!hoverSelectButton}
                   id="como"
                   {...register("como", {
                     required: { value: true, message: "Campo requerido" },
@@ -414,7 +420,12 @@ const Driver = () => {
               onMouseLeave={() => setHoverButton(false)}
               onSubmit={handleSubmit(onSubmit)}
               className="bg-pink w-full disabled:opacity-70 text-white font-bold rounded-b-xl p-1"
-              disabled={!search || !profile || profile.account.state !== 'approved' || profile.phoneNumber.length < 9}
+              disabled={
+                !search ||
+                !profile ||
+                profile.account.state !== "approved" ||
+                profile.phoneNumber.length < 9
+              }
             >
               Crear
             </button>
@@ -426,15 +437,11 @@ const Driver = () => {
               </p>
             </div>
           )}
-          {
-            profile?.account.state !== 'approved' && (
-              <div className="w-full  text-center p-1 text-red-600">
-              <p>
-                Debes tener una cuenta aprobada para poder crear un viaje
-              </p>
+          {profile?.account.state !== "approved" && (
+            <div className="w-full  text-center p-1 text-red-600">
+              <p>Debes tener una cuenta aprobada para poder crear un viaje</p>
             </div>
-            )
-          }
+          )}
         </div>
       </form>
 

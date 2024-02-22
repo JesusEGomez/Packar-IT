@@ -2,7 +2,7 @@ import { connectDB } from "@/libs/mongodb";
 import Stripe from "stripe";
 import Profile from "@/models/perfil";
 import { NextResponse } from "next/server";
-import User from "@/models/user"
+import User from "@/models/user";
 
 const stripe = new Stripe(`${process.env.SK_STRIPE}`, {
   apiVersion: "2023-10-16",
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     const day = parseInt(info.dd);
     const month = parseInt(info.mm);
     const year = parseInt(info.aaaa);
+    console.log(`${info.userId}, ${month}, ${year}, Profile ${profile}`);
 
     const account = await stripe.accounts.create({
       country: info.country,
@@ -44,11 +45,11 @@ export async function POST(request: Request) {
         phone: info.phone,
       },
     });
-    
+
     profile.account.number = account.id;
     profile.account.state = "loaded";
     const newProfile = await profile.save();
-    
+
     const account1 = await stripe.accounts.update(account.id, {
       tos_acceptance: {
         date: 1609798905,
@@ -88,8 +89,8 @@ export async function POST(request: Request) {
       }
     );
     const lastAccount = await stripe.accounts.update(account.id, {
-       company: {
-       owners_provided: true,
+      company: {
+        owners_provided: true,
       },
     });
 
