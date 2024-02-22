@@ -81,7 +81,7 @@ export const SendProduct = (props: any) => {
   }
 
   return (
-    <div className="flex flex-col items-start	m-6 pr-4 pl-4 pt-6 pb-16 max-h-screen overflow-y-auto scrollbar-hidden ">
+    <div className="flex flex-col items-start	m-6 pr-4 pl-4 pt-8 pb-16 max-h-screen overflow-y-auto scrollbar-hidden ">
       <Button onClick={props.closePropModalHandler} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
