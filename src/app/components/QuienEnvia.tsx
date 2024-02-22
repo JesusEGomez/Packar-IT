@@ -100,7 +100,7 @@ const RecipientForm = (props: any): JSX.Element => {
 
   return (
     <div className="flex items-center justify-center md:justify-start md:items-center">
-      <div className="p-8  top-0 md:z-10 md:justify-center md:items-center md:bg-white">
+      <div className="p-8 pt-16 top-0">
           <Button onClick={props.closeModal} variant={"ghost"}>
             <IoMdArrowBack />
           </Button>
