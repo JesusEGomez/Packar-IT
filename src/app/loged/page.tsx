@@ -194,7 +194,7 @@ const Loged = () => {
           >
             <div className="flex flex-col items-center overflow-y-auto ">
               <button
-                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-5 ${
+                className={`flex items-center p-2 gap-x-4 border-b mx-4 w-72 md:p-3 2xl:w-96 2xl:p-5 ${
                   from ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={fromHandler}
@@ -208,7 +208,7 @@ const Loged = () => {
                   : `${from}`}
               </button>
               <button
-                className={`flex items-center p-3 gap-x-4 border-b  mx-4 w-72 2xl:w-96 2xl:p-5 ${
+                className={`flex items-center p-2 gap-x-4 border-b mx-4 w-72 md:p-3 2xl:w-96 2xl:p-5 ${
                   to ? "text-black-500" : "text-slate-400"
                 }`}
                 onClick={toHandler}
@@ -223,7 +223,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => dateModalClose()}
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
+                className={`flex items-center p-2 gap-x-4 border-b mx-4 w-72 md:p-3 2xl:w-96 2xl:p-5 ${
                   date ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -238,7 +238,7 @@ const Loged = () => {
               </button>
               <button
                 onClick={() => productsHandler()}
-                className={`flex items-center p-3 gap-x-4 border-b mx-4 w-72 2xl:w-96 2xl:p-5 ${
+                className={`flex items-center p-2 gap-x-4 border-b mx-4 w-72 md:p-3 2xl:w-96 2xl:p-5 ${
                   selectedProductData ? "text-black-500" : "text-slate-400"
                 }`}
               >
@@ -262,7 +262,7 @@ const Loged = () => {
                   </button>
                 ) : (
                   <button
-                    className="bg-pink w-full disabled:opacity-70 m-1 text-white font-bold rounded-xl p-2"
+                    className="bg-pink w-full disabled:opacity-70 m-1 text-white font-bold rounded-xl p-2 md:p-3"
                     onClick={() => receptorOpen()}
                   >
                     Datos del Receptor
