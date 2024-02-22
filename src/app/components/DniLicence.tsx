@@ -214,154 +214,132 @@ export default function PassportId(props: any) {
     }
   }, []);
 
-  return (  
-     <div className="flex flex-col items-center justify-center w-full h-88vh pt-8 overflow-y-auto">
-      <div className="overflow-y-auto py-10 h-full">
-        <div className="flex flex-wrap mt-10">
-          <Button onClick={props.closeIdModal} variant={"ghost"}>
-            <IoMdArrowRoundBack />
-          </Button>
-          <h1 className="text-3xl font-black text-left w-full py-3">
-            DNI o Pasaporte
-          </h1>
-        </div>
-        <form className="flex flex-col justify-center items-center mr-5">
-          <div className="flex flex-col justify-center items-center">
-            <div className="mb-4">
-              <label htmlFor="numeroDni" className="text-left block mb-2">
-                Numero de DNI o Pasaporte
-              </label>
-              <input
-                id="numeroDni"
-                type="text"
-                placeholder="123456789"
-                className="p-4 border rounded-sm cursor-pointer"
-                value={numeroDni}
-                onChange={handleNumeroDniChange}
-                style={{
-                  width: "300px",
-                }}
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="documentType" className="text-left block mb-2">
-                Tipo de Documentación
-              </label>
-              <select
-                id="documentType"
-                onChange={handleTypeChange}
-                className={`p-4 border rounded-sm cursor-pointer bg-white ${
-                  type ? "text-black" : "text-slate-400"
-                }`}
-                style={{
-                  width: "300px",
-                }}
-                value={type || ""}
-              >
-                <option value="" disabled>
-                  Tipo de documento
-                </option>
-                <option value="dni">DNI</option>
-                <option value="pasaporte">Pasaporte</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="text-left block mb-2">
-                Foto para la parte delantera
-              </label>
-              <section
-                className="border rounded-xl cursor-pointer flex justify-center items-center"
-                style={{
-                  width: "300px",
-                  height: "200px",
-                }}
-                onClick={() => handleDivClick(frontFileInputRef)}
-              >
-                {img2 && (
-                  <img
-                    src={img2}
-                    alt="Front Preview"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                    }}
-                  />
-                )}
-                {!img2 && (
-                  <LuFolderInput size={100} style={{ color: "gray" }} />
-                )}
-              </section>
-              <input
-                type="file"
-                ref={frontFileInputRef}
-                onChange={(e) => handleFileChange(e, "front")}
-                style={{ display: "none" }}
-                data-type="front"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="text-left block mb-2">
-                Foto para la parte trasera
-              </label>
-              <section
-                className="border rounded-xl cursor-pointer flex justify-center items-center"
-                style={{
-                  width: "300px",
-                  height: "200px",
-                }}
-                onClick={() => handleDivClick(backFileInputRef)}
-              >
-                {img3 && (
-                  <img
-                    src={img3}
-                    alt="Back Preview"
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "100%",
-                      backgroundRepeat: "no-repeat",
-                      backgroundSize: "cover",
-                    }}
-                  />
-                )}
-                {!img3 && (
-                  <LuFolderInput size={100} style={{ color: "gray" }} />
-                )}
-              </section>
-              <input
-                type="file"
-                ref={backFileInputRef}
-                onChange={(e) => handleFileChange(e, "back")}
-                style={{ display: "none" }}
-                data-type="back"
-              />
-            </div>
+  return (
+    <div className=" overflow-y-auto ">
+      <div className="flex flex-col items-center justify-center w-full h-[49rem] overflow-y-auto">
+        <div className="overflow-y-auto py-10 ">
+          <div className="flex flex-wrap mt-10">
+            <Button onClick={props.closeIdModal} variant={"ghost"}>
+              <IoMdArrowRoundBack />
+            </Button>
+            <h1 className="text-3xl font-black text-left w-full py-3">
+              DNI o Pasaporte
+            </h1>
           </div>
-        </form>
-        <div className="flex justify-center m-2">
-          <button
-            className="bg-pink disabled:opacity-70 text-white font-bold rounded-lg p-3"
-            disabled={disable}
-            onClick={handleBotonPic}
-          >
-            Cargar documentación
-          </button>
-        </div>
-        {showSuccessMessage && (
-          <div className="flex justify-center">
-            <p className="my-2 text-green-500">
-              Documentación cargada con éxito.
+          <form className="flex flex-col justify-center items-center mx-auto max-w-md">
+            <div className="flex flex-col justify-center items-center">
+              <div className="mb-4">
+                <label htmlFor="numeroDni" className="text-left block mb-2">
+                  Numero de DNI o Pasaporte
+                </label>
+                <input
+                  id="numeroDni"
+                  type="text"
+                  placeholder="123456789"
+                  className="p-4 border rounded-sm cursor-pointer w-full"
+                  value={numeroDni}
+                  onChange={handleNumeroDniChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="documentType" className="text-left block mb-2">
+                  Tipo de Documentación
+                </label>
+                <select
+                  id="documentType"
+                  onChange={handleTypeChange}
+                  className={`p-4 border rounded-sm cursor-pointer bg-white ${
+                    type ? "text-black" : "text-slate-400"
+                  } w-full`}
+                  value={type || ""}
+                >
+                  <option value="" disabled>
+                    Tipo de documento
+                  </option>
+                  <option value="dni">DNI</option>
+                  <option value="pasaporte">Pasaporte</option>
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <label className="text-left block mb-2">
+                  Foto para la parte delantera
+                </label>
+                <section
+                  className="border rounded-xl cursor-pointer flex justify-center items-center w-full h-48"
+                  onClick={() => handleDivClick(frontFileInputRef)}
+                >
+                  {img2 && (
+                    <img
+                      src={img2}
+                      alt="Front Preview"
+                      className="max-w-full max-h-full object-cover"
+                    />
+                  )}
+                  {!img2 && (
+                    <LuFolderInput size={100} style={{ color: "gray" }} />
+                  )}
+                </section>
+                <input
+                  type="file"
+                  ref={frontFileInputRef}
+                  onChange={(e) => handleFileChange(e, "front")}
+                  style={{ display: "none" }}
+                  data-type="front"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="text-left block mb-2">
+                  Foto para la parte trasera
+                </label>
+                <section
+                  className="border rounded-xl cursor-pointer flex justify-center items-center w-full h-48"
+                  onClick={() => handleDivClick(backFileInputRef)}
+                >
+                  {img3 && (
+                    <img
+                      src={img3}
+                      alt="Back Preview"
+                      className="max-w-full max-h-full object-cover"
+                    />
+                  )}
+                  {!img3 && (
+                    <LuFolderInput size={100} style={{ color: "gray" }} />
+                  )}
+                </section>
+                <input
+                  type="file"
+                  ref={backFileInputRef}
+                  onChange={(e) => handleFileChange(e, "back")}
+                  style={{ display: "none" }}
+                  data-type="back"
+                />
+              </div>
+            </div>
+          </form>
+          <div className="flex justify-center m-2">
+            <button
+              className="bg-pink disabled:opacity-70 text-white font-bold rounded-lg p-3"
+              disabled={disable}
+              onClick={handleBotonPic}
+            >
+              Cargar documentación
+            </button>
+          </div>
+          {showSuccessMessage && (
+            <div className="flex justify-center">
+              <p className="my-2 text-green-500">
+                Documentación cargada con éxito.
+              </p>
+            </div>
+          )}
+          <div className="flex justify-items-start items-start mx-auto max-w-md z-0">
+            <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
+              Sube tus documentos identificativos para poder verificar tu
+              perfil. Los perfiles verificados generan más confianza dentro de
+              la comunidad.
             </p>
           </div>
-        )}
-        <div className="flex justify-items-start items-start">
-          <p className="my-5 mx-4 px-8 text-gray-600 font-bold text-left">
-            Sube tus documentos identificativos para poder verificar tu perfil.
-            Los perfiles verificados generan más confianza dentro de la
-            comunidad.
-          </p>
         </div>
       </div>
     </div>
