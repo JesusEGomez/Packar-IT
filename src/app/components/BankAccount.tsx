@@ -173,7 +173,7 @@ const BankAccount = (props: any) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex justify-start w-full">
-        <Button className="mx-3" onClick={props.closeAccount} variant={"ghost"}>
+        <Button className="mx-3" type="button" onClick={props.closeAccount} variant={"ghost"}>
           <IoMdArrowRoundBack />
         </Button>
       </div>
