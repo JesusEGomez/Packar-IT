@@ -9,7 +9,7 @@ const ErrorCuenta = (props:any) => {
                 <MdErrorOutline size={70} />
             </div>
             <h1 className="text-3xl">¡Se ha producido un error!</h1>
-            <p>Vuelve a intentarlo, si el error persiste comunicate con soport.</p>
+            <p>Vuelve a intentarlo, si el error persiste comunícate con el soporte técnico.</p>
             <button onClick={props.close} className="bg-pink w-full text-white font-bold rounded-xl p-3">
                 Cerrar
             </button>
