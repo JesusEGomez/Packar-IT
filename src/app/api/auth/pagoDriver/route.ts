@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const day = parseInt(info.dd);
     const month = parseInt(info.mm);
     const year = parseInt(info.aaaa);
-    console.log(`${info}, ${month}, ${year}, Profile ${profile}`);
+    console.log(`${info.userId}, ${month}, ${year}, Profile ${profile}`);
 
     const account = await stripe.accounts.create({
       country: info.country,
