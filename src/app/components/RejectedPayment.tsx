@@ -8,7 +8,7 @@ const RejectedPayment = () => {
             <div className="text-red-600">
                 <MdBlockFlipped size={70} />
             </div>
-            <h1 className="text-3xl">¡El envio ha sido rechazado!</h1>
+            <h1 className="text-3xl">¡El envió ha sido rechazado!</h1>
             <button onClick={() => router.push('/loged/misenvios/viajes')} className="bg-pink w-full text-white font-bold rounded-xl p-3">
                 Cerrar
             </button>
