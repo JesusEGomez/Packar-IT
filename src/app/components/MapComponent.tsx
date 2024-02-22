@@ -107,8 +107,8 @@ function MapComponent(props: MapComponentProps) {
       <Button onClick={props.closeMapModal} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
-      <div className="h-[18rem] w-[50rem] md:h-[24rem] md:w-[60rem] 2xl:h-[30rem] 2xl:w-[68rem]" ref={mapRef} />
-      <div className="p-2 flex flex-col gap-y-2 my-2 mx-auto">
+      <div className="h-[18rem] w-[20rem] md:h-[20rem] md:w-[24rem] 2xl:h-[24rem] 2xl:w-[30rem]" ref={mapRef} />
+      <div className="p-2 mt-4 flex flex-col gap-y-2 my-2 mx-auto">
         <input
           className="p-2 md:p-3 bg-slate-100 rounded"
           type="text"
