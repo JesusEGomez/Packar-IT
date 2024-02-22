@@ -173,7 +173,7 @@ const BankAccount = (props: any) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex justify-start w-full">
-        <Button className="mx-3" type="button" onClick={props.closeAccount} variant={"ghost"}>
+        <Button className="mx-3" onClick={props.closeAccount} variant={"ghost"}>
           <IoMdArrowRoundBack />
         </Button>
       </div>
@@ -199,6 +199,7 @@ const BankAccount = (props: any) => {
             variant={"ghost"}
             className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
             onClick={clearAccount}
+            type="button"
           >
             Eliminar cuenta
           </Button>
@@ -423,6 +424,7 @@ const BankAccount = (props: any) => {
               variant={"ghost"}
               className="bg-pink text-white w-full p-3 m-3 rounded-xl font-bold text-lg mx-auto"
               onClick={() => setIsIdModalOpen(true)}
+              type="button"
             >
               Carga tu documento de Identidad
             </Button>
