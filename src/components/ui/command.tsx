@@ -16,7 +16,7 @@ const Command = React.forwardRef<
     ref={ref}
     style={{ height: 'calc(100vh - 63px)' }}
     className={cn(
-      "flex w-full flex-col overflow-hidden rounded-md bg-white text-slate-950 dark:bg-slate-950 dark:text-slate-50",
+      "flex h-full w-full flex-col overflow-hidden rounded-md bg-white text-slate-950 dark:bg-slate-950 dark:text-slate-50",
       className
     )}
     {...props}
