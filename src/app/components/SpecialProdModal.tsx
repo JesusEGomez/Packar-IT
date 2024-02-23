@@ -84,7 +84,7 @@ const SpecialProdModal = (props: any) => {
   };
 
   return (
-    <div className="px-4">
+    <div className="px-4 h-screen overflow-y-auto">
       <div>
         <Button onClick={props.justClose} variant={"ghost"}>
           <IoMdArrowRoundBack />
