@@ -50,11 +50,11 @@ const CardNotification = ({
         <div className="flex sm:flex-row sm:gap-x-4 w-3/5  flex-col">
           {detail === "notViajes" ? (
             <p>
-              Tienes una solicitud de envió de <b>{name.toUpperCase()}</b>
+              Tienes una solicitud de envío de <b>{name.toUpperCase()}</b>
             </p>
           ) : (
             <p>
-              Tienes una solicitud de envió en espera para{" "}
+              Tienes una solicitud de envío en espera para{" "}
               <b>{name.toUpperCase()}</b>
             </p>
           )}

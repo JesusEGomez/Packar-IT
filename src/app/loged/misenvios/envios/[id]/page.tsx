@@ -231,7 +231,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               disabled={product.estado !== "Entregado"}
               className="w-80 bg-pink text-white m-5 rounded-lg"
             >
-              Envió correcto
+              Envío correcto
             </Button>
             //* Agregar boton cancelar siempre y cuando el estado sea Pendiente
           )}
