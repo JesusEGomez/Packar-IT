@@ -78,7 +78,6 @@ export const SendProduct = (props: any) => {
     } else {
       props.setProductSelected(false);
     }
-  }
 
   return (
     <div className="flex flex-col items-start	m-6 pr-4 pl-4 pt-16 pb-16 max-h-screen overflow-y-auto scrollbar-hidden ">
