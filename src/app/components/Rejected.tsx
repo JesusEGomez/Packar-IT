@@ -8,7 +8,7 @@ const Rejected = () => {
             <div className="text-green-600">
                 <FaCheckCircle size={70} />
             </div>
-            <h1 className="text-3xl">¡El envió ha sido rechazado!</h1>
+            <h1 className="text-3xl">¡El envío ha sido rechazado!</h1>
             <button onClick={() => router.push('/loged/misenvios/viajes')} className="bg-pink w-full text-white font-bold rounded-xl p-3">
                 Cerrar
             </button>

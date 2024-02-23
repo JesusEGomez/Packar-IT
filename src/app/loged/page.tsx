@@ -273,7 +273,7 @@ const Loged = () => {
 
             {profile?.phoneNumber && profile.phoneNumber.length < 9 && (
               <p>
-                Debes tener un Numero de teléfono valido para crear un envió
+                Debes tener un Numero de teléfono valido para crear un envío
               </p>
             )}
           </form>
