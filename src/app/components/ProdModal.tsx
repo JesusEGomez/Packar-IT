@@ -101,7 +101,7 @@ export const ProdModal = (props: any) => {
       )}
       {specialProduct && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl h-screen overflow-y-auto">
+          <div className="bg-white p-4 rounded-xl m-6 pr-4 pl-4 pt-16 pb-16 max-h-screen overflow-y-auto scrollbar-hidden">
             <SpecialProdModal
               closeModal={closeSelectProduct}
               justClose={justClose}
