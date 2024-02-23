@@ -84,7 +84,7 @@ const SpecialProdModal = (props: any) => {
   };
 
   return (
-    <div className="px-4 h-screen overflow-y-auto">
+    <div className="pr-4 pl-4 pt-16 pb-16 max-h-screen overflow-y-auto scrollbar-hidden">
       <div>
         <Button onClick={props.justClose} variant={"ghost"}>
           <IoMdArrowRoundBack />
