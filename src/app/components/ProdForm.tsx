@@ -115,7 +115,7 @@ function ProdForm(props: any) {
   };
 
   return (
-    <div className="px-4 pt-8 max-h-screen overflow-y-auto scrollbar-hidden">
+    <div className="pr-4 pl-4 pt-16 pb-16 max-h-screen overflow-y-auto scrollbar-hidden ">
       <Button onClick={() => close()} variant={"ghost"}>
         <IoMdArrowRoundBack />
       </Button>
