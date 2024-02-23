@@ -90,7 +90,7 @@ export const ProdModal = (props: any) => {
       </Button>
       {selectProduct && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl h-auto overflow-y-auto">
+          <div className="bg-white p-4 rounded-xl h-screen overflow-y-auto">
             <ProdForm
               closeModal={closeSelectProduct}
               size={size}
@@ -101,7 +101,7 @@ export const ProdModal = (props: any) => {
       )}
       {specialProduct && (
         <div className="fixed top-0 z-20 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-xl h-auto overflow-y-auto">
+          <div className="bg-white p-4 rounded-xl h-screen overflow-y-auto">
             <SpecialProdModal
               closeModal={closeSelectProduct}
               justClose={justClose}
